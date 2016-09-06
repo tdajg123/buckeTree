@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.MessengerMapper">
+	
+	
+	<!-- 메신저 삽입 -->
+	<insert id="insertMessenger"  useGeneratedKeys="true" keyProperty="idx">
+		Insert into [Messenger](to_user_idx,from_user_idx,date,contents,type)
+		values(#{to_user_idx},#{from_user_idx},#{date},#{contents},#{type})
+	</insert>
+	
+	<!--상대방과의 메신저 내용 조회 -->
+	<select id="selectByMesseneger" resultType="kr.ac.BucketTree.vo.MessengerVO">
+	select * 
+	from Messenger
+	where (to_user_idx =#{me} and from_user_idx=#{you}) OR (to_user_idx =#{you} and from_user_idx=#{me})
+	order by date ASC
+	</select>
+	
+	<!--메신저 읽음 처리  -->
+	<update id="readMessenger">
+	 update Messenger set type=0  where  to_user_idx=#{me} and from_user_idx=#{you}
+	</update>
+	
+	<!--활성화 중인  상대방에게 메세지가 온것이 아닌 다른 유저에게 메세지가 왔을때 타입을 1로바꿈  -->
+	<update id="changeReadMessenger">
+	 update Messenger set type=1  where idx=#{idx}
+	</update>
+	
+	<!--채팅창 활성화 했을때 한달이 지난 메신저 기록삭제-->
+	<delete id="deleteByMyMesseneger">
+	delete from Messenger where (to_user_idx=#{idx} or from_user_idx=#{idx}) AND DATEDIFF(MONTH, [date], GETDATE()) >= 2
+	</delete>
+</mapper>
