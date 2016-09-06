@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.TimelineMapper">
+
+	<!-- 타임라인 목록 -->
+	<select id="selectByIdx" resultType="kr.ac.BucketTree.vo.TimelineVO">
+		SELECT * , ROW_NUMBER() OVER(ORDER BY [TIMELINE].USER_IDX) AS ROW
+		FROM TimeLine
+		WHERE USER_IDX=#{user_idx}F
+		ORDER BY DATE DESC
+	</select>
+
+
+</mapper>

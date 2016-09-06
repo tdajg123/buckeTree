@@ -1,0 +1,228 @@
+/*buckeList-selectBox __ Start */
+/*########### COMMON STYLE ##############*/
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 30px;
+	font: 13px/1.5 "Trebuchet MS", Tahoma, Arial;
+}
+
+a { color: #0094D6;}
+
+p {	padding: 7px 0;}
+
+h1 {
+	font-size: 21px;
+	font-weight: normal;
+	margin: 0 0 30px;
+}
+/*#######################################*/
+.wrapper-dropdown-3 {
+	/* Size and position */
+	position: relative;
+	width: 200px;
+	margin: 0 auto;
+	padding: 10px;
+	/* Styles */
+	background: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 1px rgba(50, 50, 50, 0.1);
+	cursor: pointer;
+	outline: none;
+}
+
+.wrapper-dropdown-3:after {
+	content: "";
+	width: 0;
+	height: 0;
+	position: absolute;
+	right: 15px;
+	top: 50%;
+	margin-top: -3px;
+	border-width: 6px 6px 0 6px;
+	border-style: solid;
+	border-color: #000 transparent;
+}
+
+.wrapper-dropdown-3 .dropdown {
+	/* Size & position */
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	padding: 0;
+	margin: 0;
+	/* Styles */
+	background: white;
+	border: 1px solid rgba(0, 0, 0, 0.17);
+	font-weight: normal;
+	-webkit-transition: all 0.5s ease-in;
+	-moz-transition: all 0.5s ease-in;
+	-ms-transition: all 0.5s ease-in;
+	-o-transition: all 0.5s ease-in;
+	transition: all 0.5s ease-in;
+	list-style: none;
+	/* Hiding */
+	opacity: 0;
+	pointer-events: none;
+}
+
+.wrapper-dropdown-3 .dropdown li a {
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #000;
+	border-bottom: 1px solid #e6e8ea;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+}
+
+.wrapper-dropdown-3 .dropdown li i {
+	float: right;
+	color: inherit;
+}
+
+.wrapper-dropdown-3 .dropdown li:first-of-type a {
+	border-radius: 7px 7px 0 0;
+}
+
+.wrapper-dropdown-3 .dropdown li:last-of-type a {
+	border: none;
+	border-radius: 0 0 7px 7px;
+}
+
+/* Hover state */
+.wrapper-dropdown-3 .dropdown li:hover a {
+	background: #adeae6;
+}
+
+/* Active state */
+.wrapper-dropdown-3.active .dropdown {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* No CSS3 support */
+.no-opacity       .wrapper-dropdown-3 .dropdown, .no-pointerevents .wrapper-dropdown-3 .dropdown
+	{
+	display: none;
+	opacity: 1; /* If opacity support but no pointer-events support */
+	pointer-events: auto;
+	/* If pointer-events support but no pointer-events support */
+}
+
+.no-opacity       .wrapper-dropdown-3.active .dropdown,
+	.no-pointerevents .wrapper-dropdown-3.active .dropdown {
+	display: block;
+}
+/*#############################*/
+
+/*buckeList-selectBox __ End */
+
+/* bucketList-listBox __ Start */
+body {
+	background-color: #fff;
+}
+
+#pinBoot {
+	position: relative;
+	max-width: 100%;
+	width: 100%;
+}
+
+#recommend-pinBoot {
+	position: relative;
+	max-width: 100%;
+	width: 100%;
+}
+
+img {
+width: 100%;
+	max-width: 100%;
+	height: auto;
+}
+/* bucketList-box __ Start */
+.white-panel {
+	width: 280px;
+	position: absolute;
+	background: white;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+	padding: 10px;
+}
+
+.white-panel h1 {
+	font-size: 1em;
+}
+
+.white-panel:hover {
+	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+	margin-top: -5px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+/* bucketList-listBox __ End */
+
+/* bucketList-Add-box __ Start */
+.white-panel-add {
+	width: 280px;
+	height: 130px;
+	position: absolute;
+	background: #48cfc8;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+	padding-top: 45px;
+	padding-bottom: 45px;
+	padding-left: 35px;
+	padding-right: 35px;
+	vertical-align: middle;
+}
+
+.white-panel-add h1 {
+	font-size: 1em;
+}
+
+.white-panel-add:hover {
+	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+	margin-top: -5px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+/* bucketList-Add-box __ End */
+
+/* bucketList-MyList-Recommend-Box __ Start */
+
+.recommend-box .dropdown-box {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.boxline {
+	color: #fff; 
+	background: #ffba3b; 
+	width: 282px; 
+	height: 130px; 
+	display: inline-block;
+	text-align: center;
+}
+
+.recom-box{
+	color: #000; 
+	background: #fff;
+	margin-left: 20px;
+	margin-right: 20px; 
+	width: 260px; 
+	height: 150px; 
+	display: inline-block;
+}
+/* bucketList-MyList-Recommend-Box __ End */
