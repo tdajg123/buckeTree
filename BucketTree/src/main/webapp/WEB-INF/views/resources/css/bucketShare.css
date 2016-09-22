@@ -377,7 +377,7 @@ body {
     filter: alpha(opacity=0); /* IE 8 */
 }
 #category {
-	margin-left: 160px;
+	margin-left: 110px;
 	height: 40px;
 }
 #form_search button ,#form_search a{

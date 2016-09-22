@@ -529,14 +529,13 @@ $(document).on("click",".addClass",function() {
             //상대방 정보 가져오기 ajax이용
             //ajax구현	  
             to_user.idx = $(this).attr("data-id");
+            
             $.ajax({
                 url: "/BucketTree/user/getUser",
                 dataType: "json",
                 type: "POST",
                 async: false,
-                data: {
-                    idx: to_user.idx
-                },
+                data: {idx: to_user.idx},
                 success: function(data) {
                     to_user = data;
                     $('.chat-popup .popup-head-left:last')
@@ -546,9 +545,7 @@ $(document).on("click",".addClass",function() {
 
                 },
                 error: function(request, status, error) {
-                    alert("code:" + request.status + "\n" +
-                        "message:" + request.responseText +
-                        "\n" + "error:" + error);
+                    alert( request.responseText);
                 }
             });
 

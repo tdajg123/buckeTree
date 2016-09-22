@@ -13,13 +13,14 @@ public class UserVO {
 	String type;
 	int point;
 	String fileName;
-
+	
 	public int getIdx() {
 		return idx;
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
 	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -70,8 +71,9 @@ public class UserVO {
 		this.fileName = fileName;
 	}
 
-	/*È®ÀåÀÚ Å¸ÀÔ °ü·Ã*/
+	/*È®ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 	public String getMimeType() {
+	if(fileName!=null){
         int index = fileName.lastIndexOf('.');
         if (index > 0) {
             String extension = fileName.substring(index + 1).toLowerCase();
@@ -83,7 +85,9 @@ public class UserVO {
             	return "image/" + extension;
             }
         }
+	}
         return "image/jpeg";
+
     }
 	
 }

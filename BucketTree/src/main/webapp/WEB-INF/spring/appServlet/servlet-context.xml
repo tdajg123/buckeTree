@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:sec="http://www.springframework.org/schema/security" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
@@ -17,7 +17,7 @@
 	<!-- security에선 기본세팅으로 secured 어노테이션의 사용이 활성화 -->
 	<sec:global-method-security
 		secured-annotations="enabled" />
-	
+
 	<!-- 정적 자원 위치 설정 -->
 	<mvc:resources
 		location="/WEB-INF/views/resources/images/, classpath=/WEB-INF/views/resources/images/"
@@ -50,18 +50,24 @@
 		</property>
 
 	</bean>
-	<!-- HttpSessionHandshakeInterceptor 를 이용해 HttpSession 값을 가지고 옴 -->
+
+	<!-- HttpSessionHandshakeInterceptor 를 이용해 HttpSession 값을 가지고 옴 <websocket:sockjs 
+		/> -->
 	<websocket:handlers>
 		<websocket:mapping path="/Messeneger" handler="myWebSocketHandler" />
 		<websocket:handshake-interceptors>
 			<bean
 				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
-		<websocket:sockjs />
 	</websocket:handlers>
 	<bean id="myWebSocketHandler" class="kr.ac.BucketTree.util.MyWebSocketHandler" />
+	<bean
+		class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+		<property name="maxTextMessageBufferSize" value="8192" />
+		<property name="maxBinaryMessageBufferSize" value="2097152" />
+	</bean>
 
-	
+
 	<!-- gmail -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />

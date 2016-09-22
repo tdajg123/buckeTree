@@ -27,7 +27,6 @@ public class BucketShareController {
 		model.addAttribute("when", cs.whenList());
 		pagination.setRecordCount(bss.selectCount(pagination));
 		model.addAttribute("list",bss.selectPage(pagination));
-	
 		return "bucketShare/list";
 	}
 	
