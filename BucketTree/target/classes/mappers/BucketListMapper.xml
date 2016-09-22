@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.BucketListMapper">
+
+	<!-- ##버킷리스트 전체 목록(list.jsp) 시작...## -->
+	<!-- 버킷리스트 전체 목록 -->
+	<select id="list" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		SELECT *
+		FROM [BucketList]
+		WHERE IDX
+		> 0 AND WRITER IN(0,1)
+		ORDER BY IDX DESC
+
+	</select>
+
+	<!-- 정렬 : 인기순 -->
+	<select id="popular_list" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		SELECT *
+		FROM [BucketList]
+		WHERE IDX
+		> 0 AND WRITER IN(0,1)
+		ORDER BY COUNT DESC
+
+	</select>
+
+	<update id="bucketUp">
+
+		UPDATE [BucketList]
+		SET COUNT = COUNT + 1
+		WHERE IDX = #{idx}
+
+	</update>
+	<!-- ##버킷리스트 전체 목록 끝...## -->
+
+
+	<!-- ##버킷리스트 내 목록(mylist.jsp) 시작...## -->
+	<!-- 버킷리스트 내 목록 -->
+	<select id="mylist" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		SELECT *
+		FROM [BucketList]
+		WHERE
+		IDX > 0 AND WRITER = 2
+		ORDER BY IDX DESC
+
+	</select>
+
+	<!-- 버킷리스트 친구 추천 목록 -->
+	<select id="recommendList" resultType="kr.ac.BucketTree.vo.RecommendVO">
+
+		SELECT TOP 3
+		RBL.BucketList_Idx, BL.title, BL.contents
+		FROM [RecommendBucketList]
+		RBL, [BucketList] BL
+		WHERE RBL.BucketList_idx = BL.idx AND RBL.fromUser
+		= 6
+		ORDER BY NEWID()
+
+	</select>
+
+	<!-- 버킷리스트 관리자 추천 목록 -->
+	<select id="adminRecommendList" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		SELECT TOP 3 idx,
+		title, contents
+		FROM [BucketList]
+		WHERE user_idx != 4 AND WHAT =(SELECT
+		WHAT
+		FROM(
+		SELECT WHAT, ROW_NUMBER() OVER(ORDER BY COUNT(WHAT) DESC) 행번호
+		FROM BucketList
+		WHERE user_Idx = 4 AND STATE = 1
+		GROUP BY WHAT
+		)SUBQUERY
+		WHERE 행번호 = 1
+		)
+		ORDER BY NEWID()
+
+	</select>
+
+	<!-- ##버킷리스트 내 목록 시작...## -->
+
+</mapper>
