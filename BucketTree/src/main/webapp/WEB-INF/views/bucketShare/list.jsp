@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -6,15 +7,26 @@
 <link href="/BucketTree/css/bucketShare.css" rel="stylesheet"
 	type="text/css" />
 
-<!-- Modal -->
+<!-- 카테고리 모달창 -->
 <div class="modal fade" id="category_modal" role="dialog"
-	style="z-index: 999999; position: fixed">
+	style="z-index: 99999; position: fixed">
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header" style="padding: 15px 50px;"></div>
 			<div class="modal-body" style="padding: 40px 50px;">
 
+				<div style="display: flex; margin-left: 65px">
+					<div style="display: inline-block">
+						<h3>WHEN</h3>
+					</div>
+					<div style="display: inline-block; margin-left: 80px">
+						<h3>WHO</h3>
+					</div>
+					<div style="display: inline-block; margin-left: 80px">
+						<h3>WHAT</h3>
+					</div>
+				</div>
 				<select id="when_temp"></select> <select id="who_temp"></select> <select
 					id="what_temp"></select>
 
@@ -25,13 +37,15 @@
 					<span class="fa fa-check"></span><span id="categoryState">카테고리
 						검색 비활성화</span>
 				</button>
-				<button type="submit" class="btn btn-default" data-dismiss="modal">
+				<button type="submit" id="btn" class="btn btn-default" data-dismiss="modal">
 					<span class="fa fa-check"></span> 확인
 				</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- 사이드 바 메뉴 -->
 <div class="container" style="padding-top: 110px; padding-bottom: 85px">
 	<!-- Menu -->
 	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
@@ -62,7 +76,7 @@
 
 	<div class="row"
 		style="margin-left: 0px; margin-right: 0px; width: 1100px">
-		<div style="margin: auto; width: 250px; margin-bottom: 3px">
+		<div style="margin: auto; width: 250px; margin-bottom: 3px; margin-left: 750px">
 			<button id="view_when" type="button" class="btn btn-success">없음</button>
 			<button id="view_who" type="button" class="btn btn-success">없음</button>
 			<button id="view_what" type="button" class="btn btn-success">없음</button>
@@ -72,12 +86,23 @@
 			<form:form id="form_search" method="POST" modelAttribute="pagination"
 				action="/BucketTree/bucketShare/list">
 
-				<button id="category" class="btn btn-success">카테고리</button>
+				<!-- 채택 여부 선택 셀렉트 박스 -->
 				<form:select path="type">
 					<form:option value="0" label="전체" />
 					<form:option value="1" label="채택 O" />
 					<form:option value="2" label="채택 X" />
 				</form:select>
+
+				<!-- 정렬 셀렉트 박스 -->
+				<form:select path="orderType">
+					<form:option value="1" label="개설순" />
+					<form:option value="2" label="인기순" />
+				</form:select>
+
+				<!-- 카테고리 선택 버튼 -->
+				<button id="category" class="btn btn-success">카테고리</button>
+
+				<!-- 검색 조건 선택 셀렉트 박스 -->
 				<form:select path="srchType">
 					<form:option value="0" label="검색조건" />
 					<form:option value="1" label="제목" />
@@ -85,20 +110,20 @@
 					<form:option value="3" label="작성자" />
 				</form:select>
 
-				<div class="input-group"
-					style="width: 400px; margin-left: 0px; display: inline-block">
+				<!-- 검색 input 박스 -->
+				<div class="input-group" style="width: 400px; display: inline-block">
 
 					<form:input path="srchText" type="text" class="form-control"
 						placeholder="Search..." style="height: 40px" />
 				</div>
 				<button type="submit" class="btn btn-success">검색</button>
-				<c:if test="${ (pagination.srchType != 0)  ||  (pagination.categoryType != 0)}">
+
+				<c:if
+					test="${ (pagination.srchType != 0)  ||  (pagination.categoryType != 0)}">
 					<a href="/BucketTree/bucketShare/list" class="btn btn-success">취소</a>
 				</c:if>
-				<form:select path="orderType">
-					<form:option value="1" label="개설순" />
-					<form:option value="2" label="인기순" />
-				</form:select>
+
+				<!-- 선택된 카테고리 값 -->
 				<form:input path="who" type="hidden" />
 				<form:input path="when" type="hidden" />
 				<form:input path="what" type="hidden" />
@@ -151,16 +176,22 @@
 	$(function() {
 		//카테고리 옵션으로 값뿌려주기
 		<c:forEach items="${what}" var="what">
-		$('#what_temp').append("<option value='${what.idx}' ${pagination.what==what.idx ? 'selected' : '' }> ${what.what} </option>");
+		$('#what_temp')
+				.append(
+						"<option value='${what.idx}' ${pagination.what==what.idx ? 'selected' : '' }> ${what.what} </option>");
 		</c:forEach>
 		<c:forEach items="${when}" var="when">
-		$('#when_temp').append("<option value='${when.idx}' ${pagination.when==when.idx ? 'selected' : '' }> ${when.when} </option>");
+		$('#when_temp')
+				.append(
+						"<option value='${when.idx}' ${pagination.when==when.idx ? 'selected' : '' }> ${when.when} </option>");
 		</c:forEach>
 		<c:forEach items="${who}" var="who">
-		$('#who_temp').append("<option value='${who.idx}' ${pagination.who==who.idx ? 'selected' : '' }> ${who.who} </option>");
+		$('#who_temp')
+				.append(
+						"<option value='${who.idx}' ${pagination.who==who.idx ? 'selected' : '' }> ${who.who} </option>");
 		</c:forEach>
 		//
-			
+
 		<c:if test="${pagination.categoryType==1}">
 		$('#view_when').html($('#when_temp option:selected').text());
 		$('#view_who').html($('#who_temp option:selected').text());
@@ -169,16 +200,14 @@
 		$('#view_who').show();
 		$('#view_what').show();
 		</c:if>
-		
-		
+
 		<c:if test="${pagination.categoryType==0}">
 		$('#view_when').hide();
 		$('#view_who').hide();
 		$('#view_what').hide();
 		</c:if>
-		
-		
-			$('#category').click(function(e) {
+
+		$('#category').click(function(e) {
 			e.preventDefault();
 			$('#category_modal').modal();
 		});
