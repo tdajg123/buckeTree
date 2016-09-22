@@ -21,6 +21,23 @@ public class BucketListVO {
 	int tree_idx;
 	int state;
 	
+	int row;
+	
+	/*생성자로 기본 값 설정해줌.*/
+	public BucketListVO ()
+	{
+		/*담기 눌렀을 때 마이 버킷에 추가 되는 애들을 위해 null 값이 들어가는 애들을 여기서 기본 설정으로 해줌*/
+		contents = "추가된 버킷리스트!";
+		image = null;
+		count = 0;
+		writer = 2;
+		x = 0;
+		y = 0;
+		keyword = null;
+		tree_idx = 0;
+		state = 0;		
+	}
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -116,6 +133,13 @@ public class BucketListVO {
 	}
 	public void setState(int state) {
 		this.state = state;
+	}
+	/*pagination*/
+	public int getRow() {
+		return row;
+	}
+	public void setRow(int row) {
+		this.row = row;
 	}
 	
 }

@@ -17,7 +17,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a id="brand" class="navbar-brand" href="#"> <img id="logo"
+			<a id="brand" class="navbar-brand" href="/BucketTree/bucketList/list"> <img id="logo"
 				src="/BucketTree/images/BUCKET_LOGO.png"
 				onmouseover="this.src='/BucketTree/images/BUCKET_LOGO_HOVER.png'"
 				onmouseout="this.src='/BucketTree/images/BUCKET_LOGO.png'"
@@ -29,8 +29,8 @@
 				<li id="dl-menu-1" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷리스트</a>
 					<ul class="dl-menu">
-						<li><a href="#">마이버킷리스트</a></li>
-						<li><a href="#">전체버킷리스트</a></li>
+						<li><a href="/BucketTree/bucketList/mylist">마이버킷리스트</a></li>
+						<li><a href="/BucketTree/bucketList/list">전체버킷리스트</a></li>
 					</ul></li>
 				<li id="dl-menu-2" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷트리</a>
@@ -53,7 +53,7 @@
 				<ul class="nav navbar-left">
 					<li class="dropdown user user-menu"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"> <img
-							src="/BucketTree/images/user1-128x128.jpg" class="user-image"
+							src="/BucketTree/images/PROFILE_image.png" class="user-image"
 							alt="User Image"> USER <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="#"><i class="fa fa-fw fa-user"></i> 타임라인</a></li>

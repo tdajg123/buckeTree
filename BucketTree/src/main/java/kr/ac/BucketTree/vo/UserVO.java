@@ -1,5 +1,6 @@
 package kr.ac.BucketTree.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class UserVO {
@@ -8,9 +9,11 @@ public class UserVO {
 	String password;
 	String name;
 	Date birth;
-	String image;
+	byte[] image;
 	String type;
 	int point;
+	String fileName;
+
 	public int getIdx() {
 		return idx;
 	}
@@ -41,10 +44,10 @@ public class UserVO {
 	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
-	public String getImage() {
+	public byte[] getImage() {
 		return image;
 	}
-	public void setImage(String image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	public String getType() {
@@ -59,6 +62,28 @@ public class UserVO {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	
+	public String getFileName() {
+		return fileName;
+	}
 
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	/*확장자 타입 관련*/
+	public String getMimeType() {
+        int index = fileName.lastIndexOf('.');
+        if (index > 0) {
+            String extension = fileName.substring(index + 1).toLowerCase();
+            switch (extension) {
+            case "png":
+            case "bmp":
+            case "gif":
+            	
+            	return "image/" + extension;
+            }
+        }
+        return "image/jpeg";
+    }
+	
 }

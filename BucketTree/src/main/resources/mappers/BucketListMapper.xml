@@ -7,35 +7,105 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="kr.ac.BucketTree.BucketListMapper">
 
 	<!-- ##버킷리스트 전체 목록(list.jsp) 시작...## -->
-	<!-- 버킷리스트 전체 목록 -->
+	<!-- 버킷리스트 전체 목록 & 정렬 - 최신순 -->
 	<select id="list" resultType="kr.ac.BucketTree.vo.BucketListVO">
 
 		SELECT *
-		FROM [BucketList]
-		WHERE IDX
-		> 0 AND WRITER IN(0,1)
-		ORDER BY IDX DESC
+		FROM
+		( SELECT b.*, ROW_NUMBER() OVER (ORDER BY b.idx) 행번호
+		FROM
+		[BucketList] b WHERE IDX > 0 AND WRITER IN(0,1)
+		) subquery
+         <![CDATA[
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND 행번호 <= #{currentPage} * #{pageSize}
+        ]]>
+		ORDER BY DATE DESC
 
 	</select>
 
-	<!-- 정렬 : 인기순 -->
+	<!-- 전체 : 정렬-인기순 -->
 	<select id="popular_list" resultType="kr.ac.BucketTree.vo.BucketListVO">
 
 		SELECT *
-		FROM [BucketList]
-		WHERE IDX
-		> 0 AND WRITER IN(0,1)
+		FROM
+		( SELECT b.*, ROW_NUMBER() OVER (ORDER BY b.idx) 행번호
+		FROM
+		[BucketList] b WHERE IDX > 0 AND WRITER IN(0,1)
+		) subquery
+         <![CDATA[
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND 행번호 <= #{currentPage} * #{pageSize}
+        ]]>
 		ORDER BY COUNT DESC
 
 	</select>
 
-	<update id="bucketUp">
+	<!-- 전체 : 담기-버킷 카운트 업 -->
+	<update id="countUp">
 
 		UPDATE [BucketList]
 		SET COUNT = COUNT + 1
-		WHERE IDX = #{idx}
+		WHERE IDX =
+		#{idx}
 
 	</update>
+
+	<!-- 전체 : 버킷 버튼 클릭 시 마이 버킷리스트에 추가 -->
+	<insert id="addBucket" parameterType="hashmap">
+
+		INSERT
+		INTO [BucketList](title, contents, count, date, user_idx, writer, [when], who, what, state)
+		values(#{title}, #{contents}, 0, GETDATE(), #{user_idx}, 2, 1, 1, 1, 0)
+
+	</insert>
+
+	<!-- 전체 : 버킷 버튼 클릭 시 중복 담기 방지로 해당 버킷의 idx를 넣어줌 -->
+	<!-- : parameterType을 haspmap으로 받아 여러개 인자를 받아옴 -->
+	<select id="titleCheck" resultType="int" parameterType="hashmap">
+		SELECT COUNT(1)
+		FROM [BucketList]
+		WHERE [title] = #{title} AND user_idx = #{userIdx} AND writer = 2
+
+	</select>
+
+
+	<!-- 전체 : 카테고리, 타입, 검색어로 검색된 결과 목록 조회 -->
+	<select id="searchList" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		SELECT *
+		FROM
+		(
+		SELECT b.*, u.name, CASE 1
+		WHEN 1 THEN ROW_NUMBER()
+		OVER(ORDER BY b.date desc)
+		WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY
+		b.count desc)
+		END 행번호
+		FROM [BucketList] b join [User] u ON b.user_idx =
+		u.idx
+		WHERE
+		(
+		((#{srchType} = 0) OR
+		(#{srchType} = 1 AND CHARINDEX(#{srchText}, convert(binary, b.title) ) >= 1) OR
+		(#{srchType} = 2 AND CHARINDEX(#{srchText}, convert(binary, u.name) ) = 1) )
+
+		and ([when] = #{when} and [who] = #{who} and [what] = #{what})
+
+		AND (
+		(b.writer = 0) OR
+		(b.writer = 1 AND b.user_idx IN(SELECT fromUser
+		FROM Friend WHERE STATE = 1 AND
+		toUser = 4 ) )
+		)
+		)
+		)
+		subquery
+         <![CDATA[
+        WHERE 행번호 > (#{p.currentPage} - 1) * #{p.pageSize} AND 행번호 <= #{p.currentPage} * #{p.pageSize}
+        ]]>
+		ORDER BY 행번호
+		
+	</select>
+
 	<!-- ##버킷리스트 전체 목록 끝...## -->
 
 
@@ -44,9 +114,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="mylist" resultType="kr.ac.BucketTree.vo.BucketListVO">
 
 		SELECT *
-		FROM [BucketList]
-		WHERE
-		IDX > 0 AND WRITER = 2
+		FROM
+		( SELECT b.*, ROW_NUMBER() OVER (ORDER BY b.idx) 행번호
+		FROM
+		[BucketList] b WHERE IDX > 0 AND WRITER = 2
+		) subquery
+         <![CDATA[
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND 행번호 <= #{currentPage} * #{pageSize}
+        ]]>
 		ORDER BY IDX DESC
 
 	</select>

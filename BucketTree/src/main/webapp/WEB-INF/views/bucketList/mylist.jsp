@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<body>
+
 
 	<!-- bucketList-listAll __ Start -->
 
@@ -98,7 +98,7 @@
 		</article>
 
 		<c:forEach items="${mylist}" var="BucketListVO">
-			<article class="white-panel" style="width: 260px" href="#">
+			<article class="white-panel" style="width: 260px" href="#" data-num="${BucketListVO.getRow()}">
 
 				<img src="/BucketTree/images/image7.jpg" alt="" style="width: 260px">
 				<h4>
@@ -112,5 +112,5 @@
 	<hr>
 	<!-- bucketList-listAll __ End -->
 
-</body>
+
 </html>

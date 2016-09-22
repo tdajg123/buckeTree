@@ -40,4 +40,89 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	INSERT INTO [USER](email,password,name,birth,type,point) 
 	values(#{email},#{password},#{name},#{birth},'일반',0) 
 	</insert>
+	
+	
+	
+	<!-- 회원 정보 보기 -->
+	<select id="read" resultType="kr.ac.BucketTree.vo.UserVO">
+		SELECT * 
+		FROM [USER] 
+		WHERE idx = #{idx}
+	</select>
+	
+	<!-- 회원 정보 수정 전 비밀 번호 확인 -->
+	<select id="checkPassword" resultType="int" parameterType="java.util.HashMap">
+		SELECT COUNT(1) 
+		FROM [USER] 
+		WHERE idx = #{idx} AND password = #{password}
+	</select>
+	
+	<!-- 회원 정보 수정 (비밀번호, 생년월일) -->
+	<update id="update">
+		UPDATE [USER] SET PASSWORD = #{password}
+		WHERE IDX = #{idx}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="delete">
+		DELETE FROM [USER] WHERE IDX = #{idx}
+	</delete>
+	
+	<!-- 프로필 기본 -->
+	<update id="profileImage">
+		UPDATE [USER] SET IMAGE = #{image}, fileName = #{fileName}
+		WHERE IDX = #{idx}
+	</update>
+	
+	<!-- 프로필 업데이트 -->
+	<update id="profileUpdate">
+		UPDATE [USER] SET IMAGE = #{image}, fileName = #{fileName}
+		WHERE IDX = #{idx}
+	</update>
+	
+	<!-- 메뉴바에서 포인트 조회 -->
+	<select id="point" resultType="kr.ac.BucketTree.vo.UserVO">
+		SELECT POINT
+		FROM [USER] 
+		WHERE IDX = #{idx}
+	</select>
+	
+	<!-- 적립된 포인트 내역 조회 -->
+	<select id="plusPoint" resultType="kr.ac.BucketTree.vo.PointVO">
+		SELECT *
+		FROM [POINT] 
+		WHERE USER_IDX = #{user_idx} AND STATE = 1
+	</select>
+	
+	<!-- 사용한 포인트 내역 조회 -->
+	<select id="minusPoint" resultType="kr.ac.BucketTree.vo.PointVO">
+		SELECT *
+		FROM [POINT] 
+		WHERE USER_IDX = #{user_idx} AND STATE = 0
+	</select>
+	
+	<!-- 포인트 적립 업데이트 -->
+	<update id="upPoint" parameterType="java.util.HashMap">
+		UPDATE [USER] SET POINT = POINT + #{point}
+		WHERE IDX = #{idx}
+	</update>
+	
+	<!-- 포인트 사용 업데이트 -->
+	<update id="downPoint" parameterType="java.util.HashMap">
+		UPDATE [USER] SET POINT = POINT - #{point}
+		WHERE IDX = #{idx}
+	</update>
+	
+	<!-- 포인트 적립 내역 업데이트 -->
+	<insert id="updatePlusPoint">
+		INSERT INTO [POINT] (USER_IDX, STATE, POINT, DATE, CONTENTS) 
+		values(#{user_idx}, 1, #{point}, GETDATE(), #{contents}) 
+	</insert>
+	
+	<!-- 포인트 사용 내역 업데이트 -->
+	<insert id="updateMinusPoint">
+		INSERT INTO [POINT] (USER_IDX, STATE, POINT, DATE, CONTENTS) 
+		values(#{user_idx}, 0, #{point}, GETDATE(), #{contents}) 
+	</insert>
+	
 </mapper>
