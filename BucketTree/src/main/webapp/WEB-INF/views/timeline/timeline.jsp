@@ -6,8 +6,13 @@
 <script>
 	$(function() {
 		$(".timeline-title").click(function() {
-			location.href = $(this).attr("data-url");
+			self.location = $(this).attr("data-url");
 		});
+	});
+
+	//짝수번째 li는 오른쪽으로 보이기
+	$(function() {
+		$("ul.timeline>li:nth-child(even)").addClass('timeline-inverted');
 	});
 </script>
 
@@ -22,11 +27,10 @@
 				<div class="timeline-badge"></div>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
-						<h4 class="timeline-title" data-url="${TimelineVO.url}">${TimelineVO.message }</h4>
+						<h4 class="timeline-title" data-url="${TimelineVO.url}">${TimelineVO.message}</h4>
 						<p>
-							<small class="text-muted"><i
-								class="glyphicon glyphicon-time"></i> <fmt:formatDate
-									pattern="yyyy-MM-dd HH:mm" value="${TimelineVO.date}" /></small>
+							<small class="text-muted  f_right"><i
+								class="glyphicon glyphicon-time"></i> ${TimelineVO.date}</small>
 						</p>
 					</div>
 				</div>
@@ -34,4 +38,3 @@
 		</c:forEach>
 	</ul>
 </div>
-

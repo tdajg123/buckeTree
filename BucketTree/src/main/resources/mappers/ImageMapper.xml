@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.ImageMapper">
+
+	<select id="selectByIdx" resultType="kr.ac.BucketTree.vo.ImageVO">
+		SELECT *
+		FROM Image
+		WHERE
+		idx=#{idx}
+	</select>
+
+	<insert id="insertImage" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO Image
+		VALUES(#{fileName},GETDATE(),#{data},#{fileSize})
+	</insert>
+
+	<delete id="deleteOrphan">
+		DELETE Image WHERE idx NOT IN (SELECT image_idx
+		FROM Journal_image) AND
+		DATEDIFF(minute, fileTime, GETDATE()) > 60
+	</delete>
+
+</mapper>

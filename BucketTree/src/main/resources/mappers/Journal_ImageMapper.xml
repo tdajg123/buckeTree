@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.Journal_ImageMapper">
+
+	<insert id="insertJournal_Image">
+		INSERT INTO Journal_Image
+		VALUES(#{journal_idx},#{image_idx})
+	</insert>
+
+	<delete id="deleteByJournal_Idx">
+		DELETE Journal_image
+		WHERE
+		JOURNAL_IDX=#{journal_idx}
+	</delete>
+
+</mapper>

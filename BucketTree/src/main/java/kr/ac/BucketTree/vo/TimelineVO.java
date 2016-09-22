@@ -2,12 +2,19 @@ package kr.ac.BucketTree.vo;
 
 public class TimelineVO {
 	
+	int idx;
 	int user_idx;
 	String message;
 	String date;
 	String url;
 	
 	
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
 	public int getUser_idx() {
 		return user_idx;
 	}
@@ -32,8 +39,5 @@ public class TimelineVO {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
-	
-	
 	
 }

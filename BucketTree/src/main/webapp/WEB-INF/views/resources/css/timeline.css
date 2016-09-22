@@ -115,7 +115,7 @@
 	right: auto;
 }
 /* -- 작업일지 / 버켓트리 상세페이지 부분에서 맨 위에 나올 추가부분 START --*/
-.timeline>li.timeline-inverted.timeline-add>.timeline-panel {
+.timeline>li.timeline-add>.timeline-panel {
 	background-color: #48cfc8;
 	color: #fff;
 	text-align:center;
@@ -125,38 +125,19 @@
 	padding-top:25px;
 }
 
-.timeline>li.timeline-inverted.timeline-add>.timeline-panel:before {
-	position: absolute;
-	top: 26px;
-	right: -15px;
-	display: inline-block;
+.timeline>li.timeline-add>.timeline-panel:before {
 	border-top: 15px solid transparent;
 	border-left: 15px solid #48cfc8;
 	border-right: 0 solid #48cfc8;
 	border-bottom: 15px solid transparent;
-	content: " ";
-	border-left-width: 0;
-	border-right-width: 15px;
-	left: -15px;
-	right: auto;
-
 }
 
-.timeline>li.timeline-inverted.timeline-add>.timeline-panel:after {
-	position: absolute;
-	top: 27px;
-	right: -14px;
-	display: inline-block;
+.timeline>li.timeline-add>.timeline-panel:after {
+
 	border-top: 14px solid transparent;
 	border-left: 14px solid #48cfc8;
 	border-right: 0 solid #48cfc8;
 	border-bottom: 14px solid transparent;
-	content: " ";
-	border-left-width: 0;
-	border-right-width: 14px;
-	left: -14px;
-	right: auto;
-
 }
 /* -- 작업일지 / 버켓트리 상세페이지 부분에서 맨 위에 나올 추가부분 END--*/
 .timeline-title {
@@ -164,7 +145,7 @@
 	color: inherit;
 }
 
-.timeline-body>span>p, .timeline-body>ul {
+.timeline-body>ul {
 	margin-bottom: 0;
 	text-align:center;
 }
