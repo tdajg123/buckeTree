@@ -14,8 +14,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--상대방과의 메신저 내용 조회 -->
 	<select id="selectByMesseneger" resultType="kr.ac.BucketTree.vo.MessengerVO">
-	select * 
-	from Messenger
+	select m.*, fm.fileName
+	from Messenger m LEFT OUTER join FileMessenger fm 
+	on m.idx=fm.messenger_idx
 	where (to_user_idx =#{me} and from_user_idx=#{you}) OR (to_user_idx =#{you} and from_user_idx=#{me})
 	order by date ASC
 	</select>

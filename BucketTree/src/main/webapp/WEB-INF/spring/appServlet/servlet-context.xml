@@ -47,17 +47,20 @@
 		</property>
 
 	</bean>
-	<!-- HttpSessionHandshakeInterceptor 를 이용해 HttpSession 값을 가지고 옴 -->
+	<!-- HttpSessionHandshakeInterceptor 를 이용해 HttpSession 값을 가지고 옴  <websocket:sockjs />-->
 	<websocket:handlers>
 		<websocket:mapping path="/Messeneger" handler="myWebSocketHandler" />
 		<websocket:handshake-interceptors>
 			<bean
 				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
-		<websocket:sockjs />
 	</websocket:handlers>
 	<bean id="myWebSocketHandler" class="kr.ac.BucketTree.util.MyWebSocketHandler" />
-
+   <bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+        <property name="maxTextMessageBufferSize" value="8192"/>
+        <property name="maxBinaryMessageBufferSize" value="2097152"/>
+    </bean>
+    
 	<!-- gmail -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
@@ -70,8 +73,6 @@
 			<props>
 				<prop key="mail.smtp.starttls.enable">true</prop>
 				<prop key="mail.smtp.auth">true</prop>
-
-
 			</props>
 		</property>
 

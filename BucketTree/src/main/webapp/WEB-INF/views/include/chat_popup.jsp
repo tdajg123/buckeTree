@@ -1,20 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <script>
-   $(document).ready(
-         function() {
-            var fileTarget = $('.filebox #file');
 
-            fileTarget.on('change', function() { // 값이 변경되면
+
+
+$(document).ready(
+		   
+		   function() {
+            var fileTarget = $('.filebox #file');
+            
+            
+            
+			fileTarget.on('change', function() { // 값이 변경되면
                if (window.FileReader) { // modern browser
-                  var filename = $(this)[0].files[0].name;
-               } else { // old IE
+
+            	   if($(this)[0].files[0])
+            		   {	
+            		 	  var filename = $(this)[0].files[0].name;
+            		   }
+               		 	
+               	
+           } else { // old IE
+        	
                   var filename = $(this).val().split('/').pop().split(
                         '\\').pop(); // 파일명만 추출
                }
                // 추출한 파일명 삽입
                $(this).siblings('.upload-name').val(filename);
             });
+            
+            
          });
 </script>
 
@@ -41,9 +56,10 @@
    </div>
    <div class="popup-messages-footer">
       <div class="filebox">
-         <label for="file"><i class="fa fa-upload"></i></label> <input
-            type="file" id="file"> <input class="upload-name"
-            disable="disable" value="파일 선택" />
+         <label for="file"><i class="fa fa-upload"></i></label> 
+         <input type="file" id="file" >
+		 <input class="upload-name" readonly value="파일 선택" />
+		 <button type="button" class="btn btn-default" id="fileCancel">취소</button>
       </div>
 
       <div class="input-group">

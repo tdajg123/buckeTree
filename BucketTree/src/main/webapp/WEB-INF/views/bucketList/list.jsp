@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<body>
 	<!-- bucketList-listAll __ Start -->
 
 	<div class="container" style="padding-top: 110px; padding-bottom: 85px">
 		<div class="row"
 			style="margin-left: 0px; margin-right: 0px; width: 1100px">
-
+		
 			<!-- Search Form __ Start -->
 			<form action="#" method="get" class="sidebar-form"
 				style="margin-left: 300px; display: flex;">
@@ -96,5 +94,3 @@
 	</div>
 
 	<!-- bucketList-listAll __ End -->
-</body>
-</html>

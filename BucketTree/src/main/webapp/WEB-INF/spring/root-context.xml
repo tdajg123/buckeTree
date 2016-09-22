@@ -14,8 +14,8 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<!-- 데이터 소스 설정값 값 입력 -->
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url"
-			value="jdbc:sqlserver://127.0.0.1;databaseName=BucketTree;" />
+	<property name="url" value="jdbc:sqlserver://127.0.0.1;databaseName=BucketTree;" />  
+		
 		<property name="username" value="sa" />
 		<property name="password" value="test123" />
 	</bean>

@@ -36,8 +36,6 @@ $(function() {
 
 	var dd = new DropDown( $('#dd') );
 
-
-
 });
 
 /*buckeList-selectBox __ End*/

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.BucketShareMapper">
+
+	<select id="selectPage" resultType="kr.ac.BucketTree.vo.BucketShareVO">
+	<![CDATA[
+	SELECT *
+	FROM 
+	(
+	 SELECT b.idx,b.user_idx,b.title,b.date,u.name, CASE #{orderType}
+				   WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY b.date desc)/*질문 최근 개설순*/
+				   WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY bl.count desc)/*버킷트리에 지정된 좋아요갯수*/
+				END 행번호
+	FROM [BucketShare_Question] b join [User] u 
+	ON b.user_idx=u.idx 
+	JOIN [BucketList] bl
+	ON b.bucketList_idx=bl.idx
+	WHERE
+
+     (
+	 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+	 (#{srchType}= 1 AND CHARINDEX(#{srchText},b.title)>=1) OR /*질문 제목*/
+	 (#{srchType}= 2 AND CHARINDEX(#{srchText},b.title)>=1 OR CHARINDEX(#{srchText},b.contents)>=1) OR /*질문 제목이나 내용*/
+	 (#{srchType}= 3 AND CHARINDEX(#{srchText},u.name)=1) 
+	 )  /*질문 작성자*/
+     
+	 and 
+	 (
+	 (#{categoryType}=0) OR
+	 (#{categoryType}=1 AND[when]=#{when} and [who]=#{who} and [what] =#{what})
+	 ) /*카테고리검색*/
+	   
+	 and
+	 (
+	  (#{type}=0) OR               	    /*전체*/ 
+	  (#{type}=1 and  b.state=1) OR    	/*답변채택*/ 
+	  (#{type}=2 and  b.state=0)		/*답변을 채택하지않은것*/
+	  )     /*답변을 채택한것*/
+	) subquery
+	WHERE 행번호>(#{currentPage}-1) * #{pageSize} And
+        행번호<=(#{currentPage} *#{pageSize})
+	ORDER BY 행번호 
+	
+	]]>
+	</select>
+	<select id="selectCount" resultType="int"> 
+	SELECT COUNT(*)
+	FROM [BucketShare_Question] b join [User] u 
+	ON b.user_idx=u.idx 
+	JOIN [BucketList] bl
+	ON b.bucketList_idx=bl.idx
+	WHERE
+
+     (
+	 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+	 (#{srchType}= 1 AND CHARINDEX(#{srchText},b.title)>=1) OR /*질문 제목*/
+	 (#{srchType}= 2 AND CHARINDEX(#{srchText},b.title)>=1 OR CHARINDEX(#{srchText},b.contents)>=1) OR /*질문 제목이나 내용*/
+	 (#{srchType}= 3 AND CHARINDEX(#{srchText},u.name)=1) 
+	 )  /*질문 작성자*/
+     
+	 and 
+	 (
+	 (#{categoryType}=0) OR
+	 (#{categoryType}=1 AND[when]=#{when} and [who]=#{who} and [what] =#{what})
+	 ) /*카테고리검색*/
+	   
+	 and
+	 (
+	  (#{type}=0) OR                /*전체*/ 
+	  (#{type}=1 and  b.state=1) OR    /*답변을 채택하지않은것*/
+	  (#{type}=1 and  b.state=0)
+	  )     /*답변을 채택한것*/
+	
+	
+	 </select>
+</mapper>

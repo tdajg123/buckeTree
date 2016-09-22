@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script type="text/javascript"src="/BucketTree/js/menu/jquery.dlmenu.js"></script>
+<script type="text/javascript" src="/BucketTree/js/menu/jquery.dlmenu.js"></script>
 <script type="text/javascript" src="/BucketTree/js/menu/menu.js"></script>
 
 <nav id="header" class="navbar navbar-fixed-top">
@@ -42,7 +42,7 @@
 					class="dl-trigger">버킷쉐어</a>
 					<ul class="dl-menu">
 						<li><a href="#">마이버킷쉐어</a></li>
-						<li><a href="/BucketTree/bucketshare/listAll">전체버킷쉐어</a></li>
+						<li><a href="/BucketTree/bucketShare/list">전체버킷쉐어</a></li>
 					</ul></li>
 			</ul>
 

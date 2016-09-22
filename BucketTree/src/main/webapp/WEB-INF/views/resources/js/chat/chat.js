@@ -6,6 +6,13 @@ var ws;
 var messenger = {};
 //활성화한 상대방 객체
 var to_user = {};
+//파일 이름
+var fileName;
+//윈도우용 blob 보관
+var blobList=[];
+//윈도우용 blob 인덱스 번호
+var blob_index=0;
+var fileuser=0;
 
 //친구목록을 갱신하는 ajax
 function MessengerFriendUpdateAjax(pagination)
@@ -65,9 +72,72 @@ function NewMessengerFriendUpdateTag(data)
              $('.chat_info:first').append("<p>" +entry.email +"</p>");
          });
 }
+//실시간파일을 받았을때
+function saveData(message,fileName)
+{	
+	if(fileuser==to_user.idx){
+	
+	var agent = navigator.userAgent.toLowerCase();
+	//윈도우용
+	if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+			blobList[blob_index]=message;
+			$('.direct-chat-messages:last').append('<div class="direct-chat-msg doted-border">');
+		    $('.direct-chat-messages:last').append('</div>');
+		    $('.doted-border:last').append('<div class="direct-chat-info clearfix"> </div>');
+		    $('.direct-chat-info:last').append('<span class="direct-chat-name pull-left">' +to_user.name + '</span>');
+		    $('.doted-border:last').append('<img alt="iamgurdeeposahan" src="/BucketTree/images/user1-128x128.jpg" class="direct-chat-img">');
+		    $('.doted-border:last').append('<div class="direct-chat-text"> <a id="fileMessenger">'+fileName +'</a></div>');
+		    $('.doted-border:last').append('<div class="direct-chat-info clearfix"> </div>');
+		    $('a#fileMessenger:last').attr("blob_index",blob_index);
+		    $('a#fileMessenger:last').attr("download",fileName);
+		    $('.direct-chat-info:last').append('<span class="direct-chat-timestamp pull-right">' +getTimeStamp().substring(11, 16) + '</span>');
+		    
+		    blob_index++;
+	}
+	//크롬
+	else
+		{
+		url = window.URL.createObjectURL(message);
+	    $('.direct-chat-messages:last').append('<div class="direct-chat-msg doted-border">');
+	    $('.direct-chat-messages:last').append('</div>');
+	    $('.doted-border:last').append('<div class="direct-chat-info clearfix"> </div>');
+	    $('.direct-chat-info:last').append('<span class="direct-chat-name pull-left">' +to_user.name + '</span>');
+	    $('.doted-border:last').append('<img alt="iamgurdeeposahan" src="/BucketTree/images/user1-128x128.jpg" class="direct-chat-img">');
+	    $('.doted-border:last').append('<div class="direct-chat-text"> <a id="fileMessenger">'+fileName +'</a></div>');
+	    $('.doted-border:last').append('<div class="direct-chat-info clearfix"> </div>');
+	    $('a#fileMessenger:last').attr("href",url);
+	    $('a#fileMessenger:last').attr("download",fileName);
+	    $('.direct-chat-info:last').append('<span class="direct-chat-timestamp pull-right">' +getTimeStamp().substring(11, 16) + '</span>');
+		}
+	
+ 
+	}
+	else
+		{
+	      $.ajax({
+              url: "/BucketTree/user/getUser",
+              dataType: "json",
+              type: "POST",
+              async: false,
+              data: {
+                  idx: fileuser
+              },
+              success: function(data) {
+                  $('.modal .modal-body').empty();
+                  $('.modal .modal-body').append('<p>' + data.name + '님으로부터  새로운 파일이 왔습니다</p>');
+
+              }
+       });
+       //모달창 띄움
+	      $("#message_modal").modal();
+		}
+	
+    //객체의 URL의 사용을 마쳤다면, 아래 메서드를 호출해 메모리에서 해제해주는 것이 좋다.
+    //window.URL.revokeObjectURL(url);
+}
 //메신저 받았을때 추가하는 태그
 function receviceMessengerTag(message)
-{
+{	if(message.contents!=''){
     $('.direct-chat-messages:last').append('<div class="direct-chat-msg doted-border">');
     $('.direct-chat-messages:last').append('</div>');
     $('.doted-border:last').append('<div class="direct-chat-info clearfix"> </div>');
@@ -76,10 +146,24 @@ function receviceMessengerTag(message)
     $('.doted-border:last').append('<div class="direct-chat-text">' + message.contents +'</div>');
     $('.doted-border:last').append('<div class="direct-chat-info clearfix"> </div>');
     $('.direct-chat-info:last').append('<span class="direct-chat-timestamp pull-right">' +message.date.substring(11, 16) + '</span>');
+    }
+   else
+	{
+	   $('.direct-chat-messages:last').append('<div class="direct-chat-msg doted-border">');
+	    $('.direct-chat-messages:last').append('</div>');
+	    $('.doted-border:last').append('<div class="direct-chat-info clearfix"> </div>');
+	    $('.direct-chat-info:last').append('<span class="direct-chat-name pull-left">' +to_user.name + '</span>');
+	    $('.doted-border:last').append('<img alt="iamgurdeeposahan" src="/BucketTree/images/user1-128x128.jpg" class="direct-chat-img">');
+	    $('.doted-border:last').append('<div class="direct-chat-text"> <a id="fileMessenger2">'+message.fileName +'</a></div>');
+	    $('.doted-border:last').append('<div class="direct-chat-info clearfix"> </div>');
+	    $('a#fileMessenger2:last').attr("href","/BucketTree/messenger/download?idx="+message.idx);
+	    $('.direct-chat-info:last').append('<span class="direct-chat-timestamp pull-right">' +message.date.substring(11, 16) + '</span>');
+	}
 }
 //메신저 보낼때 추가하는 태그
 function sendMessengerTag(messenger)
-{
+{	
+	if(messenger.contents!=''){
     //메세지 내용
     $('.direct-chat-messages:last').append('<div class="direct-chat-msg doted-border">');
     $('.direct-chat-messages:last').append('</div>');
@@ -91,6 +175,62 @@ function sendMessengerTag(messenger)
     $('.doted-border:last').append('</div>');
     $('.direct-chat-info:last').append('<span class="direct-chat-timestamp pull-left">' +messenger.date.substring(11, 16) +'</span>');
     $("#status_message").val('');
+	}
+	else
+		{
+		
+	    $('.direct-chat-messages:last').append('<div class="direct-chat-msg doted-border">');
+	    $('.direct-chat-messages:last').append('</div>');
+	    $('.doted-border:last').append('<div class="direct-chat-text-send pull-right">');
+	    $('.doted-border:last').append('</div>');
+	    $('.direct-chat-text-send:last').append('<span class="direct-chat-text-send "> <a id="fileMessenger2">' +messenger.fileName + '</a> </span>');
+	    $('a#fileMessenger2:last').attr("href","/BucketTree/messenger/download?idx="+messenger.idx);
+	    //메세지 날짜
+	    $('.doted-border:last').append('<div class="direct-chat-info clearfix">')
+	    $('.doted-border:last').append('</div>');
+	    $('.direct-chat-info:last').append('<span class="direct-chat-timestamp pull-left">' +messenger.date.substring(11, 16) +'</span>');
+	    $("#status_message").val('');
+	}
+
+}
+//실시간 파일 보낼때 추가하는 태그
+function sendFileMessengerTag(messenger)
+{	
+	var agent = navigator.userAgent.toLowerCase();
+	//윈도우용
+	if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+			blobList[blob_index]=document.getElementById('file').files[0];
+			$('.direct-chat-messages:last').append('<div class="direct-chat-msg doted-border">');
+		    $('.direct-chat-messages:last').append('</div>');
+		    $('.doted-border:last').append('<div class="direct-chat-text-send pull-right">');
+		    $('.doted-border:last').append('</div>');
+		    $('.direct-chat-text-send:last').append('<span class="direct-chat-text-send "><a id="fileMessenger">'+messenger.fileName +'</a> </span>');
+		    $('a#fileMessenger:last').attr("blob_index",blob_index);
+		    $('a#fileMessenger:last').attr("download",fileName);
+		    //메세지 날짜
+		    $('.doted-border:last').append('<div class="direct-chat-info clearfix">')
+		    $('.doted-border:last').append('</div>');
+		    $('.direct-chat-info:last').append('<span class="direct-chat-timestamp pull-left">' +messenger.date.substring(11, 16) +'</span>');
+		    $("#status_message").val('');
+		    blob_index++;
+	}
+	//크롬
+	else{
+	url= window.URL.createObjectURL(document.getElementById('file').files[0]);
+    //메세지 내용
+    $('.direct-chat-messages:last').append('<div class="direct-chat-msg doted-border">');
+    $('.direct-chat-messages:last').append('</div>');
+    $('.doted-border:last').append('<div class="direct-chat-text-send pull-right">');
+    $('.doted-border:last').append('</div>');
+    $('.direct-chat-text-send:last').append('<span class="direct-chat-text-send "><a id="fileMessenger">'+messenger.fileName +'</a> </span>');
+    $('a#fileMessenger:last').attr("href",url);
+    $('a#fileMessenger:last').attr("download",messenger.fileName);
+    //메세지 날짜
+    $('.doted-border:last').append('<div class="direct-chat-info clearfix">')
+    $('.doted-border:last').append('</div>');
+    $('.direct-chat-info:last').append('<span class="direct-chat-timestamp pull-left">' +messenger.date.substring(11, 16) +'</span>');
+    $("#status_message").val('');
+	}
 }
 //날짜 
 function getDateStamp() {
@@ -127,10 +267,24 @@ function leadingZeros(n, digits) {
 
 //웹소켓 연결
   function connect() {
-      ws = new SockJS('/BucketTree/Messeneger');
-     
-      ws.onopen = function() {
-
+	  //ws = new SockJS('/BucketTree/Messeneger');
+	  ws =new WebSocket('ws://localhost:8080/BucketTree/Messeneger')
+	  
+	 
+	  ws.onopen = function() {
+          $('.newMessenegerFriend').detach();
+          //채팅창 닫았을때 새로운 메세지 온거 갱신
+          //새로운 메세지 온 친구 갱신
+          NewMessengerFriendUpdateAjax()
+          //친구 목록 갱신(새로운 메세지 온거 제외)
+          $('.MessenegerFriend').detach();
+          //객체에 담기
+          pagination = {
+              srchType: 0,
+              srchText: ''
+          };
+          //친구목록 갱신
+          MessengerFriendUpdateAjax(pagination);
           //두달 지난 메세지 삭제하기
           //ajax구현	  
           $.ajax({
@@ -152,7 +306,17 @@ function leadingZeros(n, digits) {
 
       };
       ws.onmessage = function(message) {
-          receiveMessage(message)
+    	  //바이너리 데이터일때
+    	  if(message.data instanceof Blob)
+    		  {
+    		   saveData(message.data,fileName);
+    		  }
+    	  //일반텍스트일때
+    	  else
+    		  {
+    		  	receiveMessage(message);
+    		  }
+    	  $(".popup-messages").scrollTop($('.direct-chat-messages').height());
       };
       ws.onclose = function(event) {
 
@@ -170,9 +334,19 @@ function leadingZeros(n, digits) {
   
   //메세지 받으면 태그추가
   function receiveMessage(message) {
-      var message = JSON.parse(message.data);
+      
+	
+	  var message = JSON.parse(message.data);
+      
+      if(message.fileName!=null)
+    	  {		
+    	    fileName=message.fileName;
+    	    fileuser=message.from_user_idx;
+   
+    	    
+    	  }
       //내가 활성화한 유저와의 채팅만 받기
-      if (messenger.to_user_idx == message.from_user_idx) {
+      else if (messenger.to_user_idx == message.from_user_idx) {
     	   
     	     receviceMessengerTag(message);
     	     
@@ -212,11 +386,20 @@ function leadingZeros(n, digits) {
       $(".popup-messages").scrollTop($('.direct-chat-messages').height());
   }
   
-  function sendFile(file){
-	  ws.send(file);
-    
-     
-  }
+function resetFile()
+{
+		var agent = navigator.userAgent.toLowerCase();	
+		//클릭하는순간 파일 초기화
+	   if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+		   $('.filebox #file').replaceWith( $("#file").clone(true) );  // ie 일때 초기화
+	   }
+	   else {
+		   $('.filebox #file').val('');
+		  
+	   }
+	   $('.upload-name').val('');
+	   messenger.fileName=null;
+	}
 
 //웹페이지가 로딩되면 실행되는 의미
 $(function() {
@@ -253,19 +436,35 @@ $('#send_button').click(function() {
         messenger.type = 1;
         //날짜
         messenger.date = getTimeStamp();
-        ws.send(JSON.stringify(messenger));
-        //메신저 보낸내용 추가하는 태그
-        sendMessengerTag(messenger)
-        
-        $(".popup-messages").scrollTop($('.direct-chat-messages').height());
-        
+       
         var file = document.getElementById('file').files[0];
         if(file!=null)
-        	{
-        	 
-        	  sendFile(file);
-        	 }
-
+        	{	
+        		messenger.fileName=file.name;
+        		//파일 데이터에 앞서 송,수신자, 파일명을 텍스트로보냄
+        		sendFileMessengerTag(messenger);
+        		ws.send(JSON.stringify(messenger));
+        		ws.send(file);
+                resetFile();
+           }
+        else
+        	{	
+        	if (((typeof messenger.contents != "undefined") && (typeof messenger.contents.valueOf() == "string")) && (messenger.contents.length > 0)) {
+        	
+        		//메신저 보내는용 추가하는 태그
+        		sendMessengerTag(messenger);
+        		ws.send(JSON.stringify(messenger));
+        	}
+        	//빈문자열이 메세지 안보냄
+        	else{
+        		
+        		return false;
+        	    
+        	}
+        	
+        	
+        	}
+        $(".popup-messages").scrollTop($('.direct-chat-messages').height());
 
 });
 //입력하고 엔터키 눌르면 클릭효과
@@ -314,7 +513,15 @@ $("#message_modal button").click(function(){
 
 	}
 });
+$(document).on("click","#fileMessenger",function(e)
+{                        
+	var agent = navigator.userAgent.toLowerCase();	
+	if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+	e.preventDefault();
+	window.navigator.msSaveOrOpenBlob(blobList[$(this).attr("blob_index")], $(this).attr("download"));
+	}
 
+});
 //채팅창 띄우기
 $(document).on("click",".addClass",function() {
             $('#qnimate').addClass('popup-box-on');
@@ -429,6 +636,7 @@ $("#removeClass").click(function() {
             messenger.to_user_idx = -1;
             $('#qnimate').removeClass('popup-box-on');
             $("#status_message").val('');
+            resetFile();
             //새로운 메세지 온 친구 목록 다 삭제
             $('.newMessenegerFriend').detach();
             //채팅창 닫았을때 새로운 메세지 온거 갱신
@@ -447,7 +655,11 @@ $("#removeClass").click(function() {
 
         });
 
+	$("#fileCancel").click(function() {
+		resetFile();
+	});
 
+	
 
 
 

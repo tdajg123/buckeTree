@@ -1,5 +1,4 @@
 package kr.ac.BucketTree.vo;
-
 import com.google.gson.Gson;
 
 public class MessengerVO {
@@ -9,8 +8,16 @@ public class MessengerVO {
 	String date;
 	String contents;
 	int type;
+	String fileName;
 
-	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	public int getIdx() {
 		return idx;
 	}

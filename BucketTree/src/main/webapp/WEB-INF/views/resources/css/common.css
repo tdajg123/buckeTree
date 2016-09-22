@@ -93,3 +93,41 @@ footer {
 	border-top: 1px solid #48cfc8;
 	color: #fff;
 }
+
+/*
+*btn btn-default
+*
+*/
+
+
+.btn.btn-default{
+   text-shadow: 0 1px 0 #fff;
+   background-image: -webkit-linear-gradient(top,#fff 0,#fff 100%);
+   background-image: -o-linear-gradient(top,#fff 0,#fff 100%);
+   background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#fff));
+   background-image: linear-gradient(to bottom,#fff 0,#fff 100%);
+   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffffff', GradientType=0);
+   background-repeat: repeat-x;
+   border-color: #dbdbdb;
+   border-color: #ccc;
+}
+
+.btn.btn-default:hover, .btn.btn-default:active {
+   text-shadow: 0 1px 0 #fff;
+   background-image: -webkit-linear-gradient(top,#fff 0,#fff 100%);
+   background-image: -o-linear-gradient(top,#fff 0,#fff 100%);
+   background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#fff));
+   background-image: linear-gradient(to bottom,#fff 0,#fff 100%);
+   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffffff', GradientType=0);
+   background-repeat: repeat-x;
+   border-color: #dbdbdb;
+   border-color: #ccc;
+   background-color: #f8f8f8;
+   color:#222;
+   background-position: 0px 30px;
+}
+
+.btn-default:focus, .btn-default:hover {
+    background-color: #fff;
+    background-position: 0 0px;
+}
