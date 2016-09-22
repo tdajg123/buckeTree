@@ -12,6 +12,10 @@
 		<put-attribute name="content" value="/WEB-INF/views/friend/friendsearch.jsp" />
 	</definition>
 
+	<definition name="friendlist" extends="commonLayout">
+		<put-attribute name="content" value="/WEB-INF/views/friend/friendlist.jsp" />
+	</definition>
+
 	<!-- 공통 UI -->
 	<definition name="commonLayout" template="/WEB-INF/views/template/template.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/include/header.jsp" />

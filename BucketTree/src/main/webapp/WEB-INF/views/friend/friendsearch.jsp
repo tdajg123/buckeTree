@@ -15,42 +15,85 @@ function onclickEmail(){
 	$('#search_param').val(2);
 	$('#search_concept').text("이메일");
 }
-function onclickAddFriend(){
-	
-}
+$(document).on('click', '#add', function(){
+	var evnetTarget = this;
+	var eventIdx = $(this).attr('data-idx');
+		
+	$.ajax({
+		url : "/BucketTree/friend/addFriendRequestAjax",
+		dataType : "json",
+		type : "POST",
+		data : {
+			add_idx : eventIdx
+
+		},
+		success : function(data) {
+		if(data){
+			alert('신청 완료!')
+			$(evnetTarget).text("요청 완료 ");
+		}
+		}
+	});
+
+});
 
 //무한스크롤을 위한 스크롤 체크
-$(document).ready(function () {
-	$(document).scroll(function() {
-		var maxHeight = $(document).height();
-		var currentScroll = $(window).scrollTop() + $(window).height();
-	    var lastrow = $(".blockquote-box blockquote-info clearfix:last").attr("data-row");
-		if (maxHeight <= currentScroll + 100){
-			$.ajax({
-				type : 'post' ,
-				url : '/BucketTree/Friend/searchAjaxFriendList',
-				headers : {
-					"Content-Type" : "application/json",
-					"X-HTTP-Method-Override" : "POST"
-				},
-				dataType : 'json',
-				data : {row:lastrow},
-				success : function(data){
-					
+
+
+	$(window).scroll(function(){
+		if  ($(window).scrollTop() >= $(document).height() - $(window).height()){
 	
-				}
-			});		
-			
-								 			  }
-                                   })
-           });
+	    var lastrow = $(".blockquote-box.blockquote-info.clearfix:last").attr("data-row");
+	    var srchType = $("#search_param").val();
+	    var srchText = $("#search_text").val();
+	    
+	  
+	    	var str='';
+	    	$.ajax({
+	    		url : "/BucketTree/Friend/searchAjaxFriendList",
+	    		dataType : "json",
+	    		type : "POST",
+	    		data : {
+	    			row : lastrow,
+					srchType : srchType,
+					srchText : srchText
+
+	    		},
+	    		success :  function(data) {
+	    			if(data !=""){
+	    				$(data).each(
+					
+						function(){
+							str +="<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"								
+							+ "<div class='square pull-left'>"
+							+ "<span class='glyphicon glyphicon-info-sign glyphicon-lg'></span>"
+							+ "</div>"
+							+ "<h4>"+this.name+"</h4>"
+							+ "<p>"+this.email+"</p>"
+							+ "<p id='mbp'>"
+							+ "<button type='button' class='btn btn-default' aria-label='right Align' id='add' data-idx='"+this.idx+"'>"
+					        + "<span class='glyphicon glyphicon-plus'></span>"
+					        + "</button>"
+					        + "</p>"
+					        + "</div>";					      					    
+						}		
+						)  
+						  $('.col-md-6').append(str);
+	    				  }else
+	    					  alert('불러올 데이터가 없습니다')
+	    				}
+	    			});			
+	    
+	    }
+		});                    
 </script>
+<body>
 <div class="container">
 <!-- leftMenu __ Start -->
 <div class="menurow">
 
 	<!-- Menu -->
-	<div class="side-menu" style= "left: 100px; width: 200px; height: 200px">
+	<div class="side-menu" style= "left: 100px; width: 200px; height: 100px">
 
 		<nav class="navbar navbar-default" role="navigation" style= "width: 200px">
 			
@@ -58,11 +101,11 @@ $(document).ready(function () {
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav2">
 
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+					<li><a href="/BucketTree/Friend/FriendList"><span class="glyphicon glyphicon-user"></span>
 							친구 목록</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+					<li><a href="/BucketTree/Friend/FriendRequestList"><span class="glyphicon glyphicon-user"></span>
 							친구 맺기</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+					<li><a href="/BucketTree/Friend/searchFriendList"><span class="glyphicon glyphicon-user"></span>
 							친구 찾기</a></li>
 
 				</ul>
@@ -82,7 +125,19 @@ $(document).ready(function () {
 		    <form class="input-group" action="/BucketTree/Friend/searchFriendListPost" method="post">
                 <div class="input-group-btn search-panel">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    	<span id="search_concept">검색 조건</span> <span class="caret"></span>
+                    	<c:set var="srch" value="${srch}" />
+                    	<c:choose>
+						    <c:when test="${empty srch.getSrchType()}">
+						    <span id="search_concept">검색 조건</span> <span class="caret"></span>
+						    </c:when>
+						    <c:when test="${srch.getSrchType() eq 1}">
+						    <span id="search_concept">이름</span> <span class="caret"></span>
+						    </c:when>
+						    <c:when test="${srch.getSrchType() eq 2}">
+						    <span id="search_concept">이메일</span> <span class="caret"></span>
+						    </c:when>
+						    
+						</c:choose>
                     </button>
                     <ul class="dropdown-menu" role="menu">
                       <li><a onclick="onclickName()">이름</a></li>
@@ -90,7 +145,7 @@ $(document).ready(function () {
                     </ul>
                 </div>
                 <input type="hidden" name="srchType" value="${srch.getSrchType()}" id="search_param">         
-                <input type="text" class="form-control" name="srchText" value="${srch.getSrchText()}">
+                <input type="text" class="form-control" name="srchText" value="${srch.getSrchText()}" id="search_text">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
@@ -101,15 +156,14 @@ $(document).ready(function () {
 		</div>
 		<div class="col-md-6">
 			<c:forEach items="${list}"  var="FriendVO">
-			<div class="blockquote-box blockquote-info clearfix" data-num="${FriendVO.getRow()}">
+			<div class="blockquote-box blockquote-info clearfix" data-row="${FriendVO.getRow()}" data-idx="${FriendVO.getIdx()}">
 				<div class="square pull-left">
 					<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
 				</div>
 				<h4>${FriendVO.name}</h4>
 				<p>${FriendVO.email }</p>
 		<p id="mbp">
-					<button type="button" class="btn btn-default" onclick="onclickAddFriend();"
-						aria-label="right Align">			
+					<button type="button" class="btn btn-default" aria-label="right Align" id="add" data-idx="${FriendVO.getIdx()}">			
 					<span class="glyphicon glyphicon-plus"></span>
 					</button>
 					</p>
@@ -119,3 +173,4 @@ $(document).ready(function () {
 	</div>
 	
 </div>
+</body>

@@ -29,31 +29,158 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     )
 	</select>
 	
+	<!-- 친구 목록 -->
+	<select id="FriendList" resultType="kr.ac.BucketTree.vo.FriendVO">
+	SELECT* 
+	FROM(
+	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as 행번호
+	FROM [User]
+	where idx in( SELECT toUser FROM Friend where fromUser=#{idx} AND state =1)
+	)subquery
+	<![CDATA[
+	WHERE 행번호 > (#{p.currentPage} - 1) * #{p.pageSize} AND 행번호 <= #{p.currentPage} * #{p.pageSize} 
+	]]>
+	ORDER BY 행번호
+	
+	</select>
+	
+	<!--친구 목록 추가 조회 (무한 스크롤)  -->
+	
+	<select id="FriendListAjax" resultType="kr.ac.BucketTree.vo.FriendVO">
+	SELECT* 
+	FROM(
+	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as 행번호
+	FROM [User]
+	where idx in( SELECT toUser FROM Friend where fromUser=#{idx} AND state =1)
+	)subquery
+	<![CDATA[
+	WHERE row > #{p.row} AND row <= #{p.row} + #{p.pageSize}
+	]]>
+	ORDER BY 행번호
+	</select>
 	<!-- 검색된 친구목록 -->
 	<select id="FriendSearch" resultType="kr.ac.BucketTree.vo.FriendVO">
-		SELECT* 
+		SELECT * 
 		FROM(
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
-		FROM [User]
-		where ((#{srchType}=1 AND name like #{srchText}) OR (#{srchType}=2 AND email = #{srchText}))
-		)subquery
-		<![CDATA[
-		WHERE row > (#{currentPage} - 1) * #{pageSize} AND row <= #{currentPage} * #{pageSize} 
+		FROM [User] 
+		where (#{p.srchType}=1 AND (name like #{p.srchText}) OR (#{p.srchType}=2 AND email = #{p.srchText})) AND
+		idx not in (SELECT toUser FROM Friend where fromUser=#{idx}))
+		subquery
+			<![CDATA[
+		WHERE row > (#{p.currentPage} - 1) * #{p.pageSize} AND row <= #{p.currentPage} * #{p.pageSize} 
 		]]>
 		ORDER BY row
 	</select>
-	
-	<select id="FriendAjaxSearch" resultType="kr.ac.BucketTree.vo.FriendVO">
-		SELECT* 
+	<!-- 친구목록 내 검색 -->
+	<select id="SearchFriendList" resultType="kr.ac.BucketTree.vo.FriendVO">
+		SELECT * 
 		FROM(
-		
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
-		FROM [User]
-		where ((#{srchType}=1 AND name like #{srchText}) OR (#{srchType}=2 AND email = #{srchText}))
+		FROM [User] 
+		where (#{p.srchType}=1 AND (name like #{p.srchText}) OR (#{p.srchType}=2 AND email = #{p.srchText})) AND
+		idx in(SELECT toUser FROM Friend where fromUser=#{idx} AND state =1)
 		)subquery
-		<![CDATA[
-		WHERE row > (#{currentPage} - 1) * #{pageSize} AND row <= #{currentPage} * #{pageSize} 
+			<![CDATA[
+		WHERE row > (#{p.currentPage} - 1) * #{p.pageSize} AND row <= #{p.currentPage} * #{p.pageSize} 
 		]]>
-		ORDER BY row	
+		ORDER BY row
+	
 	</select>
+	<!-- 검색된 친구 목록 ajax 조회 (무한 스크롤) -->
+	<select id="FriendAjaxSearch" resultType="kr.ac.BucketTree.vo.FriendVO">
+     	SELECT * 
+		FROM(
+		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
+		FROM [User] 
+		where (#{p.srchType}=1 AND (name like #{p.srchText}) OR (#{p.srchType}=2 AND email = #{p.srchText})) AND
+		idx not in (SELECT toUser FROM Friend where fromUser=#{idx}))
+		subquery
+		<![CDATA[
+		WHERE row > #{p.row} AND row <= #{p.row} + #{p.pageSize}
+		]]>
+		ORDER BY row
+	</select>
+	<!-- 전송한 친구 요청  ajax 조회 (무한 스크롤)-->
+	<select id="FriendSendAjaxList" resultType="kr.ac.BucketTree.vo.FriendVO">
+	SELECT* 
+	FROM(
+	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
+	FROM [User]
+	where idx in( SELECT toUser FROM Friend where fromUser=#{idx} AND state =2)
+	)subquery
+	<![CDATA[
+	WHERE row > #{p.row} AND row <= #{p.row} + #{p.pageSize}
+	]]>
+	ORDER BY row
+	
+	</select>
+	
+	
+	<!-- 친구 요청 from ~ to -->
+	<insert id="insertFriendFromRequest">
+	INSERT INTO FRIEND VALUES(#{fromUser},#{toUser},2);
+	</insert>
+	
+	<!-- 친구 요청 to ~ from -->	
+	<insert id="insertFriendToRequest">
+	INSERT INTO FRIEND VALUES(#{toUser},#{fromUser},3);
+	</insert>
+	
+	<!-- 친구 삭제 from ~to -->
+	<delete id="deleteFromFriend">
+	DELETE FROM FRIEND WHERE fromUser=#{fromUser} AND toUser = #{toUser};
+	</delete>
+	
+	<!-- 친구 삭제 to ~ from -->
+	<delete id="deleteToFriend">
+	DELETE FROM FRIEND WHERE fromUser=#{toUser} AND toUser = #{fromUser};
+	</delete>
+	
+	<!--받은 친구 요청  목록-->
+	<select id="selectRequestFriend" resultType="kr.ac.BucketTree.vo.FriendVO">
+	SELECT* 
+	FROM(
+	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
+	FROM [User]
+	where idx in(select toUser FROM Friend where fromUser=#{idx} and state=3)
+	)subquery
+	<![CDATA[
+	WHERE row > (#{p.currentPage} - 1) * #{p.pageSize} AND row <= #{p.currentPage} * #{p.pageSize} 
+	]]>
+	ORDER BY row
+	</select>
+	
+	<!-- 신청한 친구 요청 목록 -->
+	<select id="selectSendFriend" resultType="kr.ac.BucketTree.vo.FriendVO">
+	SELECT* 
+	FROM(
+	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
+	FROM [User]
+	where idx in(select toUser FROM Friend where fromUser=#{idx} and state=2)
+	)subquery
+	<![CDATA[
+	WHERE row > (#{p.currentPage} - 1) * #{p.pageSize} AND row <= #{p.currentPage} * #{p.pageSize} 
+	]]>
+	ORDER BY row
+	</select>
+	<!--친구 수락  from > to -->
+	<update id="updateRequestFromFriend">
+	UPDATE FRIEND SET state=1 WHERE fromUser=#{fromUser} and toUser=#{toUser}
+	</update>
+	
+	<!--친구 수락  to > from -->
+	<update id="updateRequestToFriend">
+	UPDATE FRIEND SET state=1 WHERE fromUser=#{toUser} and toUser=#{fromUser}
+	</update>
+	
+	<!--친구 거절 -->
+	<delete id="deleteRequestFromFriend">
+	Delete FROM FRIEND WHERE fromUser=#{fromUser} and toUser=#{toUser} and state=2
+	</delete>
+
+	<!--친구 거절 -->
+	<delete id="deleteRequestToFriend">
+	Delete FROM FRIEND WHERE fromUser=#{toUser} and toUser=#{fromUser} and state=2
+	</delete>
 </mapper>

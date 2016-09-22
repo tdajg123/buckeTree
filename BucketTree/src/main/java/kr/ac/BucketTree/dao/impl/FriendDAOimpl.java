@@ -30,15 +30,102 @@ public class FriendDAOimpl implements FriendDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(namespace+".FriendByNewMessagener", idx) ;
 	}
-	
-	@Override
-	public List<FriendVO> FriendSearch(PageVO page){
-		return sqlSession.selectList(namespace+".FriendSearch",page);
-	}
-	@Override
-	public List<FriendVO> FriendAjaxSearch(Integer startRow){
-		return sqlSession.selectList(namespace+".FriendAjaxSearch",startRow);
-	}
+	// 친구 찾기 검색 목록 ,AJAX 활용
+		@Override
+		public List<FriendVO> FriendSearch(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".FriendSearch",input);
+		}
+		//친구 목록 내 검색 , AJAX 활용
+		@Override
+		public List<FriendVO> SearchFriendList(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".SearchFriendList",input);
+		}
+		// 친구 찾기 무한스크롤 , AJAX 활용
+		@Override
+		public List<FriendVO> FriendAjaxSearch(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".FriendAjaxSearch",input);
+		}
+		//친구 요청 삽입 from > to
+		@Override
+		public int InsertFriendFromRequest(FriendVO friend){
+			return sqlSession.insert(namespace+".insertFriendFromRequest",friend);
+		}
+		//친구 요청 삽입 to > from
+		@Override
+		public int insertFriendToRequest(FriendVO friend){
+			return sqlSession.insert(namespace+".insertFriendToRequest",friend);
+		}
+		//친구 삭제 from > to
+		@Override
+		public int deleteFromFriend(FriendVO friend){
+			return sqlSession.delete(namespace+".deleteFromFriend",friend);
+		}
+		//친구 삭제 to > from
+		@Override
+		public int deleteToFriend(FriendVO friend){
+			return sqlSession.delete(namespace+".deleteToFriend",friend);
+		}
+		//친구 목록
+		@Override
+		public List<FriendVO> FriendList(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".FriendList",input);
+		}
+		//친구 목록 추가 조회 Ajax 활용 (무한 스크롤)
+		public List<FriendVO> FriendListAjax(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".FriendListAjax",input);
+		}
+		//받은 친구 요청 목록
+		public List<FriendVO> FriendRequestList(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".selectRequestFriend",input);
+		}
+		//보낸 친구 요청 목록
+		public List<FriendVO> FriendSendList(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".selectSendFriend", input);
+		}
+		//보낸 친구 요청 목록 Ajax 활용
+		public List<FriendVO> FriendSendAjaxList(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".FriendSendAjaxList", input);
+		}
+		//친구 수락 from > to
+		public int FriendRequestFromUpdate(FriendVO friend){
+			return sqlSession.update(namespace+".updateRequestFromFriend",friend);
+		}
+		//친구 수락 to > from
+		public int FriendRequestToUpdate(FriendVO friend){
+			return sqlSession.update(namespace+".updateRequestToFriend",friend);
+		}
+		//친구 거절 from > to
+		public int FriendRequestFromDelete(FriendVO friend){
+			return sqlSession.delete(namespace+".deleteRequestFromFriend", friend);
+		}
+		//친구 거절 to > from
+		public int FriendRequestToDelete(FriendVO friend){
+			return sqlSession.delete(namespace+".deleteRequestToFriend", friend);
+		}
 
 }
 

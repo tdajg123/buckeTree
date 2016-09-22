@@ -7,6 +7,14 @@ public class Pagination {
 	int currentPage = 1;
 	int pageSize = 10;
 	int recordCount;
+	int row;
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
 
 	public int getCurrentPage() {
 		return currentPage;

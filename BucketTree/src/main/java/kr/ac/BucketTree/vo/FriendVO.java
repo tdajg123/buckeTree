@@ -5,6 +5,8 @@ public class FriendVO {
 	String name;
 	String email;
 	int row;
+	int fromUser;
+	int toUser;
 	public int getRow() {
 		return row;
 	}
@@ -28,6 +30,18 @@ public class FriendVO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public int getFromUser() {
+		return fromUser;
+	}
+	public void setFromUser(int fromUser) {
+		this.fromUser = fromUser;
+	}
+	public int getToUser() {
+		return toUser;
+	}
+	public void setToUser(int toUser) {
+		this.toUser = toUser;
 	}
 
 	
