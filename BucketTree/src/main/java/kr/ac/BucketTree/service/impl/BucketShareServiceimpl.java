@@ -27,4 +27,28 @@ public class BucketShareServiceimpl implements BucketShareService {
 		return dao.selectCount(pagination);
 	}
 
+	@Override
+	public List<BucketShareVO> myselectPage(Pagination pagination, int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.myselectPage(pagination, user_idx);
+	}
+
+	@Override
+	public int myselectCount(Pagination pagination, int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.myselectCount(pagination, user_idx);
+	}
+
+	@Override
+	public List<BucketShareVO> myAnswerList(Pagination pagination, int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.myAnswerList(pagination, user_idx);
+	}
+
+	@Override
+	public int myAnswerListCount(Pagination pagination, int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.myAnswerListCount(pagination, user_idx);
+	}
+
 }

@@ -57,11 +57,11 @@
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav">
 
-					<li><a href="/kr/bucketshare/listAll"><span
+					<li><a href="/BucketTree/bucketShare/list"><span
 							class="glyphicon glyphicon-user"></span> 전체질문</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+					<li><a href="/BucketTree/bucketShare/mylist"><span class="glyphicon glyphicon-user"></span>
 							내가 쓴 질문</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+					<li><a href="/BucketTree/bucketShare/myAnswerlist"><span class="glyphicon glyphicon-user"></span>
 							내가 쓴 답변</a></li>
 					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
 							질문하기</a></li>
@@ -83,8 +83,7 @@
 		</div>
 		<div class="form-inline">
 			<!-- Search Form __ Start -->
-			<form:form id="form_search" method="POST" modelAttribute="pagination"
-				action="/BucketTree/bucketShare/list">
+			<form:form id="form_search" method="POST" modelAttribute="pagination">
 
 				<!-- 채택 여부 선택 셀렉트 박스 -->
 				<form:select path="type">

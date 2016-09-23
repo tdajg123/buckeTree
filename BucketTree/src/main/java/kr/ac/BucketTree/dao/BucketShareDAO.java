@@ -8,4 +8,8 @@ import kr.ac.BucketTree.vo.BucketShareVO;
 public interface BucketShareDAO {
 	List<BucketShareVO> selectPage(Pagination pagination);
 	int selectCount(Pagination pagination);
+	List<BucketShareVO> myselectPage(Pagination pagination,int user_idx);
+	int myselectCount(Pagination pagination,int user_idx);
+	List<BucketShareVO> myAnswerList(Pagination pagination,int user_idx);
+	int myAnswerListCount(Pagination pagination,int user_idx);
 }
