@@ -66,7 +66,7 @@
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-left">
-					<li><a href="#"> 1500 <i class="fa fa-tree"></i></a></li>
+					<li><a href="/BucketTree/point"> 1500 <i class="fa fa-tree"></i></a></li>
 
 				</ul>
 				<ul class="nav navbar-left">

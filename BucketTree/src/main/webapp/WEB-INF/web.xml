@@ -26,6 +26,12 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		
+		<!-- ##Mypage-프로필 파일 업로드를 위한 설정 추가## -->
+		<multipart-config>
+            <max-file-size>102400000</max-file-size>
+        </multipart-config> 
+        
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>

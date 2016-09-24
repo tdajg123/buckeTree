@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import kr.ac.BucketTree.dao.BucketListDAO;
 import kr.ac.BucketTree.service.BucketListService;
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketListVO;
-import kr.ac.BucketTree.vo.PageVO;
 import kr.ac.BucketTree.vo.RecommendVO;
 
 @Service
@@ -18,21 +18,26 @@ public class BucketListServiceimpl implements BucketListService{
 	@Autowired
 	BucketListDAO dao;
 
-	/*전체 버킷리스트 목록 & 정렬-최신순*/
+	/*전체 버킷리스트 목록&정렬&검색*/
 	@Override
-	public List<BucketListVO> list(PageVO page) throws Exception {
+	public List<BucketListVO> list(Pagination pagination) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.list(page);
+		return dao.list(pagination);
 	}
 
-
-	/*전체 : 정렬-인기순*/
+	/*버킷리스트 페이지 카운트*/
 	@Override
-	public List<BucketListVO> popular_list(PageVO page) throws Exception {
+	public int listCount(Pagination pagination) {
 		// TODO Auto-generated method stub
-		return dao.popular_list(page);
+		return dao.listCount(pagination);
 	}
-	
+
+	/*버킷리스트-무한스크롤*/
+	@Override
+	public List<BucketListVO> listAjax(Pagination p) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.listAjax(p);
+	}
 
 	/*전체 : 담기-카운트 업*/
 	@Override
@@ -49,14 +54,6 @@ public class BucketListServiceimpl implements BucketListService{
 		dao.addBucket(addBucket);
 	}
 
-	
-	//검색
-	@Override
-	public List<BucketListVO> SearchList(HashMap<String, Object> category, PageVO page) {
-		// TODO Auto-generated method stub
-		return dao.SearchList(category, page);
-	}
-
 
 	//중복 검사
 	@Override
@@ -68,10 +65,19 @@ public class BucketListServiceimpl implements BucketListService{
 
 	/*마이 버킷리스트 목록*/
 	@Override
-	public List<BucketListVO> mylist(PageVO page) throws Exception {
+	public List<BucketListVO> mylist(Pagination pagination) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.mylist(page);
+		return dao.mylist(pagination);
 	}
+	
+	/*마이리스트-무한스크롤*/
+	@Override
+	public List<BucketListVO> mylistAjax(Pagination p) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("서비스임플 : " + p);
+		return dao.mylistAjax(p);
+	}
+
 
 	/*마이 : 친구 추천 목록*/
 	@Override

@@ -226,3 +226,159 @@ width: 100%;
 	display: inline-block;
 }
 /* bucketList-MyList-Recommend-Box __ End */
+
+/* 카테고리, 검색 */
+/* modal */
+.modal-body select{
+	margin: auto;
+	margin-left: 45px;
+	margin-bottom: 40px;
+	width: 100px;
+	height: 40px;
+	border: 1px solid #48cfc8;
+    padding-left: 20px;
+    border-width: 3px;
+}
+#categoryAble {
+	height: 40px;
+}
+#btn {
+	background: #48cfc8;
+	height: 40px;
+}
+/* search-box __ Start */
+#search {
+	float: right;
+	margin-top: 9px;
+	width: 250px;
+}
+
+.search {
+	padding: 5px 0;
+	width: 230px;
+	height: 30px;
+	position: relative;
+	left: 10px;
+	float: left;
+	line-height: 22px;
+}
+
+.search input {
+	position: absolute;
+	width: 0px;
+	float: Left;
+	margin-left: 210px;
+	-webkit-transition: all 0.7s ease-in-out;
+	-moz-transition: all 0.7s ease-in-out;
+	-o-transition: all 0.7s ease-in-out;
+	transition: all 0.7s ease-in-out;
+	height: 35px;
+	line-height: 18px;
+	padding: 0 2px 0 2px;
+	border-radius: 1px;
+}
+
+.search:hover input, .search input:focus {
+	width: 200px;
+	margin-left: 0px;
+}
+
+.btn2 {
+	height: 35px;
+	background: #48cfc8;
+	color: #fff;
+	position: absolute;
+	right: 0;
+	top: 5px;
+}
+/* search-box __ End */
+
+
+.pagination {
+
+	position: absolute; left: 50%; transform: translateX(-50%);
+}
+.pagination ul {
+	list-style: none;
+}
+
+.pagination li {
+	display: inline-block;
+	margin-right: 5px
+}
+
+.pagination a {
+	background: #48cfc8;
+	border: 1px solid #f8f8f8;
+	color: white;
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px
+}
+.active a{
+	color: black;
+}
+#form_search{
+	
+	width: 1000px;
+	margin-left:50px;
+	margin-bottom: 30px;
+}
+#form_search select {
+    position: relative;
+    width: 90px;
+    height: 40px;
+    border: 1px solid #48cfc8;
+    padding-left: 11px;
+    border-left-width: 8px;
+    
+}
+#form_search option {
+    
+    font-size: 15px;
+    width: 80px;
+    height: 40px;
+    color: #000000;
+    top: 13px;
+    left: 12px;
+    letter-spacing: 1px;
+}
+#form_search option:selected {
+    width: 100%;
+    height: 40px;
+    min-height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    opacity: 0;
+    filter: alpha(opacity=0); /* IE 8 */
+}
+#category {
+	margin-left: 160px;
+	height: 40px;
+}
+#form_search button ,#form_search a{
+	height:40px;
+}
+
+/* 마이리스트 완료버튼 */
+.bucketOK{
+	background: #48cfc8; 
+	width: 50px; 
+	height: 30px;
+}

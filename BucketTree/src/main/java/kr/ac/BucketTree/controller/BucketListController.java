@@ -1,11 +1,10 @@
 package kr.ac.BucketTree.controller;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ac.BucketTree.service.BucketListService;
+import kr.ac.BucketTree.service.CategoryService;
 import kr.ac.BucketTree.service.UserService;
 import kr.ac.BucketTree.util.BucketTreeCommon;
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketListVO;
-import kr.ac.BucketTree.vo.PageVO;
-import kr.ac.BucketTree.vo.RecommendVO;
 import kr.ac.BucketTree.vo.UserVO;
 
 @Controller
@@ -28,60 +27,63 @@ public class BucketListController {
 	@Autowired 
 	BucketTreeCommon bucketTreeCommon; 
 	
+	@Autowired 
+	CategoryService cs;
+	
 	@Autowired
 	BucketListService bls;
 	
 	@Autowired
 	UserService us;
 	
-	/*전체 버킷리스트 목록 출력 & 정렬-최신순*/
-	@RequestMapping(value = "/bucketList/list", method = RequestMethod.GET)
-	public String list(Model model, HttpServletRequest request) throws Exception {
+	/*전체 버킷리스트 목록&정렬&검색*/
+	@RequestMapping(value = "/bucketList/list")
+	public String list(Model model, Pagination pagination) throws Exception {
 		model=bucketTreeCommon.commonMessenger(model);
 		
 		System.out.println("<<<<<bucketList-List-GET>>>>>");
 		
-		/*pagination*/
-		PageVO page = new PageVO();
-		page.setCurrentPage(1);
-		page.setPagesize(12);
 		
-		/*전체 리스트 불러오기*/
-		List<BucketListVO> bl = new ArrayList();
-		bl = bls.list(page);
+		model.addAttribute("what",cs.whatList() );
+		model.addAttribute("who", cs.whoList());
+		model.addAttribute("when", cs.whenList());
 		
-		/*리스트 잘 들어왔는지 인덱스 확인*/
-		System.out.println(bl.get(0).getIdx());
-
+		System.out.println("controller pagination : " + pagination);
+		
+		pagination.setRecordCount(bls.listCount(pagination));
 		/*리스트에 보여줄 객체*/
-		model.addAttribute("list", bl);
+		model.addAttribute("list", bls.list(pagination));
+		
 		
 		return "bucketList/list";
 	}
 	
-	/*전체 : 정렬-인기순 */
-	@RequestMapping(value = "/bucketList/list", method = RequestMethod.POST)
-	public String listPOST(Model model, HttpServletRequest request) throws Exception {
-		model=bucketTreeCommon.commonMessenger(model);
+	/*버킷리스트 무한스크롤, AJAX 활용*/
+	@ResponseBody
+	@RequestMapping(value="/bucketList/BucketListAjax", method = RequestMethod.POST)
+	public List<BucketListVO> bucketListAjax (@RequestParam("row") String row, Pagination pagination, HttpServletResponse response, Model model) throws Exception{
 		
-		System.out.println("<<<<<bucketList-List-POST>>>>>");
+		model.addAttribute("what",cs.whatList() );
+		model.addAttribute("who", cs.whoList());
+		model.addAttribute("when", cs.whenList());
 		
-		/*pagination*/
-		PageVO page = new PageVO();
-		page.setCurrentPage(1);
-		page.setPagesize(12);
+		int rowResult = Integer.parseInt(row);
+		pagination.setRow(rowResult);
+		pagination.setPageSize(5);
 		
-		/*인기순으로 정렬한 리스트 불러오기*/
-		List<BucketListVO> pbl = bls.popular_list(page);
-		model.addAttribute("list", pbl);
-
-		return "bucketList/list";
+		System.out.println("controller 무한 스크롤 row  : " + row);
+		
+		pagination.setRecordCount(bls.listCount(pagination));
+	    
+		List<BucketListVO> list = bls.listAjax(pagination);
+		
+		return list;
 	}
 	
 	/*전체 : 버킷 담기 (카운트 업 / 마이버킷에 추가)*/
 	@ResponseBody
 	@RequestMapping(value = "/bucketList/countUp", method = RequestMethod.POST)
-	public String countUp(@RequestParam("idx") int idx, @RequestParam("title") String title) throws Exception {
+	public String countUp(Model model, Pagination pagination, @RequestParam("idx") int idx, @RequestParam("title") String title, @RequestParam("when") int when, @RequestParam("who") int who, @RequestParam("what") int what) throws Exception {
 		
 		System.out.println("<<<<<bucketList-COUNTUP-SYS-CHECK>>>>>");
 
@@ -89,23 +91,15 @@ public class BucketListController {
 		UserVO user = us.getCurrentUser();
 		int userIdx = user.getIdx();
 		
-		BucketListVO add = new BucketListVO();
-		
-		int when = add.getWhen();
-		int who = add.getWho();
-		int what = add.getWhat();
-		
 		System.out.println("title : " + title);
 		System.out.println("userIdx : " + userIdx);
+		System.out.println("category 값" + when + "/" + who + "/" + what);
 		
 		boolean check = this.bls.titleCheck(title, userIdx);
-		
-		System.out.println("check : " + check);
+		System.out.println("마이리스트에 제목이 같은 리스트가 있는지 중복 체크 : " + check);
 		
 		if(check == true){
-			//BucketListVO bucket = new BucketListVO();
 			System.out.println("<<<<<담기 실패! - 이미 해당하는 버킷이 있음>>>>>");
-			
 			
 		}else{
 			System.out.println("<<<<<담기 성공! - 담기 아이콘 눌러서 카운트업/버킷 추가>>>>>");
@@ -115,99 +109,72 @@ public class BucketListController {
 			addBucket.put("title", title);
 			addBucket.put("contents", "추가된 버킷리스트!");
 			addBucket.put("user_idx", userIdx);
-			//addBucket.put("when", when);
-			//addBucket.put("who", who);
-			//addBucket.put("what", what);
+			addBucket.put("when", when);
+			addBucket.put("who", who);
+			addBucket.put("what", what);
+			
+			System.out.println(title  + userIdx + when + who + what);
 			
 			bls.addBucket(addBucket);
+			pagination.setRecordCount(bls.listCount(pagination));
+			/*리스트에 보여줄 객체*/
+			model.addAttribute("list", bls.list(pagination));
 		}
 		
-		return "redirect:/BucketTree/bucketList/list";
+		return "bucketList/mylist";
 	}
-	
-	//검색
-	@RequestMapping(value = "/bucketList/searchList", method = RequestMethod.POST)
-	public String searchListPost(Model model, HttpServletRequest request) throws Exception {
-		model=bucketTreeCommon.commonMessenger(model);
-		
-		System.out.println("<<<<<bucketList-SEARCH-LIST>>>>>");
-		
-		/*Ajax로 넘겨서 받아온 검색타입과 검색어*/
-		int srchType = Integer.parseInt(request.getParameter("srchType"));
-		String srchText = request.getParameter("srchText");
-		
-		System.out.println("srchType : " + srchType + "  /  srchText : " + srchText);
-		
-		/*Ajax로 넘겨서 받아온 카테고리 선택 값*/
-		int when = Integer.parseInt(request.getParameter("when"));
-		int who = Integer.parseInt(request.getParameter("who"));
-		int what = Integer.parseInt(request.getParameter("what"));
-	
-		System.out.println("when : " + when + "  /  who : " + who + "  /  what : " + what);
-		
-		HashMap<String, Object> category = new HashMap<String, Object>();
-		category.put("when", when);
-		category.put("who", who);
-		category.put("what", what);
-		
-		PageVO page = new PageVO();
-		page.setSrchType(srchType);
-		page.setSrchText(srchText);
-		
-		List<BucketListVO> list = bls.SearchList(category, page);
-		
-		model.addAttribute("list", list);
-		model.addAttribute("srch", page);
-		
-		return "bucketList/list";
-	}
-	
 	
 	/**
 	 * 마이 버킷 리스트 목록
 	 * : 1. 친구가 추천해준 버킷리스트 목록 3개
 	 *   2. 1이 없을 경우 관리자가 추천해준 버킷리스트 목록 3개
 	 *   3. 내 버킷리스트 전체 목록 */
-	@RequestMapping(value = "/bucketList/mylist", method = RequestMethod.GET)
-	public String mylist(Model model) throws Exception {
+	@RequestMapping(value = "/bucketList/mylist")
+	public String mylist(Model model, Pagination pagination) throws Exception {
 		
 		//어느 페이지에서나 채팅 기능을 쓰기위해 
 		model=bucketTreeCommon.commonMessenger(model);
 				
 		System.out.println("<<<<<bucketlist-FRIEND-RECOMMEND-LIST>>>>>");
-		
-		/*친구가 추천한 리스트 불러오기*/
-		List<RecommendVO> rbl = new ArrayList();
-		rbl = bls.recommendList();
-		
-		System.out.println(rbl.get(0).getBucketList_idx());		/*리스트 잘 들어왔는지 인덱스 확인*/
-		
-		/*
-		관리자가 추천한 리스트 불러오기 _ arbl : Admin Recommend Bucket List
-		List<BucketListVO> arbl = new ArrayList();
-		arbl = bls.adminRecommendList();
-		
-		System.out.println(arbl.get(0).getIdx());		리스트 잘 들어왔는지 인덱스 확인
-		
-		*/
+		model.addAttribute("recommendList", bls.recommendList());
+		//model.addAttribute("adminRecommendList", bls.adminRecommendList());
 		
 		System.out.println("<<<<<bucketlist-MYLIST>>>>>");
-
-		PageVO page = new PageVO();
-		page.setCurrentPage(1);
-		page.setPagesize(12);
+		model.addAttribute("what",cs.whatList() );
+		model.addAttribute("who", cs.whoList());
+		model.addAttribute("when", cs.whenList());
 		
-		/*마이 리스트 불러오기*/
-		List<BucketListVO> mbl = new ArrayList();
-		mbl = bls.mylist(page);
-		
-		System.out.println(mbl.get(0).getIdx());		/*리스트 잘 들어왔는지 인덱스 확인*/
-
-		/*리스트에 보여줄 객체(추천 목록, 내 목록) 2개*/
-		model.addAttribute("recommendList", rbl);
-		model.addAttribute("mylist", mbl);
+		pagination.setRecordCount(bls.listCount(pagination));
+		model.addAttribute("mylist", bls.list(pagination));
 		
 		return "bucketList/mylist";
+	}
+	
+	/*마이리스트-무한스크롤*/
+	@ResponseBody
+	@RequestMapping(value="/bucketList/mylistAjax", method = RequestMethod.POST)
+	public List<BucketListVO> mylistAjax (@RequestParam("row") String row, Pagination pagination, HttpServletResponse response, Model model) throws Exception{
+		
+		model.addAttribute("what",cs.whatList() );
+		model.addAttribute("who", cs.whoList());
+		model.addAttribute("when", cs.whenList());
+		
+		int rowResult = Integer.parseInt(row);
+		
+		System.out.println("row 값  :" + row);
+		System.out.println("rowResult : " + rowResult);
+		
+		pagination.setRow(rowResult);
+		pagination.setPageSize(5);
+		
+		System.out.println("mycontroller 무한 스크롤 row  : " + row);
+		
+		pagination.setRecordCount(bls.listCount(pagination));
+		List<BucketListVO> mylist = bls.mylistAjax(pagination);
+		
+		System.out.println("아직 컨트롤러");
+		
+		return mylist;
 	}
 
 

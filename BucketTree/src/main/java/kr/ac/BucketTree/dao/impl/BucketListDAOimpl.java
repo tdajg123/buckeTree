@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.BucketTree.dao.BucketListDAO;
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketListVO;
-import kr.ac.BucketTree.vo.PageVO;
 import kr.ac.BucketTree.vo.RecommendVO;
 
 @Repository
@@ -21,20 +21,27 @@ public class BucketListDAOimpl implements BucketListDAO {
 	// BucketListMapper namespace
 	private static final String namespace = "kr.ac.BucketTree.BucketListMapper";
 
-	/*전체 버킷리스트 목록 & 정렬-최신순*/
+	/*전체 버킷리스트 목록*/
 	@Override
-	public List<BucketListVO> list(PageVO page) throws Exception {
+	public List<BucketListVO> list(Pagination pagination) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".list", page);
+		return session.selectList(namespace+".list", pagination);
+	}
+	/*버킷리스트 페이지 카운트*/
+	@Override
+	public int listCount(Pagination pagination) {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace + ".listCount", pagination);
 	}
 
-	/*전체 : 정렬-인기순*/
+	/*버킷리스트-무한스크롤*/
 	@Override
-	public List<BucketListVO> popular_list(PageVO page) throws Exception {
+	public List<BucketListVO> listAjax(Pagination p) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".popular_list", page);
+		System.out.println("dao 무한스크롤 : "+p);
+		return session.selectList(namespace+".listAjax", p);
 	}
-
+	
 	/*전체 : 담기_카운트 업*/
 	@Override
 	public void countUp(int idx) throws Exception {
@@ -49,19 +56,6 @@ public class BucketListDAOimpl implements BucketListDAO {
 		session.insert(namespace + ".addBucket", addBucket);
 	}
 	
-	
-	//검색
-	@Override
-	public List<BucketListVO> SearchList(HashMap<String, Object> category, PageVO page) {
-		// TODO Auto-generated method stub
-		
-		HashMap<String,Object> input = new HashMap<String, Object>();
-		input.put("category", category);
-		input.put("p", page);
-		
-		return session.selectList(namespace+".searchList", input);
-	}
-
 	/*중복 타이틀 검사*/
 	@Override
 	public boolean titleCheck(String mtitle, int userIdx) throws Exception {
@@ -79,11 +73,19 @@ public class BucketListDAOimpl implements BucketListDAO {
 
 	/*마이 버킷리스트 목록*/
 	@Override
-	public List<BucketListVO> mylist(PageVO page) throws Exception {
+	public List<BucketListVO> mylist(Pagination pagination) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".mylist", page);
+		return session.selectList(namespace+".mylist", pagination);
 	}
-
+	
+	/*마이리스트 무한스크롤*/
+	@Override
+	public List<BucketListVO> mylistAjax(Pagination p) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("dao 임플 : " + p);
+		return session.selectOne(namespace+".mylistAjax", p);
+	}
+	
 	/*마이 : 친구 추천 목록*/
 	@Override
 	public List<RecommendVO> recommendList() throws Exception {

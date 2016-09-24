@@ -89,6 +89,11 @@
 	<bean id="emailSender" class="kr.ac.BucketTree.util.EmailSender">
 	</bean>
 
+	<!-- ##Mypage-프로필 파일 업로드를 위한 context 환경 설정 추가## -->
+	<bean id="multipartResolver"
+        class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+    </bean>
+
 
 
 </beans>
