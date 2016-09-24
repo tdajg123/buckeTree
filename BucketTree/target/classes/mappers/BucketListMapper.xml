@@ -150,7 +150,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SELECT *
 			FROM 
 			(
-			 SELECT *
+			 SELECT *, CASE #{orderType}
+						   WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY date desc)			/*최신순*/
+						   WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY count desc)			/*인기순*/
+						END row
 			FROM [BucketList]
 			WHERE
 				IDX > 0 AND WRITER = 2

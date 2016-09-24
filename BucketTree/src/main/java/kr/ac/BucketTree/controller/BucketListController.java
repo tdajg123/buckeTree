@@ -145,7 +145,7 @@ public class BucketListController {
 		model.addAttribute("when", cs.whenList());
 		
 		pagination.setRecordCount(bls.listCount(pagination));
-		model.addAttribute("mylist", bls.list(pagination));
+		model.addAttribute("mylist", bls.mylist(pagination));
 		
 		return "bucketList/mylist";
 	}
