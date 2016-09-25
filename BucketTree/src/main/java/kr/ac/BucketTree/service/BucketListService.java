@@ -24,5 +24,5 @@ public interface BucketListService {
 	public List<RecommendVO> recommendList() throws Exception;							/*친구 추천*/
 	public List<BucketListVO> adminRecommendList() throws Exception;					/*관리자 추천*/
 	
-	
+	public List<BucketListVO> bucketShare_MyBucketList(int user_idx);
 }

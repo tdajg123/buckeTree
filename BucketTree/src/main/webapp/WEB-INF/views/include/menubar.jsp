@@ -41,8 +41,9 @@
 				<li id="dl-menu-3" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷쉐어</a>
 					<ul class="dl-menu">
-						<li><a href="#">마이버킷쉐어</a></li>
+						<li><a href="/BucketTree/bucketShare/mylist">마이버킷쉐어</a></li>
 						<li><a href="/BucketTree/bucketShare/list">전체버킷쉐어</a></li>
+						
 					</ul></li>
 			</ul>
 

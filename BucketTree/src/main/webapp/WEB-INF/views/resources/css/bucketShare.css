@@ -383,3 +383,14 @@ body {
 #form_search button ,#form_search a{
 	height:40px;
 }
+.modify{
+	display: none
+}
+.modifyShow
+{
+	display:block;
+}
+#searchResult tr:hover { background-color:#09c7e8; cursor: pointer; }
+#searchResult tr.selected { background-color: #48cfc8; font-weight: bold; }
+#collapseOne img{max-width: 100% !important; height: auto !important; width:300px  !important}
+#answer{    margin-top: 150px;}

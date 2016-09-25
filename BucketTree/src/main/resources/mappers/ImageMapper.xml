@@ -23,5 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM Journal_image) AND
 		DATEDIFF(minute, fileTime, GETDATE()) > 60
 	</delete>
+	<delete id="deleteOrphan_Question">
+		DELETE Image WHERE idx NOT IN (SELECT image_idx
+		FROM Question_image) AND
+		DATEDIFF(minute, fileTime, GETDATE()) > 60
+	</delete>
 
 </mapper>

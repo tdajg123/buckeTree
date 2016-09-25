@@ -99,5 +99,10 @@ public class BucketListDAOimpl implements BucketListDAO {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace + ".adminRecommendList");
 	}
+	@Override
+	public List<BucketListVO> bucketShare_MyBucketList(int user_idx) {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace + ".bucketShare_MyBucketList",user_idx);
+	}
 
 }

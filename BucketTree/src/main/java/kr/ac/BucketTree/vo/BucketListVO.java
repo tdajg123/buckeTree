@@ -20,14 +20,41 @@ public class BucketListVO {
 	int what;
 	int tree_idx;
 	int state;
+	String when_name;
+	String who_name;
+	String what_name;
 	
+	
+	public String getWhen_name() {
+		return when_name;
+	}
+
+	public void setWhen_name(String when_name) {
+		this.when_name = when_name;
+	}
+
+	public String getWho_name() {
+		return who_name;
+	}
+
+	public void setWho_name(String who_name) {
+		this.who_name = who_name;
+	}
+
+	public String getWhat_name() {
+		return what_name;
+	}
+
+	public void setWhat_name(String what_name) {
+		this.what_name = what_name;
+	}
 	int row;
 	
-	/*»ý¼ºÀÚ·Î ±âº» °ª ¼³Á¤ÇØÁÜ.*/
+	/*ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½âº» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.*/
 	public BucketListVO ()
 	{
-		/*´ã±â ´­·¶À» ¶§ ¸¶ÀÌ ¹öÅ¶¿¡ Ãß°¡ µÇ´Â ¾ÖµéÀ» À§ÇØ null °ªÀÌ µé¾î°¡´Â ¾ÖµéÀ» ¿©±â¼­ ±âº» ¼³Á¤À¸·Î ÇØÁÜ*/
-		contents = "Ãß°¡µÈ ¹öÅ¶¸®½ºÆ®!";
+		/*ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ç´ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ null ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
+		contents = "ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ï¿½Æ®!";
 		image = null;
 		count = 0;
 		writer = 2;

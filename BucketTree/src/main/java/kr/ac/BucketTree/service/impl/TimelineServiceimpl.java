@@ -293,24 +293,24 @@ public class TimelineServiceimpl implements TimelineService {
 
 	// 11. 버킷쉐어에 질문 작성 시
 	@Override
-	public void ShareQuestion_Timeline(UserVO uv) {
+	public void ShareQuestion_Timeline(int user_idx,String title, String url) {
 		// TODO Auto-generated method stub
 
 		TimelineVO tv = new TimelineVO();
 
 		// user idx 삽입
-		tv.setUser_idx(uv.getIdx());
+		tv.setUser_idx(user_idx);
 
 		// 버킷 쉐어 제목 삽입
-		String share_title = "";
-		String message = "버킷쉐어에 [ " + share_title + " ] 에 관한 질문을 작성하였습니다.";
+		
+		String message = "버킷쉐어에 [ " + title + " ] 에 관한 질문을 작성하였습니다.";
 		tv.setMessage(message);
 
 		// 현재 시간 삽입
 		tv.setDate(stime);
 
 		// url 삽입
-		String url = "/BucketTree/";
+		
 		tv.setUrl(url);
 
 		dao.insertTimeline(tv);
@@ -319,24 +319,22 @@ public class TimelineServiceimpl implements TimelineService {
 
 	// 12. 버킷쉐어 질문에 답변이 달렸을 시
 	@Override
-	public void ShareAnswer_Timeline(UserVO uv) {
+	public void ShareAnswer_Timeline(int user_idx,String title, String url) {
 		// TODO Auto-generated method stub
 
 		TimelineVO tv = new TimelineVO();
 
 		// user idx 삽입
-		tv.setUser_idx(uv.getIdx());
+		tv.setUser_idx(user_idx);
 
 		// 버킷 쉐어 제목 삽입
-		String share_title = "";
-		String message = "버킷쉐어에 질문한 [ " + share_title + " ] 에 관한 답변이 달렸습니다.";
+		String message = "버킷쉐어에 질문한 [ " + title + " ] 에 관한 답변이 달렸습니다.";
 		tv.setMessage(message);
 
 		// 현재 시간 삽입
 		tv.setDate(stime);
 
 		// url 삽입
-		String url = "/BucketTree/";
 		tv.setUrl(url);
 
 		dao.insertTimeline(tv);
@@ -345,24 +343,22 @@ public class TimelineServiceimpl implements TimelineService {
 
 	// 13. 버킷쉐어에 답변한 게 채택되었을 시
 	@Override
-	public void ShareSelect_Timeline(UserVO uv) {
+	public void ShareSelect_Timeline(int user_idx,String title, String url) {
 		// TODO Auto-generated method stub
 
 		TimelineVO tv = new TimelineVO();
 
 		// user idx 삽입
-		tv.setUser_idx(uv.getIdx());
+		tv.setUser_idx(user_idx);
 
 		// 버킷 쉐어 제목 삽입
-		String answer_title = "";
-		String message = "버킷쉐어에 답변한 [ " + answer_title + " ] 이 채택되었습니다.";
+		String message = "버킷쉐어에 답변한 [ " + title + " ] 이 채택되었습니다.";
 		tv.setMessage(message);
 
 		// 현재 시간 삽입
 		tv.setDate(stime);
 
 		// url 삽입
-		String url = "/BucketTree/";
 		tv.setUrl(url);
 
 		dao.insertTimeline(tv);

@@ -12,4 +12,10 @@ public interface BucketShareDAO {
 	int myselectCount(Pagination pagination,int user_idx);
 	List<BucketShareVO> myAnswerList(Pagination pagination,int user_idx);
 	int myAnswerListCount(Pagination pagination,int user_idx);
+	BucketShareVO selectByIdx(int idx);
+	public void adoptQuestion(BucketShareVO bucketShareVO);
+	
+	public  void insert(BucketShareVO bucketShareVO);
+	public  void update(BucketShareVO bucketShareVO);
+	public  void delete(int idx);
 }

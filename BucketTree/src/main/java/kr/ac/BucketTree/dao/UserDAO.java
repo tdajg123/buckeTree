@@ -50,4 +50,6 @@ public interface UserDAO {
 	public PointVO updatePlusPoint(PointVO plus) throws Exception;
 	public PointVO updateMinusPoint(PointVO minus) throws Exception;
 	
+	public int sumPoint(int user_idx) throws Exception;
+	
 }

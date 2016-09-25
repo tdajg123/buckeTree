@@ -62,6 +62,8 @@ public interface UserService {
 	public UserVO downPoint(int idx, int point) throws Exception;
 	
 	//포인트 적립 및 사용 내역 업데이트
-	public PointVO updatePlusPoint(int idx, int sq) throws Exception;
-	public PointVO updateMinusPoint(int idx, int sq) throws Exception;
+	public PointVO updatePlusPoint(int idx, int sq, int point) throws Exception;
+	public PointVO updateMinusPoint(int idx, int sq, int point) throws Exception;
+	
+	public int sumPoint(int user_idx) throws Exception;
 }

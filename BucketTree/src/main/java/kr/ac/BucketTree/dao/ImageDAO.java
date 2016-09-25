@@ -10,5 +10,6 @@ public interface ImageDAO {
 	public void insertImage(ImageVO iv);
 
 	public void deleteOrphan();
-
+ 
+	public void deleteOrphan_Question();
 }

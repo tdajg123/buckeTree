@@ -93,4 +93,10 @@ public class BucketListServiceimpl implements BucketListService{
 		return dao.adminRecommendList();
 	}
 
+	@Override
+	public List<BucketListVO> bucketShare_MyBucketList(int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.bucketShare_MyBucketList(user_idx);
+	}
+
 }

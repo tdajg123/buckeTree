@@ -65,4 +65,34 @@ public class BucketShareDAOimpl implements BucketShareDAO {
 		return session.selectOne(namespace+".myAnswerListCount", input);
 	}
 
+	@Override
+	public BucketShareVO selectByIdx(int idx) {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".selectByIdx", idx);
+		                                   
+	}
+
+	@Override
+	public void adoptQuestion(BucketShareVO bucketShareVO) {
+		session.update(namespace+".adoptQuestion",bucketShareVO);
+		
+	}
+
+	@Override
+	public void insert(BucketShareVO bucketShareVO) {
+		session.insert(namespace+".insert",bucketShareVO);
+	}
+
+	@Override
+	public void update(BucketShareVO bucketShareVO) {
+		// TODO Auto-generated method stub
+		session.update(namespace+".update",bucketShareVO);
+	}
+
+	@Override
+	public void delete(int idx) {
+		// TODO Auto-generated method stub
+		session.update(namespace+".delete",idx);
+	}
+
 }

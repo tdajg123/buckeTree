@@ -44,12 +44,12 @@ public interface TimelineService {
 	public void TreeOut_Timeline(UserVO uv);
 
 	// 11. 버킷쉐어에 질문 작성 시
-	public void ShareQuestion_Timeline(UserVO uv);
+	public void ShareQuestion_Timeline(int user_idx,String title, String url);
 
 	// 12. 버킷쉐어 질문에 답변이 달렸을 시
-	public void ShareAnswer_Timeline(UserVO uv);
+	public void ShareAnswer_Timeline(int user_idx,String title, String url);
 
 	// 13. 버킷쉐어에 답변한 게 채택되었을 시
-	public void ShareSelect_Timeline(UserVO uv);
+	public void ShareSelect_Timeline(int user_idx,String title, String url);
 
 }

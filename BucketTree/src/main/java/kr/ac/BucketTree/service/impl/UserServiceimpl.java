@@ -209,22 +209,22 @@ public class UserServiceimpl implements UserService {
 
 	//포인트 적립 내역 업데이트
 	@Override
-	public PointVO updatePlusPoint(int idx, int sq) throws Exception {
+	public PointVO updatePlusPoint(int idx, int sq, int point) throws Exception {
 		// TODO Auto-generated method stub
 		PointVO plus = new PointVO();
 		plus.setUser_idx(idx);
 		
 		if(sq == 1){
-			plus.setPoint(1000);
+			plus.setPoint(point);
 			plus.setContents("회원 가입 축하 포인트!!!!!");
 		}else if(sq == 2){
-			plus.setPoint(100);
+			plus.setPoint(point);
 			plus.setContents("버킷 리스트 완료 *0*b ");
 		}else if(sq == 3){
-			plus.setPoint(100);
+			plus.setPoint(point);
 			plus.setContents("버킷 쉐어 답변 글 채택 ");
 		}else if(sq == 4){
-			plus.setPoint(10);
+			plus.setPoint(point);
 			plus.setContents("출석 포인트");
 		}
 		
@@ -233,26 +233,32 @@ public class UserServiceimpl implements UserService {
 
 	//포인트 사용 내역 업데이트
 	@Override
-	public PointVO updateMinusPoint(int idx, int sq) throws Exception {
+	public PointVO updateMinusPoint(int idx, int sq, int point) throws Exception {
 		// TODO Auto-generated method stub
 		PointVO minus = new PointVO();
 		minus.setUser_idx(idx);
 		
 		if(sq == 1){
-			minus.setPoint(300);
+			minus.setPoint(point);
 			minus.setContents("버킷 트리 개설");
 		}else if(sq == 2){
-			minus.setPoint(100);
+			minus.setPoint(point);
 			minus.setContents("버킷 트리 내 인원 증대");
 		}else if(sq == 3){
-			minus.setPoint(100);
+			minus.setPoint(point);
 			minus.setContents("버킷 쉐어 질문 등록 ");
 		}else if(sq == 4){
-			minus.setPoint(10);
+			minus.setPoint(point);
 			minus.setContents("버킷 리스트 템플릿 사용");
 		}
 		
 		return dao.updateMinusPoint(minus);
+	}
+
+	@Override
+	public int sumPoint(int user_idx) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.sumPoint(user_idx);
 	}
 
 }

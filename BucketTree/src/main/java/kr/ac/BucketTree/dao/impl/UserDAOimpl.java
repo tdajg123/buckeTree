@@ -154,5 +154,11 @@ public class UserDAOimpl implements UserDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(namespace + ".updateMinusPoint", minus);
 	}
+
+	@Override
+	public int sumPoint(int user_idx) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace + ".sumPoint", user_idx);
+	}
 	
 }

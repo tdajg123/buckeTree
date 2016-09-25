@@ -38,4 +38,10 @@ public class ImageDAOimpl implements ImageDAO {
 		sqlSession.delete(namespace + ".deleteOrphan");
 	}
 
+	@Override
+	public void deleteOrphan_Question() {
+		sqlSession.delete(namespace + ".deleteOrphan_Question");
+		
+	}
+
 }

@@ -33,4 +33,10 @@ public class ImageServiceimpl implements ImageService {
 		dao.deleteOrphan();
 	}
 
+	@Override
+	public void deleteOrphan_Question() {
+		dao.deleteOrphan_Question();
+		
+	}
+
 }

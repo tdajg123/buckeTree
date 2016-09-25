@@ -63,7 +63,7 @@
 							내가 쓴 질문</a></li>
 					<li><a href="/BucketTree/bucketShare/myAnswerlist"><span class="glyphicon glyphicon-user"></span>
 							내가 쓴 답변</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+					<li><a href="/BucketTree/bucketShare/create"><span class="glyphicon glyphicon-user"></span>
 							질문하기</a></li>
 
 				</ul>
@@ -137,7 +137,7 @@
 		<div class="col-sm-12">
 			<c:forEach var="question" items="${ list }">
 				<div class="bs-calltoaction bs-calltoaction-default"
-					href="/listDetail.jsp"
+				  	data-url="/BucketTree/bucketShare/read?idx=${question.idx}"
 					style="margin-left: 55px; margin-bottom: 25px">
 					<div class="row">
 						<div class="col-md-9 cta-contents">
@@ -173,6 +173,9 @@
 
 <script>
 	$(function() {
+		$(".bs-calltoaction").click(function() { location.href = $(this).attr("data-url"); });
+		
+		
 		//카테고리 옵션으로 값뿌려주기
 		<c:forEach items="${what}" var="what">
 		$('#what_temp')

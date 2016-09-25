@@ -48,24 +48,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="selectCount" resultType="int">
 		SELECT COUNT(*)
-		FROM [BucketShare_Question] b join [User] u
+		FROM
+		[BucketShare_Question] b join [User] u
 		ON b.user_idx=u.idx
-		JOIN [BucketList] bl
+		JOIN
+		[BucketList] bl
 		ON b.bucketList_idx=bl.idx
 		WHERE
 
 		(
-		(#{srchType}= 0) OR /*검색조건이 없을때 */
-		(#{srchType}= 1 AND CHARINDEX(#{srchText},b.title)>=1) OR /*질문 제목*/
+		(#{srchType}= 0) OR
+		/*검색조건이 없을때 */
+		(#{srchType}= 1 AND CHARINDEX(#{srchText},b.title)>=1)
+		OR /*질문 제목*/
 		(#{srchType}= 2 AND CHARINDEX(#{srchText},b.title)>=1 OR
 		CHARINDEX(#{srchText},b.contents)>=1) OR /*질문 제목이나 내용*/
-		(#{srchType}= 3 AND CHARINDEX(#{srchText},u.name)=1)
+		(#{srchType}= 3
+		AND CHARINDEX(#{srchText},u.name)=1)
 		) /*질문 작성자*/
 
 		and
 		(
 		(#{categoryType}=0) OR
-		(#{categoryType}=1 AND[when]=#{when} and [who]=#{who} and [what] =#{what})
+		(#{categoryType}=1 AND[when]=#{when} and
+		[who]=#{who} and [what] =#{what})
 		) /*카테고리검색*/
 
 		and
@@ -106,9 +112,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 and
 	 (
 	  (#{pagination.type}=0) OR                /*전체*/ 
-	  (#{pagination.type}=1 and  b.state=1) OR    /*답변을 채택하지않은것*/
+	  (#{pagination.type}=1 and  b.state=1) OR    
 	  (#{pagination.type}=2 and  b.state=0)
-	  )     /*답변을 채택한것*/
+	  )   
 	   and
 	  (b.user_idx=#{user_idx}) 
 	) subquery
@@ -120,67 +126,87 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="myselectCount" resultType="int">
 		SELECT COUNT(*)
-		FROM [BucketShare_Question] b join [User] u
+		FROM
+		[BucketShare_Question] b join [User] u
 		ON b.user_idx=u.idx
-		JOIN [BucketList] bl
+		JOIN
+		[BucketList] bl
 		ON b.bucketList_idx=bl.idx
 		WHERE
 		(
 		(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */
-		(#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1)
+		(#{pagination.srchType}=
+		1 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1)
 		OR /*질문 제목*/
-		(#{pagination.srchType}= 2 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1
-		OR CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1)
-		OR /*질문 제목이나 내용*/
-		(#{pagination.srchType}= 3 AND CHARINDEX(#{pagination.srchText},convert(binary, u.name))=1)
-		) /*질문 작성자*/
+		(#{pagination.srchType}= 2 AND
+		CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1
+		OR
+		CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1)
+		OR
+		/*질문 제목이나 내용*/
+		(#{pagination.srchType}= 3 AND
+		CHARINDEX(#{pagination.srchText},convert(binary, u.name))=1)
+		) /*질문
+		작성자*/
 
 		and
 		(
 		(#{pagination.categoryType}=0) OR
-		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and [who]=#{pagination.who} and [what]
+		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and
+		[who]=#{pagination.who} and [what]
 		=#{pagination.what})
 		) /*카테고리검색*/
 
 		and
 		(
 		(#{pagination.type}=0) OR /*전체*/
-		(#{pagination.type}=1 and b.state=1) OR /*답변을 채택하지않은것*/
+		(#{pagination.type}=1 and b.state=1)
+		OR /*답변을 채택한것*/
 		(#{pagination.type}=2 and b.state=0)
-		) /*답변을 채택한것*/
+		) /*답변을 채택하지않은것*/
 		and
 		(b.user_idx=#{user_idx})
 	</select>
 	<select id="myAnswerListCount" resultType="int">
 		SELECT COUNT(*)
-		FROM [BucketShare_Question] b join [User] u
+		FROM
+		[BucketShare_Question] b join [User] u
 		ON b.user_idx=u.idx
-		JOIN [BucketList] bl
+		JOIN
+		[BucketList] bl
 		ON b.bucketList_idx=bl.idx
 		WHERE
 		(
 		(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */
-		(#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1)
+		(#{pagination.srchType}=
+		1 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1)
 		OR /*질문 제목*/
-		(#{pagination.srchType}= 2 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1
-		OR CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1)
-		OR /*질문 제목이나 내용*/
-		(#{pagination.srchType}= 3 AND CHARINDEX(#{pagination.srchText},convert(binary, u.name))=1)
-		) /*질문 작성자*/
+		(#{pagination.srchType}= 2 AND
+		CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1
+		OR
+		CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1)
+		OR
+		/*질문 제목이나 내용*/
+		(#{pagination.srchType}= 3 AND
+		CHARINDEX(#{pagination.srchText},convert(binary, u.name))=1)
+		) /*질문
+		작성자*/
 
 		and
 		(
 		(#{pagination.categoryType}=0) OR
-		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and [who]=#{pagination.who} and [what]
+		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and
+		[who]=#{pagination.who} and [what]
 		=#{pagination.what})
 		) /*카테고리검색*/
 
 		and
 		(
 		(#{pagination.type}=0) OR /*전체*/
-		(#{pagination.type}=1 and b.state=1) OR /*답변을 채택하지않은것*/
+		(#{pagination.type}=1 and b.state=1)
+		OR /*답변을 채택한것*/
 		(#{pagination.type}=2 and b.state=0)
-		) /*답변을 채택한것*/
+		) /*답변을 채택하지않은것*/
 
 		and b.idx in (select BucketShare_Question_idx from BucketShare_Answer
 		where user_idx=#{user_idx})
@@ -216,8 +242,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 and
 	 (
 	  (#{pagination.type}=0) OR                /*전체*/ 
-	  (#{pagination.type}=1 and  b.state=1) OR    /*답변을 채택하지않은것*/
-	  (#{pagination.type}=2 and  b.state=0)
+	  (#{pagination.type}=1 and  b.state=1) OR  
+	  (#{pagination.type}=2 and  b.state=0)  /*답변을 채택하지않은것*/
 	  )     /*답변을 채택한것*/
 	  and b.idx in (select BucketShare_Question_idx from BucketShare_Answer where user_idx=#{user_idx})
 	) subquery
@@ -226,4 +252,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	ORDER BY 행번호 
 	]]>
 	</select>
+
+
+	<select id="selectByIdx" resultType="kr.ac.BucketTree.vo.BucketShareVO">
+	<![CDATA[
+	select b.*,u.name,bl.title as 'BucketListName',what.what,[when].[when],who.who
+	FROM [BucketShare_Question] b join [User] u 
+	ON b.user_idx=u.idx
+	JOIN [BucketList] bl
+	ON b.bucketList_idx=bl.idx 
+	JOIN Category_What what
+	ON bl.what =what.idx
+	JOIN Category_WHO who
+	ON bl.who =who.idx
+	JOIN Category_When [when]
+	ON bl.[when] =[when].idx
+
+	where b.idx=#{idx} 
+	
+	]]>
+	</select>
+	<update id="adoptQuestion">
+		update [BucketShare_Question] set state =#{state}
+		where idx=#{idx}
+	</update>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="idx">
+		INSERT into [BucketShare_Question]
+		(user_idx,title,contents,bucketList_idx,point,state,date)
+		values(#{user_idx},#{title},#{contents},#{bucketList_idx},#{point},#{state},GETDATE())
+	</insert>
+	<update id="update">
+		update [BucketShare_Question] set contents
+		=#{contents} , bucketList_idx = #{bucketList_idx} where idx=#{idx}
+	</update>
+	<delete id="delete">
+		Delete from [BucketShare_Question] where idx=#{idx}
+	</delete>
+
 </mapper>
