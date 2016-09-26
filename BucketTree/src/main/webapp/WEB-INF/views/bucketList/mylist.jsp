@@ -203,7 +203,7 @@
 		<article class="white-panel" style="width: 260px"
 			data-row="${BucketListVO.getRow()}">
 
-			<img src="/BucketTree/images/image7.jpg" alt="" style="width: 260px">
+			<img src="/BucketTree/list/${BucketListVO.getIdx()}/firstImage" alt="" style="width: 260px">
 			<h4>
 				<a href="#">${BucketListVO.title}</a>
 			</h4>

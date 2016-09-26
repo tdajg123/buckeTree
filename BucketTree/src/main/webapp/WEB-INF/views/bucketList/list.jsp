@@ -81,6 +81,7 @@
             <h4>
                <a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
             </h4>
+            
             <form items="${countUp}" var="BucketListVO" role="form"
                method="post" style="display: flex">
                <div
@@ -95,7 +96,6 @@
                      style="width: 40px; height: 40px">
                </div>
             </form>
-
 
          </article>
       </c:forEach>
@@ -186,18 +186,15 @@
                                                             + "<h4> <a href='/BucketTree/bucketList/${BucketListVO.idx}/bucket.do'>"
                                                             + this.title
                                                             + "</a> </h4>"
-                                                            + "<p style='width: 250px'>"
-                                                            + this.contents
-                                                            + "</p>"
                                                             + "<form items='${countUp}' var='BucketListVO' role='form'"
-                                 + "method='post' style='display: flex'>"
+                                 							+ "method='post' style='display: flex'>"
                                                             + "<div style='display: inline-block; padding-left: 180px; padding-right: 17px'>"
                                                             + this.count
                                                             + "</div>"
                                                             + "<div type='button' id='countUp'"
-                                 + "data_idx='"+this.idx+ "data_title='"+this.title+ "data_when='"+this.when+ "data_who='"+this.who+"data_what='"+this.what
-                                 + "style='background: transparent; border: none; display: inline-block'>"
-                                                            + "<img src='/BucketTree/images/bucketicon.png' style='width: 40px; height: 40px'></div></form></article>"
+                                 							+ "data_idx='"+this.idx+ "data_title='"+this.title+ "data_when='"+this.when+ "data_who='"+this.who+"data_what='"+this.what
+                                 							+ "style='background: transparent; border: none; display: inline-block'>"
+                                                            + "<img src='/BucketTree/images/bucket2.png' style='width: 40px; height: 40px'></div></form></article>"
                                                    })
                                        $('.bucketbox').append(str);
                                     } else
