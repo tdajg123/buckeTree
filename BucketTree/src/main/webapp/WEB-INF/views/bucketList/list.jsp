@@ -4,29 +4,19 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<div class="topbar" style="display: flex; margin-left: 280px">
-	<!-- Search Form __ Start -->
-
-	<div class="container_category" style="display: flex; width: 900px;">
-		<div class="row"
-			style="margin-left: 0px; margin-right: 0px; width: 1100px">
-			<div
-				style="margin: auto; width: 250px; margin-bottom: 3px; margin-left: 750px">
-				<button id="view_when" type="button" class="btn btn-success">없음</button>
-				<button id="view_who" type="button" class="btn btn-success">없음</button>
-				<button id="view_what" type="button" class="btn btn-success">없음</button>
-			</div>
-			<div class="form-inline">
-				<!-- Search Form __ Start -->
-				<form:form id="form_search" method="POST"
-					modelAttribute="pagination" action="/BucketTree/bucketList/list">
-
-					<!-- 정렬 셀렉트 박스 -->
-					<form:select path="orderType">
-						<form:option value="1" label="최신순" />
-						<form:option value="2" label="인기순" />
-					</form:select>
-
+<div class="container">
+	<div class="row">
+		<!-- Search Form __ Start -->
+		<div class="col-md-4 col-md-offset-5">
+			<button id="view_when" type="button" class="btn btn-success">없음</button>
+			<button id="view_who" type="button" class="btn btn-success">없음</button>
+			<button id="view_what" type="button" class="btn btn-success">없음</button>
+		</div>
+		<form:form id="form_search" method="POST" modelAttribute="pagination"
+			action="/BucketTree/bucketList/list">
+			<div class="col-md-6 col-md-offset-2">
+				<div class="form-inline">
+					<!-- Search Form __ Start -->
 					<!-- 카테고리 선택 버튼 -->
 					<button id="category" class="btn btn-success">카테고리</button>
 
@@ -59,59 +49,57 @@
 					<form:input path="categoryType" type="hidden" />
 					<form:input path="currentPage" type="hidden" />
 
-				</form:form>
+					<!-- 정렬 셀렉트 박스 -->
+					<form:select path="orderType">
+						<form:option value="1" label="최신순" />
+						<form:option value="2" label="인기순" />
+					</form:select>
+
+
+				</div>
 			</div>
-		</div>
+		</form:form>
 	</div>
-</div>
 
-<!-- bucketList-listAll __ Start -->
-
-<div class="container" style="padding-top: 20px; padding-bottom: 85px">
-	<div class="row"
-		style="margin-left: 0px; margin-right: 0px; width: 1100px">
+	<!-- bucketList-listAll __ Start -->
 
 
+	<!-- ./Search Form __ End -->
 
-		<!-- ./Search Form __ End -->
+	<!-- bucketList-Category & Type & Search __ End -->
+	<hr>
 
-		<!-- bucketList-Category & Type & Search __ End -->
-		<hr>
+	<section id="pinBoot" class="bucketbox">
+		<c:forEach items="${list}" var="BucketListVO">
 
-		<section id="pinBoot" class="bucketbox">
-			<c:forEach items="${list}" var="BucketListVO">
+			<article class="white-panel " style="width: 260px"
+				data-row="${BucketListVO.getRow()}"
+				data-idx="${BucketListVO.getIdx()}">
 
-				<article class="white-panel " style="width: 260px"
-					data-row="${BucketListVO.getRow()}"
-					data-idx="${BucketListVO.getIdx()}">
+				<img src="/BucketTree/images/image7.jpg" alt="" style="width: 260px">
+				<h4>
+					<a href="#">${BucketListVO.title}</a>
+				</h4>
 
-					<img src="/BucketTree/images/image7.jpg" alt=""
-						style="width: 260px">
-					<h4>
-						<a href="#">${BucketListVO.title}</a>
-					</h4>
+				<form items="${countUp}" var="BucketListVO" role="form"
+					method="post" style="display: flex">
+					<div
+						style="display: inline-block; padding-left: 180px; padding-right: 17px">${BucketListVO.count}</div>
+					<div type="button" id="countUp" data_idx="${BucketListVO.getIdx()}"
+						data_title="${BucketListVO.getTitle()}"
+						data_when="${BucketListVO.getWhen()}"
+						data_who="${BucketListVO.getWho()}"
+						data_what="${BucketListVO.getWhat()}"
+						style="background: transparent; border: none; display: inline-block">
+						<img src="/BucketTree/images/bucket2.png"
+							style="width: 40px; height: 40px">
+					</div>
+				</form>
+			</article>
+		</c:forEach>
+	</section>
 
-					<form items="${countUp}" var="BucketListVO" role="form"
-						method="post" style="display: flex">
-						<div
-							style="display: inline-block; padding-left: 180px; padding-right: 17px">${BucketListVO.count}</div>
-						<div type="button" id="countUp"
-							data_idx="${BucketListVO.getIdx()}"
-							data_title="${BucketListVO.getTitle()}"
-							data_when="${BucketListVO.getWhen()}"
-							data_who="${BucketListVO.getWho()}"
-							data_what="${BucketListVO.getWhat()}"
-							style="background: transparent; border: none; display: inline-block">
-							<img src="/BucketTree/images/bucket2.png"
-								style="width: 40px; height: 40px">
-						</div>
-					</form>
-				</article>
-			</c:forEach>
-		</section>
-
-		<hr>
-	</div>
+	<hr>
 </div>
 
 <!-- bucketList-listAll __ End -->
