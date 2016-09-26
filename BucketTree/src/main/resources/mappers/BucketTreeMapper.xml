@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ac.BucketTree.BucketTreeMapper">
+
+
+	<select id="selectPage" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
+	<![CDATA[
+	  	SELECT *
+		FROM
+		(
+		SELECT b.*,u.name, CASE #{orderType}
+		WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY b.date desc)/*버킷트리 최근 개설순*/
+		WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY bl.count desc)/*버킷트리에 지정된 좋아요갯수*/
+		END 행번호, (select state from BucketTree_Member where user_idx=#{user_idx}  and  bucketTree_idx =b.idx) as regist ,(select sum(user_idx) from BucketTree_Member where  state = 0  and bucketTree_idx =b.idx) as 'current'
+		user_idx=#{user_idx} and bucketTree_idx =b.idx) as regist
+		FROM [BucketTree] b join [User] u
+		ON b.user_idx=u.idx
+		JOIN [BucketList] bl
+		ON b.bucketList_idx=bl.idx
+		WHERE
+		(
+		(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */
+		(#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText},title)>=1) OR /*버킷트리이름 검색*/
+		(#{pagination.srchType}= 2 AND
+		CHARINDEX(#{pagination.srchText},bl.title)>=1) OR /*버킷트리이름 검색*/
+		(#{pagination.srchType}= 3 AND
+		CHARINDEX(#{pagination.srchText},u.name)=1)
+		) /*버킷트리 주인장 검색*/
+		and
+		(
+		(#{pagination.categoryType}=0) OR
+		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and [who]=#{pagination.who} and [what]
+		=#{pagination.what})
+		) /*카테고리검색*/
+		and
+		(
+		(#{type}=0) OR /*전체*/
+		(#{type}=1 and b.author=1) OR 공개
+		(#{type}=2 and b.author=0) 비공개
+		) /*답변을 채택한것*/
+		) subquery
+		WHERE 행번호>#{pagination.currentPage}-1)* #{pagination.pageSize} And
+		행번호<=#{pagination.currentPage} * #{pagination.pageSize}
+		ORDER BY 행번호
+		]]>
+	</select>
+
+	<select id="selectCount" resultType="int">
+
+		SELECT COUNT(*)
+		FROM [BucketTree] b join [User] u
+		ON b.user_idx=u.idx
+		JOIN [BucketList] bl
+		ON b.bucketList_idx=bl.idx
+		WHERE
+		(
+		(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */
+		(#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText},title)>=1) OR /*버킷트리이름 검색*/
+		(#{pagination.srchType}= 2 AND
+		CHARINDEX(#{pagination.srchText},bl.title)>=1) OR /*버킷트리이름 검색*/
+		(#{pagination.srchType}= 3 AND
+		CHARINDEX(#{pagination.srchText},u.name)=1)
+		) /*버킷트리 주인장 검색*/
+		and
+		(
+		(#{pagination.categoryType}=0) OR
+		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and [who]=#{pagination.who} and [what]
+		=#{pagination.what})
+		) /*카테고리검색*/
+			and
+		(
+		(#{type}=0) OR /*전체*/
+		(#{type}=1 and b.author=1) OR 공개
+		(#{type}=2 and b.author=0) 비공개
+		) /*답변을 채택한것*/
+	</select>
+</mapper>

@@ -35,5 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update BucketShare_Answer set state= #{state} where idx=#{idx}
 	</update>
 	
+	<delete id="deleteByQuestionIdx">
+	    Delete from BucketShare_Answer where BucketShare_Question_idx=#{idx}
+	</delete>
 	
 </mapper>

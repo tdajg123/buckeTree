@@ -11,4 +11,5 @@ public interface BucketShareAnswerService {
 	public void delete(int idx);
 	public void adopt(BucketShareAnswerVO bucketShareAnswerVO);
 	public BucketShareAnswerVO selectByIdx(int idx);
+	public void deleteByQuestionIdx(int idx);
 }
