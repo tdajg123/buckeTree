@@ -71,15 +71,13 @@
 
 	<section id="pinBoot" class="bucketbox">
 		<c:forEach items="${list}" var="BucketListVO">
-
-<<<<<<< HEAD
 			<article class="white-panel " style="width: 260px"
 				data-row="${BucketListVO.getRow()}"
 				data-idx="${BucketListVO.getIdx()}">
 
 				<img src="/BucketTree/images/image7.jpg" alt="" style="width: 260px">
 				<h4>
-					<a href="#">${BucketListVO.title}</a>
+					<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
 				</h4>
 
 				<form items="${countUp}" var="BucketListVO" role="form"
@@ -96,44 +94,14 @@
 							style="width: 40px; height: 40px">
 					</div>
 				</form>
+
+
 			</article>
+
+
 		</c:forEach>
 	</section>
-=======
-				<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
-				<article class="white-panel " style="width: 260px"
-					data-row="${BucketListVO.getRow()}"
-					data-idx="${BucketListVO.getIdx()}">
 
-					<img src="/BucketTree/images/image7.jpg" alt=""
-						style="width: 260px">
-					<h4>
-						<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
-					</h4>
-
-					<form items="${countUp}" var="BucketListVO" role="form"
-						method="post" style="display: flex">
-						<div
-							style="display: inline-block; padding-left: 180px; padding-right: 17px">${BucketListVO.count}</div>
-						<div type="button" id="countUp"
-							data_idx="${BucketListVO.getIdx()}"
-							data_title="${BucketListVO.getTitle()}"
-							data_when="${BucketListVO.getWhen()}"
-							data_who="${BucketListVO.getWho()}"
-							data_what="${BucketListVO.getWhat()}"
-							style="background: transparent; border: none; display: inline-block">
-							<img src="/BucketTree/images/bucket2.png"
-								style="width: 40px; height: 40px">
-						</div>
-					</form>
-
-				
-				</article>
-				</a>
-
-			</c:forEach>
-		</section>
->>>>>>> dc4823a0715496b727b780dffc125e03b705dc29
 
 	<hr>
 </div>
