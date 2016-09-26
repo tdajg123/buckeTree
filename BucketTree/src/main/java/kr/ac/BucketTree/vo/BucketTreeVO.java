@@ -2,7 +2,7 @@ package kr.ac.BucketTree.vo;
 
 public class BucketTreeVO {
 	int idx;
-	String treName;
+	String treeName;
 	int bucketList_idx;
 	int user_idx;
 	String contents;
@@ -13,17 +13,26 @@ public class BucketTreeVO {
 	String name;
 	int  regist;
 	int current;
+	String title;
+	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public int getIdx() {
 		return idx;
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
 	}
-	public String getTreName() {
-		return treName;
+
+	public String getTreeName() {
+		return treeName;
 	}
-	public void setTreName(String treName) {
-		this.treName = treName;
+	public void setTreeName(String treeName) {
+		this.treeName = treeName;
 	}
 	public int getBucketList_idx() {
 		return bucketList_idx;

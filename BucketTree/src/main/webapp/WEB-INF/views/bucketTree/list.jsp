@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/BucketTree/css/bucketTree.css" rel="stylesheet"
+	type="text/css" />
 
 <div class="topbar" style="display: flex; margin-left: 280px">
    <!-- Search Form __ Start -->
@@ -65,12 +67,12 @@
          <div class="form-inline">
             <!-- Search Form __ Start -->
             <form:form id="form_search" method="POST"
-               modelAttribute="pagination" action="/BucketTree/bucketList/list">
+               modelAttribute="pagination" action="/BucketTree/bucketTree/list">
 
                <!-- 정렬 셀렉트 박스 -->
                <form:select path="orderType">
                   <form:option value="1" label="최신순" />
-                  <form:option value="2" label="인기순" />
+                  <form:option value="2" label="좋아요순" />
                </form:select>
 
                <!-- 카테고리 선택 버튼 -->
@@ -79,9 +81,9 @@
                <!-- 검색 조건 선택 셀렉트 박스 -->
                <form:select path="srchType">
                   <form:option value="0" label="검색조건" />
-                  <form:option value="1" label="제목" />
-                  <form:option value="2" label="제목+내용" />
-                  <form:option value="3" label="작성자" />
+                  <form:option value="1" label="버킷트리" />
+                  <form:option value="2" label="버킷리스트" />
+                  <form:option value="3" label="주인장" />
                </form:select>
 
                <!-- 검색 input 박스 -->
@@ -95,7 +97,7 @@
 
                <c:if
                   test="${ (pagination.srchType != 0)  ||  (pagination.categoryType != 0)}">
-                  <a href="/BucketTree/bucketList/list" class="btn btn-success">취소</a>
+                  <a href="/BucketTree/bucketTree/list" class="btn btn-success">취소</a>
                </c:if>
 
                <!-- 선택된 카테고리 값 -->
@@ -124,8 +126,7 @@
 
       <div
          style="display: inline-block; margin-top: 10px; margin-bottom: 10px">
-         68 BucketTree
-      </div>
+   	  </div>
 
       <!-- bucketList-Category & Type & Search __ End -->
       <hr>
@@ -139,18 +140,25 @@
             </h4>
          </article>
          
-         <c:forEach items="${list}" var="BucketListVO">
+         <c:forEach items="${list}" var="BucketTreeVO">
 
-            <article class="white-panel " style="width: 260px"
-               data-row="${BucketListVO.getRow()}"
-               data-idx="${BucketListVO.getIdx()}">
+            <article class="white-panel " style="width: 260px">
 
                <img src="/BucketTree/images/image7.jpg" alt=""
                   style="width: 260px">
                <h4>
-                  <a href="#">${BucketListVO.title}</a>
+                  <a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
                </h4>
-               <p style="width: 250px">${BucketListVO.contents}</p>
+                <c:if test="${BucketTreeVO.regist==1}">
+                 <button  type="button" class="btn btn-success">취소</button>
+                </c:if>
+                <c:if test="${BucketTreeVO.regist==0}">
+                 <button  type="button" class="btn btn-success">신청</button>
+                </c:if>
+                <c:if test="${BucketTreeVO.regist==2}">
+                 <button  type="button" class="btn btn-success">회원</button>
+                </c:if>
+                <p style="width: 250px">인원 : ${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>
             </article>
             
          </c:forEach>
@@ -163,133 +171,152 @@
 <!-- bucketList-listAll __ End -->
 
 <script>
-   $(function() {
+$(function() {
+	$(".bs-calltoaction").click(function() { location.href = $(this).attr("data-url"); });
+	
+	
+	//카테고리 옵션으로 값뿌려주기
+	<c:forEach items="${what}" var="what">
+	$('#what_temp')
+			.append(
+					"<option value='${what.idx}' ${pagination.what==what.idx ? 'selected' : '' }> ${what.what} </option>");
+	</c:forEach>
+	<c:forEach items="${when}" var="when">
+	$('#when_temp')
+			.append(
+					"<option value='${when.idx}' ${pagination.when==when.idx ? 'selected' : '' }> ${when.when} </option>");
+	</c:forEach>
+	<c:forEach items="${who}" var="who">
+	$('#who_temp')
+			.append(
+					"<option value='${who.idx}' ${pagination.who==who.idx ? 'selected' : '' }> ${who.who} </option>");
+	</c:forEach>
+	//
 
-      //무한 스크롤
-      $(window)
-            .scroll(
-                  function() {
-                     if ($(window).scrollTop() >= $(document).height()
-                           - $(window).height()) {
+	<c:if test="${pagination.categoryType==1}">
+	$('#view_when').html($('#when_temp option:selected').text());
+	$('#view_who').html($('#who_temp option:selected').text());
+	$('#view_what').html($('#what_temp option:selected').text());
+	$('#view_when').show();
+	$('#view_who').show();
+	$('#view_what').show();
+	</c:if>
 
-                        var lastrow = $(".white-panel:last").attr(
-                              "data-row");
+	<c:if test="${pagination.categoryType==0}">
+	$('#view_when').hide();
+	$('#view_who').hide();
+	$('#view_what').hide();
+	</c:if>
 
-                        var str = '';
-                        $
-                              .ajax({
-                                 url : "/BucketTree/bucketList/BucketListAjax",
-                                 dataType : "json",
-                                 type : "POST",
-                                 data : {
-                                    row : lastrow
-                                 },
+	$('#category').click(function(e) {
+		e.preventDefault();
+		$('#category_modal').modal();
+	});
 
-                                 success : function(data) {
-                                    if (data != "") {
-                                       $(data)
-                                             .each(
+	$('#when_temp').change(function() {
+		$('#view_when').html($('#when_temp option:selected').text());
+		$('#when').val($('#when_temp option:selected').val());
+	});
+	$('#who_temp').change(function() {
+		$('#view_who').html($('#who_temp option:selected').text());
+		$('#who').val($('#who_temp option:selected').val());
+	});
+	$('#what_temp').change(function() {
+		$('#view_what').html($('#what_temp option:selected').text());
+		$('#what').val($('#what_temp option:selected').val());
+	});
 
-                                                   function() {
+	$('#categoryAble').click(function() {
 
-                                                      str += "<article class='white-panel' style='width: 260px' data-row='" +this.row+"'data-idx='"+this.idx+"'>"
-                                                            + "<img src= '/BucketTree/images/image7.jpg' style='width: 260px' >"
-                                                            + "<h4> <a href='#'>"
-                                                            + this.title
-                                                            + "</a> </h4>"
-                                                            + "<p style='width: 250px'>"
-                                                            + this.contents
-                                                            + "</p></article>"
-                                                   })
-                                       $('.bucketbox').append(str);
-                                    } else
-                                       alert('더 이상 불러올 버킷리스트가 없습니다.')
-                                 }
-                              });
+		if ($('#categoryState').html() == '카테고리 검색 활성화') {
+			$('#category').html('카테고리X');
+			$('#categoryState').html('카테고리 검색 비활성화');
+			$('#view_when').hide();
+			$('#view_who').hide();
+			$('#view_what').hide();
+			$('#categoryType').val(0);
+		} else {
+			$('#category').html('카테고리O');
+			$('#categoryState').html('카테고리 검색 활성화');
+			$('#view_when').show();
+			$('#view_who').show();
+			$('#view_what').show();
+			$('#categoryType').val(1);
+		}
 
-                     }
-                  });
+	});
+	
+	
+	var pageCount=${pageCount}
+	//검색
+	var pagination={};
+	pagination.orderType=$('select[name=orderType] option:selected').val();
+	pagination.srchType=$('select[name=srchType] option:selected').val();
+	pagination.srchText=$('input[name=srchText]').val();
+	pagination.who=$('input[name=who]').val();
+	pagination.when=$('input[name=when]').val();
+	pagination.what=$('input[name=what]').val();
+	pagination.categoryType=$('input[name=categoryType]').val();
+	
 
-      $(function() {
-         //카테고리 옵션으로 값 뿌려주기
-         <c:forEach items="${what}" var="what">
-         $('#what_temp')
-               .append(
-                     "<option value='${what.idx}' ${pagination.what==what.idx ? 'selected' : '' }> ${what.what} </option>");
-         </c:forEach>
-         <c:forEach items="${when}" var="when">
-         $('#when_temp')
-               .append(
-                     "<option value='${when.idx}' ${pagination.when==when.idx ? 'selected' : '' }> ${when.when} </option>");
-         </c:forEach>
-         <c:forEach items="${who}" var="who">
-         $('#who_temp')
-               .append(
-                     "<option value='${who.idx}' ${pagination.who==who.idx ? 'selected' : '' }> ${who.who} </option>");
-         </c:forEach>
-         //
+	$('#form_search').submit(function() {
+		 $('input[name=currentPage]').val(1);
+	});
+	
+	 //무한 스크롤
+    $(window).scroll(function() {
+   
+                   if ($(window).scrollTop() >= $(document).height()- $(window).height()-3) {
+                	  
+                	   
+                	   if($('input[name=currentPage]').val() <= pageCount)
+                		   {
+                		       $('input[name=currentPage]').val( parseInt($('input[name=currentPage]').val()) +1 );
+                		       pagination.currentPage= $('input[name=currentPage]').val();
+                		       
+                		           
+                		       $.ajax({
+                                  url : "/BucketTree/bucketTree/ajaxlist",
+                                  dataType : "json",
+                                  type : "POST",
+                                  sync :false,
+                                  contentType: "application/json",
+                                  data :JSON.stringify(pagination),
+                                  success : function(data) {
+                					$(data).each(function() {
+                               		var str ="<article class='white-panel' style='width: 260px'> "
+                                       		+ "<img src='/BucketTree/images/image7.jpg' alt='' style='width: 260px'>"
+											+ "<h4> <a href='#'>"+this.treeName+"</a> - <a href='#''>"+this.title+"</a> </h4>";
+                                 			 if(this.regist==1)
+                                 				{
+                                 					str+="<button  type='button' class='btn btn-success'>취소</button>"
+                                 				}
+                                 			 if(this.regist==0)
+                                 				 {
+                                 				    str+="<button  type='button' class='btn btn-success'>신청</button>"
+                                 				 }
+                                 			if(this.regist==2)
+                            				 {
+                            				    str+="<button  type='button' class='btn btn-success'>회원</button>"
+                            				 }
+                                 			str+= "<p style='width: 250px'>인원 :+"+this.current+"/"+this.member_num+"</p> </article>";
+                            			
+                                 			  $('.bucketbox').append(str);
+                                 				
+                					});
+                                }
+                               });
+                		       
+                		   }
+            
+                	   
+                	   
+                	   
+                   }
+                });
+});
 
-         <c:if test="${pagination.categoryType==1}">
-         $('#view_when').html($('#when_temp option:selected').text());
-         $('#view_who').html($('#who_temp option:selected').text());
-         $('#view_what').html($('#what_temp option:selected').text());
-         $('#view_when').show();
-         $('#view_who').show();
-         $('#view_what').show();
-         </c:if>
+   
 
-         <c:if test="${pagination.categoryType==0}">
-         $('#view_when').hide();
-         $('#view_who').hide();
-         $('#view_what').hide();
-         </c:if>
-
-         $('#category').click(function(e) {
-            e.preventDefault();
-            $('#category_modal').modal();
-         });
-
-         $('#when_temp').change(function() {
-            $('#view_when').html($('#when_temp option:selected').text());
-            $('#when').val($('#when_temp option:selected').val());
-         });
-         $('#who_temp').change(function() {
-            $('#view_who').html($('#who_temp option:selected').text());
-            $('#who').val($('#who_temp option:selected').val());
-         });
-         $('#what_temp').change(function() {
-            $('#view_what').html($('#what_temp option:selected').text());
-            $('#what').val($('#what_temp option:selected').val());
-         });
-
-         $('#categoryAble').click(function() {
-
-            if ($('#categoryState').html() == '카테고리 검색 활성화') {
-               $('#category').html('카테고리X');
-               $('#categoryState').html('카테고리 검색 비활성화');
-               $('#view_when').hide();
-               $('#view_who').hide();
-               $('#view_what').hide();
-               $('#categoryType').val(0);
-            } else {
-               $('#category').html('카테고리O');
-               $('#categoryState').html('카테고리 검색 활성화');
-               $('#view_when').show();
-               $('#view_who').show();
-               $('#view_what').show();
-               $('#categoryType').val(1);
-            }
-
-         });
-
-         $("div.pagination a").click(function() {
-
-            $("input[name=currentPage]").val($(this).attr("data-page"));
-            $("#form_search").submit();
-
-         });
-
-      });
-
-   });
+  
 </script>
