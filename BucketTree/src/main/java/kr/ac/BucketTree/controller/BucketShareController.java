@@ -111,7 +111,6 @@ public class BucketShareController {
 		us.updateMinusPoint(us.getCurrentUser().getIdx(), 3, -bucketShareVO.getPoint());
 		ts.ShareQuestion_Timeline(us.getCurrentUser().getIdx(),bucketShareVO.getTitle() , "/BucketTree/bucketShare/read?idx=" +bucketShareVO.getIdx());
 		bss.insert(bucketShareVO);
-		
 		bss.updateBucketShareImage(bucketShareVO);
 		is.deleteOrphan_Question();
 		return "redirect:/bucketShare/read?idx="+bucketShareVO.getIdx();
