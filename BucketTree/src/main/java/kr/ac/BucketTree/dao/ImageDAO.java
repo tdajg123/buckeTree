@@ -11,5 +11,4 @@ public interface ImageDAO {
 
 	public void deleteOrphan();
  
-	public void deleteOrphan_Question();
 }

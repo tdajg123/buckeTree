@@ -89,7 +89,7 @@
 					<img src="/BucketTree/images/image7.jpg" alt=""
 						style="width: 260px">
 					<h4>
-						<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
+						<a href="#">${BucketListVO.title}</a>
 					</h4>
 
 					<form items="${countUp}" var="BucketListVO" role="form"
@@ -111,6 +111,9 @@
 				
 				</article>
 				</a>
+			
+
+				</article>
 
 			</c:forEach>
 		</section>
