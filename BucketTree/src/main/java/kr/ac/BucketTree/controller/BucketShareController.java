@@ -113,7 +113,7 @@ public class BucketShareController {
 		bss.insert(bucketShareVO);
 		
 		bss.updateBucketShareImage(bucketShareVO);
-		is.deleteOrphan_Question();
+		is.deleteOrphan();
 		return "redirect:/bucketShare/read?idx="+bucketShareVO.getIdx();
 	}
 	
@@ -124,7 +124,7 @@ public class BucketShareController {
 		
 		qis.deleteByQuestionIdx(idx);
 		bss.delete(idx);
-		is.deleteOrphan_Question();
+		is.deleteOrphan();
 		
 		return "redirect:/bucketShare/list";
 	}
@@ -144,7 +144,7 @@ public class BucketShareController {
 		model = bucketTreeCommon.commonMessenger(model);
 		bss.update(bucketShareVO);
 		bss.updateBucketShareImage(bucketShareVO);
-		is.deleteOrphan_Question();
+		is.deleteOrphan();
 		return "redirect:/bucketShare/read?idx=" +bucketShareVO.getIdx();
 	}
 	

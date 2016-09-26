@@ -10,7 +10,7 @@
 	border-radius: 0;
 }
 
-html, body {
+html{
 	overflow-x: hidden; /* Prevent scroll on narrow devices */
 	font-family: 'Noto Sans';
 }
