@@ -21,12 +21,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteOrphan">
 		DELETE Image WHERE idx NOT IN (SELECT image_idx
 		FROM Journal_image) AND
-		DATEDIFF(minute, fileTime, GETDATE()) > 60
-	</delete>
-	<delete id="deleteOrphan_Question">
-		DELETE Image WHERE idx NOT IN (SELECT image_idx
+		idx
+		NOT IN (SELECT image_idx
 		FROM Question_image) AND
+		idx NOT IN (SELECT
+		image_idx
+		FROM Message_image) AND
+		idx NOT IN (SELECT image_idx
+		FROM
+		BucketList_image)
+		AND
 		DATEDIFF(minute, fileTime, GETDATE()) > 60
 	</delete>
+
 
 </mapper>

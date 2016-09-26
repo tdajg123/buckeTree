@@ -1,25 +1,5 @@
 /*buckeList-selectBox __ Start */
-/*########### COMMON STYLE ##############*/
-* {
-	margin: 0;
-	padding: 0;
-}
 
-body {
-	margin: 30px;
-	font: 13px/1.5 "Trebuchet MS", Tahoma, Arial;
-}
-
-a { color: #0094D6;}
-
-p {	padding: 7px 0;}
-
-h1 {
-	font-size: 21px;
-	font-weight: normal;
-	margin: 0 0 30px;
-}
-/*#######################################*/
 .wrapper-dropdown-3 {
 	/* Size and position */
 	position: relative;
@@ -227,7 +207,7 @@ width: 100%;
 }
 /* bucketList-MyList-Recommend-Box __ End */
 
-/* Ä«Å×°í¸®, °Ë»ö */
+/* Ä«ï¿½×°ï¿½, ï¿½Ë»ï¿½ */
 /* modal */
 .modal-body select{
 	margin: auto;
@@ -376,7 +356,7 @@ width: 100%;
 	height:40px;
 }
 
-/* ¸¶ÀÌ¸®½ºÆ® ¿Ï·á¹öÆ° */
+/* ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½Æ® ï¿½Ï·ï¿½ï¿½Æ° */
 .bucketOK{
 	background: #48cfc8; 
 	width: 50px; 
