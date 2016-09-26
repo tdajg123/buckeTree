@@ -24,7 +24,7 @@
 				style="border: 0 solid">
 			</a>
 		</div>
-		<div id="navbar" class="collapse navbar-collapse">
+		<div id="navbar" class="collapse navbar-collapse" style="z-index: 999999">
 			<ul class="nav navbar-nav">
 				<li id="dl-menu-1" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷리스트</a>

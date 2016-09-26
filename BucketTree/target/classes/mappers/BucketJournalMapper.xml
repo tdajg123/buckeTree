@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.BucketJournalMapper">
+
+	<!-- 일지 목록 -->
+	<select id="bucketJournalList" resultType="kr.ac.BucketTree.vo.BucketJournalVO">
+		SELECT * ,ROW_NUMBER()
+		OVER (ORDER BY DATE DESC) AS ROW
+		FROM [BucketList_Journal]
+		WHERE
+		BUCKET_IDX = #{bucket_idx}
+	</select>
+
+	<!-- 일지 select -->
+	<select id="selectByIdx" resultType="kr.ac.BucketTree.vo.BucketJournalVO">
+		SELECT *
+		FROM
+		[BucketList_Journal]
+		WHERE
+		IDX = #{idx}
+	</select>
+
+	<!-- 일지 작성 -->
+	<insert id="insertJournal" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO BucketList_Journal
+		(BUCKET_IDX,TITLE,CONTENTS,DATE)
+		VALUES(#{bucket_idx},#{title},#{contents},#{date})
+	</insert>
+
+	<!-- 일지 수정 -->
+	<update id="updateJournal">
+		UPDATE BucketList_Journal
+		SET
+		TITLE=#{title},DATE=#{date},CONTENTS=#{contents}
+		WHERE IDX=#{idx}
+	</update>
+
+	<!-- 일지 삭제 -->
+	<delete id="deleteJournal">
+		DELETE FROM BucketList_Journal
+		WHERE IDX=#{idx}
+	</delete>
+</mapper>

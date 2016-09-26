@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.BucketShareAnswerMapper">
+	<select id="selectByQuestion" resultType="kr.ac.BucketTree.vo.BucketShareAnswerVO">
+		select bsa.*, u.name
+		from BucketShare_Answer bsa
+		join [User] u
+		on bsa.user_Idx=u.idx
+		where bsa.BucketShare_Question_idx=#{idx}
+	</select>
+	<select id="selectByIdx" resultType="kr.ac.BucketTree.vo.BucketShareAnswerVO">
+		select *
+		from BucketShare_Answer 
+		where idx=#{idx}
+	</select>
+	<!-- 삽입 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="idx">
+		Insert into BucketShare_Answer (BucketShare_Question_idx,user_idx,date,contents,state)
+		values(#{BucketShare_Question_idx},#{user_idx},GETDATE(),#{contents},#{state})
+	</insert>
+	<!-- 수정 -->
+	<update id="update" >
+		update BucketShare_Answer set contents= #{contents} where idx=#{idx}
+	</update>
+	
+	<!-- 삭제  -->
+	<delete id="delete">
+	    delete from BucketShare_Answer where idx=#{idx}
+	</delete>
+	<!-- 채택  -->
+	<update id="adopt">
+		update BucketShare_Answer set state= #{state} where idx=#{idx}
+	</update>
+	
+	
+</mapper>

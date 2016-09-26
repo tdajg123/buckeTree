@@ -2,6 +2,8 @@ package kr.ac.BucketTree.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,8 @@ import kr.ac.BucketTree.dao.BucketListDAO;
 import kr.ac.BucketTree.service.BucketListService;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketListVO;
+import kr.ac.BucketTree.vo.CommentVO;
+import kr.ac.BucketTree.vo.ImageVO;
 import kr.ac.BucketTree.vo.RecommendVO;
 
 @Service
@@ -97,6 +101,103 @@ public class BucketListServiceimpl implements BucketListService{
 	public List<BucketListVO> bucketShare_MyBucketList(int user_idx) {
 		// TODO Auto-generated method stub
 		return dao.bucketShare_MyBucketList(user_idx);
+	}
+	
+	/*전체, 마이 : 버킷리스트 추가*/
+	@Override
+	public int insertBucketList(BucketListVO vo) throws Exception{
+		return dao.insertBucketList(vo);
+	}
+	/*아이디로 버킷리스트 조회*/
+	@Override
+	public BucketListVO bucket(int idx) throws Exception{
+		return dao.bucket(idx);
+	}
+	
+	/*파일 업로드 */
+	@Override
+	public void updateBucketImage(BucketListVO vo){
+		dao.deleteByBucketIdx(vo.getIdx());
+		String pattern = "bucketList/([0-9]+)/image.do";
+		Pattern r= Pattern.compile(pattern);
+		Matcher m = r.matcher(vo.getContents());
+		while(m.find()){
+			int imageId = Integer.parseInt(m.group(1));
+			dao.insertblImage(vo.getIdx(), imageId);
+		}
+	}
+	
+	@Override
+	public void insertImage(ImageVO image){
+		dao.insertImage(image);
+	}
+	@Override
+	public void insertblImage(int bucket_idx, int image_idx){
+		dao.insertblImage(bucket_idx, image_idx);
+	}
+	
+	@Override
+	public ImageVO selectById(ImageVO image){
+		return dao.selectById(image);
+	}
+	
+	@Override
+	public int deleteOrphan(){
+		return dao.deleteOrphan();
+	}
+	
+	/* 버킷리스트 수정*/
+	@Override
+	public int editBucket(BucketListVO buck){
+		return dao.editBucket(buck);
+	}
+	@Override
+	public int deleteBucket(int idx){
+		return dao.deleteBucket(idx);
+	}
+	@Override
+	public int deleteByBucketIdx(int bucket_idx){
+		return dao.deleteByBucketIdx(bucket_idx);
+	}
+	/* 버킷리스트 idx에 해당하는 BucketList_image 테이블의 image_idx 레코드 조회 */
+	@Override
+	public int selectByImageIdx(int idx){
+		return dao.selectByImageIdx(idx);
+	}
+	/* Image 테이블 idx로 레코드 제거  */
+	@Override
+	public int deleteImage(int idx){
+		return dao.deleteImage(idx);
+	}
+	
+	/* 댓글 전체 조회 */
+	@Override
+	public List<CommentVO> selectComment(int idx){
+		return dao.selectComment(idx);
+	}
+	
+	/* 댓글 삽입 */
+	@Override
+	public int insertComment(CommentVO cvo){
+		return dao.insertComment(cvo);
+	}
+	
+	/* 댓글 idx로 조회 */
+	@Override
+	public CommentVO selectByIdxComment(int idx){
+		return dao.selectByIdxComment(idx);
+	}
+	
+	/* 버킷 삭제 시 댓글 삭제 */
+	@Override
+	public int deleteBucComment(int idx){
+		return dao.deleteBucComment(idx);
+	}
+	
+	/* 댓글 삭제 */
+	@Override
+	public int deleteComment(int idx){
+		return dao.deleteComment(idx);
 	}
 
 }
