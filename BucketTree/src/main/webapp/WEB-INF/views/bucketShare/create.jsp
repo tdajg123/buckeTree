@@ -155,7 +155,7 @@
 
 <script>
 	$(function() {
-		
+		var user_point= ${user.idx};
 		$("#searchBucketList_button").click(function() {
 
 			$('#searchBucketList').modal();
@@ -208,7 +208,7 @@
 		              type: "GET",
 		              async: false,
 		              data: {
-		                  idx: 14
+		                  idx:  user_point
 		              },
 		              success: function(data) {
 		            	   point=data;
