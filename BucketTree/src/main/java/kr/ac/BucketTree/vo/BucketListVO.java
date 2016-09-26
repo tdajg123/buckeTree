@@ -23,8 +23,16 @@ public class BucketListVO {
 	String when_name;
 	String who_name;
 	String what_name;
+	String name;
 	
-	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getWhen_name() {
 		return when_name;
 	}

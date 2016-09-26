@@ -5,6 +5,8 @@ import java.util.List;
 
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketListVO;
+import kr.ac.BucketTree.vo.CommentVO;
+import kr.ac.BucketTree.vo.ImageVO;
 import kr.ac.BucketTree.vo.RecommendVO;
 
 public interface BucketListDAO {
@@ -25,7 +27,54 @@ public interface BucketListDAO {
 	public List<RecommendVO> recommendList() throws Exception;							/*친구 추천*/
 	public List<BucketListVO> adminRecommendList() throws Exception;			/*관리자 추천*/
 	
-	
- 
     public List<BucketListVO> bucketShare_MyBucketList(int user_idx);	
+    
+    /*버킷리스트 추가*/
+	public int  insertBucketList(BucketListVO vo)throws Exception;
+	
+	/*아이디로 버킷리스트 조회*/
+	public BucketListVO bucket(int idx) throws Exception;
+	
+	/*파일 업로드*/
+	/*image 테이블 삽입(이미지 업로드)*/
+	public int insertImage(ImageVO image); 
+	
+	/*잔여 이미지 삭제*/
+	public int deleteOrphan();
+	
+	/*BJTS_image 테이블 삽입 (이미지 업로드)*/
+	int insertblImage(int bucket_idx,int imag_idx); 
+	
+	/*버킷리스트 idx에 해당하는 BucketList_image 테이블 삭제*/
+	int deleteByBucketIdx(int bucketIdx);
+
+	/*아이디로 이미지 조회*/
+	public ImageVO selectById(ImageVO vo);
+	
+	/*버킷리스트 수정*/
+	public int editBucket(BucketListVO buck);
+	
+	/*버킷리스트 삭제*/
+	public int deleteBucket(int idx);
+	
+	/* 버킷리스트 idx에 해당하는 BucketList_image 테이블의 image_idx 레코드 조회 */
+	public int selectByImageIdx(int idx);
+	
+	/* Image 테이블 idx로 레코드 제거  */
+	public int deleteImage(int idx);
+	
+	/* 댓글 전체 조회 */
+	public List<CommentVO> selectComment(int idx);
+	
+	/*댓글 삽입*/
+	public int insertComment(CommentVO cvo);
+	
+	/*댓글 idx로 조회 */
+	public CommentVO selectByIdxComment(int idx);
+	
+	/*버킷 삭제 시 댓글 삭제 */
+	public int deleteBucComment(int idx);
+	
+	/* 댓글 삭제 */
+	public int deleteComment(int idx);
 }

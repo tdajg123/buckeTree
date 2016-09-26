@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	
+	
+	<!-- 로그인 & 메인페이지 -->
+	<definition name="login" template="/WEB-INF/views/home/login.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/include/header.jsp" />
+	</definition>
+
+	<definition name="friendsearch" extends="commonLayout">
+		<put-attribute name="content" value="/WEB-INF/views/friend/friendsearch.jsp" />
+	</definition>
+
+	<definition name="friendlist" extends="commonLayout">
+		<put-attribute name="content" value="/WEB-INF/views/friend/friendlist.jsp" />
+	</definition>
+
+	<!-- 공통 UI -->
+	<definition name="commonLayout" template="/WEB-INF/views/template/template.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/include/header.jsp" />
+		<put-attribute name="menubar" value="/WEB-INF/views/include/menubar.jsp" />
+		<put-attribute name="chat_popup" value="/WEB-INF/views/include/chat_popup.jsp" /> 
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/include/footer.jsp" />
+	</definition>
+	
+	<!-- 공통 UI 상속-->
+	<definition name="*/*" extends="commonLayout">
+		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+</tiles-definitions>

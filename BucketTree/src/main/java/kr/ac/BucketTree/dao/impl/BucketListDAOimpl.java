@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import kr.ac.BucketTree.dao.BucketListDAO;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketListVO;
+import kr.ac.BucketTree.vo.CommentVO;
+import kr.ac.BucketTree.vo.ImageVO;
 import kr.ac.BucketTree.vo.RecommendVO;
 
 @Repository
@@ -103,6 +105,104 @@ public class BucketListDAOimpl implements BucketListDAO {
 	public List<BucketListVO> bucketShare_MyBucketList(int user_idx) {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace + ".bucketShare_MyBucketList",user_idx);
+	}
+	
+	/* 전체,마이 : 버킷리스트 추가 */
+	@Override
+	public int insertBucketList(BucketListVO vo) throws Exception {
+		return session.insert(namespace + ".insertBucketList", vo);
+	}
+	
+	/*아이디로 버킷리스트 조회 */
+	@Override
+	public BucketListVO bucket(int idx) throws Exception{
+		return session.selectOne(namespace +".bucket", idx);
+	}
+	
+	/*파일 업로드 */
+	/*image 테이블 삽입 */
+	@Override
+	public int insertImage(ImageVO image){
+		return session.insert(namespace +".insertbImage", image);		
+	}; 
+	
+	/*잔여 이미지 제거 */
+	@Override
+	public int deleteOrphan(){
+		return session.delete(namespace +".deleteOrphan");
+	}
+	/*BucketList_image 테이블 삽입*/
+	@Override
+	public int insertblImage(int bucket_idx, int image_idx){
+		HashMap<String,Object> input=new HashMap<String,Object>();
+		input.put("bucket_idx", bucket_idx);
+		input.put("image_idx", image_idx);
+		
+		return session.insert(namespace +".insertblImage", input);
+	}
+	
+	/*버킷리스트 idx와 일치하는 BucketList_image 테이블 삭제*/
+	@Override
+	public int deleteByBucketIdx(int bucket_idx){
+		return session.delete(namespace +".deleteByBucketIdx", bucket_idx);
+	}
+	
+	/*아이디로 이미지 테이블 조회*/
+	@Override
+	public ImageVO selectById(ImageVO vo){
+		return session.selectOne(namespace +".selectById",vo);
+	}
+	
+	/*버킷리스트 수정*/
+	@Override
+	public int editBucket(BucketListVO buck){
+		return session.update(namespace +".editBucket",buck);
+	}
+	
+	/*버킷리스트 삭제*/
+	@Override
+	public int deleteBucket(int idx){
+		return session.delete(namespace +".deleteBucket",idx); 
+	}
+	/* 버킷리스트 idx에 해당하는 BucketList_image 테이블의 image_idx 레코드 조회 */
+	@Override
+	public int selectByImageIdx(int idx){
+		
+		if(session.selectOne(namespace +".selectByImageIdx", idx)==null){
+			return 0;
+		}else{
+		return session.selectOne(namespace +".selectByImageIdx", idx);
+		}
+	}
+	/* Image 테이블 idx로 레코드 제거  */
+	@Override
+	public int deleteImage(int idx){
+		return session.delete(namespace +".deleteImage",idx);
+	}
+	
+	@Override
+	public List<CommentVO> selectComment(int idx){
+		return session.selectList(namespace +".selectComment", idx);
+	}
+	
+	@Override
+	public int insertComment(CommentVO cvo){
+		return session.insert(namespace +".insertComment",cvo);
+	}
+	
+	@Override
+	public CommentVO selectByIdxComment(int idx){
+		return session.selectOne(namespace +".selectByIdxComment", idx);
+	}
+	
+	@Override
+	public int deleteBucComment(int idx){
+		return session.delete(namespace +".deleteBucComment",idx);
+	}
+	
+	@Override
+	public int deleteComment(int idx){
+		return session.delete(namespace +".deleteComment", idx);
 	}
 
 }

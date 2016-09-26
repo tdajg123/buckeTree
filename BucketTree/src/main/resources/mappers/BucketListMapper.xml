@@ -257,4 +257,110 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where user_idx=#{user_idx}
 	
 	</select>
+	
+	<!-- ##버킷리스트 내 목록 시작...## -->
+	<!-- 버킷리스트 등록 -->
+	<insert id="insertBucketList" useGeneratedKeys="true"
+		keyProperty="idx">
+		INSERT INTO
+		[BucketList](title,contents,count,date,user_idx,writer,x,y,keyword,tree_idx,state)
+		VALUES(#{title},#{contents},#{count},GETDATE(),#{user_idx},#{writer},#{x},#{y},#{keyword},0,0)
+
+	</insert>
+
+	<!-- 아이디로 버킷리스트 조회 -->
+	<select id="bucket" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		SELECT *
+		FROM [BucketList]
+		WHERE
+		IDX =#{idx}
+
+	</select>
+	<!-- Image 테이블 삽입 -->
+	<insert id="insertbImage" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO [Image] (fileName, fileSize, fileTime, data)
+		VALUES (#{fileName}, #{fileSize}, GETDATE(), #{data})
+	</insert>
+
+	<!-- 잔여 이미지 제거 -->
+	<delete id="deleteOrphan">
+		DELETE [Image] 
+		<![CDATA[
+	WHERE idx NOT IN (SELECT image_idx FROM [BucketList_Image]) AND DATEDIFF(minute, fileTime, GETDATE()) > 60
+			]]>
+	</delete>
+
+	<!-- BucketList_Image 테이블 삽입 -->
+	<insert id="insertblImage">
+		INSERT INTO [BucketList_Image] (bucket_idx, image_idx) VALUES
+		(#{bucket_idx}, #{image_idx})
+	</insert>
+	
+	<!-- Image 테이블 idx로 레코드 제거 -->
+	<delete id="deleteImage">
+	DELETE FROM [Image] WHERE idx=#{idx}
+	</delete>
+	
+	<!-- 버킷리스트 idx에 해당하는 BucketList_image 레코드 제거 -->
+	<delete id="deleteByBucketIdx">
+		DELETE FROM [BucketList_Image] WHERE bucket_idx = #{bucket_idx}
+	</delete>
+
+	<!-- 아이디로 이미지 테이블 레코드 조회 -->
+	<select id="selectById" resultType="kr.ac.BucketTree.vo.ImageVO">
+		SELECT *
+		FROM [Image]
+		WHERE idx=#{idx}
+	</select>
+	
+	<!-- 버킷아이디로 BucketList_image 테이블 image_idx 조회 -->
+	<select id="selectByImageIdx" resultType="int">
+		SELECT image_idx
+		FROM [BucketList_Image]
+		WHERE bucket_idx=#{idx}
+	</select>
+	
+	
+	<!-- 버킷리스트 수정 -->
+	<insert id="editBucket">
+		UPDATE BucketList SET contents=#{contents}, x =#{x}, y = #{y} WHERE idx=
+		#{idx};
+	</insert>
+	<!-- 버킷리스트 삭제 -->
+	<delete id="deleteBucket">
+		DELETE FROM [BucketList] WHERE idx=#{idx}
+	</delete>
+	
+	<!-- 댓글 등록 -->
+	<insert id="insertComment" useGeneratedKeys="true" keyProperty="idx">
+	 INSERT INTO [BucketList_Comment](bucketList_idx,name,user_idx,date,contents,author) VALUES(#{bucketList_idx},#{name},#{user_idx},getDate(),#{contents},#{author})
+	
+	</insert>
+	
+	<!-- 댓글 전체 조회 -->
+	<select id="selectComment" resultType="kr.ac.BucketTree.vo.CommentVO">
+	SELECT * FROM [BucketList_Comment] WHERE bucketList_idx=#{idx}
+	</select>
+
+	
+	<!-- 댓글 조회 -->
+	<select id="selectByIdxComment" resultType="kr.ac.BucketTree.vo.CommentVO">
+	SELECT * FROM [BucketList_Comment] WHERE idx=#{idx}
+	</select>
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment">
+	DELETE FROM [BucketList_Comment] WHERE idx=#{idx}	
+	</delete>
+	
+	<!-- 버킷 삭제시 댓글 삭제 -->	
+	<delete id="deleteBucComment">
+	DELETE FROM [BucketList_Comment] WHERE bucketList_idx= #{idx}
+	</delete>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateComment">
+	UPDATE FROM [BucketList_Comment] SET contents=${contents}
+	
+	</update>
 </mapper>

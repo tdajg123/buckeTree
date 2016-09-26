@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.BucketListMapper">
+
+	<!-- ##버킷리스트 전체 목록(list.jsp) 시작...## -->
+	<!-- 버킷리스트 전체 목록 &정렬&검색-->
+	<select id="list" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		<![CDATA[
+			SELECT *
+			FROM 
+			(
+			 SELECT *, CASE #{orderType}
+						   WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY date desc)			/*최신순*/
+						   WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY count desc)			/*인기순*/
+						END row
+			FROM [BucketList]
+			WHERE
+				IDX > 0 AND WRITER IN(0,1)
+		    AND
+		     (
+			 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+			 (#{srchType}= 1 AND CHARINDEX(#{srchText}, title) >= 1) OR /*질문 제목*/
+			 (#{srchType}= 2 AND CHARINDEX(#{srchText}, title) >= 1 OR CHARINDEX(#{srchText}, contents) >= 1) OR /*질문 제목이나 내용*/
+			 (#{srchType}= 3 AND #{srchText} IN (select name from [User])) 
+			 )  /*질문 작성자*/
+		     
+			 and 
+			 (
+			 (#{categoryType} = 0) OR
+			 (#{categoryType} = 1 AND [WHEN]=#{when} and [WHO]=#{who} and [WHAT] =#{what})
+			 ) /*카테고리검색*/
+			 
+			)subquery
+			WHERE row>(#{currentPage} - 1) * #{pageSize} and
+		        row <= (#{currentPage} *#{pageSize})
+			ORDER BY row 
+		]]>
+
+	</select>
+
+	<!-- 버킷리스트 페이지 카운트 -->
+	<select id="listCount" resultType="int"> 
+
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM [BucketList] b, [USER] u
+		WHERE
+			b.IDX > 0 AND b.WRITER IN(0,1)
+		and
+	     (
+		 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+		 (#{srchType}= 1 AND CHARINDEX(#{srchText},b.title)>=1) OR /*질문 제목*/
+		 (#{srchType}= 2 AND CHARINDEX(#{srchText},b.title)>=1 OR CHARINDEX(#{srchText},b.contents)>=1) OR /*질문 제목이나 내용*/
+		 (#{srchType}= 3 AND CHARINDEX(#{srchText},u.name)=1) 
+		 )  /*질문 작성자*/
+	     
+		 and 
+		 (
+		 (#{categoryType}=0) OR
+		 (#{categoryType}=1 AND[when]=#{when} and [who]=#{who} and [what] =#{what})
+		 ) /*카테고리검색*/
+	   
+	]]>
+
+	</select>
+
+	<!-- 버킷리스트-무한스크롤 -->
+	<select id="listAjax" resultType="kr.ac.BucketTree.vo.BucketListVO" >
+		
+			SELECT *
+			FROM 
+			(
+			 SELECT b.*, CASE #{orderType}
+						   WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY b.date desc)			/*최신순*/
+						   WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY b.count desc)			/*인기순*/
+						END row
+			FROM [BucketList] b
+			WHERE
+				b.IDX > 0 AND b.WRITER IN(0,1)
+		    AND
+		     (
+			 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+			 (#{srchType}= 1 AND CHARINDEX(#{srchText}, b.title) >= 1) OR /*질문 제목*/
+			 (#{srchType}= 2 AND CHARINDEX(#{srchText}, b.title) >= 1 OR CHARINDEX(#{srchText}, b.contents) >= 1) OR /*질문 제목이나 내용*/
+			 (#{srchType}= 3 AND #{srchText} IN (select name from [User])) 
+			 )  /*질문 작성자*/
+		     
+			 and 
+			 (
+			 (#{categoryType}=0) OR
+			 (#{categoryType}=1 AND [WHEN]=#{when} and [WHO]=#{who} and [WHAT] =#{what})
+			 ) /*카테고리검색*/
+			 
+			 
+			) subquery
+			<![CDATA[
+			WHERE row > #{row} AND row <= #{row} + #{pageSize}
+			]]>
+			ORDER BY row
+		
+		
+	</select>
+
+	<!-- 전체 : 담기-버킷 카운트 업 -->
+	<update id="countUp">
+
+		UPDATE [BucketList]
+		SET COUNT = COUNT + 1
+		WHERE IDX =
+		#{idx}
+
+	</update>
+
+	<!-- 전체 : 버킷 버튼 클릭 시 마이 버킷리스트에 추가 -->
+	<insert id="addBucket" parameterType="hashmap">
+
+		INSERT
+		INTO
+		[BucketList](title, contents, count, date, user_idx, writer, [when],
+		who, what, state)
+		values(#{title}, #{contents}, 0, GETDATE(),
+		#{user_idx}, 2, #{when}, #{who}, #{what}, 0)
+
+	</insert>
+
+	<!-- 전체 : 버킷 버튼 클릭 시 중복 담기 방지로 해당 버킷의 idx를 넣어줌 -->
+	<!-- : parameterType을 haspmap으로 받아 여러개 인자를 받아옴 -->
+	<select id="titleCheck" resultType="int" parameterType="hashmap">
+		SELECT
+		COUNT(1)
+		FROM [BucketList]
+		WHERE [title] = #{title} AND user_idx =
+		#{userIdx} AND writer = 2
+
+	</select>
+
+	<!-- ##버킷리스트 전체 목록 끝...## -->
+
+
+	<!-- ##버킷리스트 내 목록(mylist.jsp) 시작...## -->
+	<!-- 버킷리스트 내 목록 -->
+	<select id="mylist" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		<![CDATA[
+			SELECT *
+			FROM 
+			(
+			 SELECT *, CASE #{orderType}
+						   WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY date desc)			/*최신순*/
+						   WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY count desc)			/*인기순*/
+						END row
+			FROM [BucketList]
+			WHERE
+				IDX > 0 AND WRITER = 2
+		    AND
+		     (
+			 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+			 (#{srchType}= 1 AND CHARINDEX(#{srchText}, title) >= 1) OR /*질문 제목*/
+			 (#{srchType}= 2 AND CHARINDEX(#{srchText}, title) >= 1 OR CHARINDEX(#{srchText}, contents) >= 1) OR /*질문 제목이나 내용*/
+			 (#{srchType}= 3 AND #{srchText} IN (select name from [User])) 
+			 )  /*질문 작성자*/
+		     
+			 and 
+			 (
+			 (#{categoryType} = 0) OR
+			 (#{categoryType} = 1 AND [WHEN]=#{when} and [WHO]=#{who} and [WHAT] =#{what})
+			 ) /*카테고리검색*/
+			 
+			)subquery
+			WHERE row>(#{currentPage} - 1) * #{pageSize} and
+		        row <= (#{currentPage} *#{pageSize})
+			ORDER BY row 
+		]]>
+
+	</select>
+	
+	<!-- 마이리스트-무한스크롤 -->
+	<select id="mylistAjax" resultType="kr.ac.BucketTree.vo.BucketListVO" >
+		SELECT *
+			FROM 
+			(
+			 SELECT *
+			FROM [BucketList]
+			WHERE
+				IDX > 0 AND WRITER =2
+		    AND
+		     (
+			 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+			 (#{srchType}= 1 AND CHARINDEX(#{srchText}, title) >= 1) OR /*질문 제목*/
+			 (#{srchType}= 2 AND CHARINDEX(#{srchText}, title) >= 1 OR CHARINDEX(#{srchText}, contents) >= 1) OR /*질문 제목이나 내용*/
+			 (#{srchType}= 3 AND #{srchText} IN (select name from [User])) 
+			 )  /*질문 작성자*/
+		     
+			 and 
+			 (
+			 (#{categoryType}=0) OR
+			 (#{categoryType}=1 AND [WHEN]=#{when} and [WHO]=#{who} and [WHAT] =#{what})
+			 ) /*카테고리검색*/
+			 
+			 
+			) subquery
+			<![CDATA[
+			WHERE row > #{row} AND row <= #{row} + #{pageSize}
+			]]>
+			ORDER BY row
+		
+	</select>
+
+	<!-- 버킷리스트 친구 추천 목록 -->
+	<select id="recommendList" resultType="kr.ac.BucketTree.vo.RecommendVO">
+
+		SELECT TOP 3
+		RBL.BucketList_Idx, BL.title, BL.contents
+		FROM [RecommendBucketList]
+		RBL, [BucketList] BL
+		WHERE RBL.BucketList_idx = BL.idx AND RBL.fromUser
+		= 6
+		ORDER BY NEWID()
+
+	</select>
+
+	<!-- 버킷리스트 관리자 추천 목록 -->
+	<select id="adminRecommendList" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		SELECT TOP 3 idx,
+		title, contents
+		FROM [BucketList]
+		WHERE user_idx != 4 AND WHAT =(SELECT
+		WHAT
+		FROM(
+		SELECT WHAT, ROW_NUMBER() OVER(ORDER BY COUNT(WHAT) DESC) row
+		FROM BucketList
+		WHERE user_Idx = 4 AND STATE = 1
+		GROUP BY WHAT
+		)SUBQUERY
+		WHERE row = 1
+		)
+		ORDER BY NEWID()
+
+	</select>
+
+	<!-- ##버킷리스트 내 목록 시작...## -->
+	<select id="bucketShare_MyBucketList" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		SELECT b.*,what.what as what_name ,[when].[when] as when_name, who.who as who_name
+		FROM [BucketList] b join Category_What what
+		ON b.what =what.idx
+		JOIN Category_WHO who
+		ON b.who =who.idx
+		JOIN Category_When [when]
+		ON b.[when] =[when].idx
+		where user_idx=#{user_idx}
+	
+	</select>
+</mapper>
