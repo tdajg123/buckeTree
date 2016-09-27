@@ -57,7 +57,7 @@
 							src="/BucketTree/images/PROFILE_image.png" class="user-image"
 							alt="User Image"> USER <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="#"><i class="fa fa-fw fa-user"></i> 타임라인</a></li>
+							<li><a href="/BucketTree/Timeline"><i class="fa fa-fw fa-user"></i> 타임라인</a></li>
 							<li><a href="/BucketTree/Friend/searchFriendList"><i class="fa fa-fw fa-group"></i> 친구</a></li>
 							<li><a href="/BucketTree/mypage"><i
 									class="fa fa-fw fa-gear"></i> 정보관리</a></li>
