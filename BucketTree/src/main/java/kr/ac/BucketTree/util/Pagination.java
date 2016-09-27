@@ -1,13 +1,18 @@
 package kr.ac.BucketTree.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pagination {
+
+
 	int currentPage = 1;
 	int pageSize = 10;
 	int recordCount;
 	int row;
+
 	public int getRow() {
 		return row;
 	}
@@ -54,7 +59,16 @@ public class Pagination {
 	int state;
 	// 정렬순서
 	int orderType = 1;
+	
+	
+	
+	public String getQueryString() throws UnsupportedEncodingException {
+		String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
+		return String.format("currentPage=%d&srchType=%d&srchText=%s&categoryType=%d&when=%d&what=%d&who=%d&type=%d", currentPage,  srchType, temp,categoryType,when,what,who,type);
+	}
 
+	
+	
 	public int getCategoryType() {
 		return categoryType;
 	}
@@ -132,7 +146,7 @@ public class Pagination {
 		this.srchText = srchText;
 	}
 
-	/* 화면 하단에 페이지 번호 링크들을 출력하기 위한 메소드와 클래스 */ 
+	/* 화면 하단에 페이지 번호 링크들을 출력하기 위한 메소드와 클래스 */
 	public List<Page> getPageList() {
 		ArrayList<Page> list = new ArrayList<Page>();
 		int pageCount = (recordCount + pageSize - 1) / pageSize;

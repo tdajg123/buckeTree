@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ac.BucketTree.BucketTree_MemberMapper">
+
+   <insert id="apply" >
+   
+   Insert BucketTree_MemberMapper into (bucketTree_idx,user_idx,state)
+   values(#{bucketTree_idx} ,#{user_idx},#{state})
+   </insert>
+   
+   <delete id="cancel">
+   Delete from  BucketTree_MemberMapper where bucketTree_idx=#{bucketTree_idx} and user_idx =#{user_idx}
+   </delete>
+
+
+</mapper>

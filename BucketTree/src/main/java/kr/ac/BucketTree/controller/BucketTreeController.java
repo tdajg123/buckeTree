@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ac.BucketTree.service.BucketTreeService;
+import kr.ac.BucketTree.service.BucketTree_MemberService;
 import kr.ac.BucketTree.service.CategoryService;
 import kr.ac.BucketTree.service.UserService;
 import kr.ac.BucketTree.util.BucketTreeCommon;
@@ -28,6 +30,9 @@ public class BucketTreeController {
 	BucketTreeService bs;
 	@Autowired
 	UserService us;
+	@Autowired 
+	BucketTree_MemberService btms;
+	
 	// 전체목록
 	@RequestMapping(value = "/bucketTree/list")
 	public String list(Model model, Pagination pagination) throws Exception {
@@ -52,4 +57,14 @@ public class BucketTreeController {
 		System.out.println(pagination.getSrchType());
 		return bs.selectPage(pagination, us.getCurrentUser().getIdx());
 	}
+	
+	
+	@RequestMapping(value = "/bucketTree/apply")
+	public String apply(Model model, Pagination pagination, @RequestParam("bucketTree_idx") int bucketTree_idx) throws Exception {
+
+		
+		
+		return "bucketTree/list";
+	}
+	
 }
