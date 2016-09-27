@@ -219,27 +219,28 @@ public class BucketListController {
 	}
 	
 	@RequestMapping(value = "/bucketList/bucketWrite", method = RequestMethod.GET)
-	public String bucketWrite(Model model){
-		
-		
+	public String bucketWrite(Model model,Pagination pagination) throws Exception{
+		model = bucketTreeCommon.commonMessenger(model);
+		model.addAttribute("what",cs.whatList() );
+		model.addAttribute("who", cs.whoList());
+		model.addAttribute("when", cs.whenList());
+		model.addAttribute("list", bls.list(pagination));	
 		return "bucketList/buck_write";
 	}
 	
 	@RequestMapping(value = "/bucketList/bucketCreate", method =RequestMethod.POST)
-	public String bucketCreate(Model model,HttpServletRequest request,@RequestParam("file") MultipartFile[] uploadedFiles,BucketListVO vo) throws Exception{
-
+	public String bucketCreate(@RequestParam("file") MultipartFile[] uploadedFiles,Model model,HttpServletRequest request,BucketListVO vo) throws Exception{
+		model=bucketTreeCommon.commonMessenger(model);
 
 		UserVO user = us.getCurrentUser();
-		String b = request.getParameter("body");
-	//	vo.setTitle(request.getParameter("title"));
+		String b = request.getParameter("contents");
 		vo.setUser_idx(user.getIdx());
-		vo.setContents(request.getParameter("body"));
+		vo.setContents(request.getParameter("contents"));
 		float x = Float.parseFloat(request.getParameter("x"));
 		float y = Float.parseFloat(request.getParameter("y"));
 		vo.setX(x);
 		vo.setY(y);
 		vo.setContents(b);
-		
 		bls.insertBucketList(vo);
 		
 		bls.updateBucketImage(vo);
@@ -282,6 +283,7 @@ public class BucketListController {
 	
 	@RequestMapping("/bucketList/{idx}/bucket.do")
 	public String bucketDetail(@PathVariable("idx") int idx, Model model) throws Exception {
+		model = bucketTreeCommon.commonMessenger(model);
 		UserVO user = us.getCurrentUser();
 		BucketListVO bc = bls.bucket(idx);
 		bc.setName(user.getName());
@@ -296,6 +298,8 @@ public class BucketListController {
 	
 	@RequestMapping("/bucketList/{idx}/edit.do")
 	public String bucketEdit(@PathVariable("idx") int idx, HttpServletResponse response,Model model) throws Exception {
+		
+		model = bucketTreeCommon.commonMessenger(model);
 		UserVO user = us.getCurrentUser();
 		BucketListVO vo = new BucketListVO();
 		vo = bls.bucket(idx);
@@ -305,6 +309,7 @@ public class BucketListController {
 	}
 	@RequestMapping("/bucketList/edit.do")
 	public String bucketEditPost(HttpServletRequest request,Model model,@RequestParam("file") MultipartFile[] uploadedFiles) throws Exception{
+		model = bucketTreeCommon.commonMessenger(model);
 		int idx = Integer.parseInt(request.getParameter("idx"));
 		BucketListVO vo = new BucketListVO();
 		vo = bls.bucket(idx);

@@ -194,7 +194,7 @@
 	style="width: 1170px; margin: auto; margin-top: 10px">
 	<article class="white-panel-add">
 		<h4>
-			<a href="#" class="fa fa-plus" style="color: #fff; margin-left: 30px">
+			<a href="/BucketTree/bucketList/bucketWrite" class="fa fa-plus" style="color: #fff; margin-left: 30px">
 				버킷리스트 추가</a>
 		</h4>
 	</article>

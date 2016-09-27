@@ -1,42 +1,85 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
- <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-	<script src="//code.jquery.com/jquery.min.js"></script>
-    <meta charset="utf-8">
-
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!--  BucketShare -->
+<link href="/BucketTree/css/bucketShare.css" rel="stylesheet"
+	type="text/css" />
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=c979b1f9a00bdf157a46346b59a630f4&libraries=services"></script>
 <script src="/BucketTree/se2/js/HuskyEZCreator.js" type="text/javascript"></script>
-<script src="/BucketTree/se2/init.js" type="text/javascript"></script>
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
+<!-- 사이드 바 메뉴 -->
+<div class="container" style="padding-top: 110px; padding-bottom: 85px">
+
+	<div class="box-group" id="accordion"
+		style="height: 900px; width: 1200px; padding-top: 100px;">
+		<div class="panel box box-primary">
 			<form action="/BucketTree/bucketList/bucketCreate" method="post" enctype="multipart/form-data">
-			<div class="x_panel">
-				<div class="x_title_m">
-					<div class="right">
-				
-						<button type="submit" class="btn btn-success">작성하기</button>
-						<button type="submit" class="btn btn-default">취소하기</button>
-						<button type="button" class="btn btn-default" onclick="popupOpen()">장소지정</button>
+				<div class="modal-header" style="padding: 15px 50px;">
+
+					<!-- 제목 -->
+					<h4>
+						<span class="fa fa-pencil"></span> 버킷리스트
+					</h4>
+				</div>
+				<div class="modal-body" style="height: 700px; padding: 40px 50px;">
+					<!-- 제목 -->
+					<div class="form-group">
+						<input type="text" class="form-control" name="title"
+							placeholder="Title">
 					</div>
+					<!--버킷리스트 지정-->
+					<div class="form-group">
+						<input type="hidden" class="form-control" name="bucketList_idx">
+						<div
+							style="margin: auto; width: 250px; margin-bottom: 3px; margin-left: 750px">
+							<button id="view_when" type="button" class="btn btn-success">없음</button>
+							<button id="view_who" type="button" class="btn btn-success">없음</button>
+							<button id="view_what" type="button" class="btn btn-success">없음</button>
+						</div>
+						<input type="hidden" id="positionX" name="x">
+						<input type="hidden" id="positionY" name="y">
+						<input id="who" name="who" type="hidden" />
+						<input id="when" name="when" type="hidden" />
+						<input id="what" name="what" type="hidden" />
+						<input id="writer" name="writer" type="hidden" value=0 />
+						<button id="category" class="btn btn-success">카테고리</button>
+						<button type="button" class="btn btn-success" onclick="popupOpen()" style="height:40px">장소지정</button>
+						<button class="btn btn-success" style="width:82px; height:40px">공개 범위</button>
+						<select id="checkWriter" style="margin-left:0px" onchange="javascript:selectEvent(this)">
+							<option value="0">전체 공개</option>
+							<option value="1">친구 공개</option>
+							<option value="2">나만 보기</option>
+						</select>
+
+						<div id=share_BucketList style="display: inline-block;"></div>
+					</div>
+
+
+					<div class="form-group">
+						<textarea id="body" name="contents" class="smarteditor2"
+							style="width: 100%; height: 450p	x"></textarea>
+					</div>
+
 				</div>
-				<div class="x_title">
-					<input type="text" id="title" class="form-control"
-						placeholder="버킷리스트 타이틀을 입력해주세요." name="title">
+				
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success">
+						<span class="fa fa-check"></span> 작성하기
+					</button>
+					<a href="/BucketTree/bucketShare/list" class="btn btn-default">
+						<span class="fa fa-remove"></span> 취소하기
+					</a>
 				</div>
-				<textarea id="body" name="body" class="smarteditor2"></textarea>
-				<input type="hidden" id="positionX" name="x">
-				<input type="hidden" id="positionY" name="y">
-			</div>
 			</form>
 		</div>
 	</div>
 
+
+
 </div>
-<!-- 팝업 레이어 -->
+
+
+<!-- 지도 모달창 -->
 <div id="popup" style="position:absolute;  visibility:hidden; height:535px; background-color:white";>
 	<div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
@@ -55,9 +98,118 @@
         <div id="pagination"></div>
     </div>
 </div>
-<h1 style="margin-top:5px; font-size:16px">현재 선택한 장소 : <input type="text" readOnly="readOnly" id="title2"> <span style="text-align:right">마커나 검색 목록을 클릭하여 선택하세요</span><input type="button" class="btn btn-default" onclick="popupOpen()" value="확인" style="margin-left:330px"></input></button></h1>
+<h1 style="margin-top:5px; font-size:16px">현재 선택한 장소 : <input type="text" readOnly="readOnly" id="title2"> <span style="text-align:right">마커나 검색 목록을 클릭하여 선택하세요</span><input type="button" class="btn btn-default" onclick="popupOpen()" value="확인" style="margin-left:330px"></input></h1>
 </div>
+<!-- 지도 모달창 종료 -->
 <!-- //팝업 레이어 -->
+<!-- 카테고리 모달창 -->
+<div class="modal fade" id="category_modal" role="dialog"
+	style="z-index: 99999; position: fixed">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" style="padding: 15px 50px;"></div>
+			<div class="modal-body" style="padding: 40px 50px;">
+
+				<div style="display: flex; margin-left: 65px">
+					<div style="display: inline-block">
+						<h3>WHEN</h3>
+					</div>
+					<div style="display: inline-block; margin-left: 80px">
+						<h3>WHO</h3>
+					</div>
+					<div style="display: inline-block; margin-left: 80px">
+						<h3>WHAT</h3>
+					</div>
+				</div>
+				<select id="when_temp"></select> <select id="who_temp"></select> <select
+					id="what_temp"></select>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="submit" id="btnCategory" class="btn btn-default"
+					data-dismiss="modal" onclick="showCategory()">
+					<span class="fa fa-check"></span> 확인
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function selectEvent(selectObj) {
+		$('#writer').val(selectObj.value); 
+	}
+	
+	function showCategory(){
+		$('#category').html('카테고리O');
+		$('#categoryState').html('카테고리 검색 활성화');
+		$('#view_when').show();
+		$('#view_who').show();
+		$('#view_what').show();
+		$('#categoryType').val(1);
+	}
+	
+	
+	$(function() {
+		$(".bs-calltoaction").click(function() { location.href = $(this).attr("data-url"); });
+		
+		
+		
+		//카테고리 옵션으로 값뿌려주기
+		<c:forEach items="${what}" var="what">
+		$('#what_temp')
+				.append(
+						"<option value='${what.idx}' ${pagination.what==what.idx ? 'selected' : '' }> ${what.what} </option>");
+		</c:forEach>
+		<c:forEach items="${when}" var="when">
+		$('#when_temp')
+				.append(
+						"<option value='${when.idx}' ${pagination.when==when.idx ? 'selected' : '' }> ${when.when} </option>");
+		</c:forEach>
+		<c:forEach items="${who}" var="who">
+		$('#who_temp')
+				.append(
+						"<option value='${who.idx}' ${pagination.who==who.idx ? 'selected' : '' }> ${who.who} </option>");
+		</c:forEach>
+		//
+
+		<c:if test="${pagination.categoryType==1}">
+		$('#view_when').html($('#when_temp option:selected').text());
+		$('#view_who').html($('#who_temp option:selected').text());
+		$('#view_what').html($('#what_temp option:selected').text());
+		$('#view_when').show();
+		$('#view_who').show();
+		$('#view_what').show();
+		</c:if>
+
+		<c:if test="${pagination.categoryType==0}">
+		$('#view_when').hide();
+		$('#view_who').hide();
+		$('#view_what').hide();
+		</c:if>
+
+		$('#category').click(function(e) {
+			e.preventDefault();
+			$('#category_modal').modal();
+		});
+
+		$('#when_temp').change(function() {
+			$('#view_when').html($('#when_temp option:selected').text());
+			$('#when').val($('#when_temp option:selected').val());
+		});
+		$('#who_temp').change(function() {
+			$('#view_who').html($('#who_temp option:selected').text());
+			$('#who').val($('#who_temp option:selected').val());
+		});
+		$('#what_temp').change(function() {
+			$('#view_what').html($('#what_temp option:selected').text());
+			$('#what').val($('#what_temp option:selected').val());
+		});
+
+
+
+	});
+</script>
 <script type="text/javascript"	src="/BucketTree/js/bucketList/bucketWrite.js"></script>
-
-

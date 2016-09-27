@@ -8,7 +8,6 @@ margin_bottom: 50,
 single_column_breakpoint: 700
 });
 });
-
 ;(function ($, window, document, undefined) {
     var pluginName = 'pinterest_grid',
         defaults = {

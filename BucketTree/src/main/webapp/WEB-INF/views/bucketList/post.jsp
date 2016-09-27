@@ -376,7 +376,6 @@ $(document).on('click', '#addComment', function(){
 				function(){
 
 					str+='<div class="box-comment" data-idx="'+this.idx+'">'
-					+'<img src="/kr/resources/img/user1-128x128.jpg" class="user-image" alt="User Image">'
 					+'<div class="comment-text">'
 					+'<span class="username">'+this.name+'<a href="" id="cedit" style="margin-left:790px">수정</a><a href="" id="cdelete" style="margin-left:10px">삭제</a><span class="text-muted pull-right post_date">'+this.date+'</span></span>'
 					+ this.contents
