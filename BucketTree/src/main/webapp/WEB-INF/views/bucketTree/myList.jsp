@@ -10,7 +10,7 @@
 	<!-- Search Form __ Start -->
 
 	<div class="container_category"
-		style="display: flex; width: 900px; z-index:9">
+		style="display: flex; width: 900px; z-index: 9">
 
 		<div class="row_category" style="display: inline-block">
 
@@ -118,6 +118,7 @@
 
 </div>
 
+
 <!-- bucketList-listAll __ Start -->
 
 <div class="container" style="padding-top: 20px; padding-bottom: 85px">
@@ -130,6 +131,7 @@
 
 		<!-- bucketList-Category & Type & Search __ End -->
 		<hr>
+
 
 		<section id="pinBoot" class="bucketbox">
 
@@ -151,17 +153,10 @@
 						<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
 					</h4>
 
-					<c:if test="${BucketTreeVO.current<=BucketTreeVO.member_num}">
-						<c:if test="${BucketTreeVO.regist==1}">
-							<a href="/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}" class="btn btn-success">취소</a>
-						</c:if>
-						<c:if test="${BucketTreeVO.regist==0}">
-							<a href="/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}" type="button" class="btn btn-success">신청</a>
-						</c:if>
-						<c:if test="${BucketTreeVO.regist==2}">
-							<button type="button" class="btn btn-success">회원</button>
-						</c:if>
-					</c:if>
+
+
+					<button type="button" class="btn btn-success">회원</button>
+
 					<p style="width: 250px">인원 :
 						${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>
 				</article>
@@ -268,57 +263,7 @@ $(function() {
 		 $('input[name=currentPage]').val(1);
 	});
 	
-	 //무한 스크롤
-    $(window).scroll(function() {
-   
-                   if ($(window).scrollTop() >= $(document).height()- $(window).height()-3) {
-                	  
-                	   
-                	   if($('input[name=currentPage]').val() <= pageCount)
-                		   {
-                		       $('input[name=currentPage]').val( parseInt($('input[name=currentPage]').val()) +1 );
-                		       pagination.currentPage= $('input[name=currentPage]').val();
-                		       
-                		           
-                		       $.ajax({
-                                  url : "/BucketTree/bucketTree/ajaxlist",
-                                  dataType : "json",
-                                  type : "POST",
-                                  sync :false,
-                                  contentType: "application/json",
-                                  data :JSON.stringify(pagination),
-                                  success : function(data) {
-                					$(data).each(function() {
-                               		var str ="<article class='white-panel' style='width: 260px'> "
-                                       		+ "<img src='/BucketTree/images/image7.jpg' alt='' style='width: 260px'>"
-											+ "<h4> <a href='#'>"+this.treeName+"</a> - <a href='#''>"+this.title+"</a> </h4>";
-                                 			 if(this.regist==1)
-                                 				{
-                                 					str+="<button  type='button' class='btn btn-success'>취소</button>"
-                                 				}
-                                 			 if(this.regist==0)
-                                 				 {
-                                 				    str+="<button  type='button' class='btn btn-success'>신청</button>"
-                                 				 }
-                                 			if(this.regist==2)
-                            				 {
-                            				    str+="<button  type='button' class='btn btn-success'>회원</button>"
-                            				 }
-                                 			str+= "<p style='width: 250px'>인원 :+"+this.current+"/"+this.member_num+"</p> </article>";
-                            			
-                                 			  $('.bucketbox').append(str);
-                                 				
-                					});
-                                }
-                               });
-                		       
-                		   }
-            
-                	   
-                	   
-                	   
-                   }
-                });
+	
 });
 
    

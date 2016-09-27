@@ -61,10 +61,34 @@ public class BucketTreeController {
 	
 	@RequestMapping(value = "/bucketTree/apply")
 	public String apply(Model model, Pagination pagination, @RequestParam("bucketTree_idx") int bucketTree_idx) throws Exception {
-
+		btms.apply(bucketTree_idx, us.getCurrentUser().getIdx(), 1);
+		pagination.setCurrentPage(1);
 		
 		
-		return "bucketTree/list";
+		return "redirect:/bucketTree/list?"+pagination.getQueryString();
+	}
+	@RequestMapping(value = "/bucketTree/cancel")
+	public String cancel(Model model, Pagination pagination, @RequestParam("bucketTree_idx") int bucketTree_idx) throws Exception {
+		btms.cancel(bucketTree_idx,us.getCurrentUser().getIdx());;
+		pagination.setCurrentPage(1);
+		
+		return "redirect:/bucketTree/list?"+pagination.getQueryString();
+	}
+	
+	@RequestMapping(value = "/bucketTree/myList")
+	public String myList(Model model, Pagination pagination) throws Exception {
+		
+		model = bucketTreeCommon.commonMessenger(model);
+		model.addAttribute("what", cs.whatList());
+		model.addAttribute("who", cs.whoList());
+		model.addAttribute("when", cs.whenList());
+		pagination.setRecordCount(bs.selectMyCount(pagination,us.getCurrentUser().getIdx()));
+		model.addAttribute("list",bs.selectMyPage(pagination, us.getCurrentUser().getIdx()) );
+		model.addAttribute("pageCount",pagination.getRecordCount()/pagination.getPageSize()+1);
+		
+		
+		
+		return "bucketTree/myList";
 	}
 	
 }

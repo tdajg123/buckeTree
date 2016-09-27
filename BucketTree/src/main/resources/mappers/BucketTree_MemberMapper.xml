@@ -6,12 +6,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
    <insert id="apply" >
    
-   Insert BucketTree_MemberMapper into (bucketTree_idx,user_idx,state)
+   Insert into BucketTree_Member (bucketTree_idx,user_idx,state)
    values(#{bucketTree_idx} ,#{user_idx},#{state})
    </insert>
    
    <delete id="cancel">
-   Delete from  BucketTree_MemberMapper where bucketTree_idx=#{bucketTree_idx} and user_idx =#{user_idx}
+   Delete from  BucketTree_Member where bucketTree_idx=#{bucketTree_idx} and user_idx =#{user_idx}
    </delete>
 
 
