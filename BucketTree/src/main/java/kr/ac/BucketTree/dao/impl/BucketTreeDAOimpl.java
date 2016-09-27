@@ -61,4 +61,10 @@ public class BucketTreeDAOimpl implements BucketTreeDAO {
 		return session.selectList(namespace+".adminByReommend", user_idx);
 	}
 
+	@Override
+	public void insert(BucketTreeVO bucketTreeVO) {
+		session.insert(namespace+".insert",bucketTreeVO);
+		
+	}
+
 }

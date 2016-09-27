@@ -272,7 +272,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN Category_When [when]
 		ON b.[when] =[when].idx
 		where user_idx=#{user_idx}
-		and tree_idx is  null;
+		and tree_idx is null;
 	</select>
 	
 
@@ -382,4 +382,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE [BucketList_Comment] SET contents=#{contents} WHERE idx=#{idx}
 	
 	</update>
+	<!-- 버킷리스트에 버킷트리 값 넣기 -->
+	<update id="updateTreeidx">
+	 UPDATE [BucketList]  SET tree_idx=#{tree_idx} WHERE idx=#{idx}
+	 </update>
 </mapper>

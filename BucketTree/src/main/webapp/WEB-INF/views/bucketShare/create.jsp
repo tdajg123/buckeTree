@@ -147,12 +147,10 @@
 
 <script>
 	$(function() {
-
-		/* var user_point = $
-			{
-				user.idx
-			}
-			; */
+		var user_point=${user.idx};
+		$("button[type=submit]").click(function() {
+			$('#question_Create').submit();
+		});
 		$("#searchBucketList_button").click(function() {
 
 			$('#searchBucketList').modal();

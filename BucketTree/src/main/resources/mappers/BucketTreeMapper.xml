@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY bl.count desc)/*버킷트리에 지정된 좋아요갯수*/
 		END 행번호, 
 		(select state from BucketTree_Member where user_idx= #{user_idx}  and  bucketTree_idx =b.idx) as 'regist',
-		(select count(*) from BucketTree_Member where  state = 0  and bucketTree_idx =b.idx) as 'current'
+		(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
 		FROM [BucketTree] b join [User] u
 		ON b.user_idx=u.idx
 		JOIN [BucketList] bl
@@ -84,7 +84,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT b.*,bl.title,u.name, CASE #{pagination.orderType}
 		WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY b.date desc)/*버킷트리 최근 개설순*/
 		WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY bl.count desc)/*버킷트리에 지정된 좋아요갯수*/
-		END 행번호
+		END 행번호, 
+		(select state from BucketTree_Member where user_idx= #{user_idx}  and  bucketTree_idx =b.idx) as 'regist',
+		(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
 		FROM [BucketTree] b join [User] u
 		ON b.user_idx=u.idx
 		JOIN [BucketList] bl
@@ -178,4 +180,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY NEWID()
 		]]>
 	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="idx">
+		
+		INSERT INTO BucketTree(treeName,bucketList_idx,user_idx,contents,author,member_num,date)
+		Values(#{treeName},#{bucketList_idx},#{user_idx},#{contents},#{author},#{member_num},GETDATE())
+	
+	</insert>
 </mapper>

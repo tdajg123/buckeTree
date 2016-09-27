@@ -220,4 +220,10 @@ public class BucketListServiceimpl implements BucketListService{
 		return dao.bucketTree_MyBucketList(user_idx);
 	}
 
+	@Override
+	public void updateTreeidx(BucketListVO bucketListVO) {
+		dao.updateTreeidx(bucketListVO);
+		
+	}
+
 }

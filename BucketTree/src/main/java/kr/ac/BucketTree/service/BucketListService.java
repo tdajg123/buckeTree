@@ -81,4 +81,5 @@ public interface BucketListService {
 	public int updateComment(CommentVO cvo);
 	
 	public List<BucketListVO> bucketTree_MyBucketList(int user_idx);
+	public void updateTreeidx(BucketListVO bucketListVO);
 }

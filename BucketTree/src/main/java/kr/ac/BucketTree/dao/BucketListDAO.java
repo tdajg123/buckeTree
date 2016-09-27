@@ -82,4 +82,7 @@ public interface BucketListDAO {
 	
 	/* 댓글 수정 */
 	public int updateComment(CommentVO cvo);
+	
+	
+	public void updateTreeidx(BucketListVO bucketListVO);
 }

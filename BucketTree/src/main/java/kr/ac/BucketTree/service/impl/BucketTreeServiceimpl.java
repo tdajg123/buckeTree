@@ -48,6 +48,12 @@ public class BucketTreeServiceimpl implements BucketTreeService {
 		// TODO Auto-generated method stub
 		return dao.adminByReommend(user_idx);
 	}
+
+	@Override
+	public void insert(BucketTreeVO bucketTreeVO) {
+		dao.insert(bucketTreeVO);
+		
+	}
 	
 	
 }

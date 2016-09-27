@@ -221,5 +221,10 @@ public class BucketListDAOimpl implements BucketListDAO {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace + ".bucketTree_MyBucketList",user_idx);
 	}
+	@Override
+	public void updateTreeidx(BucketListVO bucketListVO) {
+		session.update(namespace + ".updateTreeidx",bucketListVO);
+		
+	}
 
 }

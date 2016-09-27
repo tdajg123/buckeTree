@@ -13,5 +13,6 @@ public interface BucketTreeDAO {
 	public int selectMyCount(Pagination pagination,int user_idx);
 	public List<BucketTreeVO> applyBucketTree(int user_idx);
 	public List<BucketTreeVO> adminByReommend(int user_idx);
+	public void insert(BucketTreeVO bucketTreeVO);
 
 }

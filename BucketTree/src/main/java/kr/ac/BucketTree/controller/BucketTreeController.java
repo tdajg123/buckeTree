@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,9 +16,11 @@ import kr.ac.BucketTree.service.BucketListService;
 import kr.ac.BucketTree.service.BucketTreeService;
 import kr.ac.BucketTree.service.BucketTree_MemberService;
 import kr.ac.BucketTree.service.CategoryService;
+import kr.ac.BucketTree.service.TimelineService;
 import kr.ac.BucketTree.service.UserService;
 import kr.ac.BucketTree.util.BucketTreeCommon;
 import kr.ac.BucketTree.util.Pagination;
+import kr.ac.BucketTree.vo.BucketListVO;
 import kr.ac.BucketTree.vo.BucketTreeVO;
 
 
@@ -35,6 +38,8 @@ public class BucketTreeController {
 	BucketTree_MemberService btms;
 	@Autowired 
 	BucketListService bls;
+	@Autowired 
+	TimelineService ts;
 	
 	// 전체목록
 	@RequestMapping(value = "/bucketTree/list")
@@ -113,15 +118,34 @@ public class BucketTreeController {
 		return bs.selectMyPage(pagination, us.getCurrentUser().getIdx());
 	}
 	
-	@RequestMapping(value = "/bucketTree/create")
+	@RequestMapping(value = "/bucketTree/create",method = RequestMethod.GET)
 	public String create (Model model) throws Exception {
-
-		
-		
-		
+		model = bucketTreeCommon.commonMessenger(model);
 		//버킷트리로 지정되지않은 리스트
 		model.addAttribute("list",bls.bucketTree_MyBucketList(us.getCurrentUser().getIdx()));
 		return "bucketTree/create";
+	}
+	
+	@RequestMapping(value = "/bucketTree/create",method = RequestMethod.POST)
+	public String create (Model model, BucketTreeVO bucketTreeVO) throws Exception {
+		
+		//1.등록
+		bucketTreeVO.setMember_num(5);;
+		bucketTreeVO.setUser_idx(us.getCurrentUser().getIdx());
+		bs.insert(bucketTreeVO);
+		//멤버에 추가되야함
+		btms.apply(bucketTreeVO.getIdx(), us.getCurrentUser().getIdx(),2);
+		//2 버킷리스트에 TREE_IDX 지정
+		BucketListVO bucketListVO=new BucketListVO();
+		bucketListVO.setIdx(bucketTreeVO.getBucketList_idx());
+		bucketListVO.setTree_idx(bucketTreeVO.getIdx());
+		bls.updateTreeidx(bucketListVO);
+		//3 타임라인 지정
+		ts.TreeCreate_Timeline(us.getCurrentUser().getIdx(), bucketTreeVO.getTreeName(),"/BucketTree/bucketTree/detail?idx="+bucketTreeVO.getIdx());
+		//4 포인트
+		us.updateMinusPoint(us.getCurrentUser().getIdx(),1, -100);
+		
+		return "redirect:/bucketTree/myList";
 	}
 	
 }
