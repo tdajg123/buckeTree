@@ -79,4 +79,6 @@ public interface BucketListService {
 	
 	/* 댓글 수정 */
 	public int updateComment(CommentVO cvo);
+	
+	public List<BucketListVO> bucketTree_MyBucketList(int user_idx);
 }

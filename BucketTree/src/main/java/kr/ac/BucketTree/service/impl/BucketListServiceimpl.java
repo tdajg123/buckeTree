@@ -214,4 +214,10 @@ public class BucketListServiceimpl implements BucketListService{
 		return dao.updateComment(cvo);
 	}
 
+	@Override
+	public List<BucketListVO> bucketTree_MyBucketList(int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.bucketTree_MyBucketList(user_idx);
+	}
+
 }

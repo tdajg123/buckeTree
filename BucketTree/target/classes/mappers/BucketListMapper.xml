@@ -261,8 +261,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN Category_When [when]
 		ON b.[when] =[when].idx
 		where user_idx=#{user_idx}
-	
 	</select>
+	
+	<select id="bucketTree_MyBucketList" resultType="kr.ac.BucketTree.vo.BucketListVO">
+		SELECT b.*,what.what as what_name ,[when].[when] as when_name, who.who as who_name
+		FROM [BucketList] b join Category_What what
+		ON b.what =what.idx
+		JOIN Category_WHO who
+		ON b.who =who.idx
+		JOIN Category_When [when]
+		ON b.[when] =[when].idx
+		where user_idx=#{user_idx}
+		and tree_idx is  null;
+	</select>
+	
+
 	
 	<!-- ##버킷리스트 내 목록 시작...## -->
 	<!-- 버킷리스트 등록 -->

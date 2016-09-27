@@ -102,7 +102,7 @@ public class BucketShareController {
 		
 		return "bucketShare/create";
 	}
-	//제목, 내용  빈칸인지 검사하고  , 해당유저가 포인트가 잇는지 체크해야함--아직안함
+
 	// 질문작성 포스트
 	@RequestMapping(value = "/bucketShare/create" , method = RequestMethod.POST)
 	public String create(Model model ,BucketShareVO bucketShareVO) throws Exception {

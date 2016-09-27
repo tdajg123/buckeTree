@@ -216,5 +216,10 @@ public class BucketListDAOimpl implements BucketListDAO {
 	public int updateComment(CommentVO cvo){
 		return session.update(namespace +".updateComment", cvo);
 	}
+	@Override
+	public List<BucketListVO> bucketTree_MyBucketList(int user_idx) {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace + ".bucketTree_MyBucketList",user_idx);
+	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.ac.BucketTree.service.BucketListService;
 import kr.ac.BucketTree.service.BucketTreeService;
 import kr.ac.BucketTree.service.BucketTree_MemberService;
 import kr.ac.BucketTree.service.CategoryService;
@@ -32,6 +33,8 @@ public class BucketTreeController {
 	UserService us;
 	@Autowired 
 	BucketTree_MemberService btms;
+	@Autowired 
+	BucketListService bls;
 	
 	// 전체목록
 	@RequestMapping(value = "/bucketTree/list")
@@ -108,6 +111,17 @@ public class BucketTreeController {
 
 
 		return bs.selectMyPage(pagination, us.getCurrentUser().getIdx());
+	}
+	
+	@RequestMapping(value = "/bucketTree/create")
+	public String create (Model model) throws Exception {
+
+		
+		
+		
+		//버킷트리로 지정되지않은 리스트
+		model.addAttribute("list",bls.bucketTree_MyBucketList(us.getCurrentUser().getIdx()));
+		return "bucketTree/create";
 	}
 	
 }

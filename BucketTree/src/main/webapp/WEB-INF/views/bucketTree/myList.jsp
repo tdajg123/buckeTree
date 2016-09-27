@@ -230,8 +230,8 @@
 
 			<article class="white-panel-add">
 				<h4>
-					<a href="#" class="fa fa-plus"
-						style="color: #fff; margin-left: 30px"> 새로운 버킷 트리 만들기</a>
+					<a href="/BucketTree/bucketTree/create" class="fa fa-plus"
+						style="color: #fff; margin-left: 30px">버킷 트리 만들기</a>
 				</h4>
 			</article>
 

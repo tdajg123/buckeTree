@@ -133,12 +133,7 @@
 
 		<section id="pinBoot" class="bucketbox">
 
-			<article class="white-panel-add">
-				<h4>
-					<a href="#" class="fa fa-plus"
-						style="color: #fff; margin-left: 30px"> 새로운 버킷 트리 만들기</a>
-				</h4>
-			</article>
+		
 
 			<c:forEach items="${list}" var="BucketTreeVO">
 

@@ -29,7 +29,7 @@ public interface BucketListDAO {
 	public List<BucketListVO> adminRecommendList() throws Exception;					/*관리자 추천*/
 	
     public List<BucketListVO> bucketShare_MyBucketList(int user_idx);	
-    
+    public List<BucketListVO> bucketTree_MyBucketList(int user_idx);	
     /*버킷리스트 추가*/
 	public int  insertBucketList(BucketListVO vo)throws Exception;
 	
