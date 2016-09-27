@@ -159,6 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		user_idx=#{user_idx} and state=1)
 	</select>
 	<select id="adminByReommend" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
+	<![CDATA[
 		select TOP 4 *
 		from BucketTree
 		where bucketList_idx in
@@ -173,7 +174,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)subquery
 		where 행번호 in (1,2,3)
 		))and idx not in(select bucketTree_idx from BucketTree_Member where
-		user_idx != #{user_idx})
+		user_idx != #{user_idx}) and member_num > (select count(*) from BucketTree_Member where  state = 0  and bucketTree_idx =idx)
 		ORDER BY NEWID()
+		]]>
 	</select>
 </mapper>

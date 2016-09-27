@@ -156,7 +156,7 @@
 
 
 								<a
-									href="/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}"
+									href="/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=2"
 									class="btn btn-success">취소</a>
 
 								<p style="width: 250px">인원 :
@@ -202,7 +202,7 @@
 
 
 									<a
-										href="/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}"
+										href="/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=2"
 										type="button" class="btn btn-success">신청</a>
 
 									<p style="width: 250px">인원 :
