@@ -18,49 +18,35 @@
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav">
 
-					<li><a href="/BucketTree/bucketShare/list"><span
-							class="glyphicon glyphicon-user"></span> 전체질문</a></li>
-					<li><a href="/BucketTree/bucketShare/mylist"><span
-							class="glyphicon glyphicon-user"></span> 내가 쓴 질문</a></li>
-					<li><a href="/BucketTree/bucketShare/myAnswerlist"><span
-							class="glyphicon glyphicon-user"></span> 내가 쓴 답변</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
-							질문하기</a></li>
-
+					<li><a href="/BucketTree/bucketShare/list"> 전체질문 <span
+							class="fa fa-angle-right f_right"></span></a></li>
+					<li><a href="/BucketTree/bucketShare/mylist">내가 쓴 질문 <span
+							class="fa fa-angle-right f_right"></span></a></li>
+					<li><a href="/BucketTree/bucketShare/myAnswerlist"> 내가 쓴
+							답변 <span class="fa fa-angle-right f_right"></span>
+					</a></li>
+					<li><a href="/BucketTree/bucketShare/create"> 질문하기 <span
+							class="fa fa-angle-right f_right"></span></a></li>
 				</ul>
 			</div>
-
 		</nav>
-
 	</div>
-
-
-
-	<div class="box-group" id="accordion"
-		style="height: 900px; width: 1200px; padding-top: 100px;">
-		<div class="panel box box-primary">
+	<div class="box-group">
+		<h3>
+			<i class="fa fa-chevron-right"></i> 버킷쉐어 질문하기
+		</h3>
+		<hr>
+		<div class="x_panel">
 			<form id="question_Create" method="post">
-				<div class="modal-header" style="padding: 15px 50px;">
-
-					<!-- 제목 -->
-					<h4>
-						<span class="fa fa-pencil"></span> 버킷쉐어
-					</h4>
-				</div>
-				<div class="modal-body" style="height: 700px; padding: 40px 50px;">
-					<!-- 제목 -->
-					<div class="form-group">
-						<input type="text" class="form-control" name="title" placeholder="Title">
-					</div>
-					<!--버킷리스트 지정-->
+				<div class="x_title">
 					<div class="form-group">
 						<input type="hidden" class="form-control" name="bucketList_idx">
 						<a id="searchBucketList_button" class="btn btn-success">나의
 							버킷리스트 지정</a>
 						<div id=share_BucketList style="display: inline-block;"></div>
-						<div style="display: inline-block; margin-left: 300px">
-							<button type="button" class="btn btn-success">포인트</button>
-							<select name="point" style="margin: 0">
+						<div class="form-inline f_right">
+							<p type="button" class="btn btn-success">포인트</p>
+							<select name="point" id="srchType">
 								<option value="100">100</option>
 								<option value="100">200</option>
 								<option value="100">300</option>
@@ -69,28 +55,30 @@
 							</select>
 						</div>
 					</div>
-
-
+				</div>
+				<div class="x_contents">
+					<!-- 제목 -->
+					<div class="form-group">
+						<input type="text" class="form-control" name="title"
+							placeholder="Title">
+					</div>
+					<!--버킷리스트 지정-->
 					<div class="form-group">
 						<textarea id="body" name="contents" class="smarteditor2"
 							style="width: 100%; height: 450px"></textarea>
 					</div>
-
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">
-						<span class="fa fa-check"></span> 작성하기
-					</button>
-					<a href="/BucketTree/bucketShare/list" class="btn btn-default">
-						<span class="fa fa-remove"></span> 취소하기
-					</a>
 				</div>
 			</form>
 		</div>
+		<div class="f_right" style="margin-bottom: 10px;">
+			<button type="submit" class="btn btn-success">
+				<span class="fa fa-check"></span> 작성하기
+			</button>
+			<a href="/BucketTree/bucketShare/list" class="btn btn-default"> <span
+				class="fa fa-remove"></span> 취소하기
+			</a>
+		</div>
 	</div>
-
-
-
 </div>
 
 <!-- 수정하는  modal -->
@@ -111,28 +99,32 @@
 
 				<div id="searchResult">
 					<c:if test="${ list.size() > 0 }">
-						<table class="table table-bordered">
-							<tr>
-								<td>타이틀</td>
-								<td>담아간수</td>
-								<td>상태</td>
-								<td>WHEN</td>
-								<td>WHO</td>
-								<td>WHAT</td>
-							</tr>
+						<table class="table jambo_table">
+							<thead>
+								<tr class="headings">
+									<td>타이틀</td>
+									<td>담아간수</td>
+									<td>상태</td>
+									<td>WHEN</td>
+									<td>WHO</td>
+									<td>WHAT</td>
+								</tr>
+							</thead>
 							<c:forEach var="bucket" items="${ list }">
-								<tr data-id="${ bucket.idx }">
-									<td>${ bucket.title }</td>
-									<td>${ bucket.count }</td>
-									<td><c:if test="${ bucket.state == 1 }">
+								<tbody>
+									<tr data-id="${ bucket.idx }">
+										<td>${ bucket.title }</td>
+										<td>${ bucket.count }</td>
+										<td><c:if test="${ bucket.state == 1 }">
 										진행중
 										</c:if> <c:if test="${ bucket.state == 0 }">
 										완료
 										</c:if></td>
-									<td>${ bucket.when_name }</td>
-									<td>${ bucket.who_name }</td>
-									<td>${ bucket.what_name }</td>
-								</tr>
+										<td>${ bucket.when_name }</td>
+										<td>${ bucket.who_name }</td>
+										<td>${ bucket.what_name }</td>
+									</tr>
+								</tbody>
 							</c:forEach>
 
 						</table>
@@ -155,7 +147,12 @@
 
 <script>
 	$(function() {
-		var user_point= ${user.idx};
+
+		/* var user_point = $
+			{
+				user.idx
+			}
+			; */
 		$("#searchBucketList_button").click(function() {
 
 			$('#searchBucketList').modal();
@@ -174,66 +171,74 @@
 					$('input[name=bucketList_idx]').val(idx);
 					var bucketName = selectedTr.find("td:nth-child(1)").text();
 					$('#share_BucketList').append(
-							"<button type='button' class='btn btn-success'>"
+							"<button type='button' class='btn btn-default'>"
 									+ bucketName + "</button>");
 					$('#share_BucketList').append(
-							"<button type='button' class='btn btn-success'>"
-									+ selectedTr.find("td:nth-child(4)").text() + "</button>");
+							"<button type='button' class='btn btn-default'>"
+									+ selectedTr.find("td:nth-child(4)").text()
+									+ "</button>");
 					$('#share_BucketList').append(
-							"<button type='button' class='btn btn-success'>"
-									+ selectedTr.find("td:nth-child(5)").text() + "</button>")
-											$('#share_BucketList').append(
-							"<button type='button' class='btn btn-success'>"
-									+ selectedTr.find("td:nth-child(6)").text() + "</button>")
+							"<button type='button' class='btn btn-default'>"
+									+ selectedTr.find("td:nth-child(5)").text()
+									+ "</button>")
+					$('#share_BucketList').append(
+							"<button type='button' class='btn btn-default'>"
+									+ selectedTr.find("td:nth-child(6)").text()
+									+ "</button>")
 
 				});
-		$('#question_Create').submit(function() {
-			  	var point=0;
-				var value = $('input[name=title]').val();
-			
-				if(value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ))
-				  {      
-				  		alert('제목을 입력하세요');
-				  		return false;
-				  }
-				value = $('input[name=bucketList_idx]').val();
-			
-				if(value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ))
-				  {      
-				  		alert('버킷리스트를 지정하세요');
-				  		return false;
-				  }
-			     $.ajax({
-		              url: "/BucketTree/bucketShare/userPoint",
-		              type: "GET",
-		              async: false,
-		              data: {
-		                  idx:  user_point
-		              },
-		              success: function(data) {
-		            	   point=data;
-		            	  
-		              },
-		              error: function(request, status, error) {
-		                  alert("code:" + request.status + "\n" + "message:" +
-		                      request.responseText + "\n" + "error:" +
-		                      error);
-		              }
-		          });
-			  
-				if(parseInt(point)<parseInt(value))
-					{
-						alert('포인트가 부족합니다');
-						return false;
-					}
-				
-				return true;
-				
-				
-			
+		$('#question_Create')
+				.submit(
+						function() {
+							var point = 0;
+							var value = $('input[name=title]').val();
 
-		});
-		
+							if (value == ""
+									|| value == null
+									|| value == undefined
+									|| (value != null
+											&& typeof value == "object" && !Object
+											.keys(value).length)) {
+								alert('제목을 입력하세요');
+								return false;
+							}
+							value = $('input[name=bucketList_idx]').val();
+
+							if (value == ""
+									|| value == null
+									|| value == undefined
+									|| (value != null
+											&& typeof value == "object" && !Object
+											.keys(value).length)) {
+								alert('버킷리스트를 지정하세요');
+								return false;
+							}
+							$.ajax({
+								url : "/BucketTree/bucketShare/userPoint",
+								type : "GET",
+								async : false,
+								data : {
+									idx : user_point
+								},
+								success : function(data) {
+									point = data;
+
+								},
+								error : function(request, status, error) {
+									alert("code:" + request.status + "\n"
+											+ "message:" + request.responseText
+											+ "\n" + "error:" + error);
+								}
+							});
+
+							if (parseInt(point) < parseInt(value)) {
+								alert('포인트가 부족합니다');
+								return false;
+							}
+
+							return true;
+
+						});
 
 	});
 </script>

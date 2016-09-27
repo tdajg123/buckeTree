@@ -10,7 +10,6 @@
 <div class="container" style="padding-top: 110px; padding-bottom: 85px">
 	<!-- Menu -->
 	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
-
 		<nav class="navbar navbar-default" role="navigation"
 			style="width: 200px">
 
@@ -18,72 +17,70 @@
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav">
 
-					<li><a href="/BucketTree/bucketShare/list"><span
-							class="glyphicon glyphicon-user"></span> 전체질문</a></li>
-					<li><a href="/BucketTree/bucketShare/mylist"><span
-							class="glyphicon glyphicon-user"></span> 내가 쓴 질문</a></li>
-					<li><a href="/BucketTree/bucketShare/myAnswerlist"><span
-							class="glyphicon glyphicon-user"></span> 내가 쓴 답변</a></li>
-					<li><a href="/BucketTree/bucketShare/create"><span
-							class="glyphicon glyphicon-user"></span> 질문하기</a></li>
+					<li><a href="/BucketTree/bucketShare/list"> 전체질문 <span
+							class="fa fa-angle-right f_right"></span></a></li>
+					<li><a href="/BucketTree/bucketShare/mylist">내가 쓴 질문 <span
+							class="fa fa-angle-right f_right"></span></a></li>
+					<li><a href="/BucketTree/bucketShare/myAnswerlist"> 내가 쓴
+							답변 <span class="fa fa-angle-right f_right"></span>
+					</a></li>
+					<li><a href="/BucketTree/bucketShare/create"> 질문하기 <span
+							class="fa fa-angle-right f_right"></span></a></li>
 				</ul>
 			</div>
-
 		</nav>
-
 	</div>
 
-	<div class="box-group" id="accordion"
-		style="height: 500px; width: 1200px; padding-top: 100px;">
-		<div class="panel box box-primary">
-			<c:if test="${ question.state == 0 && question.user_idx==user.idx }">
-				<div class="left">
-				<a href="/BucketTree/bucketShare/edit?idx=${question.idx}"  class="btn btn-success">수정</a>
-				<a href="/BucketTree/bucketShare/delete?idx=${question.idx}" class="btn btn-success">삭제</a>
+	<div class="f_right" style="margin: 10px;">
+		<c:if test="${ question.state == 0 && question.user_idx==user.idx }">
+
+			<a href="/BucketTree/bucketShare/edit?idx=${question.idx}"
+				class="btn btn-default">수정</a>
+			<a href="/BucketTree/bucketShare/delete?idx=${question.idx}"
+				class="btn btn-default">삭제</a>
+
+		</c:if>
+	</div>
+
+	<div class="box-group">
+		<div class="x_panel">
+			<div class="x_title">
+				<div>
+					<p id="view_when" class="btn btn-success" title="WHEN">${question.when}</p>
+					<p id="view_who" class="btn btn-success" title="WHO">${question.who}</p>
+					<p id="view_what" class="btn btn-success" title="WHAT">${question.what}</p>
+					<div class="f_right">
+						<span id="w_info"> ${question.name} </span> <span>
+							${question.date} </span>
+					</div>
+					<h2>
+						<small><i class="fa fa-caret-right"></i>
+							${question.bucketListName}</small>
+					</h2>
+
 				</div>
-			</c:if>
-			<div class="box-header with-border">
-				<h4 class="box-title" style="font-size: 35px">
-					<a> ${question.title} </a>
-				</h4>
-			
+				<hr>
+				<h1 style="margin-left: 10px;">${question.title}</h1>
 			</div>
-			<div
-				style="margin: auto; width: 250px; margin-bottom: 3px; margin-left: 820px">
-				${question.bucketListName}
-				<button id="view_when" type="button" class="btn btn-success">${question.when}</button>
-				<button id="view_who" type="button" class="btn btn-success">${question.who}</button>
-				<button id="view_what" type="button" class="btn btn-success">${question.what}</button>
-			</div>
-			<div class="writer"
-				style="font-size: 16px; margin-left: 820px; margin-top: 15px">작성자
-				: ${question.name}</div>
-
-			<div class="time"
-				style="font-size: 13px; margin-left: 822px; margin-bottom: 20px">${question.date}</div>
-
-			<div id="collapseOne" class="panel-collapse collapse in"
-				style="height: 300px">
-				<div class="box-body" style="font-size: 20px">
+			<div id="collapseOne" class="panel-collapse collapse in">
+				<div class="x_contents" style="font-size: 20px">
 					${question.contents}</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- ##답글__ 시작## -->
-	<div id="answer" class="collapse navbar-collapse">
+	<div id="answer" class="collapse navbar-collapse" style="padding: 0px;">
 		<div class="navbar-custom-comments">
-
-			<div class="box box-default collapsed-box">
+			<div class="x_panel">
 				<div class="box-header withorder">
-					<h3 class="box-title">Comments</h3>
-
-					<div class="box-tools pull-right">
-						<button type="button" class="btn btn-box-tool"
+					<div class="pull-right">
+						<button type="button" class="btn btn-default"
 							data-toggle="collapse" data-target="#collapseComment">
 							<i class="fa fa-plus"></i>
 						</button>
 					</div>
+					<h3 class="x_title">Comments</h3>
 					<!-- /.box-tools -->
 				</div>
 				<!-- /.box-header -->
@@ -120,6 +117,7 @@
 													<button type="reset" class="btn btn-default modifyCancel">취소</button>
 												</span>
 											</div>
+											"src/main/webapp/WEB-INF/views/resources/css/common.css"
 										</div>
 									</form>
 								</div>
@@ -163,14 +161,10 @@
 					</div>
 					<!-- /.box-footer -->
 				</div>
-
 			</div>
-
 			<!-- /댓글 부분 -->
-
 		</div>
 	</div>
-
 </div>
 <script>
 	$('.btn-box-tool').click();
