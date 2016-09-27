@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<script src="//code.jquery.com/jquery.min.js"></script>
     <meta charset="utf-8">
@@ -15,6 +17,7 @@
 			<div class="x_panel">
 				<div class="x_title_m">
 					<div class="right">
+				
 						<button type="submit" class="btn btn-success">작성하기</button>
 						<button type="submit" class="btn btn-default">취소하기</button>
 						<button type="button" class="btn btn-default" onclick="popupOpen()">장소지정</button>
@@ -52,8 +55,9 @@
         <div id="pagination"></div>
     </div>
 </div>
-<h1 style="margin-top:5px">현재 선택한 장소 : <input type="text" readOnly="readOnly" id="title2"> <span style="text-align:right">마커나 검색 목록을 클릭하여 선택하세요</span></h1>
+<h1 style="margin-top:5px; font-size:16px">현재 선택한 장소 : <input type="text" readOnly="readOnly" id="title2"> <span style="text-align:right">마커나 검색 목록을 클릭하여 선택하세요</span><input type="button" class="btn btn-default" onclick="popupOpen()" value="확인" style="margin-left:330px"></input></button></h1>
 </div>
 <!-- //팝업 레이어 -->
 <script type="text/javascript"	src="/BucketTree/js/bucketList/bucketWrite.js"></script>
-	
+
+

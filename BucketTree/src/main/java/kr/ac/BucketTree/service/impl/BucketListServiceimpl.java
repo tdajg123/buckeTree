@@ -118,11 +118,12 @@ public class BucketListServiceimpl implements BucketListService{
 	@Override
 	public void updateBucketImage(BucketListVO vo){
 		dao.deleteByBucketIdx(vo.getIdx());
-		String pattern = "bucketList/([0-9]+)/image.do";
+		String pattern = "bucket/([0-9]+)/image";
 		Pattern r= Pattern.compile(pattern);
 		Matcher m = r.matcher(vo.getContents());
 		while(m.find()){
 			int imageId = Integer.parseInt(m.group(1));
+			
 			dao.insertblImage(vo.getIdx(), imageId);
 		}
 	}
@@ -198,6 +199,12 @@ public class BucketListServiceimpl implements BucketListService{
 	@Override
 	public int deleteComment(int idx){
 		return dao.deleteComment(idx);
+	}
+	
+	/*댓글 수정 */
+	@Override
+	public int updateComment(CommentVO cvo){
+		return dao.updateComment(cvo);
 	}
 
 }

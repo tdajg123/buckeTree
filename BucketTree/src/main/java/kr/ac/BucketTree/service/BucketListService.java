@@ -75,4 +75,7 @@ public interface BucketListService {
 	
 	/* 댓글 삭제 */
 	public int deleteComment(int idx);
+	
+	/* 댓글 수정 */
+	public int updateComment(CommentVO cvo);
 }

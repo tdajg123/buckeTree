@@ -204,5 +204,10 @@ public class BucketListDAOimpl implements BucketListDAO {
 	public int deleteComment(int idx){
 		return session.delete(namespace +".deleteComment", idx);
 	}
+	
+	@Override
+	public int updateComment(CommentVO cvo){
+		return session.update(namespace +".updateComment", cvo);
+	}
 
 }

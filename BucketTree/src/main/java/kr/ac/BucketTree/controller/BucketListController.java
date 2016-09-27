@@ -356,6 +356,19 @@ public class BucketListController {
 		return true;
 		
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value = "/bucketList/editCommentRequestAjax", method = RequestMethod.POST)
+	public CommentVO editComment(HttpServletRequest request,HttpServletResponse response, Model model) throws Exception {
+		System.out.println("댓글 수정 컨트롤러 도착");
+		UserVO user = us.getCurrentUser();
+		int editIdx = Integer.parseInt(request.getParameter("editIdx"));
+		CommentVO cvo = bls.selectByIdxComment(editIdx);
+		String content = request.getParameter("editContent");
+		System.out.println("수정된 내용:"+content+"idx"+editIdx);
+		cvo.setContents(content);
+		bls.updateComment(cvo);
+		return cvo;
+	}
 
 }

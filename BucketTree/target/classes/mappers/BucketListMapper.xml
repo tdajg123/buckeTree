@@ -360,7 +360,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 댓글 수정 -->
 	<update id="updateComment">
-	UPDATE FROM [BucketList_Comment] SET contents=${contents}
+	UPDATE [BucketList_Comment] SET contents=#{contents} WHERE idx=#{idx}
 	
 	</update>
 </mapper>

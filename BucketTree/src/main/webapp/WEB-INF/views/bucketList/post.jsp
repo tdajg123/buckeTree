@@ -321,12 +321,11 @@
 						<c:forEach items="${clist}"  var="CommentVO">
 						<div class="box-comment" id="${CommentVO.idx}">
 							<!-- User image -->
-							<img src="/kr/resources/img/user1-128x128.jpg" class="user-image"
-								alt="User Image">
 
 							<div class="comment-text" id=d${CommentVO.idx}>
-								<span class="username">${CommentVO.name }<a id="cedit" style="margin-left:790px" data-idx="${CommentVO.idx }">수정</a><a id="cdelete" style="margin-left:10px" data-idx="${CommentVO.idx }">삭제</a><span
-									class="text-muted pull-right post_date">${CommentVO.date }</span>
+								<span class="username" id=n${CommentVO.idx}>${CommentVO.name }<span style="margin-left:30px">${CommentVO.date}</span>
+								<a class=e${CommentVO.idx} id="cedit" style="margin-left:600px" data-idx="${CommentVO.idx }">수정</a>
+								<a class=d${CommentVO.idx} id="cdelete" data-idx="${CommentVO.idx }">삭제</a>
 								</span>
 								<!-- /.username -->
 								<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
@@ -417,23 +416,73 @@ $(document).on('click', '#cdelete', function(){
 	
 });
 
+$(document).on('click', '#commentEdit', function(){
+	alert('에이젝스 댓글 수정돌입')
+	var formData =$('#formEdit').serialize();
+	var str='';
+	alert(formData)
+	jQuery.ajax({
+		
+		url : "/BucketTree/bucketList/editCommentRequestAjax",
+		type : "POST",
+		data : formData,
+		cache: false,
+		success :  function(data) {
+			var insertIdx = 'd'+this.idx;
+			if(data !=""){
+				$(data).each(
+			
+				function(){
+
+					str+='<div class="box-comment" data-idx="'+this.idx+'">'
+					+'<div class="comment-text">'
+					+'<span class="username">'+this.name+'<a href="" id="cedit" style="margin-left:780px">수정</a><a href="" id="cdelete" style="margin-left:10px">삭제</a><span class="text-muted pull-right post_date">'+this.date+'</span></span>'
+					+ this.contents
+					+'</div>'
+					+'</div>';      					    
+				}		
+				)  
+				  $('#'+insertIdx).html(str);
+				  $('#addComment').val("");
+				  }else
+					  alert('불러올 데이터가 없습니다')
+				}
+
+	});
+
+});
+
+
+
 $(document).on('click', '#cedit', function(){
 	alert('도착')
 	var evnetTarget = this;
 	var eventIdx = $(this).attr('data-idx');
-	var eventIdx2 = '#c'+eventIdx;
-	var eventDiv = '#d'+eventIdx;
+	var eventIdx2 = 'c'+eventIdx;
+	var eventDiv = 'd'+eventIdx;
+	var eventNspan = 'n'+eventIdx;
+	var ceditIdx = 'cedit_'+eventIdx;
+	var cdeleteIdx = 'cdelte_'+eventIdx;
+	var eclass ='e'+eventIdx;
+	var dclass ='d'+eventIdx;
 
 	var content =document.getElementById(eventIdx2);
-	alert(cotent)
 	var content2 = $(content).html();
 	alert(content2)
-	$(eventDiv).append('<textarea>'+content2+'</textarea>');
-	
+	var str='';
+	var str2='';
+	str+="<a id='cCancle' style='margin-left:630px'>취소</a>";
+	str2+="<form id='formEdit'><input type='text' name='editContent' style='width:746px; height:46px; margin-top:15px' value='"+content2+"'></input>"
+		+ "<button id='commentEdit' style='height:46px; width:146px' vertical-align:middle>등록</button>"
+		+ "<input type='hidden' name='editIdx' value='"+eventIdx+"'></input>";
 
-
-	
+	//div 아래부터 다 지우고 텍스트 형식으로 붙여넣기 해서 삽입 시 vo 값이 잘 나오는가가 중요함.
+	alert(str)
+	$('.'+eclass).remove();
+	$('.'+dclass).remove();
+	$('#'+eventNspan).append(str);
+	$('#'+eventIdx2).remove();
+	$('#'+eventDiv).append(str2);
 	
 });
-
 </script>
