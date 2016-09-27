@@ -103,8 +103,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			]]>
 			ORDER BY row
 		
-		
 	</select>
+	
+	<!-- 각 리스트에서 해당 버킷리스트의 첫번째 이미지로 보이기 -->
+	<select id="listImage" resultType="kr.ac.BucketTree.vo.BucketListVO">
+		SELECT TOP 1 image_idx
+		FROM [BucketList_Image]
+		WHERE BUCKET_IDX = #{bucket_idx}
+	</select>
+	
 
 	<!-- 전체 : 담기-버킷 카운트 업 -->
 	<update id="countUp">
@@ -218,8 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		RBL.BucketList_Idx, BL.title, BL.contents
 		FROM [RecommendBucketList]
 		RBL, [BucketList] BL
-		WHERE RBL.BucketList_idx = BL.idx AND RBL.fromUser
-		= 6
+		WHERE RBL.BucketList_idx = BL.idx AND RBL.fromUser = #{fromUser}
 		ORDER BY NEWID()
 
 	</select>

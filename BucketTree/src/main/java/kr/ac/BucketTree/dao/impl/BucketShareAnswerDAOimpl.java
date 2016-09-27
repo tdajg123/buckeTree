@@ -43,5 +43,10 @@ public class BucketShareAnswerDAOimpl implements BucketShareAnswerDAO{
 		// TODO Auto-generated method stub
 		return session.selectOne(namespace+".selectByIdx",idx);
 	}
+	@Override
+	public void deleteByQuestionIdx(int idx) {
+
+		session.delete(namespace+".deleteByQuestionIdx", idx);
+	}
 
 }

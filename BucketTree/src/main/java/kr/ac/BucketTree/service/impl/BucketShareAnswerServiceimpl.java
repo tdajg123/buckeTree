@@ -52,5 +52,11 @@ public class BucketShareAnswerServiceimpl implements BucketShareAnswerService {
 		return dao.selectByIdx(idx);
 	}
 
+	@Override
+	public void deleteByQuestionIdx(int idx) {
+		dao.deleteByQuestionIdx(idx);
+		
+	}
+
 
 }

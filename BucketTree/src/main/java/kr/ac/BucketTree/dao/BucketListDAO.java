@@ -15,6 +15,7 @@ public interface BucketListDAO {
 	public List<BucketListVO> list(Pagination pagination) throws Exception;				/*전체 목록 및 정렬,검색*/
 	public List<BucketListVO> listAjax(Pagination p) throws Exception;					/*버킷리스트-무한스크롤*/
 	int listCount(Pagination pagination);
+	public int listImage(int bucket_idx) throws Exception;								/*버킷리스트-첫번째 이미지로 보이기*/
 	
 	public void countUp(int idx) throws Exception;										/*담기_카운트 업*/
 	public void addBucket(HashMap<String, Object> addBucket) throws Exception;			/*버킷 버튼 클릭 -> 마이 버킷에 추가*/
@@ -24,8 +25,8 @@ public interface BucketListDAO {
 	/*마이 버킷리스트*/
 	public List<BucketListVO> mylist(Pagination pagination) throws Exception;
 	public List<BucketListVO> mylistAjax(Pagination p) throws Exception;				/*버킷리스트-무한스크롤*/
-	public List<RecommendVO> recommendList() throws Exception;							/*친구 추천*/
-	public List<BucketListVO> adminRecommendList() throws Exception;			/*관리자 추천*/
+	public List<BucketListVO> recommendList(int fromUser) throws Exception;							/*친구 추천*/
+	public List<BucketListVO> adminRecommendList() throws Exception;					/*관리자 추천*/
 	
     public List<BucketListVO> bucketShare_MyBucketList(int user_idx);	
     

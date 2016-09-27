@@ -59,6 +59,7 @@ public class BucketShareController {
 	@RequestMapping(value = "/bucketShare/mylist")
 	public String mylist(Model model, Pagination pagination) throws Exception {
 
+		
 		model = bucketTreeCommon.commonMessenger(model);
 		model.addAttribute("what", cs.whatList());
 		model.addAttribute("who", cs.whoList());
@@ -121,9 +122,11 @@ public class BucketShareController {
 	public String create(Model model ,@RequestParam("idx") int idx) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 		
+		bas.deleteByQuestionIdx(idx);
 		qis.deleteByQuestionIdx(idx);
 		bss.delete(idx);
 		is.deleteOrphan();
+		
 		
 		return "redirect:/bucketShare/list";
 	}

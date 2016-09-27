@@ -44,6 +44,13 @@ public class BucketListDAOimpl implements BucketListDAO {
 		return session.selectList(namespace+".listAjax", p);
 	}
 	
+	
+	/*버킷리스트-첫번째 이미지로 보이기*/
+	@Override
+	public int listImage(int bucket_idx) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".listImage", bucket_idx);
+	}
 	/*전체 : 담기_카운트 업*/
 	@Override
 	public void countUp(int idx) throws Exception {
@@ -90,9 +97,9 @@ public class BucketListDAOimpl implements BucketListDAO {
 	
 	/*마이 : 친구 추천 목록*/
 	@Override
-	public List<RecommendVO> recommendList() throws Exception {
+	public List<BucketListVO> recommendList(int fromUser) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace + ".recommendList");
+		return session.selectList(namespace + ".recommendList", fromUser);
 	}
 
 	/*마이 : 관리자 추천 목록*/

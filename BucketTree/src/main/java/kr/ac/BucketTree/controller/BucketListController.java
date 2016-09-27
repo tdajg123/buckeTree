@@ -70,6 +70,30 @@ public class BucketListController {
 		return "bucketList/list";
 	}
 	
+	/*리스트에 해당하는 이미지 불러오기*/
+	/*@RequestMapping("/list/{idx}/firstImage")
+	public void listImage(@PathVariable("idx") int idx, HttpServletResponse response,Model model) throws Exception {
+
+		ImageVO vo = new ImageVO();
+		
+		System.out.println("idx : " + idx);
+		int listidx = bls.listImage(idx);
+		System.out.println("bucket_idx : " + listidx);
+		
+		vo.setIdx(listidx);
+		ImageVO image = bls.selectById(vo); 
+		model.addAttribute("image",vo);
+		
+		if (image == null) return; 
+		String fileName = URLEncoder.encode(image.getFileName(),"UTF-8"); 
+		response.setContentType(image.getMimeType()); 
+		response.setHeader("Content-Disposition", "idx=" + image.getIdx() + ";"); 
+		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) 
+		{ output.write(image.getData());
+
+		} 
+	}*/
+	
 	/*버킷리스트 무한스크롤, AJAX 활용*/
 	@ResponseBody
 	@RequestMapping(value="/bucketList/BucketListAjax", method = RequestMethod.POST)
@@ -148,7 +172,12 @@ public class BucketListController {
 		model=bucketTreeCommon.commonMessenger(model);
 				
 		System.out.println("<<<<<bucketlist-FRIEND-RECOMMEND-LIST>>>>>");
-		model.addAttribute("recommendList", bls.recommendList());
+		
+		UserVO user = us.getCurrentUser();
+		int fromUser = user.getIdx();
+		
+		List<BucketListVO> recommendList = bls.recommendList(fromUser);
+		model.addAttribute("recommendList", recommendList);
 		//model.addAttribute("adminRecommendList", bls.adminRecommendList());
 		
 		System.out.println("<<<<<bucketlist-MYLIST>>>>>");

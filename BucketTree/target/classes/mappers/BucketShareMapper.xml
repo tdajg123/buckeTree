@@ -82,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) /*답변을 채택한것*/
 	</select>
 
-	<select id="myselectPage" resultType="kr.ac.BucketTree.vo.BucketShareVO">
+	<select id="myselectPage" resultType="kr.ac.BucketTree.vo.BucketShareVO" parameterType="hashmap">
 	<![CDATA[
 	SELECT *
 	FROM 
@@ -98,9 +98,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE
     (
 	 (#{pagination.srchType}= 0) OR  /*검색조건이 없을때 */
-	 (#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1) OR /*질문 제목*/
-	 (#{pagination.srchType}= 2 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1 OR CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1) OR /*질문 제목이나 내용*/
-	 (#{pagination.srchType}= 3 AND CHARINDEX(#{pagination.srchText},convert(binary, u.name))=1) 
+	 (#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText}, b.title)>=1) OR /*질문 제목*/
+	 (#{pagination.srchType}= 2 AND CHARINDEX(#{pagination.srchText}, b.title)>=1 OR CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1) OR /*질문 제목이나 내용*/
+	 (#{pagination.srchType}= 3 AND CHARINDEX(#{pagination.srchText}, u.name)=1) 
 	 )  /*질문 작성자*/
      
 	 and 
@@ -124,7 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	]]>
 	</select>
-	<select id="myselectCount" resultType="int">
+	<select id="myselectCount" resultType="int" parameterType="hashmap">
 		SELECT COUNT(*)
 		FROM
 		[BucketShare_Question] b join [User] u
@@ -139,13 +139,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		1 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1)
 		OR /*질문 제목*/
 		(#{pagination.srchType}= 2 AND
-		CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1
+		CHARINDEX(#{pagination.srchText}, b.title)>=1
 		OR
-		CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1)
+		CHARINDEX(#{pagination.srchText}, b.contents)>=1)
 		OR
 		/*질문 제목이나 내용*/
 		(#{pagination.srchType}= 3 AND
-		CHARINDEX(#{pagination.srchText},convert(binary, u.name))=1)
+		CHARINDEX(#{pagination.srchText}, u.name)=1)
 		) /*질문
 		작성자*/
 
@@ -167,7 +167,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and
 		(b.user_idx=#{user_idx})
 	</select>
-	<select id="myAnswerListCount" resultType="int">
+	<select id="myAnswerListCount" resultType="int" parameterType="hashmap">
 		SELECT COUNT(*)
 		FROM
 		[BucketShare_Question] b join [User] u
@@ -179,16 +179,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(
 		(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */
 		(#{pagination.srchType}=
-		1 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1)
+		1 AND CHARINDEX(#{pagination.srchText},b.title)>=1)
 		OR /*질문 제목*/
 		(#{pagination.srchType}= 2 AND
-		CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1
+		CHARINDEX(#{pagination.srchText}, b.title)>=1
 		OR
-		CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1)
+		CHARINDEX(#{pagination.srchText}, b.contents)>=1)
 		OR
 		/*질문 제목이나 내용*/
 		(#{pagination.srchType}= 3 AND
-		CHARINDEX(#{pagination.srchText},convert(binary, u.name))=1)
+		CHARINDEX(#{pagination.srchText},u.name)=1)
 		) /*질문
 		작성자*/
 
@@ -212,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where user_idx=#{user_idx})
 	</select>
 
-	<select id="myAnswerList" resultType="kr.ac.BucketTree.vo.BucketShareVO">
+	<select id="myAnswerList" resultType="kr.ac.BucketTree.vo.BucketShareVO" parameterType="hashmap">
 	<![CDATA[
 	SELECT *
 	FROM 
@@ -228,9 +228,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE
     (
 	 (#{pagination.srchType}= 0) OR  /*검색조건이 없을때 */
-	 (#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1) OR /*질문 제목*/
-	 (#{pagination.srchType}= 2 AND CHARINDEX(#{pagination.srchText},convert(binary, b.title))>=1 OR CHARINDEX(#{pagination.srchText},convert(binary, b.contents))>=1) OR /*질문 제목이나 내용*/
-	 (#{pagination.srchType}= 3 AND CHARINDEX(#{pagination.srchText},convert(binary, u.name))=1) 
+	 (#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText}, b.title)>=1) OR /*질문 제목*/
+	 (#{pagination.srchType}= 2 AND CHARINDEX(#{pagination.srchText}, b.title)>=1 OR CHARINDEX(#{pagination.srchText},b.contents)>=1) OR /*질문 제목이나 내용*/
+	 (#{pagination.srchType}= 3 AND CHARINDEX(#{pagination.srchText}, u.name)=1) 
 	 )  /*질문 작성자*/
      
 	 and 
@@ -289,5 +289,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete">
 		Delete from [BucketShare_Question] where idx=#{idx}
 	</delete>
+	
+
 
 </mapper>

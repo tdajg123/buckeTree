@@ -43,6 +43,13 @@ public class BucketListServiceimpl implements BucketListService{
 		return dao.listAjax(p);
 	}
 
+	/*버킷리스트-첫번째 이미지*/
+	@Override
+	public int listImage(int bucket_idx) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.listImage(bucket_idx);
+	}
+
 	/*전체 : 담기-카운트 업*/
 	@Override
 	public void countUp(int idx) throws Exception {
@@ -85,9 +92,9 @@ public class BucketListServiceimpl implements BucketListService{
 
 	/*마이 : 친구 추천 목록*/
 	@Override
-	public List<RecommendVO> recommendList() throws Exception {
+	public List<BucketListVO> recommendList(int fromUser) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.recommendList();
+		return dao.recommendList(fromUser);
 	}
 
 	/*마이 : 관리자 추천 목록*/
