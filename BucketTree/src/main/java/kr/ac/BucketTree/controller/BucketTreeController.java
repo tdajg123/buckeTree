@@ -52,9 +52,7 @@ public class BucketTreeController {
 	@RequestMapping(value = "/bucketTree/ajaxlist")
 	public List<BucketTreeVO> ajaxlist(@RequestBody Pagination pagination) throws Exception {
 
-		System.out.println(pagination.getCurrentPage());
-		System.out.println(pagination.getPageSize());
-		System.out.println(pagination.getSrchType());
+
 		return bs.selectPage(pagination, us.getCurrentUser().getIdx());
 	}
 	
@@ -83,12 +81,21 @@ public class BucketTreeController {
 		model.addAttribute("who", cs.whoList());
 		model.addAttribute("when", cs.whenList());
 		pagination.setRecordCount(bs.selectMyCount(pagination,us.getCurrentUser().getIdx()));
-		model.addAttribute("list",bs.selectMyPage(pagination, us.getCurrentUser().getIdx()) );
+		
+		
 		model.addAttribute("pageCount",pagination.getRecordCount()/pagination.getPageSize()+1);
-		
-		
+		model.addAttribute("list",bs.selectMyPage(pagination, us.getCurrentUser().getIdx()) );
+		model.addAttribute("applyList",bs.applyBucketTree(us.getCurrentUser().getIdx()));
+		model.addAttribute("listByAdmin", bs.adminByReommend(us.getCurrentUser().getIdx()));
 		
 		return "bucketTree/myList";
+	}
+	@ResponseBody
+	@RequestMapping(value = "/bucketTree/ajaxMylist")
+	public List<BucketTreeVO> ajaxMylist(@RequestBody Pagination pagination) throws Exception {
+
+
+		return bs.selectMyPage(pagination, us.getCurrentUser().getIdx());
 	}
 	
 }

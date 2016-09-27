@@ -294,11 +294,11 @@ $(function() {
 											+ "<h4> <a href='#'>"+this.treeName+"</a> - <a href='#''>"+this.title+"</a> </h4>";
                                  			 if(this.regist==1)
                                  				{
-                                 					str+="<button  type='button' class='btn btn-success'>취소</button>"
+                                 					str+="<a href='/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}' class='btn btn-success'>취소</a>"
                                  				}
                                  			 if(this.regist==0)
                                  				 {
-                                 				    str+="<button  type='button' class='btn btn-success'>신청</button>"
+                                 				   str+= "<a href='/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx} type='button ' class='btn btn-success'>신청</a>"
                                  				 }
                                  			if(this.regist==2)
                             				 {

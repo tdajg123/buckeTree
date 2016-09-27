@@ -117,7 +117,6 @@
 													<button type="reset" class="btn btn-default modifyCancel">취소</button>
 												</span>
 											</div>
-											"src/main/webapp/WEB-INF/views/resources/css/common.css"
 										</div>
 									</form>
 								</div>
@@ -167,7 +166,7 @@
 	</div>
 </div>
 <script>
-	$('.btn-box-tool').click();
+	$('button[data-toggle=collapse]').click();
 
 	$('.modifyButton').click(function() {
 
