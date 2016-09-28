@@ -7,8 +7,17 @@ padding_y: 10,
 margin_bottom: 50,
 single_column_breakpoint: 700
 });
+$('#pinBoot2').pinterest_grid({
+	no_columns: 4,
+	padding_x: 10,
+	padding_y: 10,
+	margin_bottom: 50,
+	single_column_breakpoint: 700
+	});
 });
-;(function ($, window, document, undefined) {
+
+(function ($, window, document, undefined) {
+
     var pluginName = 'pinterest_grid',
         defaults = {
             padding_x: 10,
@@ -147,7 +156,7 @@ single_column_breakpoint: 700
         });
     }
 
+
 })(jQuery, window, document);
 
 /* bucketList-listBox __ End */
-

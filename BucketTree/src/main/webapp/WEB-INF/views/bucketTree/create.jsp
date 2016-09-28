@@ -7,65 +7,48 @@
 	type="text/css" />
 
 <!-- 사이드 바 메뉴 -->
-<div class="container" style="padding-top: 50px; padding-bottom: 85px">
-	<!-- Menu -->
-	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
+<div class="container" style="padding-top: 110px; padding-bottom: 85px">
 
-		<nav class="navbar navbar-default" role="navigation"
-			style="width: 200px">
-
-			<!-- Main Menu -->
-			<div class="side-menu-container">
-				<ul class="nav navbar-nav">
-
-					<li><a href="/BucketTree/bucketShare/list"> 전체질문 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-					<li><a href="/BucketTree/bucketShare/mylist">내가 쓴 질문 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-					<li><a href="/BucketTree/bucketShare/myAnswerlist"> 내가 쓴
-							답변 <span class="fa fa-angle-right f_right"></span>
-					</a></li>
-					<li><a href="/BucketTree/bucketShare/create"> 질문하기 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
 	<div class="box-group">
 		<h3>
-			<i class="fa fa-chevron-right"></i> 버킷쉐어 질문하기
+			<i class="fa fa-chevron-right"></i> 버킷트리 만들기
 		</h3>
 		<hr>
 		<div class="x_panel">
-			<form id="question_Create" method="post">
+			<form id="bucketTree_Create" method="post">
 				<div class="x_title">
 					<div class="form-group">
 						<input type="hidden" class="form-control" name="bucketList_idx">
 						<a id="searchBucketList_button" class="btn btn-success">나의
 							버킷리스트 지정</a>
 						<div id=share_BucketList style="display: inline-block;"></div>
+						
 						<div class="form-inline f_right">
-							<p type="button" class="btn btn-success">포인트</p>
-							<select name="point" id="srchType">
-								<option value="100">100</option>
-								<option value="100">200</option>
-								<option value="100">300</option>
-								<option value="100">400</option>
-								<option value="100">500</option>
-							</select>
+							<input style="width:30px" type="radio" class="form-control"  value="1" name="author">전체공개
+							<input style="width:30px" type="radio" class="form-control"  value="0" name="author">회원공개
+						</div>
+						
+						
+						<div class="form-inline f_right">
+							<p class="btn btn-success">포인트</p>
+							<a class="btn btn-success">100포인트소모</a>
+						</div>
+						<div class="form-inline f_right">
+							<p class="btn btn-success">기본인원</p>
+							<a class="btn btn-success">5명</a>
 						</div>
 					</div>
 				</div>
 				<div class="x_contents">
 					<!-- 제목 -->
 					<div class="form-group">
-						<input type="text" class="form-control" name="title"
-							placeholder="Title">
+						<input type="text" class="form-control" name="treeName"
+							placeholder="BucketTreeName">
 					</div>
 					<!--버킷리스트 지정-->
 					<div class="form-group">
-						<textarea id="body" name="contents" class="smarteditor2"
-							style="width: 100%; height: 450px"></textarea>
+						<textarea id="body" name="contents"
+							style="width: 100%; height: 450px" placeholder="버킷트리를 소개해주세요"></textarea>
 					</div>
 				</div>
 			</form>
@@ -74,7 +57,7 @@
 			<button type="submit" class="btn btn-success">
 				<span class="fa fa-check"></span> 작성하기
 			</button>
-			<a href="/BucketTree/bucketShare/list" class="btn btn-default"> <span
+			<a href="/BucketTree/bucketTree/myList" class="btn btn-default"> <span
 				class="fa fa-remove"></span> 취소하기
 			</a>
 		</div>
@@ -147,10 +130,17 @@
 
 <script>
 	$(function() {
+		
 		var user_point=${user.idx};
+		
+		$("input:radio[name='author']:radio[value='1']").attr('checked', true); // 원하는 값(Y)을 체크
+
+		
+		
 		$("button[type=submit]").click(function() {
-			$('#question_Create').submit();
+			$('#bucketTree_Create').submit();
 		});
+		
 		$("#searchBucketList_button").click(function() {
 
 			$('#searchBucketList').modal();
@@ -185,11 +175,11 @@
 									+ "</button>")
 
 				});
-		$('#question_Create')
+		$('#bucketTree_Create')
 				.submit(
 						function() {
 							var point = 0;
-							var value = $('input[name=title]').val();
+							var value = $('input[name=treeName]').val();
 
 							if (value == ""
 									|| value == null
@@ -211,6 +201,19 @@
 								alert('버킷리스트를 지정하세요');
 								return false;
 							}
+							
+							var value = $('textarea[name=contents]').val();
+
+							if (value == ""
+									|| value == null
+									|| value == undefined
+									|| (value != null
+											&& typeof value == "object" && !Object
+											.keys(value).length)) {
+								alert('소개글을 입력하세요');
+								return false;
+							}
+							
 							$.ajax({
 								url : "/BucketTree/bucketShare/userPoint",
 								type : "GET",
@@ -229,7 +232,7 @@
 								}
 							});
 
-							if (parseInt(point) < parseInt(value)) {
+							if (parseInt(point) < 100) {
 								alert('포인트가 부족합니다');
 								return false;
 							}

@@ -365,4 +365,23 @@ public class TimelineServiceimpl implements TimelineService {
 
 	}
 
+	@Override
+	public void TreeCreate_Timeline(int user_idx, String title, String url) {
+		TimelineVO tv = new TimelineVO();
+
+		// user idx 삽입
+		tv.setUser_idx(user_idx);
+
+		// 버킷 쉐어 제목 삽입
+		String message = "버킷트리 [ " + title + " ] 을 만들었습니다.";
+		tv.setMessage(message);
+		// 현재 시간 삽입
+		tv.setDate(stime);
+		// url 삽입
+		tv.setUrl(url);
+
+		dao.insertTimeline(tv);
+		
+	}
+
 }

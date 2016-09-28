@@ -41,6 +41,10 @@
 <link href="/BucketTree/css/timeline.css" rel="stylesheet" type="text/css" />
 <!-- BUCKET WRITE -->
 <link href="/BucketTree/css/bucketWrite.css" rel="stylesheet" type="text/css" />
+<!-- MY PAGE -->
+<link href="/BucketTree/css/mypage.css" rel="stylesheet" type="text/css" />
+<!--  BucketShare -->
+<link href="/BucketTree/css/bucketShare.css" rel="stylesheet" type="text/css" />
 
 <!-- MENU JS-->
 <script type="text/javascript"	src="/BucketTree/js/menu/modernizr.custom.js"></script>

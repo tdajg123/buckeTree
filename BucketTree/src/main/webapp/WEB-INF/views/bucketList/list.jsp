@@ -14,7 +14,7 @@
       </div>
       <form:form id="form_search" method="POST" modelAttribute="pagination"
          action="/BucketTree/bucketList/list">
-         <div class="col-md-6 col-md-offset-2">
+         <div class="col-md-12">
             <div class="form-inline">
                <!-- Search Form __ Start -->
                <!-- 카테고리 선택 버튼 -->

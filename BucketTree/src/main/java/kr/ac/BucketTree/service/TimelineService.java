@@ -43,13 +43,16 @@ public interface TimelineService {
 	// 10. 버킷트리에서 추방당했을 시
 	public void TreeOut_Timeline(UserVO uv);
 
-	// 11. 버킷쉐어에 질문 작성 시
+	// 11. 버킷쉐어에 질문 작성 시 O
 	public void ShareQuestion_Timeline(int user_idx,String title, String url);
 
-	// 12. 버킷쉐어 질문에 답변이 달렸을 시
+	// 12. 버킷쉐어 질문에 답변이 달렸을 시 O
 	public void ShareAnswer_Timeline(int user_idx,String title, String url);
 
-	// 13. 버킷쉐어에 답변한 게 채택되었을 시
+	// 13. 버킷쉐어에 답변한 게 채택되었을 시 O
 	public void ShareSelect_Timeline(int user_idx,String title, String url);
+	
+	// 14. 버킷쉐어에 답변한 게 채택되었을 시 O
+	public void TreeCreate_Timeline(int user_idx,String title, String url);
 
 }

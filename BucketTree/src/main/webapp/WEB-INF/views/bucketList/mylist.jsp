@@ -117,7 +117,8 @@
 
 		<div class="box box-default collapsed-box" style="width: 1140px">
 			<div class="box-header withorder">
-				<h3 class="box-title" style="margin-left: 860px">Recommends BUCKET</h3>
+				<h3 class="box-title" style="margin-left: 860px">Recommends
+					BUCKET</h3>
 
 				<div class="box-tools pull-right">
 					<button type="button" class="btn btn-box-tool"
@@ -129,28 +130,33 @@
 		</div>
 
 		<!-- recommend-box-dropdown 추천 박스 라인 시작 -->
-		<div class="collapse" id="collapseComment">
-			<div class="recommend recommend-box" style="height: 170px">
-				<div class="dropdown-box" style="display: flex">
+		<section id="pinBoot2"
+			style="width: 1170px; margin: auto; margin-top: 10px">
 
-					<div class="boxline">
-						<h4 style="margin-top: 50px">
-							<b>친구 추천 버킷</b><i class="fa fa-hand-o-right"></i>
-						</h4>
-					</div>
+			<div class="collapse" id="collapseComment">
+				<div class="recommend recommend-box" style="height: 170px">
+					<div class="dropdown-box" style="display: flex">
 
-					<c:forEach items="${recommendList}" var="RecommendVO">
-						<div class="recom-box">
-							<p>TITLE : ${RecommendVO.title}</p>
-							<p>CONTENTS : ${RecommendVO.contents}</p>
+						<div class="boxline">
+							<h4 style="margin-top: 50px">
+								<b>친구 추천 버킷</b><i class="fa fa-hand-o-right"></i>
+							</h4>
 						</div>
-					</c:forEach>
 
+						<c:forEach items="${recommendList}" var="RecommendVO">
+							<article class="white-panel" id="article2">
+								<p>TITLE : ${RecommendVO.title}</p>
+								<p>CONTENTS : ${RecommendVO.contents}</p>
+							</article>
+							<div class="recom-box"></div>
+						</c:forEach>
+
+					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 		<!-- recommend-box-dropdown 추천 박스 라인 끝 -->
-		
+
 		<!-- 관리자 추천 버킷 -->
 		<%-- <div class="box box-default collapsed-box">
 			<div class="box-header withorder">
@@ -203,12 +209,14 @@
 		<article class="white-panel" style="width: 260px"
 			data-row="${BucketListVO.getRow()}">
 
-			<img src="/BucketTree/list/${BucketListVO.getIdx()}/firstImage" alt="" style="width: 260px">
+			<img src="/BucketTree/list/${BucketListVO.getIdx()}/firstImage"
+				alt="" style="width: 260px">
 			<h4>
 				<a href="#">${BucketListVO.title}</a>
 			</h4>
 			<p style="width: 250px">${BucketListVO.contents}</p>
-			<button class="bucketOK pull-right" style="background: #48cfc8; width: 50px; height: 30px" type="submit">완료</button>
+			<button class="bucketOK pull-right"
+				style="background: #48cfc8; width: 50px; height: 30px" type="submit">완료</button>
 		</article>
 	</c:forEach>
 
@@ -217,50 +225,56 @@
 <!-- bucketList-listAll __ End -->
 
 <script>
-
 	$(function() {
 
-		
 		//무한 스크롤
-		$(window).scroll(function(){
-			if  ($(window).scrollTop() >= $(document).height() - $(window).height()){
-			
-			var lastrow = $(".white-panel:last").attr("data-row");
-			  
-			var str='';
-				$.ajax({
-					url : "/BucketTree/bucketList/mylistAjax",
-					dataType : "json",
-					type : "POST",
-					data : {
-					row : lastrow
-					},
-					
-					success :  function(data) {
-						if(data !=""){
-							$(data).each(
-							
-									function(){
-							        
-										str += "<article class='white-panel' style='width: 260px' data-row='" +this.row+">"
-											+ "<img src= '/BucketTree/images/image7.jpg' style='width: 260px' >"
-											+ "<h4> <a href='#'>"+this.title+"</a> </h4>"
-											+ "<p style='width: 250px'>"+this.contents+"</p>"
-											+ "<button class='bucketOK pull-right' style='background: #48cfc8; width: 50px; height: 30px' type='submit'>완료</button>"
-									
-											alert(str)
-										}		
-										)  
-											$('.bucketbox').append(str);
-											}else
-												alert('더 이상 불러올 버킷리스트가 없습니다.')
+		$(window)
+				.scroll(
+						function() {
+							if ($(window).scrollTop() >= $(document).height()
+									- $(window).height()) {
+
+								var lastrow = $(".white-panel:last").attr(
+										"data-row");
+
+								var str = '';
+								$
+										.ajax({
+											url : "/BucketTree/bucketList/mylistAjax",
+											dataType : "json",
+											type : "POST",
+											data : {
+												row : lastrow
+											},
+
+											success : function(data) {
+												if (data != "") {
+													$(data)
+															.each(
+
+																	function() {
+
+																		str += "<article class='white-panel' style='width: 260px' data-row='" +this.row+">"
+																				+ "<img src= '/BucketTree/images/image7.jpg' style='width: 260px' >"
+																				+ "<h4> <a href='#'>"
+																				+ this.title
+																				+ "</a> </h4>"
+																				+ "<p style='width: 250px'>"
+																				+ this.contents
+																				+ "</p>"
+																				+ "<button class='bucketOK pull-right' style='background: #48cfc8; width: 50px; height: 30px' type='submit'>완료</button>"
+
+																		alert(str)
+																	})
+													$('.bucketbox').append(str);
+												} else
+													alert('더 이상 불러올 버킷리스트가 없습니다.')
 											}
-										});			
-			    
-			}
-		});  
-		
-		
+										});
+
+							}
+						});
+
 		$(function() {
 			//카테고리 옵션으로 값 뿌려주기
 			<c:forEach items="${what}" var="what">
@@ -342,7 +356,5 @@
 
 		});
 
-
-});
-
+	});
 </script>
