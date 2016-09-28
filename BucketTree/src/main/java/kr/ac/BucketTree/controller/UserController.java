@@ -272,16 +272,22 @@ public class UserController {
         String fileName = Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString();		/*업로드 된 파일의 이름 가져오기*/
         System.out.println("fileName : " + fileName);
 		// 파일이 있으면
-		if (uploadedFile.getSize() > 0) {
+		/*if (uploadedFile.getSize() > 0) {
 			System.out.println("<<<<<프로필 업로드>>>>>");
-			user.setFileName(fileName);						/*파일 이름 넣기*/
-			user.setImage(uploadedFile.getBytes());			/*파일을 바이너리로 변환하여 저장*/
+			user.setFileName(fileName);						파일 이름 넣기
+			user.setImage(uploadedFile.getBytes());			파일을 바이너리로 변환하여 저장
 		} else{
 			// 기본이미지로 변경
-			//user.setFileName("PROFILE_image.png");
+			user.setFileName("PROFILE_image.png");
 			//user.setImage();
 		}
-
+*/
+        
+        System.out.println("<<<<<프로필 업로드>>>>>");
+		user.setFileName(fileName);						/*파일 이름 넣기*/
+		user.setImage(uploadedFile.getBytes());	
+		
+		
 		model.addAttribute(us.read(idx));
 
 		us.profileUpdate(user);								/*프로필 업데이트*/

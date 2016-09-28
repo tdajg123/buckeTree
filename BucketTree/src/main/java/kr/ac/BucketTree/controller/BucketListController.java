@@ -84,31 +84,6 @@ public class BucketListController {
 		return "bucketList/list";
 	}
 
-	/* 리스트에 해당하는 이미지 불러오기 */
-	/*
-	 * @RequestMapping("/list/{idx}/firstImage") public void
-	 * listImage(@PathVariable("idx") int idx, HttpServletResponse
-	 * response,Model model) throws Exception {
-	 * 
-	 * ImageVO vo = new ImageVO();
-	 * 
-	 * System.out.println("idx : " + idx); int listidx = bls.listImage(idx);
-	 * System.out.println("bucket_idx : " + listidx);
-	 * 
-	 * vo.setIdx(listidx); ImageVO image = bls.selectById(vo);
-	 * model.addAttribute("image",vo);
-	 * 
-	 * if (image == null) return; String fileName =
-	 * URLEncoder.encode(image.getFileName(),"UTF-8");
-	 * response.setContentType(image.getMimeType());
-	 * response.setHeader("Content-Disposition", "idx=" + image.getIdx() + ";");
-	 * try (BufferedOutputStream output = new
-	 * BufferedOutputStream(response.getOutputStream())) {
-	 * output.write(image.getData());
-	 * 
-	 * } }
-	 */
-
 	/* 버킷리스트 무한스크롤, AJAX 활용 */
 	@ResponseBody
 	@RequestMapping(value = "/bucketList/BucketListAjax", method = RequestMethod.POST)
@@ -178,6 +153,36 @@ public class BucketListController {
 		return "bucketList/mylist";
 	}
 
+	/* 리스트에 해당하는 이미지 불러오기 */
+	@RequestMapping("/list/{idx}/firstImage")
+	public void listImage(@PathVariable("idx") int idx, HttpServletResponse response, Model model) throws Exception {
+
+		ImageVO vo = new ImageVO();
+		BucketListVO imageIdx = new BucketListVO();
+
+		int listImageidx = bls.listImage(idx);
+		System.out.println("해당 idx "+ idx + "의 imageIdx : " + listImageidx);
+
+		vo.setIdx(listImageidx);
+		imageIdx.setImageIdx(listImageidx);
+		
+		System.out.println("test : " + imageIdx.getImageIdx());
+
+		if(listImageidx > 0){
+		ImageVO image = bls.selectById(vo);
+		model.addAttribute("image", vo);
+
+		if (image == null) return;
+		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
+		response.setContentType(image.getMimeType());
+		response.setHeader("Content-Disposition", "idx=" + image.getIdx() + ";");
+		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+			output.write(image.getData());
+
+		}
+		}
+	}
+
 	/**
 	 * 마이 버킷 리스트 목록 : 1. 친구가 추천해준 버킷리스트 목록 3개 2. 1이 없을 경우 관리자가 추천해준 버킷리스트 목록 3개
 	 * 3. 내 버킷리스트 전체 목록
@@ -195,7 +200,9 @@ public class BucketListController {
 
 		List<BucketListVO> recommendList = bls.recommendList(fromUser);
 		model.addAttribute("recommendList", recommendList);
-		// model.addAttribute("adminRecommendList", bls.adminRecommendList());
+
+		List<BucketListVO> adminRecommendList = bls.adminRecommendList();
+		model.addAttribute("adminRecommendList", adminRecommendList);
 
 		System.out.println("<<<<<bucketlist-MYLIST>>>>>");
 		model.addAttribute("what", cs.whatList());

@@ -106,10 +106,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 각 리스트에서 해당 버킷리스트의 첫번째 이미지로 보이기 -->
-	<select id="listImage" resultType="kr.ac.BucketTree.vo.BucketListVO">
+	<select id="listImage" resultType="int">
+
+		IF (
+		SELECT TOP 1 count(*)
+		FROM [BucketList_Image]
+		WHERE BUCKET_IDX =
+		#{bucket_idx}
+		)>0
+
+		BEGIN
+
 		SELECT TOP 1 image_idx
 		FROM [BucketList_Image]
-		WHERE BUCKET_IDX = #{bucket_idx}
+		WHERE BUCKET_IDX =
+		#{bucket_idx}
+
+		END
+
+		ELSE
+
+		BEGIN
+		SELECT 0
+		END
+
 	</select>
 	
 
@@ -227,6 +247,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		RBL, [BucketList] BL
 		WHERE RBL.BucketList_idx = BL.idx AND RBL.fromUser = #{fromUser}
 		ORDER BY NEWID()
+		
+		<!-- select  TOP 4 toUser, fromUser, BucketList_Idx
+		FROM [RecommendBucketList]
+		where fromUser = #{fromUser}
+		ORDER BY NEWID() -->
 
 	</select>
 
