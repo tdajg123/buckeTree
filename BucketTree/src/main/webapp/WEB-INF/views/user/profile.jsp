@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style>
 .circle2 {
 	background-color: #fff;
@@ -18,9 +19,18 @@
 <!-- Form Module-->
 <div class="all">
 	<form action="profile">
+	<c:if test = "${userVO.getImage() != null }">
 		<div class="circle2">
 			<img src="/BucketTree/profile/${userVO.getIdx()}/profile" style="width: 200px; height: 200px">
 		</div>
+	</c:if>
+	
+	<c:if test = "${userVO.getImage() == null }">
+		<div class="circle2">
+			<img src="/BucketTree/images/PROFILE_image.png" style="width: 200px; height: 200px">
+		</div>
+	</c:if>
+	
 	</form>
 	<div class="module form-module">
 		<div class="toggle2"></div>

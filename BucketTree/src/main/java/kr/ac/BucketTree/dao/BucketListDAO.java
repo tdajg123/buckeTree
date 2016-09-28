@@ -25,7 +25,7 @@ public interface BucketListDAO {
 	/*마이 버킷리스트*/
 	public List<BucketListVO> mylist(Pagination pagination) throws Exception;
 	public List<BucketListVO> mylistAjax(Pagination p) throws Exception;				/*버킷리스트-무한스크롤*/
-	public List<BucketListVO> recommendList(int fromUser) throws Exception;							/*친구 추천*/
+	public List<BucketListVO> recommendList(int fromUser) throws Exception;				/*친구 추천*/
 	public List<BucketListVO> adminRecommendList() throws Exception;					/*관리자 추천*/
 	
     public List<BucketListVO> bucketShare_MyBucketList(int user_idx);	

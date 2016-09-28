@@ -107,96 +107,95 @@
 </div>
 
 <div class="container" style="padding-top: 85px; padding-bottom: 5px">
-	<div class="row" style="margin-left: 0px; margin-right: 0px">
-		<div
-			style="display: inline-block; margin-top: 10px; margin-bottom: 10px">
-			<b>5 Completed BucketList<b> in 30 BucketList 
-		</div>
+		<div class="row" style="margin-left: 0px; margin-right: 0px">
+			<div
+				style="display: inline-block; margin-top: 10px; margin-bottom: 10px">
+				<b>5 Completed BucketList<b> in 30 BucketList 
+			</div>
 
-		<!-- 친구 추천 버킷리스트 -->
+			<!-- 친구 추천 버킷리스트 -->
 
-		<div class="box box-default collapsed-box" style="width: 1140px">
-			<div class="box-header withorder">
-				<h3 class="box-title" style="margin-left: 860px">Recommends
-					BUCKET</h3>
+			<div class="box box-default collapsed-box" style="width: 1140px">
+				<div class="box-header withorder">
+					<h3 class="box-title" style="margin-left: 860px">Recommends
+						BUCKET</h3>
 
-				<div class="box-tools pull-right">
-					<button type="button" class="btn btn-box-tool"
-						data-toggle="collapse" data-target="#collapseComment">
-						<i class="fa fa-thumbs-o-up"></i>
-					</button>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-toggle="collapse" data-target="#collapseComment">
+							<i class="fa fa-thumbs-o-up"></i>
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- recommend-box-dropdown 추천 박스 라인 시작 -->
-		<section id="pinBoot2"
-			style="width: 1170px; margin: auto; margin-top: 10px">
+			<!-- recommend-box-dropdown 추천 박스 라인 시작 -->
 
-			<div class="collapse" id="collapseComment">
+			<div class="collapse" id="collapseComment" >
+				<section class="pinBoot">
+	
+							<div class="boxline" >
+								<h4 style="margin-top: 50px">
+									<b>친구 추천 버킷</b><i class="fa fa-hand-o-right"></i>
+								</h4>
+							</div>
+							<c:forEach items="${recommendList}" var="RecommendVO" >
+								<article class="recom-box" style="width: 260px; margin-left: 10px; display: inline-block">
+									<%-- <img src="/BucketTree/list/${BucketListVO.getIdx()}/firstImage" alt="" style="width: 260px"> --%>
+									<h4>
+										<a href="#">${RecommendVO.title}</a>
+									</h4>
+								</article>
+							</c:forEach>
+					</section>
+			</div>
+
+
+			<!-- 관리자 추천 버킷 -->
+			<div class="box box-default collapsed-box">
+				<div class="box-header withorder">
+					<h3 class="box-title" style="margin-left: 880px">관리자 추천 버킷</h3>
+
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-toggle="collapse" data-target="#collapseAdmin">
+							<i class="fa fa-thumbs-o-up"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- recommend-box-dropdown 추천 박스 라인 시작 -->
+			<div class="collapse" id="collapseAdmin">
 				<div class="recommend recommend-box" style="height: 170px">
-					<div class="dropdown-box" style="display: flex">
+					<section class="bucketbox" style="dispaly: flex">
 
-						<div class="boxline">
+
+						<div class="boxline" style="display: inline-block">
 							<h4 style="margin-top: 50px">
-								<b>친구 추천 버킷</b><i class="fa fa-hand-o-right"></i>
+								<b>관리자 추천 버킷</b><i class="fa fa-hand-o-right"></i>
 							</h4>
 						</div>
 
-						<c:forEach items="${recommendList}" var="RecommendVO">
-							<article class="white-panel" id="article2">
-								<p>TITLE : ${RecommendVO.title}</p>
-								<p>CONTENTS : ${RecommendVO.contents}</p>
+						<c:forEach items="${adminRecommendList}" var="RecommendVO">
+							<article class="recom-box" style="width: 260px; margin-left: 10px; display: inline-block">
+								<%-- <img src="/BucketTree/list/${BucketListVO.getIdx()}/firstImage" alt="" style="width: 260px"> --%>
+								<h4>
+									<a href="#">${BucketListVO.title}</a>
+								</h4>
+
 							</article>
-							<div class="recom-box"></div>
 						</c:forEach>
-
+					</section>
 					</div>
 				</div>
 			</div>
-		</section>
-		<!-- recommend-box-dropdown 추천 박스 라인 끝 -->
-
-		<!-- 관리자 추천 버킷 -->
-		<%-- <div class="box box-default collapsed-box">
-			<div class="box-header withorder">
-				<h3 class="box-title" style="margin-left: 880px">관리자 추천 버킷</h3>
-
-				<div class="box-tools pull-right">
-					<button type="button" class="btn btn-box-tool"
-						data-toggle="collapse" data-target="#collapseComment">
-						<i class="fa fa-thumbs-o-up"></i>
-					</button>
-				</div>
-			</div>
+			<!-- recommend-box-dropdown 추천 박스 라인 끝 -->
 		</div>
-
-		<!-- recommend-box-dropdown 추천 박스 라인 시작 -->
-		<div class="collapse" id="collapseComment">
-			<div class="recommend recommend-box" style="height: 170px">
-				<div class="dropdown-box" style="display: flex">
-
-					<div class="boxline">
-						<h4 style="margin-top: 50px">
-							<b>관리자 추천 버킷</b><i class="fa fa-hand-o-right"></i>
-						</h4>
-					</div>
-
-					<c:forEach items="${adminRecommendList}" var="RecommendVO">
-						<div class="recom-box">
-							<p>TITLE : ${RecommendVO.title}</p>
-							<p>CONTENTS : ${RecommendVO.contents}</p>
-						</div>
-					</c:forEach>
-
-				</div>
-			</div>
-		</div> --%>
 	</div>
-</div>
 <!-- bucketList-MyList-Recommend-Box __ End -->
 
-<section id="pinBoot"
+<section id="pinBoot" class="bucketbox"
 	style="width: 1170px; margin: auto; margin-top: 10px">
 	<article class="white-panel-add">
 		<h4>
@@ -206,7 +205,7 @@
 	</article>
 
 	<c:forEach items="${mylist}" var="BucketListVO">
-		<article class="white-panel" style="width: 260px"
+		<div class="white-panel" style="width: 260px"
 			data-row="${BucketListVO.getRow()}">
 
 			<img src="/BucketTree/list/${BucketListVO.getIdx()}/firstImage"
@@ -214,10 +213,10 @@
 			<h4>
 				<a href="#">${BucketListVO.title}</a>
 			</h4>
-			<p style="width: 250px">${BucketListVO.contents}</p>
-			<button class="bucketOK pull-right"
-				style="background: #48cfc8; width: 50px; height: 30px" type="submit">완료</button>
-		</article>
+
+			<button class="bucketOK pull-right" style="background: #48cfc8; width: 50px; height: 30px" type="submit">완료</button>
+		</div>
+
 	</c:forEach>
 
 </section>

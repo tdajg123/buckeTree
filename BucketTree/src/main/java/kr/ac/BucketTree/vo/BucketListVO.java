@@ -24,6 +24,8 @@ public class BucketListVO {
 	String who_name;
 	String what_name;
 	String name;
+	int imageIdx;
+	
 	
 	public String getName() {
 		return name;
@@ -177,4 +179,12 @@ public class BucketListVO {
 		this.row = row;
 	}
 	
+	/*버킷리스트 등록 시 contents에 올라간 여러장의 사진 중 하나만 불러올 때 해당 이미지의 idx를 저장*/
+	public int getImageIdx() {
+		return imageIdx;
+	}
+
+	public void setImageIdx(int imageIdx) {
+		this.imageIdx = imageIdx;
+	}
 }
