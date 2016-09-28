@@ -130,6 +130,8 @@ function displayPlaces(places) {
          	$('#positionY').val(pom.getLng());
          	alert(title)
          	$('#title2').val(title);
+         	$('#view_map').html(title);
+         	$('#view_map').show();
          	
          });
          

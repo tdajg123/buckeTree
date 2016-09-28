@@ -138,12 +138,16 @@
 								<!-- User image -->
 
 								<div class="comment-text" id=d${CommentVO.idx}>
-									<span class="username" id=n${CommentVO.idx}>${CommentVO.name }<span
-										style="margin-left: 30px">${CommentVO.date}</span> <a
-										class=e${CommentVO.idx} id="cedit" style="margin-left: 600px"
-										data-idx="${CommentVO.idx }">수정</a> <a class=d${CommentVO.idx}
+									<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+									
+										
+									<a class=e${CommentVO.idx} id="cedit" style="margin-left: 790px"
+										data-idx="${CommentVO.idx }">수정</a> 
+									<a class=d${CommentVO.idx}
 										id="cdelete" data-idx="${CommentVO.idx }">삭제</a>
+									<span style="margin-left: 10px">${CommentVO.date}</span> 
 									</span>
+									
 									<!-- /.username -->
 									<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
 								</div>
@@ -273,8 +277,9 @@
 	</div>
 </div>
 <!-- 지도 모달창 -->
-<div id="popup" style="position:absolute;  visibility:hidden; height:535px; background-color:white";>
-	<button>버튼</button>
+<div id="popup" style="position:absolute;  visibility:hidden; height:535px; background-color:white; background-color:#f1f6f7; text-align:right">
+	<span style="margin-right:400px">버킷리스트 장소</span>
+	<button onclick="popupOpen()">닫기</button>
 	<div id="staticMap" style="width:1000px;height:500px;"></div>    
 </div>
 <!-- 지도 모달창 종료 -->
@@ -301,10 +306,10 @@ $(document).on('click', '#addComment', function(){
 			
 				function(){
 
-					str+='<div class="box-comment" data-idx="'+this.idx+'">'
-					+'<div class="comment-text">'
-					+'<span class="username">'+this.name+'<a href="" id="cedit" style="margin-left:790px">수정</a><a href="" id="cdelete" style="margin-left:10px">삭제</a><span class="text-muted pull-right post_date">'+this.date+'</span></span>'
-					+ this.contents
+					str+='<div class="box-comment" id="'+this.idx+'" data-idx="'+this.idx+'">'
+					+'<div class="comment-text" id="d'+this.idx+'">'
+					+'<span class="username">'+this.name+'<a class="e'+this.idx+'" id="cedit" style="margin-left:790px" data-idx="'+this.idx+'">수정</a><a id="cdelete" style="margin-left:10px" class="e'+this.idx+'"  data-idx="'+this.idx+'">삭제</a><span class="text-muted pull-right post_date">'+this.date+'</span></span>'
+					+'<span id="c'+this.idx+'">'+this.idx+'</span>'
 					+'</div>'
 					+'</div>';      					    
 				}		
@@ -364,16 +369,12 @@ $(document).on('click', '#addComment', function(){
 
 															function() {
 
-																str += '<div class="box-comment" data-idx="'+this.idx+'">'
-																		+ '<div class="comment-text">'
-																		+ '<span class="username">'
-																		+ this.name
-																		+ '<a href="" id="cedit" style="margin-left:780px">수정</a><a href="" id="cdelete" style="margin-left:10px">삭제</a><span class="text-muted pull-right post_date">'
-																		+ this.date
-																		+ '</span></span>'
-																		+ this.contents
-																		+ '</div>'
-																		+ '</div>';
+																str+='<div class="box-comment" id="'+this.idx+'" data-idx="'+this.idx+'">'
+																+'<div class="comment-text" id="d'+this.idx+'">'
+																+'<span class="username">'+this.name+'<a class="e'+this.idx+'" id="cedit" style="margin-left:790px" data-idx="'+this.idx+'">수정</a><a id="cdelete" style="margin-left:10px" class="e'+this.idx+'"  data-idx="'+this.idx+'">삭제</a><span class="text-muted pull-right post_date">'+this.date+'</span></span>'
+																+'<span id="c'+this.idx+'">'+this.idx+'</span>'
+																+'</div>'
+																+'</div>'; 
 															})
 											$('#' + insertIdx).html(str);
 											$('#addComment').val("");
@@ -407,8 +408,8 @@ $(document).on('click', '#addComment', function(){
 						var str = '';
 						var str2 = '';
 						str += "<a id='cCancle' style='margin-left:630px'>취소</a>";
-						str2 += "<form id='formEdit'><input type='text' name='editContent' style='width:746px; height:46px; margin-top:15px' value='"+content2+"'></input>"
-								+ "<button id='commentEdit' style='height:46px; width:146px' vertical-align:middle>등록</button>"
+						str2 += "<form id='formEdit'><input type='text' name='editContent' style='width:973px; height:46px; margin-top:15px' value='"+content2+"'></input>"
+								+ "<button id='commentEdit' style='height:46px; width:100px' vertical-align:middle>등록</button>"
 								+ "<input type='hidden' name='editIdx' value='"+eventIdx+"'></input>";
 
 						//div 아래부터 다 지우고 텍스트 형식으로 붙여넣기 해서 삽입 시 vo 값이 잘 나오는가가 중요함.

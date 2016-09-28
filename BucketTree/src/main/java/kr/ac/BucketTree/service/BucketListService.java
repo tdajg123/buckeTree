@@ -48,8 +48,6 @@ public interface BucketListService {
 
 	/*BucketList_image 테이블 값 제거*/
 	public int deleteByBucketIdx(int bucket_idx);
-	/* 잔여 이미지 제거 */
-	public int deleteOrphan();
 	
 	/*버킷리스트 수정*/
 	public int editBucket(BucketListVO buck);

@@ -327,14 +327,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (#{fileName}, #{fileSize}, GETDATE(), #{data})
 	</insert>
 
-	<!-- 잔여 이미지 제거 -->
-	<delete id="deleteOrphan">
-		DELETE [Image] 
-		<![CDATA[
-	WHERE idx NOT IN (SELECT image_idx FROM [BucketList_Image]) AND DATEDIFF(minute, fileTime, GETDATE()) > 60
-			]]>
-	</delete>
-
 	<!-- BucketList_Image 테이블 삽입 -->
 	<insert id="insertblImage">
 		INSERT INTO [BucketList_Image] (bucket_idx, image_idx) VALUES

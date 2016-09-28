@@ -31,10 +31,11 @@
 					<div class="form-group">
 						<input type="hidden" class="form-control" name="bucketList_idx">
 						<div
-							style="margin: auto; width: 250px; margin-bottom: 3px; margin-left: 750px">
+							style="margin: auto; width: 500px; margin-bottom: 3px; margin-left: 750px">
 							<button id="view_when" type="button" class="btn btn-success">없음</button>
 							<button id="view_who" type="button" class="btn btn-success">없음</button>
 							<button id="view_what" type="button" class="btn btn-success">없음</button>
+							<button id="view_map" type="button" class="btn btn-success">없음</button>
 						</div>
 						<input type="hidden" id="positionX" name="x">
 						<input type="hidden" id="positionY" name="y">
@@ -44,7 +45,7 @@
 						<input id="writer" name="writer" type="hidden" value=0 />
 						<button id="category" class="btn btn-success">카테고리</button>
 						<button type="button" class="btn btn-success" onclick="popupOpen()" style="height:40px">장소지정</button>
-						<button class="btn btn-success" style="width:82px; height:40px">공개 범위</button>
+						<button class="btn btn-success" style="width:82px; height:40px" onclick="return false;">공개 범위</button>
 						<select id="checkWriter" style="margin-left:0px" onchange="javascript:selectEvent(this)">
 							<option value="0">전체 공개</option>
 							<option value="1">친구 공개</option>
@@ -80,11 +81,11 @@
 
 
 <!-- 지도 모달창 -->
-<div id="popup" style="position:absolute;  visibility:hidden; height:535px; background-color:white";>
+<div id="popup" style="position:absolute;  visibility:hidden; height:535px; background-color:white; text-align:right">
 	<div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
-    <div id="menu_wrap" class="bg_white" style="font-weight:100px;">
+    <div id="menu_wrap" class="bg_white" style="font-weight:100px; width:360px; text-align:left">
         <div class="option">
             <div>
                 <form onsubmit="searchPlaces(); return false;">
@@ -98,7 +99,9 @@
         <div id="pagination"></div>
     </div>
 </div>
-<h1 style="margin-top:5px; font-size:16px">현재 선택한 장소 : <input type="text" readOnly="readOnly" id="title2"> <span style="text-align:right">마커나 검색 목록을 클릭하여 선택하세요</span><input type="button" class="btn btn-default" onclick="popupOpen()" value="확인" style="margin-left:330px"></input></h1>
+<span style="color:#48cfc8; margin-right:560px">마커나 검색 목록을 클릭하여 선택하세요</span>
+<input type="button" onclick="" class="btn btn-default" value="초기화"/>
+<input type="button" class="btn btn-default" onclick="popupOpen()" value="확인" style="margin-left:5px">
 </div>
 <!-- 지도 모달창 종료 -->
 <!-- //팝업 레이어 -->
@@ -188,6 +191,7 @@
 		$('#view_when').hide();
 		$('#view_who').hide();
 		$('#view_what').hide();
+		
 		</c:if>
 
 		$('#category').click(function(e) {
@@ -211,5 +215,7 @@
 
 
 	});
+	
+	$('#view_map').hide();
 </script>
 <script type="text/javascript"	src="/BucketTree/js/bucketList/bucketWrite.js"></script>
