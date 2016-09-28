@@ -254,7 +254,7 @@
 																	function() {
 
 																		str += "<article class='white-panel' style='width: 260px' data-row='" +this.row+">"
-																				+ "<img src= '/BucketTree/images/image7.jpg' style='width: 260px' >"
+																				+ "<img src='/BucketTree/list/${BucketListVO.getIdx()/firstImage}' style='width: 260px' >"
 																				+ "<h4> <a href='#'>"
 																				+ this.title
 																				+ "</a> </h4>"
