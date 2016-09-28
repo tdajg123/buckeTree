@@ -28,5 +28,18 @@ public class CategoryDAOimpl implements CategoryDAO {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace+".whatList");
 	}
-
+	
+	@Override
+	public CategoryVO whoName(int idx){
+		return session.selectOne(namespace+".whoName",idx);
+	}
+	@Override
+	public CategoryVO whenName(int idx){
+		return session.selectOne(namespace+".whenName",idx);
+	}
+	@Override
+	public CategoryVO whatName(int idx){
+		return session.selectOne(namespace+".whatName", idx);
+	}
 }
+

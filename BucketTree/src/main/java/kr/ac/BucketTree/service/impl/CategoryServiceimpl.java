@@ -33,5 +33,17 @@ public class CategoryServiceimpl implements CategoryService{
 		// TODO Auto-generated method stub
 		return dao.whoList();
 	}
-
+	
+	@Override
+	public CategoryVO whoName(int idx){
+		return dao.whoName(idx);
+	}
+	@Override
+	public CategoryVO whenName(int idx){
+		return dao.whenName(idx);
+	}
+	@Override
+	public CategoryVO whatName(int idx){
+		return dao.whatName(idx);
+	}
 }

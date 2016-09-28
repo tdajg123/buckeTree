@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=c979b1f9a00bdf157a46346b59a630f4&libraries=services"></script>
+<script src="/BucketTree/se2/js/HuskyEZCreator.js" type="text/javascript"></script>
 <script>
 	//짝수번째 li는 오른쪽으로 보이기
 	$(function() {
@@ -37,8 +39,11 @@
 						class="post_date">${bucket.date }</span>
 
 					<div class="right">
-						<span class="tag">20대</span> <span class="tag">혼자</span> <span
-							class="tag">여행</span>
+						<span class="tag">${ctlist.get(0).who}</span> <span class="tag">${ctlist.get(1).when}</span> <span
+							class="tag">${ctlist.get(2).what}</span>
+							<span class="tag" onclick="popupOpen()">버킷 장소</span>
+							<input type="hidden" id="positionX" value="${bucket.x}">
+							<input type="hidden" id="positionY" value="${bucket.y}">
 					</div>
 
 				</div>
@@ -267,7 +272,12 @@
 		</div>
 	</div>
 </div>
-
+<!-- 지도 모달창 -->
+<div id="popup" style="position:absolute;  visibility:hidden; height:535px; background-color:white";>
+	<button>버튼</button>
+	<div id="staticMap" style="width:1000px;height:500px;"></div>    
+</div>
+<!-- 지도 모달창 종료 -->
 
 
 
@@ -496,4 +506,47 @@ $(document).on('click', '#addComment', function(){
 			});
 		});
 	});
+	
+	
+	function popupOpen(){
+		 //추가부분
+		 var $layerPopupObj = $('#popup');
+		 var left = ( $(window).scrollLeft() + ($(window).width() - $layerPopupObj.width()) / 2 );
+		 var top = ( $(window).scrollTop() + ($(window).height() - $layerPopupObj.height()) / 2 );
+		 $layerPopupObj.css({'left':left,'top':top, 'position':'absolute'});
+		 $('body').css('position','relative').append($layerPopupObj);
+		  //추가부분
+		 
+		 
+		    if(document.all.popup.style.visibility=="hidden") {
+		        document.all.popup.style.visibility="visible";
+		        return false;
+		    }else{
+		        document.all.popup.style.visibility="hidden";
+		        return false;   
+		    }
+		}
+	var px = $('#positionX').val();
+	var py = $('#positionY').val();
+	// 이미지 지도에 표시할 마커입니다
+	// 이미지 지도에 표시할 마커를 아래와 같이 배열로 넣어주면 여러개의 마커를 표시할 수 있습니다 
+	var markers = [
+	    
+	    {
+	        position: new daum.maps.LatLng(px, py), 
+	        text: '클릭하면 다음 지도로 이동합니다'     
+	    }
+	];
+
+	var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div  
+	    staticMapOption = { 
+	        center: new daum.maps.LatLng(px, py), // 이미지 지도의 중심좌표
+	        level: 3, // 이미지 지도의 확대 레벨
+	        marker: markers // 이미지 지도에 표시할 마커 
+	    };    
+
+	// 이미지 지도를 생성합니다
+	var staticMap = new daum.maps.StaticMap(staticMapContainer, staticMapOption);
+	
+	
 </script>

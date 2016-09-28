@@ -34,6 +34,7 @@ import kr.ac.BucketTree.util.BucketTreeCommon;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketJournalVO;
 import kr.ac.BucketTree.vo.BucketListVO;
+import kr.ac.BucketTree.vo.CategoryVO;
 import kr.ac.BucketTree.vo.CommentVO;
 import kr.ac.BucketTree.vo.ImageVO;
 import kr.ac.BucketTree.vo.UserVO;
@@ -251,7 +252,6 @@ public class BucketListController {
 			@RequestParam("file") MultipartFile[] uploadedFiles, BucketListVO vo) throws Exception {
 
 		UserVO user = us.getCurrentUser();
-		String b = request.getParameter("body");
 		// vo.setTitle(request.getParameter("title"));
 		vo.setUser_idx(user.getIdx());
 		vo.setContents(request.getParameter("contents"));
@@ -259,13 +259,12 @@ public class BucketListController {
 		float y = Float.parseFloat(request.getParameter("y"));
 		vo.setX(x);
 		vo.setY(y);
-		vo.setContents(b);
+	
 		bls.insertBucketList(vo);
 
 		bls.updateBucketImage(vo);
 		bls.deleteOrphan();
-		System.out.println(request.getParameter("title") + "제목");
-		System.out.println(vo.getX() + " " + vo.getY() + " " + vo.getTitle() + " " + b);
+
 		for (MultipartFile uploadedFile : uploadedFiles) {
 			ImageVO file = new ImageVO();
 			if (uploadedFile.getSize() > 0) {
@@ -301,14 +300,22 @@ public class BucketListController {
 	public String bucketDetail(@PathVariable("idx") int idx, Model model) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 
-		UserVO user = us.getCurrentUser();
+		
 		BucketListVO bc = bls.bucket(idx);
+		UserVO user = us.selectByIdx(bc.getUser_idx());
+		bc.setName(user.getName());
+		List<CategoryVO> ctlist = new ArrayList();
+		ctlist.add(cs.whoName(bc.getWho()));
+		ctlist.add(cs.whenName(bc.getWhen()));
+		ctlist.add(cs.whatName(bc.getWhat()));
+		
 		bc.setName(user.getName());
 		List<CommentVO> clist = new ArrayList();
 		clist = bls.selectComment(idx);
 		model.addAttribute("bucket", bc);
 		model.addAttribute("clist", clist);
 		model.addAttribute("check", user);
+		model.addAttribute("ctlist", ctlist);
 
 		List<BucketJournalVO> bjl = new ArrayList();
 		bjl = bjs.bucketJournalList(idx);

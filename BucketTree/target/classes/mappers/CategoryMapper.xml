@@ -16,5 +16,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<select id="whatList" resultType="kr.ac.BucketTree.vo.CategoryVO">
 		select * from [Category_What]
 	</select>
+	
+	<select id="whoName" resultType="kr.ac.BucketTree.vo.CategoryVO">
+		select * from [Category_Who] WHERE idx=#{idx}
+	
+	</select>
+	
+	<select id="whenName" resultType="kr.ac.BucketTree.vo.CategoryVO">
+		select * from [Category_When] WHERE idx=#{idx}
+	
+	</select>
+
+	<select id="whatName" resultType="kr.ac.BucketTree.vo.CategoryVO">
+		select * from [Category_What] WHERE idx=#{idx}
+	
+	</select>
 
 </mapper>
