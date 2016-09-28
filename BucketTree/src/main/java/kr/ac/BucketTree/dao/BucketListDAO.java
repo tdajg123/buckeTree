@@ -12,9 +12,9 @@ import kr.ac.BucketTree.vo.RecommendVO;
 public interface BucketListDAO {
 
 	/*전체 버킷리스트*/
-	public List<BucketListVO> list(Pagination pagination) throws Exception;				/*전체 목록 및 정렬,검색*/
+	public List<BucketListVO> list(Pagination pagination,int user_idx) throws Exception;/*전체 목록 및 정렬,검색*/
 	public List<BucketListVO> listAjax(Pagination p) throws Exception;					/*버킷리스트-무한스크롤*/
-	int listCount(Pagination pagination);
+	int listCount(Pagination pagination,int user_idx) throws Exception;
 	public int listImage(int bucket_idx) throws Exception;								/*버킷리스트-첫번째 이미지로 보이기*/
 	
 	public void countUp(int idx) throws Exception;										/*담기_카운트 업*/

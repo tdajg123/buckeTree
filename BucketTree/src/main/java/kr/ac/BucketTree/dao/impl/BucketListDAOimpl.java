@@ -25,22 +25,26 @@ public class BucketListDAOimpl implements BucketListDAO {
 
 	/*전체 버킷리스트 목록*/
 	@Override
-	public List<BucketListVO> list(Pagination pagination) throws Exception {
-		// TODO Auto-generated method stub
-		return session.selectList(namespace+".list", pagination);
+	public List<BucketListVO> list(Pagination pagination,int user_idx) throws Exception {
+		HashMap<String,Object> input = new HashMap<String, Object>();
+		input.put("pagination", pagination);
+		input.put("user_idx", user_idx);
+		return session.selectList(namespace+".list", input);
 	}
 	/*버킷리스트 페이지 카운트*/
 	@Override
-	public int listCount(Pagination pagination) {
-		// TODO Auto-generated method stub
-		return session.selectOne(namespace + ".listCount", pagination);
+	public int listCount(Pagination pagination,int user_idx) throws Exception {
+		HashMap<String,Object> input = new HashMap<String, Object>();
+		input.put("pagination", pagination);
+		input.put("user_idx", user_idx);
+		return session.selectOne(namespace + ".listCount", input);
 	}
 
 	/*버킷리스트-무한스크롤*/
 	@Override
 	public List<BucketListVO> listAjax(Pagination p) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("dao 무한스크롤 : "+p);
+	
 		return session.selectList(namespace+".listAjax", p);
 	}
 	

@@ -24,16 +24,16 @@ public class BucketListServiceimpl implements BucketListService{
 
 	/*전체 버킷리스트 목록&정렬&검색*/
 	@Override
-	public List<BucketListVO> list(Pagination pagination) throws Exception {
+	public List<BucketListVO> list(Pagination pagination,int user_idx) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.list(pagination);
+		return dao.list(pagination,user_idx);
 	}
 
 	/*버킷리스트 페이지 카운트*/
 	@Override
-	public int listCount(Pagination pagination) {
+	public int listCount(Pagination pagination,int user_idx) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.listCount(pagination);
+		return dao.listCount(pagination,user_idx);
 	}
 
 	/*버킷리스트-무한스크롤*/
