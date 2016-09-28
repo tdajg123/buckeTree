@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <script type="text/javascript" src="/BucketTree/js/menu/jquery.dlmenu.js"></script>
 <script type="text/javascript" src="/BucketTree/js/menu/menu.js"></script>
 
@@ -55,10 +57,10 @@
 					<li class="dropdown user user-menu"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"> <img
 							src="/BucketTree/images/PROFILE_image.png" class="user-image"
-							alt="User Image"> USER <b class="caret"></b></a>
+							alt="User Image"> <sec:authentication property="user.name" /> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="/BucketTree/Timeline"><i class="fa fa-fw fa-user"></i> 타임라인</a></li>
-							<li><a href="/BucketTree/Friend/searchFriendList"><i class="fa fa-fw fa-group"></i> 친구</a></li>
+							<li><a href="/BucketTree/Friend/FriendList"><i class="fa fa-fw fa-group"></i> 친구</a></li>
 							<li><a href="/BucketTree/mypage"><i
 									class="fa fa-fw fa-gear"></i> 정보관리</a></li>
 							<li class="divider"></li>
@@ -67,7 +69,7 @@
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-left">
-					<li><a href="/BucketTree/point"> 1500 <i class="fa fa-tree"></i></a></li>
+					<li><a href="/BucketTree/point">  <sec:authentication property="user.point" /> <i class="fa fa-tree"></i></a></li>
 
 				</ul>
 				<ul class="nav navbar-left">
