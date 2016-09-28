@@ -5,7 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="kr.ac.BucketTree.BucketTreeMapper">
 
 
-	<select id="selectPage" resultType="kr.ac.BucketTree.vo.BucketTreeVO"  parameterType="hashmap">
+	<select id="selectPage" resultType="kr.ac.BucketTree.vo.BucketTreeVO"
+		parameterType="hashmap">
 	<![CDATA[
 	  	SELECT *
 		FROM
@@ -15,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY bl.count desc)/*버킷트리에 지정된 좋아요갯수*/
 		END 행번호, 
 		(select state from BucketTree_Member where user_idx= #{user_idx}  and  bucketTree_idx =b.idx) as 'regist',
-		(select count(*) from BucketTree_Member where  state = 0  and bucketTree_idx =b.idx) as 'current'
+		(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
 		FROM [BucketTree] b join [User] u
 		ON b.user_idx=u.idx
 		JOIN [BucketList] bl
@@ -74,5 +75,116 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) /*답변을 채택한것*/
 		]]>
 	</select>
+	<select id="selectMyPage" resultType="kr.ac.BucketTree.vo.BucketTreeVO"
+		parameterType="hashmap">
+	<![CDATA[
+	  	SELECT *
+		FROM
+		(
+		SELECT b.*,bl.title,u.name, CASE #{pagination.orderType}
+		WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY b.date desc)/*버킷트리 최근 개설순*/
+		WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY bl.count desc)/*버킷트리에 지정된 좋아요갯수*/
+		END 행번호, 
+		(select state from BucketTree_Member where user_idx= #{user_idx}  and  bucketTree_idx =b.idx) as 'regist',
+		(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
+		FROM [BucketTree] b join [User] u
+		ON b.user_idx=u.idx
+		JOIN [BucketList] bl
+		ON b.bucketList_idx=bl.idx
+		WHERE
+		(
+		(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */
+		(#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText},b.treeName)>=1) OR /*버킷트리이름 검색*/
+		(#{pagination.srchType}= 2 AND
+		CHARINDEX(#{pagination.srchText},bl.title)>=1) OR /*버킷트리이름 검색*/
+		(#{pagination.srchType}= 3 AND
+		CHARINDEX(#{pagination.srchText},u.name)=1)
+		) /*버킷트리 주인장 검색*/
+		and
+		(
+		(#{pagination.categoryType}=0) OR
+		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and [who]=#{pagination.who} and [what]=#{pagination.what})
+		) /*카테고리검색*/
+		and
+		(
+		(#{pagination.type}=0) OR /*전체*/
+		(#{pagination.type}=1 and b.author=1) OR 
+		(#{pagination.type}=2 and b.author=0) 
+		) /*답변을 채택한것*/
+		and 
+		(b.idx in (select bucketTree_idx  from BucketTree_Member where user_idx =#{user_idx} and state=2))
+		
+		) subquery
+		WHERE 행번호> (#{pagination.currentPage}-1)* #{pagination.pageSize} And
+		행번호<=#{pagination.currentPage} * #{pagination.pageSize}
+		ORDER BY 행번호
+		]]>
+	</select>
+
+	<select id="selectMyCount" resultType="int" parameterType="hashmap">
+     <![CDATA[
+		SELECT COUNT(*)
+		FROM [BucketTree] b join [User] u
+		ON b.user_idx=u.idx
+		JOIN [BucketList] bl
+		ON b.bucketList_idx=bl.idx
+		WHERE
+		(
+		(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */
+		(#{pagination.srchType}= 1 AND CHARINDEX(#{pagination.srchText},b.treeName)>=1) OR /*버킷트리이름 검색*/
+		(#{pagination.srchType}= 2 AND
+		CHARINDEX(#{pagination.srchText},bl.title)>=1) OR /*버킷트리이름 검색*/
+		(#{pagination.srchType}= 3 AND
+		CHARINDEX(#{pagination.srchText},u.name)=1)
+		) /*버킷트리 주인장 검색*/
+		and
+		(
+		(#{pagination.categoryType}=0) OR
+		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and [who]=#{pagination.who} and [what]=#{pagination.what})
+		) /*카테고리검색*/
+		and
+		(
+		(#{pagination.type}=0) OR /*전체*/
+		(#{pagination.type}=1 and b.author=1) OR 
+		(#{pagination.type}=2 and b.author=0) 
+		) /*답변을 채택한것*/
+		and 
+		(b.idx in (select bucketTree_idx  from BucketTree_Member where user_idx =#{user_idx} and state=2))
+		]]>
+	</select>
+
+
+
+	<select id="applyBucketTree" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
+		select * from BucketTree
+		where idx in (select bucketTree_idx from BucketTree_Member where
+		user_idx=#{user_idx} and state=1)
+	</select>
+	<select id="adminByReommend" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
+	<![CDATA[
+		select TOP 4 *
+		from BucketTree
+		where bucketList_idx in
+		(select idx
+		FROM [BucketList]
+		where user_idx !=14 and what in (select what
+		from(
+		select what,ROW_NUMBER() OVER(ORDER BY count(what) desc) 행번호
+		from BucketList
+		where user_Idx=#{user_idx}
+		group by what
+		)subquery
+		where 행번호 in (1,2,3)
+		))and idx not in(select bucketTree_idx from BucketTree_Member where
+		user_idx != #{user_idx}) and member_num > (select count(*) from BucketTree_Member where  state = 0  and bucketTree_idx =idx)
+		ORDER BY NEWID()
+		]]>
+	</select>
 	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="idx">
+		
+		INSERT INTO BucketTree(treeName,bucketList_idx,user_idx,contents,author,member_num,date)
+		Values(#{treeName},#{bucketList_idx},#{user_idx},#{contents},#{author},#{member_num},GETDATE())
+	
+	</insert>
 </mapper>

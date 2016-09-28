@@ -168,9 +168,11 @@
 
 <script>
 	$(function() {
+
 		$(".bs-calltoaction").click(function() {
 			location.href = $(this).attr("data-url");
 		});
+
 
 		//카테고리 옵션으로 값뿌려주기
 		<c:forEach items="${what}" var="what">

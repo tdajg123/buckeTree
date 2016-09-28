@@ -37,7 +37,7 @@
 				<li id="dl-menu-2" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷트리</a>
 					<ul class="dl-menu">
-						<li><a href="#">마이버킷트리</a></li>
+						<li><a href="/BucketTree/bucketTree/myList">마이버킷트리</a></li>
 						<li><a href="/BucketTree/bucketTree/list">전체버킷트리</a></li>
 					</ul></li>
 				<li id="dl-menu-3" class="dl-menuwrapper"><a href="#"

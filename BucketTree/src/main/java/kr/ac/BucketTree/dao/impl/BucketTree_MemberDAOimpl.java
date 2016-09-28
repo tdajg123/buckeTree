@@ -19,7 +19,7 @@ public class BucketTree_MemberDAOimpl implements BucketTree_MemberDAO {
 		HashMap<String,Object> input = new HashMap<String, Object>();
 		input.put("bucketTree_idx", bucketTree_idx);
 		input.put("user_idx", user_idx);
-		input.put(" state",  state);
+		input.put("state",  state);
 		session.insert(namespace+".apply",input);
 	}
 

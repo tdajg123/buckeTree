@@ -24,6 +24,36 @@ public class BucketTreeServiceimpl implements BucketTreeService {
 		// TODO Auto-generated method stub
 		return dao.selectCount(pagination);
 	}
+
+	@Override
+	public List<BucketTreeVO> selectMyPage(Pagination pagination, int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.selectMyPage(pagination, user_idx);
+	}
+
+	@Override
+	public int selectMyCount(Pagination pagination, int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.selectMyCount(pagination, user_idx);
+	}
+
+	@Override
+	public List<BucketTreeVO> applyBucketTree(int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.applyBucketTree(user_idx);
+	}
+
+	@Override
+	public List<BucketTreeVO> adminByReommend(int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.adminByReommend(user_idx);
+	}
+
+	@Override
+	public void insert(BucketTreeVO bucketTreeVO) {
+		dao.insert(bucketTreeVO);
+		
+	}
 	
 	
 }

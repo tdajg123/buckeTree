@@ -172,7 +172,7 @@
 	</div>
 </div>
 <script>
-	$('.btn-box-tool').click();
+	$('button[data-toggle=collapse]').click();
 
 	$('.modifyButton').click(function() {
 
