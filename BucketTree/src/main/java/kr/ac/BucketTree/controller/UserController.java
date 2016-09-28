@@ -154,6 +154,21 @@ public class UserController {
         }
     }
 	
+	/*메뉴바에서 프로필 보여주기*/
+	@RequestMapping("menubar/{idx}/profile")
+    public void menubarImage(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
+		
+		UserVO image = us.getCurrentUser();
+		
+		String fileName = URLEncoder.encode(image.getFileName(),"UTF-8");
+		
+        response.setContentType(image.getMimeType());									/*확장자 명*/
+        response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+            output.write(us.getCurrentUser().getImage());								/*이미지 출력*/
+        }
+    }
+	
 	/* 마이페이지-회원 정보 보기 GET */
 	@RequestMapping(value = "/mypage", method = RequestMethod.POST)
 	public String updateGET(Model model, HttpServletRequest request) throws Exception {
@@ -271,18 +286,7 @@ public class UserController {
 
         String fileName = Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString();		/*업로드 된 파일의 이름 가져오기*/
         System.out.println("fileName : " + fileName);
-		// 파일이 있으면
-		/*if (uploadedFile.getSize() > 0) {
-			System.out.println("<<<<<프로필 업로드>>>>>");
-			user.setFileName(fileName);						파일 이름 넣기
-			user.setImage(uploadedFile.getBytes());			파일을 바이너리로 변환하여 저장
-		} else{
-			// 기본이미지로 변경
-			user.setFileName("PROFILE_image.png");
-			//user.setImage();
-		}
-*/
-        
+	    
         System.out.println("<<<<<프로필 업로드>>>>>");
 		user.setFileName(fileName);						/*파일 이름 넣기*/
 		user.setImage(uploadedFile.getBytes());	
