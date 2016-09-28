@@ -3,77 +3,59 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="/BucketTree/css/bucketTree.css" rel="stylesheet"
-	type="text/css" />
 
-<div class="topbar" style="display: flex; margin-left: 280px">
-	<!-- Search Form __ Start -->
+<!-- 카테고리 모달창 -->
+<div class="modal fade" id="category_modal" role="dialog"
+	style="z-index: 99999; position: fixed">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" style="padding: 15px 50px;"></div>
+			<div class="modal-body" style="padding: 40px 50px;">
 
-	<div class="container_category"
-		style="display: flex; width: 900px; z-index: 9">
-
-		<div class="row_category" style="display: inline-block">
-
-			<!-- 카테고리 모달창 -->
-			<div class="modal fade" id="category_modal" role="dialog"
-				style="z-index: 99999; position: fixed">
-				<div class="modal-dialog">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header" style="padding: 15px 50px;"></div>
-						<div class="modal-body" style="padding: 40px 50px;">
-
-							<div style="display: flex; margin-left: 65px">
-								<div style="display: inline-block">
-									<h3>WHEN</h3>
-								</div>
-								<div style="display: inline-block; margin-left: 80px">
-									<h3>WHO</h3>
-								</div>
-								<div style="display: inline-block; margin-left: 80px">
-									<h3>WHAT</h3>
-								</div>
-							</div>
-							<select id="when_temp"></select> <select id="who_temp"></select>
-							<select id="what_temp"></select>
-
-
-						</div>
-						<div class="modal-footer">
-							<button type="submit" id="categoryAble" class="btn btn-default">
-								<span class="fa fa-check"></span><span id="categoryState">카테고리
-									검색 비활성화</span>
-							</button>
-							<button type="submit" id="btn" class="btn btn-default"
-								data-dismiss="modal">
-								<span class="fa fa-check"></span> 확인
-							</button>
-						</div>
+				<div style="display: flex; margin-left: 65px">
+					<div style="display: inline-block">
+						<h3>WHEN</h3>
+					</div>
+					<div style="display: inline-block; margin-left: 80px">
+						<h3>WHO</h3>
+					</div>
+					<div style="display: inline-block; margin-left: 80px">
+						<h3>WHAT</h3>
 					</div>
 				</div>
-			</div>
+				<select id="when_temp"></select> <select id="who_temp"></select> <select
+					id="what_temp"></select>
 
+
+			</div>
+			<div class="modal-footer">
+				<button type="submit" id="categoryAble" class="btn btn-default">
+					<span class="fa fa-check"></span><span id="categoryState">카테고리
+						검색 비활성화</span>
+				</button>
+				<button type="submit" id="btn" class="btn btn-default"
+					data-dismiss="modal">
+					<span class="fa fa-check"></span> 확인
+				</button>
+			</div>
 		</div>
+	</div>
+</div>
 
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-5" style="margin-bottom: 3px;">
+			<button id="view_when" type="button" class="btn btn-success">없음</button>
+			<button id="view_who" type="button" class="btn btn-success">없음</button>
+			<button id="view_what" type="button" class="btn btn-success">없음</button>
+		</div>
+		<form:form id="form_search" method="POST" modelAttribute="pagination"
+			action="/BucketTree/bucketTree/list">
 
-		<div class="row"
-			style="margin-left: 0px; margin-right: 0px; width: 1100px">
-			<div
-				style="margin: auto; width: 250px; margin-bottom: 3px; margin-left: 750px">
-				<button id="view_when" type="button" class="btn btn-success">없음</button>
-				<button id="view_who" type="button" class="btn btn-success">없음</button>
-				<button id="view_what" type="button" class="btn btn-success">없음</button>
-			</div>
-			<div class="form-inline">
-				<!-- Search Form __ Start -->
-				<form:form id="form_search" method="POST"
-					modelAttribute="pagination" action="/BucketTree/bucketTree/list">
-
-					<!-- 정렬 셀렉트 박스 -->
-					<form:select path="orderType">
-						<form:option value="1" label="최신순" />
-						<form:option value="2" label="좋아요순" />
-					</form:select>
+			<div class="col-md-12">
+				<div class="form-inline">
+					<!-- Search Form __ Start -->
 
 					<!-- 카테고리 선택 버튼 -->
 					<button id="category" class="btn btn-success">카테고리</button>
@@ -107,68 +89,73 @@
 					<form:input path="categoryType" type="hidden" />
 					<form:input path="currentPage" type="hidden" />
 
-				</form:form>
+
+					<!-- 정렬 셀렉트 박스 -->
+					<form:select path="orderType">
+						<form:option value="1" label="최신순" />
+						<form:option value="2" label="좋아요순" />
+					</form:select>
+
+
+				</div>
+			</div>
+		</form:form>
+
+	</div>
+
+
+
+	<!-- bucketList-listAll __ Start -->
+
+	<div class="container" style="padding-top: 20px; padding-bottom: 85px">
+		<div class="row"
+			style="margin-left: 0px; margin-right: 0px; width: 1100px">
+
+			<div
+				style="display: inline-block; margin-top: 10px; margin-bottom: 10px">
 			</div>
 
+			<!-- bucketList-Category & Type & Search __ End -->
+			<hr>
 
-		</div>
-
-
-	</div>
-
-</div>
-
-<!-- bucketList-listAll __ Start -->
-
-<div class="container" style="padding-top: 20px; padding-bottom: 85px">
-	<div class="row"
-		style="margin-left: 0px; margin-right: 0px; width: 1100px">
-
-		<div
-			style="display: inline-block; margin-top: 10px; margin-bottom: 10px">
-		</div>
-
-		<!-- bucketList-Category & Type & Search __ End -->
-		<hr>
-
-		<section id="pinBoot" class="bucketbox">
+			<section id="pinBoot" class="bucketbox">
 
 
-			<c:forEach items="${list}" var="BucketListVO">
+				<c:forEach items="${list}" var="BucketListVO">
 
-				<article class="white-panel " style="width: 260px">
+					<article class="white-panel " style="width: 260px">
 
 
 
-					<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
-						<c:if test="${BucketListVO.imageIdx != 0 }">
-							<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
-								alt="" style="width: 260px" onclick="">
+						<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
+							<c:if test="${BucketListVO.imageIdx != 0 }">
+								<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
+									alt="" style="width: 260px" onclick="">
+							</c:if>
+						</a>
+						<h4>
+							<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
+						</h4>
+						<c:if test="${BucketListVO.user_idx !=user.idx}">
+							<div class="f_right"
+								style="background: transparent; border: none; display: inline-block">
+								<div class="btn btn-success">${BucketListVO.count}</div>
+							</div>
 						</c:if>
-					</a>
-					<h4>
-						<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
-					</h4>
+						<c:if test="${BucketListVO.user_idx ==user.idx}">
+							<div class="f_right"
+								style="background: transparent; border: none; display: inline-block">
+								<div class="btn btn-success">${BucketListVO.count}</div>
+							</div>
+						</c:if>
+					</article>
+				</c:forEach>
+			</section>
 
-
-					<div
-						style="display: inline-block; padding-left: 180px; padding-right: 17px">${BucketListVO.count}</div>
-					<c:if test="${BucketListVO.user_idx !=user.idx}">
-						<div
-							style="background: transparent; border: none; display: inline-block">
-							<img src="/BucketTree/images/bucket2.png"
-								style="width: 40px; height: 40px">
-						</div>
-
-					</c:if>
-				</article>
-			</c:forEach>
-		</section>
-
-		<hr>
+			<hr>
+		</div>
 	</div>
 </div>
-
 <!-- bucketList-listAll __ End -->
 
 <script>
