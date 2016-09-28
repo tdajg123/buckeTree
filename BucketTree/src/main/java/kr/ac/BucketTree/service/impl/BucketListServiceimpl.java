@@ -149,11 +149,6 @@ public class BucketListServiceimpl implements BucketListService{
 		return dao.selectById(image);
 	}
 	
-	@Override
-	public int deleteOrphan(){
-		return dao.deleteOrphan();
-	}
-	
 	/* 버킷리스트 수정*/
 	@Override
 	public int editBucket(BucketListVO buck){

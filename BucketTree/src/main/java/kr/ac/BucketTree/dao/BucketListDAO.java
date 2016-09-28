@@ -39,10 +39,7 @@ public interface BucketListDAO {
 	/*파일 업로드*/
 	/*image 테이블 삽입(이미지 업로드)*/
 	public int insertImage(ImageVO image); 
-	
-	/*잔여 이미지 삭제*/
-	public int deleteOrphan();
-	
+		
 	/*BJTS_image 테이블 삽입 (이미지 업로드)*/
 	int insertblImage(int bucket_idx,int imag_idx); 
 	

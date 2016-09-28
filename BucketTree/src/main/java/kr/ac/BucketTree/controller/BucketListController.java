@@ -135,7 +135,7 @@ public class BucketListController {
 		bls.insertBucketList(vo);
 
 		bls.updateBucketImage(vo);
-		bls.deleteOrphan();
+		is.deleteOrphan();
 
 		for (MultipartFile uploadedFile : uploadedFiles) {
 			ImageVO file = new ImageVO();
@@ -172,16 +172,16 @@ public class BucketListController {
 	public String bucketDetail(@PathVariable("idx") int idx, Model model) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 
-		
+		UserVO user = us.getCurrentUser();
 		BucketListVO bc = bls.bucket(idx);
-		UserVO user = us.selectByIdx(bc.getUser_idx());
-		bc.setName(user.getName());
+		UserVO buser = us.selectByIdx(bc.getUser_idx());
+		bc.setName(buser.getName());
 		List<CategoryVO> ctlist = new ArrayList();
 		ctlist.add(cs.whoName(bc.getWho()));
 		ctlist.add(cs.whenName(bc.getWhen()));
 		ctlist.add(cs.whatName(bc.getWhat()));
 		
-		bc.setName(user.getName());
+		bc.setName(buser.getName());
 		List<CommentVO> clist = new ArrayList();
 		clist = bls.selectComment(idx);
 		model.addAttribute("bucket", bc);
@@ -219,7 +219,7 @@ public class BucketListController {
 		vo.setContents(request.getParameter("body"));
 		bls.editBucket(vo);
 		bls.updateBucketImage(vo);
-		bls.deleteOrphan();
+		is.deleteOrphan();
 
 		for (MultipartFile uploadedFile : uploadedFiles) {
 			ImageVO file = new ImageVO();
@@ -248,7 +248,7 @@ public class BucketListController {
 			bls.deleteImage(imageIdx);
 			bls.deleteBucket(idx);
 			bls.deleteBucComment(idx);
-			bls.deleteOrphan();
+			is.deleteOrphan();
 		}
 		// 해당 버킷리스트와 연관된 부분 삭제 필요
 

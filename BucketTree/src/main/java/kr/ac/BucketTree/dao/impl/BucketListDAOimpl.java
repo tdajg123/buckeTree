@@ -137,11 +137,6 @@ public class BucketListDAOimpl implements BucketListDAO {
 		return session.insert(namespace +".insertbImage", image);		
 	}; 
 	
-	/*잔여 이미지 제거 */
-	@Override
-	public int deleteOrphan(){
-		return session.delete(namespace +".deleteOrphan");
-	}
 	/*BucketList_image 테이블 삽입*/
 	@Override
 	public int insertblImage(int bucket_idx, int image_idx){
