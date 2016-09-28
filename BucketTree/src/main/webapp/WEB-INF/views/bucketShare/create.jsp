@@ -7,7 +7,7 @@
 	type="text/css" />
 
 <!-- 사이드 바 메뉴 -->
-<div class="container" style="padding-top: 110px; padding-bottom: 85px">
+<div class="container" style="padding-top: 50px; padding-bottom: 85px">
 	<!-- Menu -->
 	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
 

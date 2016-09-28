@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <div class="container">
+
 	<div class="row">
 		<!-- Search Form __ Start -->
 		<div class="col-md-4 col-md-offset-5">
@@ -96,6 +97,7 @@
 		</c:forEach>
 	</section>
 	<hr>
+
 </div>
 
 <!-- 버킷리스트 끝 -->

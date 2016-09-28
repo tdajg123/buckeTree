@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script type="text/javascript"
 	src="/BucketTree/js/menu/jquery.dlmenu.js"></script>
+
 <script type="text/javascript" src="/BucketTree/js/menu/menu.js"></script>
 
 <style>
@@ -97,11 +98,11 @@
 						<li><a href="/BucketTree/logout"><i
 								class="fa fa-fw fa-power-off"></i> 로그아웃</a></li>
 					</ul>
-					</li>
 				</ul>
 				<ul class="nav navbar-left">
 					<li><a href="/BucketTree/point"> 1500 <i
 							class="fa fa-tree"></i></a></li>
+
 
 				</ul>
 				<ul class="nav navbar-left">

@@ -17,6 +17,7 @@ $('#pinBoot2').pinterest_grid({
 });
 
 (function ($, window, document, undefined) {
+
     var pluginName = 'pinterest_grid',
         defaults = {
             padding_x: 10,
@@ -155,7 +156,7 @@ $('#pinBoot2').pinterest_grid({
         });
     }
 
+
 })(jQuery, window, document);
 
 /* bucketList-listBox __ End */
-

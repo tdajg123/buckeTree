@@ -151,7 +151,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		[BucketList](title, contents, count, date, user_idx, writer, [when],
 		who, what, state)
 		values(#{title}, #{contents}, 0, GETDATE(),
-		#{user_idx}, 2, #{when}, #{who}, #{what}, 0)
+		#{user_idx}, #{writer}, #{when}, #{who}, #{what}, 0)
 
 	</insert>
 
@@ -307,8 +307,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertBucketList" useGeneratedKeys="true"
 		keyProperty="idx">
 		INSERT INTO
-		[BucketList](title,contents,count,date,user_idx,writer,x,y,keyword,tree_idx,state)
-		VALUES(#{title},#{contents},#{count},GETDATE(),#{user_idx},#{writer},#{x},#{y},#{keyword},0,0)
+		[BucketList](title,contents,count,date,user_idx,writer,x,y,keyword,[when],who,what,tree_idx,state)
+		VALUES(#{title},#{contents},#{count},GETDATE(),#{user_idx},#{writer},#{x},#{y},#{keyword},#{when},#{who},#{what},0,0)
 
 	</insert>
 

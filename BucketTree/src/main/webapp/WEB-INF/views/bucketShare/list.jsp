@@ -3,9 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!--  BucketShare -->
-<link href="/BucketTree/css/bucketShare.css" rel="stylesheet"
-	type="text/css" />
+
 
 <!-- 카테고리 모달창 -->
 <div class="modal fade" id="category_modal" role="dialog"
@@ -47,7 +45,7 @@
 </div>
 
 <!-- 사이드 바 메뉴 -->
-<div class="container" style="padding-top: 110px; padding-bottom: 85px">
+<div class="container" style="padding-top: 50px; padding-bottom: 85px">
 	<!-- Menu -->
 	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
 
@@ -81,7 +79,7 @@
 		</div>
 		<form:form id="form_search" method="POST" modelAttribute="pagination">
 
-			<div class="col-md-6">
+			<div class="col-md-12">
 
 				<div class="form-inline">
 					<!-- Search Form __ Start -->

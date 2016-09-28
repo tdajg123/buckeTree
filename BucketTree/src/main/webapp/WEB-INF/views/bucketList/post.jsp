@@ -273,46 +273,36 @@
 
 
 <script>
-	$(document)
-			.on(
-					'click',
-					'#addComment',
-					function() {
-						alert('에이젝스 돌입')
-						var formData = $('#formData').serialize();
-						var str = '';
-						alert(formData)
-						jQuery
-								.ajax({
 
-									url : "/BucketTree/bucketList/addCommentRequestAjax",
-									type : "POST",
-									data : formData,
-									cache : false,
-									success : function(data) {
-										if (data != "") {
-											$(data)
-													.each(
+$(document).on('click', '#addComment', function(){
+	alert('에이젝스 돌입')
+	var formData =$('#formData').serialize();
+	var str='';
+	alert(formData)
+	jQuery.ajax({
+		
+		url : "/BucketTree/bucketList/addCommentRequestAjax",
+		type : "POST",
+		data : formData,
+		cache: false,
+		success :  function(data) {
+			if(data !=""){
+				$(data).each(
+			
+				function(){
 
-															function() {
-
-																str += '<div class="box-comment" data-idx="'+this.idx+'">'
-																		+ '<img src="/kr/resources/img/user1-128x128.jpg" class="user-image" alt="User Image">'
-																		+ '<div class="comment-text">'
-																		+ '<span class="username">'
-																		+ this.name
-																		+ '<a href="" id="cedit" style="margin-left:790px">수정</a><a href="" id="cdelete" style="margin-left:10px">삭제</a><span class="text-muted pull-right post_date">'
-																		+ this.date
-																		+ '</span></span>'
-																		+ this.contents
-																		+ '</div>'
-																		+ '</div>';
-															})
-											$('.box-footer.box-comments')
-													.append(str);
-											$('#addComment').val("");
-										} else
-											alert('불러올 데이터가 없습니다')
+					str+='<div class="box-comment" data-idx="'+this.idx+'">'
+					+'<div class="comment-text">'
+					+'<span class="username">'+this.name+'<a href="" id="cedit" style="margin-left:790px">수정</a><a href="" id="cdelete" style="margin-left:10px">삭제</a><span class="text-muted pull-right post_date">'+this.date+'</span></span>'
+					+ this.contents
+					+'</div>'
+					+'</div>';      					    
+				}		
+				)  
+				  $('.box-footer.box-comments').append(str);
+				  $('#addComment').val("");
+				  }else
+					  alert('불러올 데이터가 없습니다')
 									}
 
 								});

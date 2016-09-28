@@ -186,7 +186,7 @@
 
 							</article>
 						</c:forEach>
-</section>
+					</section>
 					</div>
 				</div>
 			</div>
@@ -199,7 +199,7 @@
 	style="width: 1170px; margin: auto; margin-top: 10px">
 	<article class="white-panel-add">
 		<h4>
-			<a href="#" class="fa fa-plus" style="color: #fff; margin-left: 30px">
+			<a href="/BucketTree/bucketList/bucketWrite" class="fa fa-plus" style="color: #fff; margin-left: 30px">
 				버킷리스트 추가</a>
 		</h4>
 	</article>
@@ -208,12 +208,15 @@
 		<div class="white-panel" style="width: 260px"
 			data-row="${BucketListVO.getRow()}">
 
-			<img src="/BucketTree/list/${BucketListVO.getIdx()}/firstImage" alt="" style="width: 260px">
+			<img src="/BucketTree/list/${BucketListVO.getIdx()}/firstImage"
+				alt="" style="width: 260px">
 			<h4>
 				<a href="#">${BucketListVO.title}</a>
 			</h4>
+
 			<button class="bucketOK pull-right" style="background: #48cfc8; width: 50px; height: 30px" type="submit">완료</button>
 		</div>
+
 	</c:forEach>
 
 </section>
@@ -221,50 +224,56 @@
 <!-- bucketList-listAll __ End -->
 
 <script>
-
 	$(function() {
 
-		
 		//무한 스크롤
-		$(window).scroll(function(){
-			if  ($(window).scrollTop() >= $(document).height() - $(window).height()){
-			
-			var lastrow = $(".white-panel:last").attr("data-row");
-			  
-			var str='';
-				$.ajax({
-					url : "/BucketTree/bucketList/mylistAjax",
-					dataType : "json",
-					type : "POST",
-					data : {
-					row : lastrow
-					},
-					
-					success :  function(data) {
-						if(data !=""){
-							$(data).each(
-							
-									function(){
-							        
-										str += "<article class='white-panel' style='width: 260px' data-row='" +this.row+">"
-											+ "<img src= '/BucketTree/images/image7.jpg' style='width: 260px' >"
-											+ "<h4> <a href='#'>"+this.title+"</a> </h4>"
-											+ "<p style='width: 250px'>"+this.contents+"</p>"
-											+ "<button class='bucketOK pull-right' style='background: #48cfc8; width: 50px; height: 30px' type='submit'>완료</button>"
-									
-											alert(str)
-										}		
-										)  
-											$('.bucketbox').append(str);
-											}else
-												alert('더 이상 불러올 버킷리스트가 없습니다.')
+		$(window)
+				.scroll(
+						function() {
+							if ($(window).scrollTop() >= $(document).height()
+									- $(window).height()) {
+
+								var lastrow = $(".white-panel:last").attr(
+										"data-row");
+
+								var str = '';
+								$
+										.ajax({
+											url : "/BucketTree/bucketList/mylistAjax",
+											dataType : "json",
+											type : "POST",
+											data : {
+												row : lastrow
+											},
+
+											success : function(data) {
+												if (data != "") {
+													$(data)
+															.each(
+
+																	function() {
+
+																		str += "<article class='white-panel' style='width: 260px' data-row='" +this.row+">"
+																				+ "<img src= '/BucketTree/images/image7.jpg' style='width: 260px' >"
+																				+ "<h4> <a href='#'>"
+																				+ this.title
+																				+ "</a> </h4>"
+																				+ "<p style='width: 250px'>"
+																				+ this.contents
+																				+ "</p>"
+																				+ "<button class='bucketOK pull-right' style='background: #48cfc8; width: 50px; height: 30px' type='submit'>완료</button>"
+
+																		alert(str)
+																	})
+													$('.bucketbox').append(str);
+												} else
+													alert('더 이상 불러올 버킷리스트가 없습니다.')
 											}
-										});			
-			    
-			}
-		});  
-		
-		
+										});
+
+							}
+						});
+
 		$(function() {
 			//카테고리 옵션으로 값 뿌려주기
 			<c:forEach items="${what}" var="what">
@@ -346,7 +355,5 @@
 
 		});
 
-
-});
-
+	});
 </script>

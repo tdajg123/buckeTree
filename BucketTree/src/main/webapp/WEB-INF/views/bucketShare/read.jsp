@@ -87,7 +87,8 @@
 				<div class="collapse" id="collapseComment">
 
 					<c:forEach var="answer" items="${ answer }">
-						<div class="comments-row" style="height: 150px">
+						<div class="comments-row"
+							style="border-bottom: 1px solid #48cfc8; height: 100px">
 							<!-- 답글 쓴 사람 이미지와 이름 -->
 							<div class="col-xs-2 col-md-1"
 								style="padding-top: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px">
@@ -99,9 +100,11 @@
 							</div>
 							<!-- 답글 부분 -->
 							<div class="col-xs-10 col-md-11"
-								style="width: 700px; padding-top: 10px">
-								<div>
-									<h4 style="padding-top: 10px">${ answer.contents }</h4>
+								style="margin-top: 5px; margin-bottom: 5px;">
+								<div class="f_left">${ answer.date }</div>
+
+								<div style="padding-top: 20px;">
+									<h4>${ answer.contents }</h4>
 								</div>
 								<div class="modify">
 									<form method="post"
@@ -120,14 +123,17 @@
 										</div>
 									</form>
 								</div>
-								<div>${ answer.date }</div>
-								<div>
+								<div class="f_right">
 									<!-- 답변 작성자만 수정하고, 삭제 할수있음 -->
 									<c:if test="${ answer.user_idx ==user.idx && answer.state==0 }">
-										<button type="button" class="btn btn-success modifyButton">수정</button>
+										<button type="button" class="btn btn-default modifyButton"
+											title="수정">
+											<i class="fa fa-pencil"></i>
+										</button>
 										<a
 											href="/BucketTree/bucketShare/answerDelete?idx=${answer.idx}"
-											type="button" class="btn btn-success">삭제</a>
+											type="button" class="btn btn-default" title="삭제"><i
+											class="fa fa-trash-o"></i></a>
 									</c:if>
 									<!-- 질문작성자이면서, 댓글작성자가 질문작성자가 아닐때만 채택할 수있음 -->
 									<c:if

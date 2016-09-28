@@ -79,7 +79,6 @@
 	position: fixed;
 	width: 300px;
 	height: 100%;
-	background-color: #fff;
 }
 
 .side-menu .navbar {
@@ -89,7 +88,11 @@
 .side-menu .navbar-nav li {
 	display: block;
 	width: 100%;
-	border-bottom: 1px solid #e7e7e7;
+	border-bottom: 1px solid #48cfc8;
+}
+
+.side-menu .navbar-nav li:hover {
+	background-color: #f8f8f8;
 }
 
 .side-menu .navbar-nav li a {
@@ -204,10 +207,6 @@ ct
 /* bucketShare-listDetail __ End */
 
 /* bucketShare-comments __ Start */
-body {
-	padding-top: 30px;
-}
-
 .widget .panel-body {
 	padding: 0px;
 }
@@ -437,7 +436,7 @@ table.jambo_table thead {
 }
 
 table.jambo_table tbody tr:hover td {
-	background: #c8ecea;
+	background: #d5edeb;
 	border-top: 1px solid rgba(38, 185, 154, 0.11);
 	border-bottom: 1px solid rgba(38, 185, 154, 0.11);
 }
@@ -455,7 +454,7 @@ table.jambo_table tbody tr.selected td {
 	position: relative;
 	height: 32px;
 	border: 1px solid #48cfc8;
-	padding: 0 11px 0 11px;
+	padding: 0 20px 0 18px;
 	margin-top: 2px;
 	text-align: center;
 }

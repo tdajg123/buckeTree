@@ -42,12 +42,16 @@
 	background-color: #48cfc8;
 	color: #FFF
 }
+
 .blockquote-box.blockquote-info.clearfix {
-	width:457px;
-	display:inline-block;
-	margin-right:30px;
+	width: 100%;
+	padding: 20px 0 0 20px;
+	display: inline-block;
 }
 
+div .blockquote-box:hover {
+	background-color: #f8f8f8;
+}
 
 .blockquote-box.blockquote-warning {
 	border-color: #EEA236
@@ -67,13 +71,10 @@
 	color: #FFF
 }
 
-
 div.headBar {
-	border-bottom: 3px solid #48cfc8;
-	margin-bottom: 35px;
+	border-top: 3px solid #48cfc8;
 	margin-top: 35px;
-	width: 950px;
-	margin-left: 15px;
+	padding-top: 10px;
 }
 
 #hbp {
@@ -83,12 +84,6 @@ div.headBar {
 #mbp {
 	text-align: right;
 	padding-right: 15px;
-}
-
-div.col-md-6 {
-	width: 1055px;
-	padding-left: 15px;
-	padding-right: 20px;
 }
 
 .side-menu {
@@ -103,5 +98,7 @@ div.col-xs-8.col-xs-offset-2 {
 	margin-left: 215px;
 	margin-bottom: 10px;
 }
-div.reqmenu { margin-bottom:50px;}
- 
+
+div.reqmenu {
+	margin-bottom: 50px;
+}

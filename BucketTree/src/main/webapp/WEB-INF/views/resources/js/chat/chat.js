@@ -268,7 +268,7 @@ function leadingZeros(n, digits) {
 //웹소켓 연결
   function connect() {
 	  //ws = new SockJS('/BucketTree/Messeneger');
-	  ws =new WebSocket('ws://localhost:8080/BucketTree/Messeneger')
+	  ws =new WebSocket('ws://localhost:8060/BucketTree/Messeneger')
 	  
 	 
 	  ws.onopen = function() {
