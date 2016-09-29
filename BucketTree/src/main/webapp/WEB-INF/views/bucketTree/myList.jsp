@@ -3,78 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="/BucketTree/css/bucketTree.css" rel="stylesheet"
-	type="text/css" />
 
-<div class="topbar" style="display: flex; margin-left: 280px">
-	<!-- Search Form __ Start -->
-
-	<div class="container_category"
-		style="display: flex; width: 900px; z-index: 9">
-
-		<div class="row_category" style="display: inline-block">
-
-			<!-- 카테고리 모달창 -->
-			<div class="modal fade" id="category_modal" role="dialog"
-				style="z-index: 99999; position: fixed">
-				<div class="modal-dialog">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header" style="padding: 15px 50px;"></div>
-						<div class="modal-body" style="padding: 40px 50px;">
-
-							<div style="display: flex; margin-left: 65px">
-								<div style="display: inline-block">
-									<h3>WHEN</h3>
-								</div>
-								<div style="display: inline-block; margin-left: 80px">
-									<h3>WHO</h3>
-								</div>
-								<div style="display: inline-block; margin-left: 80px">
-									<h3>WHAT</h3>
-								</div>
-							</div>
-							<select id="when_temp"></select> <select id="who_temp"></select>
-							<select id="what_temp"></select>
-
-
-						</div>
-						<div class="modal-footer">
-							<button type="submit" id="categoryAble" class="btn btn-default">
-								<span class="fa fa-check"></span><span id="categoryState">카테고리
-									검색 비활성화</span>
-							</button>
-							<button type="submit" id="btn" class="btn btn-default"
-								data-dismiss="modal">
-								<span class="fa fa-check"></span> 확인
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
+<div class="container">
+	<div class="row" style="margin: 25px 0 55px 0;">
+		<!-- bucketList-Category & Type & Search __ Start -->
+		<div class="col-md=4 col-md-offset-6" style="margin-bottom: 3px;">
+			<button id="view_when" type="button" class="btn btn-success">없음</button>
+			<button id="view_who" type="button" class="btn btn-success">없음</button>
+			<button id="view_what" type="button" class="btn btn-success">없음</button>
 		</div>
-
-
-		<div class="row"
-			style="margin-left: 0px; margin-right: 0px; width: 1100px">
-			<div
-				style="margin: auto; width: 250px; margin-bottom: 3px; margin-left: 750px">
-				<button id="view_when" type="button" class="btn btn-success">없음</button>
-				<button id="view_who" type="button" class="btn btn-success">없음</button>
-				<button id="view_what" type="button" class="btn btn-success">없음</button>
-			</div>
-			<div class="form-inline">
-				<!-- Search Form __ Start -->
-				<form:form id="form_search" method="POST"
-					modelAttribute="pagination" action="/BucketTree/bucketTree/list">
-
-					<!-- 정렬 셀렉트 박스 -->
-					<form:select path="orderType">
-						<form:option value="1" label="최신순" />
-						<form:option value="2" label="좋아요순" />
-					</form:select>
-
+		<form:form id="form_search" method="POST" modelAttribute="pagination"
+			action="/BucketTree/bucketTree/list">
+			<div class="col-md-11 col-md-offset-1">
+				<div class="form-inline">
 					<!-- 카테고리 선택 버튼 -->
 					<button id="category" class="btn btn-success">카테고리</button>
 
@@ -106,128 +47,102 @@
 					<form:input path="what" type="hidden" />
 					<form:input path="categoryType" type="hidden" />
 					<form:input path="currentPage" type="hidden" />
-
-				</form:form>
-			</div>
-
-
-		</div>
-
-
-	</div>
-
-</div>
-
-
-<!-- bucketList-listAll __ Start -->
-
-<div class="container" style="padding-top: 20px; padding-bottom: 85px">
-	<div class="row"
-		style="margin-left: 0px; margin-right: 0px; width: 1100px"></div>
-	<!--내가 지원한 버킷트리  -->
-	<div id="applyBucketList" class="collapse navbar-collapse"
-		style="padding: 0px;">
-		<div class="navbar-custom-comments">
-			<div class="x_panel">
-				<div class="box-header withorder">
-					<div class="pull-right">
-						<button type="button" class="btn btn-default"
-							data-toggle="collapse" data-target="#collapseComment">
-							<i class="fa fa-plus"></i>
-						</button>
-					</div>
-					<h3 class="x_title">가입신청한 BucketTree</h3>
-					<!-- /.box-tools -->
-				</div>
-				<!-- /.box-header -->
-				<div class="collapse" id="collapseComment">
-					<section class="bucketbox">
-						<c:forEach items="${applyList}" var="BucketTreeVO">
-
-							<article data-id="${BucketTreeVO.idx}"
-								style="width: 260px; display: inline-Block">
-
-								<img src="/BucketTree/images/image7.jpg" alt=""
-									style="width: 260px">
-								<h4>
-									<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
-								</h4>
-
-
-
-								<a
-									href="/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=2"
-									class="btn btn-success">취소</a>
-
-								<p style="width: 250px">인원 :
-									${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>
-							</article>
-
-						</c:forEach>
-					</section>
 				</div>
 			</div>
-		</div>
+			<div class="f_right">
+				<!-- 정렬 셀렉트 박스 -->
+				<form:select path="orderType">
+					<form:option value="1" label="최신순" />
+					<form:option value="2" label="좋아요순" />
+				</form:select>
+			</div>
+		</form:form>
 	</div>
-		<!-- 가입신청한 버킷트리 -->
-		<!--관리자가 추천하는 버킷리스트  -->
-		<div id="adminBucketList" class="collapse navbar-collapse"
-			style="padding: 0px;">
-			<div class="navbar-custom-comments">
-				<div class="x_panel">
-					<div class="box-header withorder">
-						<div class="pull-right">
-							<button type="button" class="btn btn-default"
-								data-toggle="collapse" data-target="#collapseComment2">
-								<i class="fa fa-plus"></i>
-							</button>
+	<!-- bucketList-Category & Type & Search __ End -->
+
+
+	<!--가입 신청한  버킷트리  -->
+	<div id="applyBucketList" class="box box-default collapsed-box">
+		<div class="box-header withorder" style="padding-left: 20px;">
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-default" data-toggle="collapse"
+					data-target="#collapseApply">
+					<i class="fa fa-plus"></i>
+				</button>
+			</div>
+			<h3 class="box_title">가입신청 BucketTree</h3>
+			<!-- /.box-tools -->
+		</div>
+		<!-- /.box-header -->
+		<div class="collapse" id="collapseApply" style="padding: 5px 22px;">
+			<section class="bucketbox">
+				<c:forEach items="${applyList}" var="BucketTreeVO">
+					<article data-id="${BucketTreeVO.idx}"
+						style="width: 260px; margin: 0 5px; display: inline-Block">
+
+						<img src="/BucketTree/images/image7.jpg" alt=""
+							style="width: 260px">
+						<h4>
+							<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
+						</h4>
+						<div class="f_right">
+							<a
+								href="/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=2"
+								class="btn btn-success">취소</a>
 						</div>
-						<h3 class="x_title">관리자가 추천하는 BucketTree</h3>
-						<!-- /.box-tools -->
-					</div>
-					<!-- /.box-header -->
-					<div class="collapse" id="collapseComment2">
-						<section class="bucketbox">
-							<c:forEach items="${listByAdmin}" var="BucketTreeVO">
 
-								<article data-id="${BucketTreeVO.idx}"
-									style="width: 260px; display: inline-Block">
-
-									<img src="/BucketTree/images/image7.jpg" alt=""
-										style="width: 260px">
-									<h4>
-										<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
-									</h4>
-
-
-
-									<a
-										href="/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=2"
-										type="button" class="btn btn-success">신청</a>
-
-									<p style="width: 250px">인원 :
-										${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>
-								</article>
-
-							</c:forEach>
-						</section>
-					</div>
-				</div>
-				<!-- 가입신청한 버킷트리 -->
+						<p style="width: 250px">인원 :
+							${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>
+					</article>
+				</c:forEach>
+			</section>
+		</div>
+	</div>
+	<!-- / 가입신청한 버킷트리 -->
+	<!--관리자가 추천하는 버킷리스트  -->
+	<div id="adminBucketList" class="box box-default collapsed-box">
+		<div class="box-header withorder" style="padding-left: 20px;">
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-default" data-toggle="collapse"
+					data-target="#collapseAdmin">
+					<i class="fa fa-plus"></i>
+				</button>
 			</div>
+			<h3 class="box_title">관리자추천 BucketTree</h3>
+			<!-- /.box-tools -->
 		</div>
+		<!-- /.box-header -->
+		<div class="collapse" id="collapseAdmin" style="padding: 5px 22px;">
+			<section class="bucketbox">
+				<c:forEach items="${listByAdmin}" var="BucketTreeVO">
 
+					<article data-id="${BucketTreeVO.idx}"
+						style="width: 260px; display: inline-Block">
 
-		<div
-			style="display: inline-block; margin-top: 10px; margin-bottom: 10px">
+						<img src="/BucketTree/images/image7.jpg" alt=""
+							style="width: 260px">
+						<h4>
+							<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
+						</h4>
+						<div class="f_right">
+							<a
+								href="/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=2"
+								type="button" class="btn btn-success">신청</a>
+						</div>
+						<p style="width: 250px">인원 :
+							${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>
+					</article>
+				</c:forEach>
+			</section>
 		</div>
+	</div>
+	<!--/ 관리자추천 버킷트리 -->
 
-		<!-- bucketList-Category & Type & Search __ End -->
+
+	<!-- bucketList-listAll __ Start -->
+	<div class="pinboot">
 		<hr>
-
-
 		<section id="pinBoot" class="bucketbox bucketTreeMyList">
-
 			<article class="white-panel-add">
 				<h4>
 					<a href="/BucketTree/bucketTree/create" class="fa fa-plus"
@@ -236,7 +151,6 @@
 			</article>
 
 			<c:forEach items="${list}" var="BucketTreeVO">
-
 				<article data-id="${BucketTreeVO.idx}" class="white-panel "
 					style="width: 260px">
 
@@ -245,23 +159,61 @@
 					<h4>
 						<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
 					</h4>
-
-
-
-					<button type="button" class="btn btn-success">회원</button>
+					<div class="f_right">
+						<button type="button" class="btn btn-success">회원</button>
+					</div>
 
 					<p style="width: 250px">인원 :
 						${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>
 				</article>
-
 			</c:forEach>
 		</section>
-
 		<hr>
-
 	</div>
+</div>
+
 
 <!-- bucketList-listAll __ End -->
+
+
+<!-- 카테고리 모달창 -->
+<div class="modal fade" id="category_modal" role="dialog"
+	style="z-index: 99999; position: fixed">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" style="padding: 15px 50px;"></div>
+			<div class="modal-body" style="padding: 40px 50px;">
+
+				<div style="display: flex; margin-left: 65px">
+					<div style="display: inline-block">
+						<h3>WHEN</h3>
+					</div>
+					<div style="display: inline-block; margin-left: 80px">
+						<h3>WHO</h3>
+					</div>
+					<div style="display: inline-block; margin-left: 80px">
+						<h3>WHAT</h3>
+					</div>
+				</div>
+				<select id="when_temp"></select> <select id="who_temp"></select> <select
+					id="what_temp"></select>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="submit" id="categoryAble" class="btn btn-default">
+					<span class="fa fa-check"></span><span id="categoryState">카테고리
+						검색 비활성화</span>
+				</button>
+				<button type="submit" id="btn" class="btn btn-default"
+					data-dismiss="modal">
+					<span class="fa fa-check"></span> 확인
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
 $(function() {
