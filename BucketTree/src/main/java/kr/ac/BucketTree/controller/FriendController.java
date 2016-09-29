@@ -1,5 +1,9 @@
 package kr.ac.BucketTree.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,12 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ac.BucketTree.service.FriendService;
+import kr.ac.BucketTree.service.TimelineService;
 import kr.ac.BucketTree.service.UserService;
 import kr.ac.BucketTree.util.BucketTreeCommon;
 import kr.ac.BucketTree.util.Pagination;
@@ -22,7 +28,8 @@ import kr.ac.BucketTree.vo.UserVO;
 
 @Controller
 public class FriendController {
-
+	@Autowired
+	TimelineService ts;
 	@Autowired 
 	BucketTreeCommon  bucketTreeCommon; 
 	@Autowired
@@ -53,6 +60,7 @@ public class FriendController {
 	//검색된 친구 목록 POST 검색 결과 페이지
 		@RequestMapping(value = "/Friend/searchFriendListPost", method = RequestMethod.POST)
 		public String friendSearchPost(Model model,HttpServletRequest request) {
+			model = bucketTreeCommon.commonMessenger(model);
 			UserVO user =us.getCurrentUser();
 			System.out.println("포스트 친구검색 도착");
 			int srchType = Integer.parseInt(request.getParameter("srchType"));
@@ -73,6 +81,13 @@ public class FriendController {
 		@RequestMapping(value = "/Friend/searchFriendList", method = RequestMethod.GET)
 		public String friendSearchGet(Model model,HttpServletRequest request) {
 			model=bucketTreeCommon.commonMessenger(model);
+			UserVO user = us.getCurrentUser();
+			List<FriendVO> list = new ArrayList();
+			Pagination page = new Pagination();
+	        page.setCurrentPage(1);
+			page.setPageSize(10);
+			list = fs.UserSearch(page, user.getIdx());
+			model.addAttribute("list", list);
 			return "friend/friendsearch";
 		}
 		//검색된 친구 목록 추가 로딩(무한 스크롤) , AJAX 활용
@@ -159,6 +174,7 @@ public class FriendController {
 		//친구 목록 내 검색
 		@RequestMapping(value = "/Friend/FriendListSearch", method = RequestMethod.POST)
 		public String SearchFriendList(Model model,HttpServletRequest request) {
+			model = bucketTreeCommon.commonMessenger(model);
 			UserVO user =us.getCurrentUser();
 			int srchType = Integer.parseInt(request.getParameter("srchType"));
 			String srchText = request.getParameter("srchText");
@@ -242,6 +258,41 @@ public class FriendController {
 			return true;
 
 		}
+		@ResponseBody
+		@RequestMapping(value ="/friend/lungeFriendAjax",method = RequestMethod.POST)
+		public boolean lungeFriendAjax(@RequestParam("lunge_idx") String lunge_idx,HttpServletResponse response,Model model) throws Exception {
+			UserVO uv = us.getCurrentUser();
+			FriendVO fv = fs.selectByIdFriend(Integer.parseInt(lunge_idx));
+			ts.FriendPointing_Timeline(fv, uv);
+			return true;
+		}
+		
+		/* 친구리스트 프로필 이미지 보여주기*/
+		@RequestMapping("Friend/{idx}/profile")
+	    public void profileImage(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
+			
+			UserVO image = us.selectByIdx(idx);
 	
+			String fileName = URLEncoder.encode(image.getFileName(),"UTF-8");
+	        response.setContentType(image.getMimeType());
+	        response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+	        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+	            output.write(us.selectByIdx(idx).getImage());
+	        }
+	    }
+		
+		/* 친구가 아닌 유저리스트 Ajax */
+		@ResponseBody
+		@RequestMapping(value = "/Friend/UserListAjax", method = RequestMethod.POST)
+		public List<UserVO> UserListAjax(@RequestParam("row") String row, HttpServletResponse response, Model model) throws Exception {
+
+			UserVO user = us.getCurrentUser();
+			Pagination page = new Pagination();
+			page.setRow(Integer.parseInt(row));
+			page.setPageSize(10);
+			List<UserVO> list= fs.UserSearchAjax(page, user.getIdx());
+			return list;
+
+		}
 
 }

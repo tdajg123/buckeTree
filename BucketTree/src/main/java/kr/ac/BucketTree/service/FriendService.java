@@ -4,7 +4,7 @@ import java.util.List;
 
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.FriendVO;
-import kr.ac.BucketTree.vo.PageVO;
+import kr.ac.BucketTree.vo.UserVO;
 
 public interface FriendService {
 	//메신저에서 쓸 친구 목록(새로운메세지 보낸 친구 제외) 
@@ -43,4 +43,10 @@ public interface FriendService {
 		public int FriendRequestFromDelete(FriendVO friend);
 		//친구 거절 to > from
 		public int FriendRequestToDelete(FriendVO friend);
+		//idx로 친구 조회
+		public FriendVO selectByIdFriend(int idx);
+		//친구가 아닌 유저 조회
+		public List<FriendVO> UserSearch(Pagination page,int idx);
+		//친구가 아닌 유저 조회 Ajax
+		public List<UserVO> UserSearchAjax(Pagination page,int idx);
 }

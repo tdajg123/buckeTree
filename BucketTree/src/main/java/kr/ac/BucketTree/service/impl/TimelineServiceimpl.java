@@ -172,11 +172,11 @@ public class TimelineServiceimpl implements TimelineService {
 		TimelineVO tv = new TimelineVO();
 
 		// user idx 삽입
-		tv.setUser_idx(uv.getIdx());
+		tv.setUser_idx(fv.getIdx());
 
 		// 친구 이름 삽입
-		String friend_name = fv.getName();
-		String message = "친구 [ " + friend_name + " ] 님이 " + uv.getName() + "님을 지목하였습니다.";
+		String friend_name = uv.getName();
+		String message = "친구 [ " + friend_name + " ] 님이 " + fv.getName() + "님을 지목하였습니다.";
 		tv.setMessage(message);
 
 		// 현재 시간 삽입

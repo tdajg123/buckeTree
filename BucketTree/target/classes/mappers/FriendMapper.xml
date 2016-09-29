@@ -183,4 +183,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteRequestToFriend">
 	Delete FROM FRIEND WHERE fromUser=#{toUser} and toUser=#{fromUser} and state=2
 	</delete>
+	
+	<!-- idx로 친구조회 -->
+	<select id="selectByIdFriend" resultType="kr.ac.BucketTree.vo.FriendVO">
+	SELECT *
+	FROM [USER]
+	WHERE idx=#{idx}
+	
+	</select>
+	
+	<!-- 친구가 아닌 유저 목록 -->
+	<select id="UserSearch" resultType="kr.ac.BucketTree.vo.FriendVO">
+		SELECT * 
+		FROM(
+		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
+		FROM [User] 
+		where idx not in (SELECT toUser FROM Friend where fromUser=#{idx}))
+		subquery
+			<![CDATA[
+		WHERE row > (#{p.currentPage} - 1) * #{p.pageSize} AND row <= #{p.currentPage} * #{p.pageSize} 
+		]]>
+		ORDER BY row
+	</select>
+	
+	<!-- 친구가 아닌 유저목록 Ajax 추가 조회 -->
+	<select id="UserSearchAjax" resultType="kr.ac.BucketTree.vo.UserVO">
+		SELECT * 
+		FROM(
+		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
+		FROM [User] 
+		where idx not in (SELECT toUser FROM Friend where fromUser=#{idx}))
+		subquery
+	<![CDATA[
+		WHERE row > #{p.row} AND row <= #{p.row} + #{p.pageSize}
+		]]>
+		ORDER BY row	
+	</select>
+	
+	
 </mapper>

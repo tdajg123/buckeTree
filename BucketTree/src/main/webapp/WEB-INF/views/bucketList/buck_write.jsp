@@ -37,12 +37,13 @@
 							<button id="view_what" type="button" class="btn btn-success">없음</button>
 							<button id="view_map" type="button" class="btn btn-success">없음</button>
 						</div>
-						<input type="hidden" id="positionX" name="x">
-						<input type="hidden" id="positionY" name="y">
-						<input id="who" name="who" type="hidden" />
-						<input id="when" name="when" type="hidden" />
-						<input id="what" name="what" type="hidden" />
+						<input type="hidden" id="positionX" name="x" value="0">
+						<input type="hidden" id="positionY" name="y" value="0">
+						<input id="who" name="who" type="hidden" value="1" />
+						<input id="when" name="when" type="hidden" value="1" />
+						<input id="what" name="what" type="hidden" value="1" />
 						<input id="writer" name="writer" type="hidden" value=0 />
+						<input id="view_keyword" name="keyword" type="hidden" value=""/>
 						<button id="category" class="btn btn-success">카테고리</button>
 						<button type="button" class="btn btn-success" onclick="popupOpen()" style="height:40px">장소지정</button>
 						<button class="btn btn-success" style="width:82px; height:40px" onclick="return false;">공개 범위</button>

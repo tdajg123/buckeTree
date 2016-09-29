@@ -2,8 +2,10 @@
 	pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=c979b1f9a00bdf157a46346b59a630f4&libraries=services"></script>
-<script src="/BucketTree/se2/js/HuskyEZCreator.js" type="text/javascript"></script>
+<script type="text/javascript"
+	src="//apis.daum.net/maps/maps3.js?apikey=c979b1f9a00bdf157a46346b59a630f4&libraries=services"></script>
+<script src="/BucketTree/se2/js/HuskyEZCreator.js"
+	type="text/javascript"></script>
 <script>
 	//짝수번째 li는 오른쪽으로 보이기
 	$(function() {
@@ -39,11 +41,11 @@
 						class="post_date">${bucket.date }</span>
 
 					<div class="right">
-						<span class="tag">${ctlist.get(0).who}</span> <span class="tag">${ctlist.get(1).when}</span> <span
-							class="tag">${ctlist.get(2).what}</span>
-							<span class="tag" onclick="popupOpen()">버킷 장소</span>
-							<input type="hidden" id="positionX" value="${bucket.x}">
-							<input type="hidden" id="positionY" value="${bucket.y}">
+						<span class="tag">${ctlist.get(0).who}</span> <span class="tag">${ctlist.get(1).when}</span>
+						<span class="tag">${ctlist.get(2).what}</span> <span class="tag"
+							onclick="popupOpen()">버킷 장소</span> <input type="hidden"
+							id="positionX" value="${bucket.x}"> <input type="hidden"
+							id="positionY" value="${bucket.y}">
 					</div>
 
 				</div>
@@ -134,25 +136,118 @@
 				<div class="collapse" id="collapseComment">
 					<div class="box-footer box-comments">
 						<c:forEach items="${clist}" var="CommentVO">
-							<div class="box-comment" id="${CommentVO.idx}">
-								<!-- User image -->
+		
+										<c:set var="check3" value="${CommentVO.user_idx}" /> <c:set
+											var="viewCheck" value="${CommentVO.author}" /> <c:choose>
 
-								<div class="comment-text" id=d${CommentVO.idx}>
-									<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
-									
-										
-									<a class=e${CommentVO.idx} id="cedit" style="margin-left: 790px"
-										data-idx="${CommentVO.idx }">수정</a> 
-									<a class=d${CommentVO.idx}
-										id="cdelete" data-idx="${CommentVO.idx }">삭제</a>
-									<span style="margin-left: 10px">${CommentVO.date}</span> 
-									</span>
-									
-									<!-- /.username -->
-									<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
-								</div>
-								<!-- /.comment-text -->
-							</div>
+											<c:when test="${viewCheck eq 1}">
+												<c:if test="${check eq check2}">
+													<div class="box-comment" id="${CommentVO.idx}">
+														<!-- User image -->
+
+														<div class="comment-text" id=d${CommentVO.idx}>
+															<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+																<a class=d${CommentVO.idx} id="cdelete"
+																data-idx="${CommentVO.idx }" style="margin-left: 850px">삭제</a>
+																<span style="margin-left: 10px"
+																class="text-muted pull-right post_date">${CommentVO.date}</span>
+															</span>
+
+															<!-- /.username -->
+															<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+														</div>
+														<!-- /.comment-text -->
+													</div>
+												</c:if>
+											</c:when>
+											<c:when test="${viewCheck eq 1}">
+												<c:if test="${check eq check3}">
+													<div class="box-comment" id="${CommentVO.idx}">
+														<!-- User image -->
+
+														<div class="comment-text" id=d${CommentVO.idx}>
+															<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+																<a class=e${CommentVO.idx} id="cedit"
+																style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
+
+																<a class=d${CommentVO.idx} id="cdelete"
+																data-idx="${CommentVO.idx }">삭제</a> <span
+																style="margin-left: 10px"
+																class="text-muted pull-right post_date">${CommentVO.date}</span>
+															</span>
+
+															<!-- /.username -->
+															<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+														</div>
+														<!-- /.comment-text -->
+													</div>
+												</c:if>
+											</c:when>
+											<c:when test="${check eq check2}">
+												<c:if test="${check eq check3}">
+													<div class="box-comment" id="${CommentVO.idx}">
+														<!-- User image -->
+
+														<div class="comment-text" id=d${CommentVO.idx}>
+															<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+																<a class=e${CommentVO.idx} id="cedit"
+																style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
+
+																<a class=d${CommentVO.idx} id="cdelete"
+																data-idx="${CommentVO.idx }">삭제</a> <span
+																style="margin-left: 10px"
+																class="text-muted pull-right post_date">${CommentVO.date}</span>
+															</span>
+
+															<!-- /.username -->
+															<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+														</div>
+														<!-- /.comment-text -->
+													</div>
+												</c:if>
+											</c:when>
+											<c:when test="${check eq check2}">
+												<div class="box-comment" id="${CommentVO.idx}">
+													<!-- User image -->
+
+													<div class="comment-text" id=d${CommentVO.idx}>
+														<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+															<a class=d${CommentVO.idx} id="cdelete"
+															data-idx="${CommentVO.idx }" style="margin-left: 850px">삭제</a>
+															<span style="margin-left: 10px"
+															class="text-muted pull-right post_date">${CommentVO.date}</span>
+														</span>
+
+														<!-- /.username -->
+														<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+													</div>
+													<!-- /.comment-text -->
+												</div>
+
+											</c:when>
+
+											<c:when test="${check eq check3}">
+												<div class="box-comment" id="${CommentVO.idx}">
+													<!-- User image -->
+
+													<div class="comment-text" id=d${CommentVO.idx}>
+														<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+															<a class=e${CommentVO.idx} id="cedit"
+															style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
+
+															<a class=d${CommentVO.idx} id="cdelete"
+															data-idx="${CommentVO.idx }">삭제</a> <span
+															style="margin-left: 10px"
+															class="text-muted pull-right post_date">${CommentVO.date}</span>
+														</span>
+
+														<!-- /.username -->
+														<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+													</div>
+													<!-- /.comment-text -->
+												</div>
+											</c:when>
+										</c:choose>
 						</c:forEach>
 
 					</div>
@@ -161,16 +256,18 @@
 						<form method="post" id="formData" name="formData">
 							<div class="img-push">
 								<div class="input-group">
-									<input type="text" class="form-control" name="comment">
-									<span class="input-group-btn" id="comment">
+									<input type="text" class="form-control" name="comment"
+										id="inputComment"> <span class="input-group-btn"
+										id="comment">
 										<button type="button" class="btn btn-default" id="addComment"
 											data-idx="${bucket.idx}">등록</button>
 									</span>
 								</div>
 							</div>
 							<input type="hidden" name="bidx" value="${bucket.idx }">
-							<input name="author" type="checkbox" id="check" value=1>작성자만
-							보기
+							<input name="author" type="checkBox" id="check" value="1"
+								style="width: 20px; height: 20px">작성자만
+
 						</form>
 					</div>
 				</div>
@@ -277,10 +374,11 @@
 	</div>
 </div>
 <!-- 지도 모달창 -->
-<div id="popup" style="position:absolute;  visibility:hidden; height:535px; background-color:white; background-color:#f1f6f7; text-align:right">
-	<span style="margin-right:400px">버킷리스트 장소</span>
+<div id="popup"
+	style="position: absolute; visibility: hidden; height: 535px; background-color: white; background-color: #f1f6f7; text-align: right">
+	<span style="margin-right: 400px">버킷리스트 장소</span>
 	<button onclick="popupOpen()">닫기</button>
-	<div id="staticMap" style="width:1000px;height:500px;"></div>    
+	<div id="staticMap" style="width: 1000px; height: 500px;"></div>
 </div>
 <!-- 지도 모달창 종료 -->
 
@@ -290,10 +388,10 @@
 <script>
 
 $(document).on('click', '#addComment', function(){
-	alert('에이젝스 돌입')
+	var input = $('#inputComment').val();
+	if(input!=""){
 	var formData =$('#formData').serialize();
 	var str='';
-	alert(formData)
 	jQuery.ajax({
 		
 		url : "/BucketTree/bucketList/addCommentRequestAjax",
@@ -308,8 +406,8 @@ $(document).on('click', '#addComment', function(){
 
 					str+='<div class="box-comment" id="'+this.idx+'" data-idx="'+this.idx+'">'
 					+'<div class="comment-text" id="d'+this.idx+'">'
-					+'<span class="username">'+this.name+'<a class="e'+this.idx+'" id="cedit" style="margin-left:790px" data-idx="'+this.idx+'">수정</a><a id="cdelete" style="margin-left:10px" class="e'+this.idx+'"  data-idx="'+this.idx+'">삭제</a><span class="text-muted pull-right post_date">'+this.date+'</span></span>'
-					+'<span id="c'+this.idx+'">'+this.idx+'</span>'
+					+'<span class="username" id="n'+this.idx+'">'+this.name+'<a class="e'+this.idx+'" id="cedit" style="margin-left:790px" data-idx="'+this.idx+'">수정</a><a id="cdelete"  class="e'+this.idx+'"  data-idx="'+this.idx+'" style="margin-left:10px">삭제</a><span class="text-muted pull-right post_date">'+this.date+'</span></span>'
+					+'<span id="c'+this.idx+'">'+this.contents+'</span>'
 					+'</div>'
 					+'</div>';      					    
 				}		
@@ -321,6 +419,10 @@ $(document).on('click', '#addComment', function(){
 									}
 
 								});
+	
+	}else{
+		alert('내용을 입력해주세요')
+	}
 
 					});
 
@@ -350,7 +452,6 @@ $(document).on('click', '#addComment', function(){
 					'click',
 					'#commentEdit',
 					function() {
-						alert('에이젝스 댓글 수정돌입')
 						var formData = $('#formEdit').serialize();
 						var str = '';
 						alert(formData)
@@ -391,7 +492,6 @@ $(document).on('click', '#addComment', function(){
 					'click',
 					'#cedit',
 					function() {
-						alert('도착')
 						var evnetTarget = this;
 						var eventIdx = $(this).attr('data-idx');
 						var eventIdx2 = 'c' + eventIdx;
@@ -407,7 +507,7 @@ $(document).on('click', '#addComment', function(){
 						alert(content2)
 						var str = '';
 						var str2 = '';
-						str += "<a id='cCancle' style='margin-left:630px'>취소</a>";
+					//	str += "<a id='cCancle' style='margin-left:850px'>취소</a>";
 						str2 += "<form id='formEdit'><input type='text' name='editContent' style='width:973px; height:46px; margin-top:15px' value='"+content2+"'></input>"
 								+ "<button id='commentEdit' style='height:46px; width:100px' vertical-align:middle>등록</button>"
 								+ "<input type='hidden' name='editIdx' value='"+eventIdx+"'></input>";
@@ -416,7 +516,7 @@ $(document).on('click', '#addComment', function(){
 						alert(str)
 						$('.' + eclass).remove();
 						$('.' + dclass).remove();
-						$('#' + eventNspan).append(str);
+					//	$('#' + eventNspan).append(str);
 						$('#' + eventIdx2).remove();
 						$('#' + eventDiv).append(str2);
 

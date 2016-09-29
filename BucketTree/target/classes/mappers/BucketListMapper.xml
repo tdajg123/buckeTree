@@ -93,10 +93,10 @@ ORDER BY 행번호
 
 		INSERT
 		INTO
-		[BucketList](title, contents, count, date, user_idx, writer, [when],
+		[BucketList](title, contents, count, date, user_idx, writer, keyword ,[when],
 		who, what, state)
 		values(#{title}, #{contents}, 0, GETDATE(),
-		#{user_idx}, #{writer}, #{when}, #{who}, #{what}, 0)
+		#{user_idx}, #{writer},#{keyword},#{when}, #{who}, #{what}, 0)
 
 	</insert>
 
@@ -307,9 +307,8 @@ ORDER BY 행번호
 
 	<!-- 버킷리스트 수정 -->
 	<insert id="editBucket">
-		UPDATE BucketList SET contents=#{contents}, x =#{x},
-		y = #{y} WHERE idx=
-		#{idx};
+
+		UPDATE BucketList SET contents=#{contents}, x =#{x}, y = #{y},keyword =#{keyword} ,who = #{who},[when]=#{when},what=#{what} WHERE idx=#{idx};
 	</insert>
 	<!-- 버킷리스트 삭제 -->
 	<delete id="deleteBucket">

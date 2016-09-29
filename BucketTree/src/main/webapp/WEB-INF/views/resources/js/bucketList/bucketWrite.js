@@ -129,9 +129,11 @@ function displayPlaces(places) {
          	$('#positionX').val(pom.getLat());
          	$('#positionY').val(pom.getLng());
          	alert(title)
+         	$('#view_keyword').val(title);
          	$('#title2').val(title);
          	$('#view_map').html(title);
          	$('#view_map').show();
+        	
          	
          });
          

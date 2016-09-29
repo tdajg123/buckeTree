@@ -9,7 +9,7 @@ import kr.ac.BucketTree.dao.FriendDAO;
 import kr.ac.BucketTree.service.FriendService;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.FriendVO;
-import kr.ac.BucketTree.vo.PageVO;
+import kr.ac.BucketTree.vo.UserVO;
 
 @Service
 public class FriendServiceimpl implements FriendService{
@@ -108,5 +108,20 @@ public class FriendServiceimpl implements FriendService{
 		public int FriendRequestToDelete(FriendVO friend){
 			return dao.FriendRequestToDelete(friend);
 		}
-
+		//idx로 친구 조회
+		@Override
+		public FriendVO selectByIdFriend(int idx){
+			return dao.selectByIdFriend(idx);
+		}
+		
+		//친구가 아닌 유저 조회
+		@Override
+		public List<FriendVO> UserSearch(Pagination page,int idx){
+			return dao.UserSearch(page, idx);
+		}
+		//친구가 아닌 유저 조회 Ajax
+		@Override
+		public List<UserVO> UserSearchAjax(Pagination page ,int idx){
+			return dao.UserSearchAjax(page, idx);
+		}
 }

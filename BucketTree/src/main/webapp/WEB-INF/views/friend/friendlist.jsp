@@ -3,10 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script>
+	
+	
+	
+	
+	function formChk() {
+		var srchType = $("#search_param").val();
+		if(srchType == 1 || srchType ==2){
+			document.formData.submit();
+			return true;
+		}else{
+			alert("검색 타입을 설정해주세요")
+			return false;
+		}
+	};
+		
+
 	function onclickName() {
 		$('#search_param').val(1);
 		$('#search_concept').text("이름");
@@ -31,13 +45,38 @@
 			success : function(data) {
 				if (data)
 					alert('삭제 완료!')
-				$("#" + eventIdx).remove();
+				$("#e" + eventIdx).remove();
 
 			}
 		});
 
 	});
+	//glyphicon glyphicon-hand-down
+	
+	//친구 삭제 이벤트
+	$(document).on('click', '#lunge', function() {
+		var evnetTarget = this;
+		var eventIdx = $(this).attr('data-idx');
 
+		$.ajax({
+			url : "/BucketTree/friend/lungeFriendAjax",
+			dataType : "json",
+			type : "POST",
+			data : {
+				lunge_idx : eventIdx
+
+			},
+			success : function(data) {
+				if (data==true)
+					
+					alert('찌르기 완료!')
+			
+			}
+		});
+
+	});
+	
+	
 	//무한 스크롤 이벤트
 
 	$(window)
@@ -51,10 +90,10 @@
 									.attr("data-row");
 							var srchType = $("#search_param").val();
 							var srchText = $("#search_text").val();
-
+					
 							var str = '';
-							$
-									.ajax({
+							
+									$.ajax({
 										url : "/BucketTree/Friend/FriendListAjax",
 										dataType : "json",
 										type : "POST",
@@ -68,7 +107,6 @@
 											if (data != "") {
 												$(data)
 														.each(
-
 																function() {
 																	str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
 																			+ "<div class='square pull-left'>"
@@ -133,7 +171,7 @@
 	<div class="row">
 		<div class="col-xs-5 col-xs-offset-7">
 			<form class="input-group"
-				action="/BucketTree/Friend/FriendListSearch" method="post">
+				action="/BucketTree/Friend/FriendListSearch" method="post" onsubmit="formChk();return false;">
 				<div class="input-group-btn search-panel">
 					<button type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown">
@@ -173,12 +211,12 @@
 	<div class="row">
 		<c:forEach items="${list}" var="FriendVO">
 
-			<div class="col-md-6">
+			<div class="col-md-6" id=e${FriendVO.idx}>
 
 				<div class="blockquote-box blockquote-info clearfix"
 					data-row="${FriendVO.getRow()}" data-idx="${FriendVO.getIdx()}">
-					<div class="square pull-left">
-						<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
+					<div class="square pull-left" id=i${FriendVO.idx}> 
+					<img src='/BucketTree/FriendList/"+${FriendVO.getIdx()}+"/profile' style='height:100px'>
 					</div>
 					<h4>${FriendVO.name}</h4>
 					<p>${FriendVO.email }</p>

@@ -156,15 +156,14 @@ public class BucketListController {
 	}
 	
 	@RequestMapping(value = "/bucketList/bucketCreate", method = RequestMethod.POST)
-	public String bucketCreate(Model model, HttpServletRequest request,
-			@RequestParam("file") MultipartFile[] uploadedFiles, BucketListVO vo) throws Exception {
-		
+	public String bucketCreate(Model model, HttpServletRequest request,	BucketListVO vo,@RequestParam("x") float x,@RequestParam("y") float y) throws Exception {
+
+
 		UserVO user = us.getCurrentUser();
 		// vo.setTitle(request.getParameter("title"));
 		vo.setUser_idx(user.getIdx());
 		vo.setContents(request.getParameter("contents"));
-		float x = Float.parseFloat(request.getParameter("x"));
-		float y = Float.parseFloat(request.getParameter("y"));
+	
 		vo.setX(x);
 		vo.setY(y);
 	
@@ -172,15 +171,6 @@ public class BucketListController {
 		bls.updateBucketImage(vo);
 		is.deleteOrphan();
 
-		for (MultipartFile uploadedFile : uploadedFiles) {
-			ImageVO file = new ImageVO();
-			if (uploadedFile.getSize() > 0) {
-				file.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
-				file.setFileSize((int) uploadedFile.getSize());
-				file.setData(uploadedFile.getBytes());
-				bls.insertImage(file);
-			}
-		}
 
 		return "forward:/bucketList/list";
 	}
@@ -231,15 +221,18 @@ public class BucketListController {
 	}
 
 	@RequestMapping("/bucketList/{idx}/edit.do")
-	public String bucketEdit(@PathVariable("idx") int idx, HttpServletResponse response,Model model) throws Exception {
+	public String bucketEdit(@PathVariable("idx") int idx, HttpServletResponse response,Model model,Pagination pagination) throws Exception {
 		
 		model = bucketTreeCommon.commonMessenger(model);
-
+		model.addAttribute("what",cs.whatList() );
+		model.addAttribute("who", cs.whoList());
+		model.addAttribute("when", cs.whenList());
 		UserVO user = us.getCurrentUser();
 		BucketListVO vo = new BucketListVO();
 		vo = bls.bucket(idx);
 		vo.setName(user.getName());
 		model.addAttribute("bucket", vo);
+		System.out.println("에디트 컨트롤러 정상 작동 :"+idx);
 		return "bucketList/buck_edit";
 	}
 
@@ -251,6 +244,9 @@ public class BucketListController {
 		BucketListVO vo = new BucketListVO();
 		vo = bls.bucket(idx);
 		vo.setContents(request.getParameter("body"));
+		vo.setWhat(Integer.parseInt(request.getParameter("what")));
+		vo.setWhen(Integer.parseInt(request.getParameter("when")));
+		vo.setWho(Integer.parseInt(request.getParameter("who")));
 		bls.editBucket(vo);
 		bls.updateBucketImage(vo);
 		is.deleteOrphan();

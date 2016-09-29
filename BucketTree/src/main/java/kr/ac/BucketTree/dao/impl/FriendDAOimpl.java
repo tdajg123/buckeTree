@@ -1,6 +1,7 @@
 package kr.ac.BucketTree.dao.impl;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import kr.ac.BucketTree.dao.FriendDAO;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.FriendVO;
-import kr.ac.BucketTree.vo.PageVO;
+import kr.ac.BucketTree.vo.UserVO;
 
 @Repository
 public class FriendDAOimpl implements FriendDAO{
@@ -126,6 +127,23 @@ public class FriendDAOimpl implements FriendDAO{
 		public int FriendRequestToDelete(FriendVO friend){
 			return sqlSession.delete(namespace+".deleteRequestToFriend", friend);
 		}
-
+		//idx로 친구 조회
+		public FriendVO selectByIdFriend(int idx){
+			return sqlSession.selectOne(namespace+".selectByIdFriend", idx);
+	    }
+		//친구가 아닌 유저 조회
+		public List<FriendVO> UserSearch(Pagination page,int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".UserSearch", input);
+		}
+		//친구가 아닌 유저 조회 Ajax
+		public List<UserVO> UserSearchAjax(Pagination page, int idx){
+			HashMap<String,Object> input=new HashMap<String,Object>();
+			input.put("idx", idx);
+			input.put("p", page);
+			return sqlSession.selectList(namespace+".UserSearchAjax", input);
+		}
 }
 

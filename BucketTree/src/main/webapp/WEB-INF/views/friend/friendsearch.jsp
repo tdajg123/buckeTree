@@ -3,10 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script>
+
+	function formChk() {
+		var srchType = $("#search_param").val();
+		if(srchType == 1 || srchType ==2){
+			document.formData.submit();
+			return true;
+		}else{
+			alert("검색 타입을 설정해주세요")
+			return false;
+		}
+	};
+
 	function onclickName() {
 		$('#search_param').val(1);
 		$('#search_concept').text("이름");
@@ -39,8 +49,8 @@
 
 	//무한스크롤을 위한 스크롤 체크
 
-	$(window)
-			.scroll(
+	
+		$(window).scroll(
 					function() {
 						if ($(window).scrollTop() >= $(document).height()
 								- $(window).height()) {
@@ -50,47 +60,119 @@
 									.attr("data-row");
 							var srchType = $("#search_param").val();
 							var srchText = $("#search_text").val();
-
 							var str = '';
-							$
-									.ajax({
-										url : "/BucketTree/Friend/searchAjaxFriendList",
-										dataType : "json",
-										type : "POST",
-										data : {
-											row : lastrow,
-											srchType : srchType,
-											srchText : srchText
+						
+							if(srchType==""&&srchText==""){
+	
+								
+								$.ajax({
+									url : "/BucketTree/Friend/UserListAjax",
+									dataType : "json",
+									type : "POST",
+									data : {
+										row : lastrow,
+										srchType : srchType,
+										srchText : srchText
 
-										},
-										success : function(data) {
-											if (data != "") {
-												$(data)
-														.each(
+									},
+									success : function(data) {
+										if (data != "") {
+											
+											$(data).each(
+													
 
-																function() {
-																	str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
-																			+ "<div class='square pull-left'>"
-																			+ "<span class='glyphicon glyphicon-info-sign glyphicon-lg'></span>"
-																			+ "</div>"
-																			+ "<h4>"
-																			+ this.name
-																			+ "</h4>"
-																			+ "<p>"
-																			+ this.email
-																			+ "</p>"
-																			+ "<p id='mbp'>"
-																			+ "<button type='button' class='btn btn-default' aria-label='right Align' id='add' data-idx='"+this.idx+"'>"
-																			+ "<span class='glyphicon glyphicon-plus'></span>"
-																			+ "</button>"
-																			+ "</p>"
-																			+ "</div>";
-																})
-												$('.col-md-6').append(str);
-											} else
-												alert('불러올 데이터가 없습니다')
-										}
-									});
+															function() {
+																if(this.image==null){
+																str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
+																		+ "<div class='square pull-left'>"
+																		+ "<span class='glyphicon glyphicon-info-sign glyphicon-lg'></span>"
+																		+ "</div>"
+																		+ "<h4>"
+																		+ this.name
+																		+ "</h4>"
+																		+ "<p>"
+																		+ this.email
+																		+ "</p>"
+																		+ "<p id='mbp'>"
+																		+ "<button type='button' class='btn btn-default' aria-label='right Align' id='add' data-idx='"+this.idx+"'>"
+																		+ "<span class='glyphicon glyphicon-plus'></span>"
+																		+ "</button>"
+																		+ "</p>"
+																		+ "</div>";
+																}															
+														else{
+														
+																str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
+																		+ "<div class='square pull-left'>"
+																		+ "<img src='/BucketTree/Friend/"+this.idx+"/profile'>"
+																		+ "</div>"
+																		+ "<h4>"
+																		+ this.name
+																		+ "</h4>"
+																		+ "<p>"
+																		+ this.email
+																		+ "</p>"
+																		+ "<p id='mbp'>"
+																		+ "<button type='button' class='btn btn-default' aria-label='right Align' id='add' data-idx='"+this.idx+"'>"
+																		+ "<span class='glyphicon glyphicon-plus'></span>"
+																		+ "</button>"
+																		+ "</p>"
+																		+ "</div>";
+																	
+														}
+															}	
+											
+											)
+											$('.col-md-12').append(str);
+										} else
+											alert('불러올 데이터가 없습니다')
+									}
+								});
+							}
+							else{
+							
+								$.ajax({
+									url : "/BucketTree/Friend/searchAjaxFriendList",
+									dataType : "json",
+									type : "POST",
+									data : {
+										row : lastrow,
+										srchType : srchType,
+										srchText : srchText
+
+									},
+									success : function(data) {
+										if (data != "") {
+											
+											$(data).each(
+
+															function() {
+																str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
+																+ "<div class='square pull-left'>"
+																+ "<span class='glyphicon glyphicon-info-sign glyphicon-lg'></span>"
+																+ "</div>"
+																+ "<h4>"
+																+ this.name
+																+ "</h4>"
+																+ "<p>"
+																+ this.email
+																+ "</p>"
+																+ "<p id='mbp'>"
+																+ "<button type='button' class='btn btn-default' aria-label='right Align' id='add' data-idx='"+this.idx+"'>"
+																+ "<span class='glyphicon glyphicon-plus'></span>"
+																+ "</button>"
+																+ "</p>"
+																+ "</div>";
+															})
+											$('.col-md-12').append(str);
+										} else
+											alert('불러올 데이터가 없습니다')
+									}
+								});		
+							
+					
+							}
+							
 
 						}
 					});
@@ -127,7 +209,7 @@
 	<div class="row">
 		<div class="col-xs-5 col-xs-offset-7">
 			<form class="input-group"
-				action="/BucketTree/Friend/searchFriendListPost" method="post">
+				action="/BucketTree/Friend/searchFriendListPost" name="formData" method="post" onsubmit="formChk();return false;">
 				<div class="input-group-btn search-panel">
 					<button type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown">
@@ -165,9 +247,10 @@
 	</div>
 	<hr>
 	<div class="row">
+		<div class="col-md-12">	
 		<c:forEach items="${list}" var="FriendVO">
 
-			<div class="col-md-6">
+			
 				<div class="blockquote-box blockquote-info clearfix"
 					data-row="${FriendVO.getRow()}" data-idx="${FriendVO.getIdx()}">
 					<div class="square pull-left">
@@ -182,8 +265,8 @@
 						</button>
 					</p>
 				</div>
-			</div>
+			
 		</c:forEach>
-
+			</div>
 	</div>
 </div>

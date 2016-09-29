@@ -13,7 +13,13 @@ public class UserVO {
 	String type;
 	int point;
 	String fileName;
-	
+	int row;
+	public int getRow() {
+		return row;
+	}
+	public void setRow(int row) {
+		this.row = row;
+	}
 	public int getIdx() {
 		return idx;
 	}
