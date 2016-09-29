@@ -17,13 +17,13 @@ public interface TimelineService {
 	public void Friendnsert_Timeline(FriendVO fv, UserVO uv);
 
 	// 2. 버킷리스트 추가시
-	public void BucketInsert_Timeline(BucketListVO blv, UserVO uv);
+	public void BucketInsert_Timeline(int user_idx,String title, String url);
 
 	// 3. 일지 추가시
 	public void JournalInsert_Timeline(BucketJournalVO bjv, UserVO uv);
 
 	// 4. 버킷리스트 완료시
-	public void BucketComplete_Timeline(BucketListVO blv, UserVO uv);
+	public void BucketComplete_Timeline(int user_idx,String title, String url);
 
 	// 5. 버킷리스트 수정시
 	public void BucketUpdate_Timeline(BucketListVO blv, UserVO uv);

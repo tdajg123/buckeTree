@@ -63,24 +63,23 @@ public class TimelineServiceimpl implements TimelineService {
 
 	// 2. 버킷리스트 추가시
 	@Override
-	public void BucketInsert_Timeline(BucketListVO blv, UserVO uv) {
+	public void BucketInsert_Timeline(int user_idx, String title, String url) {
 		// TODO Auto-generated method stub
 
 		TimelineVO tv = new TimelineVO();
 
 		// user idx 삽입
-		tv.setUser_idx(uv.getIdx());
+		tv.setUser_idx(user_idx);
 
 		// bucket title 삽입
-		String bucket_title = blv.getTitle();
-		String message = uv.getName() + "님의 버킷리스트에 " + " [ " + bucket_title + " ] 이 추가되었습니다.";
+		String bucket_title = title;
+		String message = " 버킷리스트 " + " [ " + bucket_title + " ] 이 추가되었습니다.";
 		tv.setMessage(message);
 
 		// 현재 시간 삽입
 		tv.setDate(stime);
 
 		// url 삽입
-		String url = "/BucketTree/";
 		tv.setUrl(url);
 
 		dao.insertTimeline(tv);
@@ -115,24 +114,23 @@ public class TimelineServiceimpl implements TimelineService {
 
 	// 4. 버킷리스트 완료시
 	@Override
-	public void BucketComplete_Timeline(BucketListVO blv, UserVO uv) {
+	public void BucketComplete_Timeline(int user_idx, String title, String url) {
 		// TODO Auto-generated method stub
 
 		TimelineVO tv = new TimelineVO();
 
 		// user idx 삽입
-		tv.setUser_idx(uv.getIdx());
+		tv.setUser_idx(user_idx);
 
 		// bucket title 삽입
-		String bucket_title = blv.getTitle();
-		String message = "버킷리스트 " + " [ " + bucket_title + " ] 를 완료되었습니다.";
+
+		String message = "버킷리스트 " + " [ " + title + " ] 를 완료되었습니다.";
 		tv.setMessage(message);
 
 		// 현재 시간 삽입
 		tv.setDate(stime);
 
-		// url 삽입
-		String url = "/BucketTree/";
+		
 		tv.setUrl(url);
 
 		dao.insertTimeline(tv);

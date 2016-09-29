@@ -90,7 +90,7 @@ ORDER BY 행번호
 	</update>
 
 	<!-- 전체 : 버킷 버튼 클릭 시 마이 버킷리스트에 추가 -->
-	<insert id="addBucket" parameterType="hashmap">
+	<insert id="addBucket" useGeneratedKeys="true" keyProperty="idx">
 
 		INSERT
 		INTO
@@ -181,7 +181,7 @@ ORDER BY 행번호
 	<!-- 버킷리스트 친구 추천 목록 -->
 	<select id="recommendList" resultType="kr.ac.BucketTree.vo.BucketListVO">
 
-		Select TOP 4 *
+		Select TOP 4 *,(select top 1 idx from image where idx IN (SELECT image_idx FROM BucketList_Image where bucket_idx=[BucketList].idx)) as 'imageIdx'
 		FROM
 		[BucketList]
 		WHERE idx in (
@@ -196,7 +196,7 @@ ORDER BY 행번호
 	<!-- 버킷리스트 관리자 추천 목록 -->
 	<select id="adminRecommendList" resultType="kr.ac.BucketTree.vo.BucketListVO">
 
-		SELECT TOP 4 *
+		SELECT TOP 4 *,(select top 1 idx from image where idx IN (SELECT image_idx FROM BucketList_Image where bucket_idx=[BucketList].idx)) as 'imageIdx'
 		FROM
 		[BucketList]
 		WHERE user_idx != #{user_idx} AND WHAT IN (SELECT WHAT
@@ -361,11 +361,20 @@ ORDER BY 행번호
 	</update>
 	
 	
-		<!-- 전체 : 담기-버킷 카운트 업 -->
+		<!--완료-->
 	<update id="completeBucket">
 
 		UPDATE [BucketList]
 		SET state = 1
+		WHERE IDX =
+		#{idx}
+
+	</update>
+		<!--진행중으로 다시 바꾸기-->
+	<update id="ingBucket">
+
+		UPDATE [BucketList]
+		SET state = 0
 		WHERE IDX =
 		#{idx}
 

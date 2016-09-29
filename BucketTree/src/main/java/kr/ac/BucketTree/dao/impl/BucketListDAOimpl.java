@@ -56,9 +56,9 @@ public class BucketListDAOimpl implements BucketListDAO {
 
 	/*전체 : 버킷 버튼 클릭 시 마이 버킷에 추가*/
 	@Override
-	public void addBucket(HashMap<String, Object> addBucket) throws Exception {
+	public void addBucket(BucketListVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		session.insert(namespace + ".addBucket", addBucket);
+		session.insert(namespace + ".addBucket", vo);
 	}
 	
 	/*중복 타이틀 검사*/
@@ -223,6 +223,11 @@ public class BucketListDAOimpl implements BucketListDAO {
 	@Override
 	public void completeBucket(int idx) {
 		session.update(namespace + ".completeBucket",idx);
+		
+	}
+	@Override
+	public void ingBucket(int idx) {
+		session.update(namespace + ".ingBucket",idx);
 		
 	}
 

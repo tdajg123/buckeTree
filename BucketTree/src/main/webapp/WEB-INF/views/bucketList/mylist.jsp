@@ -230,7 +230,7 @@
 					</c:if>
 						<c:if test="${BucketListVO.state == 1}">
 					<div class="f_right">
-						<button class="btn btn-success" type="submit">완료</button>
+						<a href="/BucketTree/bucketList/ingBucket?${pagination.queryString}&idx=${BucketListVO.idx}" class="btn btn-success" type="submit">완료</a>
 					</div>
 					</c:if>
 				</article>
@@ -371,7 +371,7 @@ $(function() {
      							if(this.state ==1)
      								{
      								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
-   								      str+="<button class='btn btn-success' type='submit'>완료</button>";
+     								 str+="<a href='/BucketTree/bucketList/ingBucket?${pagination.queryString}"+"&idx="+this.idx+"' class='btn btn-success' type='submit'>완료</a>";
    								      str+="</div>";
      								}
      							 

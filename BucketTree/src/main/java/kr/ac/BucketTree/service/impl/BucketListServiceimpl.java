@@ -54,9 +54,9 @@ public class BucketListServiceimpl implements BucketListService{
 	
 	/*전체 : 버킷 버튼 클릭 시 마이 버킷리스트에 타이틀 추가*/
 	@Override
-	public void addBucket(HashMap<String, Object> addBucket) throws Exception {
+	public void addBucket(BucketListVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		dao.addBucket(addBucket);
+		dao.addBucket(vo);
 	}
 
 
@@ -216,6 +216,13 @@ public class BucketListServiceimpl implements BucketListService{
 	@Override
 	public void completeBucket(int idx) {
 		dao.completeBucket(idx);
+		
+	}
+
+	@Override
+	public void ingBucket(int idx) {
+		dao.ingBucket(idx);
+		
 		
 	}
 

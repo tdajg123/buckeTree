@@ -17,7 +17,7 @@ public interface BucketListService {
 	int mylistCount(Pagination pagination,int user_idx) throws Exception;
 	public int listImage(int bucket_idx) throws Exception;								/*버킷리스트-첫번째 이미지*/
 	public void countUp(int idx) throws Exception;	/*담기-카운트업*/
-	public void addBucket(HashMap<String, Object> addBucket) throws Exception;			/*담기-마이버킷에 추가*/
+	public void addBucket(BucketListVO vo) throws Exception;			/*담기-마이버킷에 추가*/
 	public boolean titleCheck(String title, int userIdx) throws Exception;				/*담아올 버킷이 마이 버킷리스트에 있는지 중복 타이틀 검사*/
 	public List<BucketListVO> mylist(Pagination pagination,int user_idx) throws Exception;
 	public List<BucketListVO> recommendList(int fromUser) throws Exception;							/*친구 추천*/
@@ -78,4 +78,5 @@ public interface BucketListService {
 	public List<BucketListVO> bucketTree_MyBucketList(int user_idx);
 	public void updateTreeidx(BucketListVO bucketListVO);
 	public void completeBucket(int idx);
+	public void ingBucket(int idx);
 }
