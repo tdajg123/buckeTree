@@ -217,8 +217,13 @@ public class BucketListDAOimpl implements BucketListDAO {
 		HashMap<String,Object> input = new HashMap<String, Object>();
 		input.put("pagination", pagination);
 		input.put("user_idx", user_idx);
-		session.selectOne(namespace + ".mylistCount", input);
-		return 0;
+		
+		return session.selectOne(namespace + ".mylistCount", input);
+	}
+	@Override
+	public void completeBucket(int idx) {
+		session.update(namespace + ".completeBucket",idx);
+		
 	}
 
 }

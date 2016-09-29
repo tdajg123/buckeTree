@@ -141,7 +141,7 @@
 		<hr>
 	</div>
 </div>
-</div>
+
 <!-- bucketList-listAll __ End -->
 
 <script>
@@ -221,7 +221,7 @@ $(function() {
 	});
 	
 	
-	var pageCount=${pageCount}
+	var pageCount=${pageCount};
 	//검색
 	var pagination={};
 	pagination.orderType=$('select[name=orderType] option:selected').val();
@@ -262,7 +262,7 @@ $(function() {
                 						var str="<article class='white-panel' style='width: 260px'>"
                 							+"<a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'> ";
                 							
-											if(this.imageIdx != 0)
+                							if(this.imageIdx != 0)
 												{
 												str+="<img src='/BucketTree/bucket/"+this.imageIdx+"/image' alt='' style='width: 260px'>";
 												}
@@ -272,13 +272,13 @@ $(function() {
                 							if(this.user_idx != ${user.idx})
                 								{
                 								   str+="<div class='f_right' id='select' data-id='" +this.idx+"' style='background: transparent; border: none; display: inline-block'>";
-                								   str+="<div class='btn btn-success'>여행담기"+ this.count+ "</div>";
+                								   str+="<div class='btn btn-success'>여행담기"+ this.count + "</div>";
                 								   str+="</div>";
                 								}
                 							if(this.user_idx == ${user.idx})
                 								{
                 								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
-              								      str+="<div class='btn btn-success'"+ this.count+ "</div>";
+              								      str+="<div class='btn btn-success'>"+ this.count + "</div>";
               								      str+="</div>";
                 								}
                 							 
@@ -294,7 +294,7 @@ $(function() {
                 
 	
 	
-	
+
 	
 	$(document).on("click","#select",function(){
 				
@@ -332,7 +332,8 @@ $(function() {
                                                  }
                                     			});
                                  	       alert('담기에 성공하였습니다');
-                                 	       location.href="/BucketTree/bucketList/list?${pagination.queryString}";
+                                 	       
+                                 	       location.href=location.pathname +"?${pagination.queryString}";
 
                                  		}
                 				

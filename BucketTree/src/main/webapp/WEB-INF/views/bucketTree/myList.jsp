@@ -337,6 +337,7 @@ $(function() {
                                  			str+= "<p style='width: 250px'>인원 :+"+this.current+"/"+this.member_num+"</p> </article>";
                             			
                                  			  $('.bucketTreeMyList').append(str);
+                                 			  
                                  				
                 					});
                                 }

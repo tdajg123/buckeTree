@@ -77,4 +77,5 @@ public interface BucketListService {
 	
 	public List<BucketListVO> bucketTree_MyBucketList(int user_idx);
 	public void updateTreeidx(BucketListVO bucketListVO);
+	public void completeBucket(int idx);
 }

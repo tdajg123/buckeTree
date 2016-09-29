@@ -143,6 +143,21 @@ public class BucketListController {
 		return "bucketList/mylist";
 	}
 	
+	//ajax로 가져올 데이터
+	@ResponseBody
+	@RequestMapping(value = "/bucketList/ajaxMylist")
+	public List<BucketListVO> ajaxMylist(@RequestBody Pagination pagination) throws Exception {
+
+				
+				return  bls.mylist(pagination,us.getCurrentUser().getIdx());
+	}
+	//버킷리스트 완료
+	@RequestMapping(value = "/bucketList/completeBucket")
+	public String completeBucket(Model model, Pagination pagination,@RequestParam("idx") int idx) throws Exception {
+		pagination.setCurrentPage(1);
+		bls.completeBucket(idx);
+		return "redirect:/bucketList/mylist?"+pagination.getQueryString();
+	}
 	
 	
 	@RequestMapping(value = "/bucketList/bucketWrite", method = RequestMethod.GET)

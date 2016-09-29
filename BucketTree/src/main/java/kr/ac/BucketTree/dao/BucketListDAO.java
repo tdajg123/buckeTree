@@ -83,4 +83,6 @@ public interface BucketListDAO {
 	
 	
 	public void updateTreeidx(BucketListVO bucketListVO);
+	
+	public void completeBucket(int idx);
 }

@@ -263,23 +263,23 @@ $(function() {
                                		var str ="<article class='white-panel' style='width: 260px'> "
                                        		+ "<img src='/BucketTree/images/image7.jpg' alt='' style='width: 260px'>"
 											+ "<h4> <a href='#'>"+this.treeName+"</a> - <a href='#''>"+this.title+"</a> </h4>";
-                                 			
+                                 			str+="<div class='f_right'>";
 											
 										
 											 if(this.regist==1)
                                  				{
-                                 					str+="<a href='/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1' class='btn btn-success'>취소</a>"
+                                 					str+="<a href='/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1' class='btn btn-success'>취소</a>";
                                  				}
                                  			 if(this.regist==0 && this.current<=this.member_num)
                                  				 {
-                                 				   str+= "<a href='/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1 type='button' class='btn btn-success'>신청</a>"
+                                 				   str+= "<a href='/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1 type='button' class='btn btn-success'>신청</a>";
                                  				 }
                                  			 if(this.regist==2)
                             				    {
-                            				    str+="<button  type='button' class='btn btn-success'>회원</button>"
+                            				    str+="<button  type='button' class='btn btn-success'>회원</button>";
                             				    }
 									
-                                 			str+= "<p style='width: 250px'>인원 :+"+this.current+"/"+this.member_num+"</p> </article>";
+                                 			str+= "</div><p style='width: 250px'>인원 :"+this.current+"/"+this.member_num+"</p> </article>";
                             			
                                  			  $('.bucketbox').append(str);
                                  				

@@ -203,7 +203,7 @@
 		<hr>
 
 		<section id="pinBoot"
-			style="width: 1170px; margin: auto; margin-top: 10px">
+			style="width: 1170px; margin: auto; margin-top: 10px" class="bucketbox">
 			<article class="white-panel-add">
 				<h4>
 					<a href="/BucketTree/bucketList/bucketWrite" class="fa fa-plus"
@@ -214,17 +214,25 @@
 
 			<c:forEach items="${mylist}" var="BucketListVO">
 				<article class="white-panel" style="width: 260px">
-
+					<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
 					<c:if test="${BucketListVO.getImageIdx() != 0}">
 						<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
 							alt="" style="width: 260px" onclick="">
 					</c:if>
+					</a>
 					<h4>
-						<a href="#">${BucketListVO.title}</a>
+					<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
 					</h4>
+					<c:if test="${BucketListVO.state == 0}">
+					<div class="f_right">
+						<a href="/BucketTree/bucketList/completeBucket?${pagination.queryString}&idx=${BucketListVO.idx}"class="btn btn-success" type="submit">진행중</a>
+					</div>
+					</c:if>
+						<c:if test="${BucketListVO.state == 1}">
 					<div class="f_right">
 						<button class="btn btn-success" type="submit">완료</button>
 					</div>
+					</c:if>
 				</article>
 			</c:forEach>
 		</section>
@@ -309,8 +317,7 @@ $(function() {
 
 	});
 	
-	
-	var pageCount=${pageCount}
+	var pageCount=${pageCount};
 	//검색
 	var pagination={};
 	pagination.orderType=$('select[name=orderType] option:selected').val();
@@ -320,67 +327,65 @@ $(function() {
 	pagination.when=$('input[name=when]').val();
 	pagination.what=$('input[name=what]').val();
 	pagination.categoryType=$('input[name=categoryType]').val();
-	
 
 	$('#form_search').submit(function() {
 		 $('input[name=currentPage]').val(1);
 	});
-	
-	 //무한 스크롤
     $(window).scroll(function() {
-   
-                   if ($(window).scrollTop() >= $(document).height()- $(window).height()-3) {
-                	
-                	     
-                	   if($('input[name=currentPage]').val() <= pageCount)
-                		   {   
-                		       $('input[name=currentPage]').val( parseInt($('input[name=currentPage]').val()) +1 );
-                		       pagination.currentPage= $('input[name=currentPage]').val();
-                		       
-                		           
-                		       $.ajax({
-                                  url : "/BucketTree/bucketList/ajaxlist",
-                                  dataType : "json",
-                                  type : "POST",
-                                  sync :false,
-                                  contentType: "application/json",
-                                  data :JSON.stringify(pagination),
-                                  success : function(data) {
-                					$(data).each(function() {
-                						
-                						var str="<article class='white-panel' style='width: 260px'>"
-                							+"<a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'> ";
-                							
-											if(this.imageIdx != 0)
-												{
-												str+="<img src='/BucketTree/bucket/"+this.imageIdx+"/image' alt='' style='width: 260px'>";
-												}
+    	   
+        if ($(window).scrollTop() >= $(document).height()- $(window).height()-3) {
+     			
+       
+     	   if($('input[name=currentPage]').val() <= pageCount)
+     		   {   
+     		       $('input[name=currentPage]').val( parseInt($('input[name=currentPage]').val()) +1 );
+     		       pagination.currentPage= $('input[name=currentPage]').val();
+     		      
+     		           
+     		       $.ajax({
+                       url : "/BucketTree/bucketList/ajaxMylist",
+                       dataType : "json",
+                       type : "POST",
+                       sync :false,
+                       contentType: "application/json",
+                       data :JSON.stringify(pagination),
+                       success : function(data) {
+     					$(data).each(function() {
+     			
+     							var str="<article class='white-panel' style='width: 260px'>"
+     							+"<a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'> ";
+     							
+     							if(this.imageIdx != 0)
+										{
+										str+="<img src='/BucketTree/bucket/"+this.imageIdx+"/image' alt='' style='width: 260px'>";
+										}
 
-                		
-                							 str+="</a> <h4> <a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'>"+this.title+"</a> </h4>";
-                							if(this.user_idx != ${user.idx})
-                								{
-                								   str+="<div class='f_right' id='select' data-id='" +this.idx+"' style='background: transparent; border: none; display: inline-block'>";
-                								   str+="<div class='btn btn-success'>여행담기"+ this.count+ "</div>";
-                								   str+="</div>";
-                								}
-                							if(this.user_idx == ${user.idx})
-                								{
-                								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
-              								      str+="<div class='btn btn-success'"+ this.count+ "</div>";
-              								      str+="</div>";
-                								}
-                							 
-                								  str+="</article>";
-                								  
-                								  $('.bucketbox').append(str);
-                					});
-                                  }
-                		       });
-                		   }
-                   }
-    });
-                
+     		
+     							 str+="</a> <h4> <a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'>"+this.title+"</a> </h4>";
+     							if(this.state ==0)
+     								{
+     								   str+="<div class='f_right'>";
+     								   str+="<a href='/BucketTree/bucketList/completeBucket?${pagination.queryString}"+"&idx="+this.idx+"' class='btn btn-success' type='submit'>진행중</a>";
+     								   str+="</div>";
+     								}
+     							if(this.state ==1)
+     								{
+     								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
+   								      str+="<button class='btn btn-success' type='submit'>완료</button>";
+   								      str+="</div>";
+     								}
+     							 
+     								  str+="</article>";
+     								  
+     								  $('.bucketbox').append(str);
+     								
+     					});
+                       }
+     		       });
+     		   }
+        }
+});
+     
 	
 	
 	
@@ -421,8 +426,8 @@ $(function() {
                                                  }
                                     			});
                                  	       alert('담기에 성공하였습니다');
-                                 	       location.href="/BucketTree/bucketList/list?${pagination.queryString}";
-
+                                 	       location.href=location.pathname +"?${pagination.queryString}";
+										
                                  		}
                 				
                                 }

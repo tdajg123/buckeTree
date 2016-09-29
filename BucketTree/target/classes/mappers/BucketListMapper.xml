@@ -53,7 +53,8 @@ ORDER BY 행번호
 
 	<![CDATA[
 		SELECT COUNT(*)
-		FROM [BucketList] b, [USER] u
+		FROM [BucketList] b join [USER] u
+		on b.user_idx=u.idx
 		WHERE
 	 	(
     	(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */  /*검색조건이 없을때 */
@@ -155,7 +156,8 @@ ORDER BY 행번호
 
 	<![CDATA[
 		SELECT COUNT(*)
-		FROM [BucketList] b, [USER] u
+		FROM [BucketList] b join [USER] u
+		on b.user_idx=u.idx
 		WHERE
 	 	(
     	(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */  /*검색조건이 없을때 */
@@ -356,5 +358,16 @@ ORDER BY 행번호
 	<update id="updateTreeidx">
 		UPDATE [BucketList] SET tree_idx=#{tree_idx} WHERE
 		idx=#{idx}
+	</update>
+	
+	
+		<!-- 전체 : 담기-버킷 카운트 업 -->
+	<update id="completeBucket">
+
+		UPDATE [BucketList]
+		SET state = 1
+		WHERE IDX =
+		#{idx}
+
 	</update>
 </mapper>

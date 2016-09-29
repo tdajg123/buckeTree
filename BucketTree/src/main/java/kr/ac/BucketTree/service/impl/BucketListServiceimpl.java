@@ -213,4 +213,10 @@ public class BucketListServiceimpl implements BucketListService{
 		return dao.mylistCount(pagination, user_idx);
 	}
 
+	@Override
+	public void completeBucket(int idx) {
+		dao.completeBucket(idx);
+		
+	}
+
 }
