@@ -239,7 +239,7 @@ ORDER BY 행번호
 		ON
 		b.[when] =[when].idx
 		where user_idx=#{user_idx}
-		and tree_idx is null;
+		and tree_idx =0;
 	</select>
 
 
