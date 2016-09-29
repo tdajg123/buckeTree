@@ -8,7 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- ##버킷리스트 전체 목록(list.jsp) 시작...## -->
 	<!-- 버킷리스트 전체 목록 &정렬&검색 -->
-	<select id="list" resultType="kr.ac.BucketTree.vo.BucketListVO" parameterType="hashmap">
+	<select id="list" resultType="kr.ac.BucketTree.vo.BucketListVO"
+		parameterType="hashmap">
 
 		<![CDATA[
 		
@@ -106,7 +107,7 @@ ORDER BY 행번호
 		COUNT(1)
 		FROM [BucketList]
 		WHERE [title] = #{title} AND user_idx =
-		#{userIdx} AND writer = 2
+		#{userIdx}
 
 	</select>
 
@@ -115,112 +116,95 @@ ORDER BY 행번호
 
 	<!-- ##버킷리스트 내 목록(mylist.jsp) 시작...## -->
 	<!-- 버킷리스트 내 목록 -->
-	<select id="mylist" resultType="kr.ac.BucketTree.vo.BucketListVO">
+	<select id="mylist" resultType="kr.ac.BucketTree.vo.BucketListVO"  parameterType="hashmap">
 
 		<![CDATA[
-			SELECT *
-			FROM 
-			(
-			 SELECT *, CASE #{orderType}
-						   WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY date desc)			/*최신순*/
-						   WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY count desc)			/*인기순*/
-						END row
-			FROM [BucketList]
-			WHERE
-				IDX > 0 AND WRITER = 2
-		    AND
-		     (
-			 (#{srchType}= 0) OR  /*검색조건이 없을때 */
-			 (#{srchType}= 1 AND CHARINDEX(#{srchText}, title) >= 1) OR /*질문 제목*/
-			 (#{srchType}= 2 AND CHARINDEX(#{srchText}, title) >= 1 OR CHARINDEX(#{srchText}, contents) >= 1) OR /*질문 제목이나 내용*/
-			 (#{srchType}= 3 AND #{srchText} IN (select name from [User])) 
-			 )  /*질문 작성자*/
-		     
-			 and 
-			 (
-			 (#{categoryType} = 0) OR
-			 (#{categoryType} = 1 AND [WHEN]=#{when} and [WHO]=#{who} and [WHAT] =#{what})
-			 ) /*카테고리검색*/
-			 
-			)subquery
-			WHERE row>(#{currentPage} - 1) * #{pageSize} and
-		        row <= (#{currentPage} *#{pageSize})
-			ORDER BY row 
+SELECT *
+FROM 
+(
+SELECT b.*,u.name, CASE #{pagination.orderType}
+				   WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY b.date desc)
+				   WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY b.count desc)
+				END 행번호
+				,(select top 1 idx from image where idx IN (SELECT image_idx FROM BucketList_Image where bucket_idx=b.idx)) as 'imageIdx'
+				FROM [BucketList] b join [User] u ON b.user_idx=u.idx 
+WHERE 
+	 (
+     (#{pagination.srchType}= 0) OR /*검색조건이 없을때 */  /*검색조건이 없을때 */
+	 (#{pagination.srchType}= 1  AND CHARINDEX(#{pagination.srchText},title)>=1) OR /*타이틀검색*/
+	 (#{pagination.srchType}= 2 AND CHARINDEX(#{pagination.srchText},u.name)=1) 
+	 )  /*이름 검색*/
+     
+	 and 
+		(
+		(#{pagination.categoryType}=0) OR
+		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and [who]=#{pagination.who} and [what]=#{pagination.what})
+		) /*카테고리검색*/
+	 and (
+		  (b.user_idx =#{user_idx})
+	      )  /*나만보기*/
+) subquery
+WHERE 행번호>(#{pagination.currentPage}-1)* #{pagination.pageSize} And
+      행번호<=#{pagination.currentPage} * #{pagination.pageSize}
+ORDER BY 행번호 
 		]]>
 
 	</select>
+	<!-- 내버킷리스트 카운트 -->
+	<select id="mylistCount" resultType="int" parameterType="hashmap"> 
 
-	<!-- 마이리스트-무한스크롤 -->
-	<select id="mylistAjax" resultType="kr.ac.BucketTree.vo.BucketListVO">
-		SELECT *
-		FROM
-		(
-		SELECT *
-		FROM [BucketList]
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM [BucketList] b, [USER] u
 		WHERE
-		IDX > 0 AND WRITER =2
-		AND
+	 	(
+    	(#{pagination.srchType}= 0) OR /*검색조건이 없을때 */  /*검색조건이 없을때 */
+	 	(#{pagination.srchType}= 1  AND CHARINDEX(#{pagination.srchText},title)>=1) OR /*타이틀검색*/
+		(#{pagination.srchType}= 2 AND CHARINDEX(#{pagination.srchText},u.name)=1) 
+	 	)  /*이름 검색*/
+     
+	 and 
 		(
-		(#{srchType}= 0) OR /*검색조건이 없을때 */
-		(#{srchType}= 1 AND
-		CHARINDEX(#{srchText}, title) >= 1) OR /*질문 제목*/
-		(#{srchType}= 2 AND
-		CHARINDEX(#{srchText}, title) >= 1 OR CHARINDEX(#{srchText},
-		contents)
-		>= 1) OR /*질문 제목이나 내용*/
-		(#{srchType}= 3 AND #{srchText} IN (select name
-		from [User]))
-		) /*질문 작성자*/
-
-		and
-		(
-		(#{categoryType}=0) OR
-		(#{categoryType}=1
-		AND [WHEN]=#{when} and [WHO]=#{who} and [WHAT] =#{what})
+		(#{pagination.categoryType}=0) OR
+		(#{pagination.categoryType}=1 AND[when]=#{pagination.when} and [who]=#{pagination.who} and [what]=#{pagination.what})
 		) /*카테고리검색*/
-
-
-		)
-		subquery
-			<![CDATA[
-			WHERE row > #{row} AND row <= #{row} + #{pageSize}
-			]]>
-		ORDER BY row
-
+	 and (
+		(b.user_idx =#{user_idx})
+	     )  /*나만보기*/
+	   
+	]]>
 	</select>
 
-	<!-- 버킷리스트 친구 추천 목록 -->
-	<select id="recommendList" resultType="kr.ac.BucketTree.vo.RecommendVO">
 
-		SELECT TOP 3
-		RBL.BucketList_Idx, BL.title, BL.contents
+	<!-- 버킷리스트 친구 추천 목록 -->
+	<select id="recommendList" resultType="kr.ac.BucketTree.vo.BucketListVO">
+
+		Select TOP 4 *
+		FROM
+		[BucketList]
+		WHERE idx in (
+		SELECT BucketList_idx
 		FROM
 		[RecommendBucketList]
-		RBL, [BucketList] BL
-		WHERE RBL.BucketList_idx =
-		BL.idx AND RBL.fromUser = #{fromUser}
+		where toUser=#{user_idx} )
 		ORDER BY NEWID()
-
-		<!-- select TOP 4 toUser, fromUser, BucketList_Idx FROM [RecommendBucketList] 
-			where fromUser = #{fromUser} ORDER BY NEWID() -->
 
 	</select>
 
 	<!-- 버킷리스트 관리자 추천 목록 -->
 	<select id="adminRecommendList" resultType="kr.ac.BucketTree.vo.BucketListVO">
 
-		SELECT TOP 3 idx,
-		title, contents
-		FROM [BucketList]
-		WHERE user_idx != 4 AND WHAT =(SELECT
-		WHAT
+		SELECT TOP 4 *
+		FROM
+		[BucketList]
+		WHERE user_idx != #{user_idx} AND WHAT IN (SELECT WHAT
 		FROM(
 		SELECT WHAT, ROW_NUMBER() OVER(ORDER BY COUNT(WHAT) DESC) row
 		FROM BucketList
-		WHERE user_Idx = 4 AND STATE = 1
+		WHERE user_Idx = #{user_idx}
 		GROUP BY WHAT
 		)SUBQUERY
-		WHERE row = 1
+		WHERE row in (1,2,3)
 		)
 		ORDER BY NEWID()
 

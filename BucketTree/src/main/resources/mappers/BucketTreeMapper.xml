@@ -156,18 +156,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<select id="applyBucketTree" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
-		select * from BucketTree
-		where idx in (select bucketTree_idx from BucketTree_Member where
+				select b.*,bl.title,(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
+		from BucketTree  b join 
+		[BucketList] bl
+		ON b.bucketList_idx=bl.idx
+		where b.idx in (select bucketTree_idx from BucketTree_Member where
 		user_idx=#{user_idx} and state=1)
 	</select>
 	<select id="adminByReommend" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
 	<![CDATA[
-		select TOP 4 *
-		from BucketTree
+		select TOP 4 b.*,bl.title,(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
+		from BucketTree b join 
+		[BucketList] bl
+		ON b.bucketList_idx=bl.idx
 		where bucketList_idx in
 		(select idx
 		FROM [BucketList]
-		where user_idx !=14 and what in (select what
+		where user_idx !=#{user_idx} and what in (select what
 		from(
 		select what,ROW_NUMBER() OVER(ORDER BY count(what) desc) 행번호
 		from BucketList
@@ -175,8 +180,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		group by what
 		)subquery
 		where 행번호 in (1,2,3)
-		))and idx not in(select bucketTree_idx from BucketTree_Member where
-		user_idx != #{user_idx}) and member_num > (select count(*) from BucketTree_Member where  state = 0  and bucketTree_idx =idx)
+		))and b.idx not in(select bucketTree_idx from BucketTree_Member where
+		user_idx = #{user_idx}) and member_num > (select count(*) from BucketTree_Member where  state = 2 and bucketTree_idx =b.idx)
 		ORDER BY NEWID()
 		]]>
 	</select>

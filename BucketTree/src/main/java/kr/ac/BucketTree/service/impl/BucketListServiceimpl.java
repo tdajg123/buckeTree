@@ -36,12 +36,6 @@ public class BucketListServiceimpl implements BucketListService{
 		return dao.listCount(pagination,user_idx);
 	}
 
-	/*버킷리스트-무한스크롤*/
-	@Override
-	public List<BucketListVO> listAjax(Pagination p) throws Exception {
-		// TODO Auto-generated method stub
-		return dao.listAjax(p);
-	}
 
 	/*버킷리스트-첫번째 이미지*/
 	@Override
@@ -76,19 +70,11 @@ public class BucketListServiceimpl implements BucketListService{
 
 	/*마이 버킷리스트 목록*/
 	@Override
-	public List<BucketListVO> mylist(Pagination pagination) throws Exception {
+	public List<BucketListVO> mylist(Pagination pagination,int user_idx) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.mylist(pagination);
+		return dao.mylist(pagination,user_idx);
 	}
 	
-	/*마이리스트-무한스크롤*/
-	@Override
-	public List<BucketListVO> mylistAjax(Pagination p) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("서비스임플 : " + p);
-		return dao.mylistAjax(p);
-	}
-
 
 	/*마이 : 친구 추천 목록*/
 	@Override
@@ -99,9 +85,9 @@ public class BucketListServiceimpl implements BucketListService{
 
 	/*마이 : 관리자 추천 목록*/
 	@Override
-	public List<BucketListVO> adminRecommendList() throws Exception {
+	public List<BucketListVO> adminRecommendList(int user_idx) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.adminRecommendList();
+		return dao.adminRecommendList(user_idx);
 	}
 
 	@Override
@@ -219,6 +205,12 @@ public class BucketListServiceimpl implements BucketListService{
 	public void updateTreeidx(BucketListVO bucketListVO) {
 		dao.updateTreeidx(bucketListVO);
 		
+	}
+
+	@Override
+	public int mylistCount(Pagination pagination, int user_idx) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.mylistCount(pagination, user_idx);
 	}
 
 }

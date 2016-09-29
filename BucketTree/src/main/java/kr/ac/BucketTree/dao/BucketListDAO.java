@@ -11,22 +11,23 @@ import kr.ac.BucketTree.vo.RecommendVO;
 
 public interface BucketListDAO {
 
-	/*전체 버킷리스트*/
-	public List<BucketListVO> list(Pagination pagination,int user_idx) throws Exception;/*전체 목록 및 정렬,검색*/
-	public List<BucketListVO> listAjax(Pagination p) throws Exception;					/*버킷리스트-무한스크롤*/
+	/*전체 버킷리스트 백승호 수정*/
+	public List<BucketListVO> list(Pagination pagination,int user_idx) throws Exception;/*전체 목록 및 정렬,검색*/				/*버킷리스트-무한스크롤*/
 	int listCount(Pagination pagination,int user_idx) throws Exception;
+
 	public int listImage(int bucket_idx) throws Exception;								/*버킷리스트-첫번째 이미지로 보이기*/
-	
 	public void countUp(int idx) throws Exception;										/*담기_카운트 업*/
 	public void addBucket(HashMap<String, Object> addBucket) throws Exception;			/*버킷 버튼 클릭 -> 마이 버킷에 추가*/
-																						
 	public boolean titleCheck(String mtitle, int userIdx) throws Exception;				/*담아올 버킷이 마이 버킷리스트에 있는지 중복 타이틀 검사*/
+	/*마이 버킷리스트 백승호 수정*/
+	public List<BucketListVO> mylist(Pagination pagination,int user_idx) throws Exception;
+	int mylistCount(Pagination pagination,int user_idx) throws Exception;
 	
-	/*마이 버킷리스트*/
-	public List<BucketListVO> mylist(Pagination pagination) throws Exception;
-	public List<BucketListVO> mylistAjax(Pagination p) throws Exception;				/*버킷리스트-무한스크롤*/
-	public List<BucketListVO> recommendList(int fromUser) throws Exception;				/*친구 추천*/
-	public List<BucketListVO> adminRecommendList() throws Exception;					/*관리자 추천*/
+	
+	/*친구 추천*/
+	public List<BucketListVO> recommendList(int user_idx) throws Exception;		
+	/*관리자 추천*/
+	public List<BucketListVO> adminRecommendList(int user_idx) throws Exception;				
 	
     public List<BucketListVO> bucketShare_MyBucketList(int user_idx);	
     public List<BucketListVO> bucketTree_MyBucketList(int user_idx);	

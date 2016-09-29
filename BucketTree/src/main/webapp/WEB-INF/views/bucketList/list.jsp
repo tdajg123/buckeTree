@@ -51,7 +51,7 @@
 			<button id="view_what" type="button" class="btn btn-success">없음</button>
 		</div>
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
-			action="/BucketTree/bucketTree/list">
+			action="/BucketTree/bucketList/list">
 
 			<div class="col-md-12">
 				<div class="form-inline">
@@ -63,7 +63,7 @@
 					<!-- 검색 조건 선택 셀렉트 박스 -->
 					<form:select path="srchType">
 						<form:option value="0" label="검색조건" />
-						<form:option value="1" label="버킷트리" />
+						<form:option value="1" label="버킷리스트" />
 						<form:option value="2" label="작성자" />
 
 					</form:select>
@@ -126,7 +126,6 @@
 					<article class="white-panel " style="width: 260px">
 
 
-
 						<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
 							<c:if test="${BucketListVO.imageIdx != 0 }">
 								<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
@@ -137,9 +136,9 @@
 							<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
 						</h4>
 						<c:if test="${BucketListVO.user_idx !=user.idx}">
-							<div class="f_right"
+							<div class="f_right" id="select" data-id="${BucketListVO.idx}"
 								style="background: transparent; border: none; display: inline-block">
-								<div class="btn btn-success">${BucketListVO.count}</div>
+								<div class="btn btn-success">여행담기 ${BucketListVO.count}</div>
 							</div>
 						</c:if>
 						<c:if test="${BucketListVO.user_idx ==user.idx}">
@@ -249,6 +248,120 @@ $(function() {
 
 	$('#form_search').submit(function() {
 		 $('input[name=currentPage]').val(1);
+	});
+	
+	 //무한 스크롤
+    $(window).scroll(function() {
+   
+                   if ($(window).scrollTop() >= $(document).height()- $(window).height()-3) {
+                	
+                	     
+                	   if($('input[name=currentPage]').val() <= pageCount)
+                		   {   
+                		       $('input[name=currentPage]').val( parseInt($('input[name=currentPage]').val()) +1 );
+                		       pagination.currentPage= $('input[name=currentPage]').val();
+                		       
+                		           
+                		       $.ajax({
+                                  url : "/BucketTree/bucketList/ajaxlist",
+                                  dataType : "json",
+                                  type : "POST",
+                                  sync :false,
+                                  contentType: "application/json",
+                                  data :JSON.stringify(pagination),
+                                  success : function(data) {
+                					$(data).each(function() {
+                						
+                						var str="<article class='white-panel' style='width: 260px'>"
+                							+"<a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'> ";
+                							
+											if(this.imageIdx != 0)
+												{
+												str+="<img src='/BucketTree/bucket/"+this.imageIdx+"/image' alt='' style='width: 260px'>";
+												}
+
+                		
+                							 str+="</a> <h4> <a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'>"+this.title+"</a> </h4>";
+                							if(this.user_idx != ${user.idx})
+                								{
+                								   str+="<div class='f_right' id='select' data-id='" +this.idx+"' style='background: transparent; border: none; display: inline-block'>";
+                								   str+="<div class='btn btn-success'>여행담기"+ this.count+ "</div>";
+                								   str+="</div>";
+                								}
+                							if(this.user_idx == ${user.idx})
+                								{
+                								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
+              								      str+="<div class='btn btn-success'"+ this.count+ "</div>";
+              								      str+="</div>";
+                								}
+                							 
+                								  str+="</article>";
+                								  
+                								  $('.bucketbox').append(str);
+                					});
+                                  }
+                		       });
+                		   }
+                   }
+    });
+                
+	
+	
+	
+	
+	$(document).on("click","#select",function(){
+				
+		    //같은 이름의 타이틀이 존재하는지 검사
+		    var title_idx=$(this).attr("data-id");
+		    
+		       $.ajax({
+                                  url : "/BucketTree/bucketList/searchTitle",
+                                  dataType : "json",
+                                  type : "POST",
+                                  sync :false,
+                                  data :{idx: title_idx},
+                                  success : function(data) {
+                				
+								
+                                 		if(true==data)
+                                 			{
+                                 			  alert('이미 같은 이름의 버킷리스트가 있습니다');
+                                 			}
+                                 		
+                                 		else if(false==data)
+                                 		{
+                                 			
+                                 	       $.ajax({
+                                               url : "/BucketTree/bucketList/countUpAddBucket",
+                                               dataType : "json",
+                                               type : "POST",
+                                               sync :false,
+                                               data :{idx: title_idx},
+                                               success : function(data) {
+                             				
+             										
+                                            	
+                                            	
+                                                 }
+                                    			});
+                                 	       alert('담기에 성공하였습니다');
+                                 	       location.href="/BucketTree/bucketList/list?${pagination.queryString}";
+
+                                 		}
+                				
+                                }
+                       });
+		       
+		       
+		
+		    
+			
+			
+			
+			//있으면 있다고 알려줌
+			
+			//없으면 count1 증가시켜주고, 버킷 담기
+			
 	});
 	
 	

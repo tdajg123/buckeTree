@@ -40,15 +40,7 @@ public class BucketListDAOimpl implements BucketListDAO {
 		return session.selectOne(namespace + ".listCount", input);
 	}
 
-	/*버킷리스트-무한스크롤*/
-	@Override
-	public List<BucketListVO> listAjax(Pagination p) throws Exception {
-		// TODO Auto-generated method stub
-	
-		return session.selectList(namespace+".listAjax", p);
-	}
-	
-	
+
 	/*버킷리스트-첫번째 이미지로 보이기*/
 	@Override
 	public int listImage(int bucket_idx) throws Exception {
@@ -79,38 +71,33 @@ public class BucketListDAOimpl implements BucketListDAO {
 		check.put("userIdx", userIdx);
 		
 		int count = session.selectOne(namespace+".titleCheck", check);
-		System.out.println("count : " + count);
 		
 		return count > 0;
 	}
 
 	/*마이 버킷리스트 목록*/
 	@Override
-	public List<BucketListVO> mylist(Pagination pagination) throws Exception {
+	public List<BucketListVO> mylist(Pagination pagination,int user_idx) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".mylist", pagination);
+		HashMap<String,Object> input = new HashMap<String, Object>();
+		input.put("pagination", pagination);
+		input.put("user_idx", user_idx);
+		return session.selectList(namespace+".mylist",input);
 	}
 	
-	/*마이리스트 무한스크롤*/
-	@Override
-	public List<BucketListVO> mylistAjax(Pagination p) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("dao 임플 : " + p);
-		return session.selectOne(namespace+".mylistAjax", p);
-	}
-	
+
 	/*마이 : 친구 추천 목록*/
 	@Override
-	public List<BucketListVO> recommendList(int fromUser) throws Exception {
+	public List<BucketListVO> recommendList(int user_idx) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace + ".recommendList", fromUser);
+		return session.selectList(namespace + ".recommendList", user_idx);
 	}
 
 	/*마이 : 관리자 추천 목록*/
 	@Override
-	public List<BucketListVO> adminRecommendList() throws Exception {
+	public List<BucketListVO> adminRecommendList(int user_idx) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace + ".adminRecommendList");
+		return session.selectList(namespace + ".adminRecommendList",user_idx);
 	}
 	@Override
 	public List<BucketListVO> bucketShare_MyBucketList(int user_idx) {
@@ -224,6 +211,14 @@ public class BucketListDAOimpl implements BucketListDAO {
 	public void updateTreeidx(BucketListVO bucketListVO) {
 		session.update(namespace + ".updateTreeidx",bucketListVO);
 		
+	}
+	@Override
+	public int mylistCount(Pagination pagination, int user_idx) throws Exception {
+		HashMap<String,Object> input = new HashMap<String, Object>();
+		input.put("pagination", pagination);
+		input.put("user_idx", user_idx);
+		session.selectOne(namespace + ".mylistCount", input);
+		return 0;
 	}
 
 }

@@ -222,11 +222,7 @@
 		$('#showRight').click(function() {
 
 			if ($('#cbp-spmenu-s2').hasClass('cbp-spmenu-open')) {
-				messenger.from_user_idx = $
-				{
-					user.idx
-				}
-				;
+				messenger.from_user_idx = ${user.idx};
 				connect();
 
 			}
