@@ -201,13 +201,14 @@ ORDER BY 행번호
 		FROM(
 		SELECT WHAT, ROW_NUMBER() OVER(ORDER BY COUNT(WHAT) DESC) row
 		FROM BucketList
-		WHERE user_Idx = #{user_idx}
+		WHERE user_Idx = #{user_idx} 
 		GROUP BY WHAT
 		)SUBQUERY
 		WHERE row in (1,2,3)
 		)
+		and writer=0
 		ORDER BY NEWID()
-
+		
 	</select>
 
 	<!-- ##버킷리스트 내 목록 시작...## -->
