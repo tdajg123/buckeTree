@@ -192,4 +192,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		Values(#{treeName},#{bucketList_idx},#{user_idx},#{contents},#{author},#{member_num},GETDATE())
 	
 	</insert>
+	
+	<select id="selectByBucketTree" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
+			select *  
+			from BucketTree   
+			where idx=#{idx};	   
+	</select>
 </mapper>

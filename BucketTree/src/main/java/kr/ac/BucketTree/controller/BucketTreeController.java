@@ -147,5 +147,12 @@ public class BucketTreeController {
 		
 		return "redirect:/bucketTree/myList";
 	}
+	@RequestMapping(value = "/bucketTree/detail",method = RequestMethod.GET)
+	public String detail(Model model, @RequestParam("idx") int idx)throws Exception
+	{
+		
+		model.addAttribute("vo",bs.selectByBucketTree(idx));
+		return "bucketTree/detail";
+	}
 	
 }

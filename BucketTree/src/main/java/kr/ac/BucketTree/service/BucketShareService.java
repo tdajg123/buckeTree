@@ -5,6 +5,7 @@ import java.util.List;
 
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketShareVO;
+import kr.ac.BucketTree.vo.BucketTreeVO;
 
 
 public interface BucketShareService {

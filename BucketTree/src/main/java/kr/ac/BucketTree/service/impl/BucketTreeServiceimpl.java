@@ -55,5 +55,11 @@ public class BucketTreeServiceimpl implements BucketTreeService {
 		
 	}
 	
+	@Override
+	public BucketTreeVO selectByBucketTree(int idx) {
+		
+		return dao.selectByBucketTree(idx);
+	}
+	
 	
 }

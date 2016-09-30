@@ -79,7 +79,7 @@
 
 					<c:if
 						test="${ (pagination.srchType != 0)  ||  (pagination.categoryType != 0)}">
-						<a href="/BucketTree/bucketTree/list" class="btn btn-success">취소</a>
+						<a href="/BucketTree/bucketList/list" class="btn btn-success">취소</a>
 					</c:if>
 
 					<!-- 선택된 카테고리 값 -->

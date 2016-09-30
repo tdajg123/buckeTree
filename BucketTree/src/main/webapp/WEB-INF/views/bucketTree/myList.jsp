@@ -13,7 +13,7 @@
 			<button id="view_what" type="button" class="btn btn-success">없음</button>
 		</div>
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
-			action="/BucketTree/bucketTree/list">
+			action="/BucketTree/bucketTree/myList">
 			<div class="col-md-11 col-md-offset-1">
 				<div class="form-inline">
 					<!-- 카테고리 선택 버튼 -->
@@ -38,7 +38,7 @@
 
 					<c:if
 						test="${ (pagination.srchType != 0)  ||  (pagination.categoryType != 0)}">
-						<a href="/BucketTree/bucketTree/list" class="btn btn-success">취소</a>
+						<a href="/BucketTree/bucketTree/myList" class="btn btn-success">취소</a>
 					</c:if>
 
 					<!-- 선택된 카테고리 값 -->
@@ -217,6 +217,13 @@
 
 <script>
 $(function() {
+	
+	$(document).on("click","article",function(){
+		location.href="/BucketTree/bucketTree/detail?idx="+$(this).attr("data-id");
+	});
+	
+	
+	
 	$(".bs-calltoaction").click(function() { location.href = $(this).attr("data-url"); });
 	
 	

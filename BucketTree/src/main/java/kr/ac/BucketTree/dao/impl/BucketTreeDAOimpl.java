@@ -67,4 +67,10 @@ public class BucketTreeDAOimpl implements BucketTreeDAO {
 		
 	}
 
+	@Override
+	public BucketTreeVO selectByBucketTree(int idx) {
+		
+		return session.selectOne(namespace+".selectByBucketTree", idx );
+	}
+
 }
