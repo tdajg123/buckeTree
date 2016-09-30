@@ -51,7 +51,7 @@
 			<button id="view_what" type="button" class="btn btn-success">없음</button>
 		</div>
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
-			action="/BucketTree/bucketList/list">
+			action="/BucketTree/bucketList/mylist">
 
 			<div class="col-md-11 col-md-offset-1">
 				<div class="form-inline">
