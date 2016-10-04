@@ -15,13 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.ac.BucketTree.service.BucketListService;
 import kr.ac.BucketTree.service.BucketTreeService;
 import kr.ac.BucketTree.service.BucketTree_MemberService;
+import kr.ac.BucketTree.service.BucketTree_MessageService;
 import kr.ac.BucketTree.service.CategoryService;
+import kr.ac.BucketTree.service.ImageService;
+import kr.ac.BucketTree.service.Message_ImageService;
 import kr.ac.BucketTree.service.TimelineService;
 import kr.ac.BucketTree.service.UserService;
 import kr.ac.BucketTree.util.BucketTreeCommon;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketListVO;
 import kr.ac.BucketTree.vo.BucketTreeVO;
+import kr.ac.BucketTree.vo.BucketTree_Message;
 
 
 @Controller
@@ -40,7 +44,12 @@ public class BucketTreeController {
 	BucketListService bls;
 	@Autowired 
 	TimelineService ts;
-	
+	@Autowired 
+	BucketTree_MessageService  bms;
+	@Autowired 
+	ImageService is;
+	@Autowired 
+	Message_ImageService mi;
 	// 전체목록
 	@RequestMapping(value = "/bucketTree/list")
 	public String list(Model model, Pagination pagination) throws Exception {
@@ -148,11 +157,65 @@ public class BucketTreeController {
 		return "redirect:/bucketTree/myList";
 	}
 	@RequestMapping(value = "/bucketTree/detail",method = RequestMethod.GET)
-	public String detail(Model model, @RequestParam("idx") int idx)throws Exception
+	public String detail(Model model, @RequestParam("idx") int idx,Pagination pagination)throws Exception
 	{
-		
+		model = bucketTreeCommon.commonMessenger(model);
 		model.addAttribute("vo",bs.selectByBucketTree(idx));
+		
+		pagination.setRecordCount(bms.listCount(idx));
+		model.addAttribute("list", bms.list(idx, pagination));
+		model.addAttribute("notice", bms.noticeList(idx));
+		
 		return "bucketTree/detail";
 	}
+	
+	@RequestMapping(value = "/bucketTree/write",method = RequestMethod.POST)
+	public String write(Model model, BucketTree_Message bucketTree_Message)throws Exception
+	{
+		model = bucketTreeCommon.commonMessenger(model);
+		bucketTree_Message.setUser_idx(us.getCurrentUser().getIdx());
+		
+
+		bms.insert(bucketTree_Message);
+		bms.updateBucketTreeImage(bucketTree_Message);
+		is.deleteOrphan();
+		
+
+		
+		
+		return "redirect:/bucketTree/detail?idx="+bucketTree_Message.getBucketTree_idx();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/bucketTree/modify",method = RequestMethod.GET)
+	public  BucketTree_Message modify(Model model, @RequestParam("idx") int idx)throws Exception
+	{
+
+		BucketTree_Message bucketTree_Message =bms.selectByidx(idx);
+		return  bucketTree_Message ;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/bucketTree/modify",method = RequestMethod.POST)
+	public  void modify(Model model, @RequestParam("idx") int idx, @RequestParam("contents") String contents)throws Exception
+	{
+		
+		BucketTree_Message vo =new BucketTree_Message();
+		vo.setIdx(idx);
+		vo.setContents(contents);
+		bms.update(vo);
+		bms.updateBucketTreeImage(vo);
+		is.deleteOrphan();
+		bms.update(vo);
+	}
+	@ResponseBody
+	@RequestMapping(value = "/bucketTree/delete",method = RequestMethod.GET)
+	public  void delete(Model model, @RequestParam("idx") int idx)throws Exception
+	{	
+		mi.deleteByMessageIdx(idx);
+		bms.delete(idx);
+		is.deleteOrphan();
+		
+	}
+	
 	
 }

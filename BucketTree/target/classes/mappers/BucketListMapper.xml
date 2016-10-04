@@ -77,7 +77,12 @@ ORDER BY 행번호
 	]]>
 
 	</select>
-
+	<select id="selectByName">
+		SELECT *
+		FROM [BucketList]
+		WHERE
+		title =#{title}
+	</select>
 
 	<!-- 전체 : 담기-버킷 카운트 업 -->
 	<update id="countUp">

@@ -226,4 +226,10 @@ public class BucketListServiceimpl implements BucketListService{
 		
 	}
 
+	@Override
+	public BucketListVO selectByName(String title) {
+		// TODO Auto-generated method stub
+		return dao.selectByName(title);
+	}
+
 }

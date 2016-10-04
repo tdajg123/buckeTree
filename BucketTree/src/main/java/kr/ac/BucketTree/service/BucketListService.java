@@ -23,7 +23,7 @@ public interface BucketListService {
 	public List<BucketListVO> recommendList(int fromUser) throws Exception;							/*친구 추천*/
 	public List<BucketListVO> adminRecommendList(int user_idx) throws Exception;					/*관리자 추천*/
 	
-	
+	public BucketListVO selectByName(String title);
 	public List<BucketListVO> bucketShare_MyBucketList(int user_idx);
 	
 	/*버킷리스트 추가*/

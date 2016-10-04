@@ -23,7 +23,7 @@ public interface BucketListDAO {
 	public List<BucketListVO> mylist(Pagination pagination,int user_idx) throws Exception;
 	int mylistCount(Pagination pagination,int user_idx) throws Exception;
 	
-	
+	public BucketListVO selectByName(String title);
 	/*친구 추천*/
 	public List<BucketListVO> recommendList(int user_idx) throws Exception;		
 	/*관리자 추천*/

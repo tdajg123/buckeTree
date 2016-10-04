@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ac.BucketTree.BucketTree_MessageMapper">
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="idx">
+
+		INSERT INTO BucketTree_Message(BucketTree_idx,contents,user_idx,type,date)
+		VALUES (#{bucketTree_idx},#{contents},#{user_idx},#{type},GETDATE())
+	</insert>
+	<select id="list" resultType="kr.ac.BucketTree.vo.BucketTree_Message"
+		parameterType="hashmap">
+
+		<![CDATA[
+		
+		SELECT *
+		FROM 
+		(
+		SELECT b.*, ROW_NUMBER() OVER(ORDER BY b.date desc) 행번호
+		FROM [BucketTree_Message] b 
+		WHERE 
+ 		 b.BucketTree_idx=#{idx} and b.idx not in (SELECT idx
+			FROM BucketTree_Message 
+			where type=1 and BucketTree_idx=#{idx} and DATEDIFF(DAY, date, GETDATE()) < 3) 
+		) subquery
+		WHERE 행번호>(#{pagination.currentPage}-1)* #{pagination.pageSize} And
+    	  행번호<=#{pagination.currentPage} * #{pagination.pageSize}
+		ORDER BY 행번호 
+		]]>
+
+	</select>
+
+
+	<!-- 버킷리스트 페이지 카운트 -->
+	<select id="listCount" resultType="int"> 
+
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM [BucketTree_Message] b
+		where 
+		b.BucketTree_idx=#{idx} and b.idx not in (SELECT idx
+			FROM BucketTree_Message 
+			where type=1 and BucketTree_idx=#{idx} and DATEDIFF(DAY, date, GETDATE()) < 3) 
+	   
+	]]>
+	</select>
+	<select id="noticeList" resultType="kr.ac.BucketTree.vo.BucketTree_Message"
+		parameterType="hashmap">
+
+		<![CDATA[
+		
+			SELECT *
+			FROM BucketTree_Message 
+			where type=1 and BucketTree_idx=#{idx} and DATEDIFF(DAY, date, GETDATE()) < 3
+	
+		]]>
+
+	</select>
+
+
+	<select id="selectByidx" resultType="kr.ac.BucketTree.vo.BucketTree_Message">
+
+		<![CDATA[
+		
+			SELECT *
+			FROM BucketTree_Message 
+			where idx=#{idx}
+	
+		]]>
+
+	</select>
+	<update id="update">
+		update [BucketTree_Message] set contents =#{contents}
+		where idx=#{idx}
+	</update>
+	<delete id="delete">
+		Delete from [BucketTree_Message] where idx=#{idx}
+	</delete>
+
+
+</mapper>

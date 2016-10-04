@@ -230,5 +230,10 @@ public class BucketListDAOimpl implements BucketListDAO {
 		session.update(namespace + ".ingBucket",idx);
 		
 	}
+	@Override
+	public BucketListVO selectByName(String title) {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace + ".selectByName", title);
+	}
 
 }
