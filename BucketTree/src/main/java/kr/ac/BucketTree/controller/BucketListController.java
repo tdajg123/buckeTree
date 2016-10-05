@@ -109,18 +109,12 @@ public class BucketListController {
 	public void countUpAddBucket (@RequestParam("idx") int idx) throws Exception{
 			bls.countUp(idx);
 			BucketListVO vo=bls.bucket(idx);
-			HashMap<String,Object> input = new HashMap<String, Object>();
-			input.put("title", vo.getTitle());
-			input.put("contents", vo.getContents());
-			input.put("user_idx", us.getCurrentUser().getIdx());
-			input.put("writer", vo.getWriter());
-			input.put("when", vo.getWhen());
-			input.put("who", vo.getWho());
-			input.put("what", vo.getWhat());
-			
-			//타임라인에 추가해야함
-	        bls.addBucket(input);
-		
+			vo.setUser_idx(us.getCurrentUser().getIdx());
+
+	        bls.addBucket(vo);
+			bls.updateBucketImage(vo);
+			is.deleteOrphan();
+			ts.BucketInsert_Timeline(us.getCurrentUser().getIdx(), vo.getTitle(), "BucketTree/bucketList/"+vo.getIdx()+"/bucket.do");
 		
 	}
 	//myBucketList
@@ -143,6 +137,31 @@ public class BucketListController {
 		return "bucketList/mylist";
 	}
 	
+	//ajax로 가져올 데이터
+	@ResponseBody
+	@RequestMapping(value = "/bucketList/ajaxMylist")
+	public List<BucketListVO> ajaxMylist(@RequestBody Pagination pagination) throws Exception {
+
+				
+				return  bls.mylist(pagination,us.getCurrentUser().getIdx());
+	}
+	//버킷리스트 완료
+	@RequestMapping(value = "/bucketList/completeBucket")
+	public String completeBucket(Model model, Pagination pagination,@RequestParam("idx") int idx) throws Exception {
+		pagination.setCurrentPage(1);
+		bls.completeBucket(idx);
+		BucketListVO vo=bls.bucket(idx);
+		ts.BucketComplete_Timeline(us.getCurrentUser().getIdx(), vo.getTitle(), "BucketTree/bucketList/"+vo.getIdx()+"/bucket.do");
+		return "redirect:/bucketList/mylist?"+pagination.getQueryString();
+	}
+	
+	//버킷리스트 완료
+	@RequestMapping(value = "/bucketList/ingBucket")
+	public String ingBucket(Model model, Pagination pagination,@RequestParam("idx") int idx) throws Exception {
+		pagination.setCurrentPage(1);
+		bls.ingBucket(idx);
+		return "redirect:/bucketList/mylist?"+pagination.getQueryString();
+	}
 	
 	
 	@RequestMapping(value = "/bucketList/bucketWrite", method = RequestMethod.GET)

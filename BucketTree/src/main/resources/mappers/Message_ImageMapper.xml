@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="kr.ac.BucketTree.Message_ImageMapper">
+
+	<insert id="insert"> INSERT INTO Message_Image (message_idx, image_idx)
+		VALUES (#{message_idx}, #{image_idx}) </insert>
+		
+		
+		
+	<delete id="deleteByMessageIdx">
+	 DELETE Message_Image WHERE message_idx =#{message_idx} </delete>
+</mapper>

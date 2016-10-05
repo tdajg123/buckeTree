@@ -16,4 +16,5 @@ public interface BucketTreeService {
 	public List<BucketTreeVO> applyBucketTree(int user_idx);
 	public List<BucketTreeVO> adminByReommend(int user_idx);
 	public void insert(BucketTreeVO bucketTreeVO);
+	public BucketTreeVO selectByBucketTree(int idx);
 }

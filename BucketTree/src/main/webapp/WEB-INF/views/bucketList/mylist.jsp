@@ -44,16 +44,16 @@
 </div>
 
 <div class="container">
-	<div class="row">
+	<div class="row" style="margin: 25px 0 55px 0;">
 		<div class="col-md-4 col-md-offset-5" style="margin-bottom: 3px;">
 			<button id="view_when" type="button" class="btn btn-success">없음</button>
 			<button id="view_who" type="button" class="btn btn-success">없음</button>
 			<button id="view_what" type="button" class="btn btn-success">없음</button>
 		</div>
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
-			action="/BucketTree/bucketList/list">
+			action="/BucketTree/bucketList/mylist">
 
-			<div class="col-md-12">
+			<div class="col-md-11 col-md-offset-1">
 				<div class="form-inline">
 					<!-- Search Form __ Start -->
 
@@ -79,7 +79,7 @@
 
 					<c:if
 						test="${ (pagination.srchType != 0)  ||  (pagination.categoryType != 0)}">
-						<a href="/BucketTree/bucketTree/list" class="btn btn-success">취소</a>
+						<a href="/BucketTree/bucketList/mylist" class="btn btn-success">취소</a>
 					</c:if>
 
 					<!-- 선택된 카테고리 값 -->
@@ -88,179 +88,159 @@
 					<form:input path="what" type="hidden" />
 					<form:input path="categoryType" type="hidden" />
 					<form:input path="currentPage" type="hidden" />
-
-
-					<!-- 정렬 셀렉트 박스 -->
-					<form:select path="orderType">
-						<form:option value="1" label="최신순" />
-						<form:option value="2" label="좋아요순" />
-					</form:select>
-
-
 				</div>
 			</div>
+			<div class="f_right">
+				<!-- 정렬 셀렉트 박스 -->
+				<form:select path="orderType">
+					<form:option value="1" label="최신순" />
+					<form:option value="2" label="좋아요순" />
+				</form:select>
+			</div>
 		</form:form>
-
 	</div>
 
 
 
 	<!-- bucketList-listAll __ Start -->
 
-	<div class="container" style="padding-top: 20px; padding-bottom: 85px">
-		<div class="row"
-			style="margin-left: 0px; margin-right: 0px; width: 1100px">
-			<!--내가 지원한 버킷트리  -->
-			<div id="applyBucketList" class="collapse navbar-collapse"
-				style="padding: 0px;">
-				<div class="navbar-custom-comments">
-					<div class="x_panel">
-						<div class="box-header withorder">
-							<div class="pull-right">
-								<button type="button" class="btn btn-default"
-									data-toggle="collapse" data-target="#collapseComment">
-									<i class="fa fa-plus"></i>
-								</button>
-							</div>
-							<h3 class="x_title">친구들이 추천한 BucketList</h3>
-							<!-- /.box-tools -->
-						</div>
-						<!-- /.box-header -->
-						<div class="collapse" id="collapseComment">
-							<section class="bucketbox">
-								<c:forEach items="${friendBylist}" var="BucketListVO">
-
-									<article style="width: 260px; display: inline-Block">
-
-
-										<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
-											<c:if test="${BucketListVO.imageIdx != 0 }">
-												<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
-													alt="" style="width: 260px" onclick="">
-											</c:if>
-										</a>
-										<h4>
-											<a
-												href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
-										</h4>
-										<c:if test="${BucketListVO.user_idx !=user.idx}">
-											<div class="f_right" id="select"
-												data-id="${BucketListVO.idx}"
-												style="background: transparent; border: none; display: inline-block">
-												<div class="btn btn-success">여행담기
-													${BucketListVO.count}</div>
-											</div>
-										</c:if>
-										<c:if test="${BucketListVO.user_idx ==user.idx}">
-											<div class="f_right"
-												style="background: transparent; border: none; display: inline-block">
-												<div class="btn btn-success">${BucketListVO.count}</div>
-											</div>
-										</c:if>
-									</article>
-								</c:forEach>
-							</section>
-						</div>
-					</div>
-				</div>
+	<div id="applyBucketList" class="box box-default collapse-box">
+		<div class="box-header withorder" style="padding-left: 20px;">
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-default" data-toggle="collapse"
+					data-target="#collapseFriend">
+					<i class="fa fa-plus"></i>
+				</button>
 			</div>
-			<!-- 가입신청한 버킷트리 -->
-			<!--관리자가 추천하는 버킷리스트  -->
-			<div id="adminBucketList" class="collapse navbar-collapse"
-				style="padding: 0px;">
-				<div class="navbar-custom-comments">
-					<div class="x_panel">
-						<div class="box-header withorder">
-							<div class="pull-right">
-								<button type="button" class="btn btn-default"
-									data-toggle="collapse" data-target="#collapseComment2">
-									<i class="fa fa-plus"></i>
-								</button>
-							</div>
-							<h3 class="x_title">관리자가 추천하는 BucketList</h3>
-							<!-- /.box-tools -->
-						</div>
-						<!-- /.box-header -->
-						<div class="collapse" id="collapseComment2">
-							<section class="bucketbox">
-								<c:forEach items="${adminBylist}" var="BucketListVO">
-
-									<article style="width: 260px; display: inline-Block">
-
-
-										<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
-											<c:if test="${BucketListVO.imageIdx != 0 }">
-												<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
-													alt="" style="width: 260px" onclick="">
-											</c:if>
-										</a>
-										<h4>
-											<a
-												href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
-										</h4>
-										<c:if test="${BucketListVO.user_idx !=user.idx}">
-											<div class="f_right" id="select"
-												data-id="${BucketListVO.idx}"
-												style="background: transparent; border: none; display: inline-block">
-												<div class="btn btn-success">여행담기
-													${BucketListVO.count}</div>
-											</div>
-										</c:if>
-										<c:if test="${BucketListVO.user_idx ==user.idx}">
-											<div class="f_right"
-												style="background: transparent; border: none; display: inline-block">
-												<div class="btn btn-success">${BucketListVO.count}</div>
-											</div>
-										</c:if>
-									</article>
-								</c:forEach>
-							</section>
-						</div>
-					</div>
-					<!-- 가입신청한 버킷트리 -->
-				</div>
-			</div>
-
-			<div
-				style="display: inline-block; margin-top: 10px; margin-bottom: 10px">
-			</div>
-
-			<!-- bucketList-Category & Type & Search __ End -->
-			<hr>
-
-			<section id="pinBoot"
-				style="width: 1170px; margin: auto; margin-top: 10px">
-				<article class="white-panel-add">
-					<h4>
-						<a href="/BucketTree/bucketList/bucketWrite" class="fa fa-plus"
-							style="color: #fff; margin-left: 30px"> 버킷리스트 추가</a>
-					</h4>
-				</article>
-
-
-				<c:forEach items="${mylist}" var="BucketListVO">
-					<article class="white-panel" style="width: 260px">
-
-						<c:if test="${BucketListVO.getImageIdx() != 0}">
-							<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image" alt="" style="width: 260px" onclick="">
-						</c:if>
+			<h3 class="box_title">친구 추천 BucketList</h3>
+			<!-- /.box-tools -->
+		</div>
+		<!-- /.box-header -->
+		<div class="collapse" id="collapseFriend" style="padding: 5px 22px;">
+			<section class="bucketbox">
+				<c:forEach items="${friendBylist}" var="BucketListVO">
+					<article style="width: 260px; margin: 0 5px; display: inline-Block">
+						<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
+							<c:if test="${BucketListVO.imageIdx != 0 }">
+								<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
+									alt="" style="width: 260px" onclick="">
+							</c:if>
+						</a>
 						<h4>
-							<a href="#">${BucketListVO.title}</a>
+							<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
 						</h4>
-						<button class="bucketOK pull-right"
-						 style="background: #48cfc8; width: 50px; height: 30px"
-						type="submit">완료</button>
+						<c:if test="${BucketListVO.user_idx !=user.idx}">
+							<div class="f_right" id="select" data-id="${BucketListVO.idx}"
+								style="background: transparent; border: none; display: inline-block">
+								<div class="btn btn-success">여행담기 ${BucketListVO.count}</div>
+							</div>
+						</c:if>
+						<c:if test="${BucketListVO.user_idx ==user.idx}">
+							<div class="f_right"
+								style="background: transparent; border: none; display: inline-block">
+								<div class="btn btn-success">${BucketListVO.count}</div>
+							</div>
+						</c:if>
 					</article>
 				</c:forEach>
-			 </section>
-
-
-			<hr>
+			</section>
 		</div>
 	</div>
-</div>
-<!-- bucketList-listAll __ End -->
 
+
+	<!-- 가입신청한 버킷트리 -->
+	<!--관리자가 추천하는 버킷리스트  -->
+	<div id="adminBucketList" class="box box-default collapsed-box">
+		<div class="box-header withorder" style="padding-left: 20px;">
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-default" data-toggle="collapse"
+					data-target="#collapseAdmin">
+					<i class="fa fa-plus"></i>
+				</button>
+			</div>
+			<h3 class="box_title">관리자 추천 BucketList</h3>
+			<!-- /.box-tools -->
+		</div>
+		<!-- /.box-header -->
+		<div class="collapse" id="collapseAdmin" style="padding: 5px 22px;">
+			<section class="bucketbox">
+				<c:forEach items="${adminBylist}" var="BucketListVO">
+
+					<article style="width: 260px; display: inline-Block">
+
+
+						<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
+							<c:if test="${BucketListVO.imageIdx != 0 }">
+								<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
+									alt="" style="width: 260px" onclick="">
+							</c:if>
+						</a>
+						<h4>
+							<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
+						</h4>
+						<c:if test="${BucketListVO.user_idx !=user.idx}">
+							<div class="f_right" id="select" data-id="${BucketListVO.idx}"
+								style="background: transparent; border: none; display: inline-block">
+								<div class="btn btn-success">여행담기 ${BucketListVO.count}</div>
+							</div>
+						</c:if>
+						<c:if test="${BucketListVO.user_idx ==user.idx}">
+							<div class="f_right"
+								style="background: transparent; border: none; display: inline-block">
+								<div class="btn btn-success">${BucketListVO.count}</div>
+							</div>
+						</c:if>
+					</article>
+				</c:forEach>
+			</section>
+		</div>
+	</div>
+	<!-- 가입신청한 버킷트리 -->
+
+
+	<!-- bucketList-Category & Type & Search __ End -->
+	<div class="pinboot">
+		<hr>
+
+		<section id="pinBoot"
+			style="width: 1170px; margin: auto; margin-top: 10px" class="bucketbox">
+			<article class="white-panel-add">
+				<h4>
+					<a href="/BucketTree/bucketList/bucketWrite" class="fa fa-plus"
+						style="color: #fff; margin-left: 30px"> 버킷리스트 추가</a>
+				</h4>
+			</article>
+
+
+			<c:forEach items="${mylist}" var="BucketListVO">
+				<article class="white-panel" style="width: 260px">
+					<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">
+					<c:if test="${BucketListVO.getImageIdx() != 0}">
+						<img src="/BucketTree/bucket/${BucketListVO.imageIdx}/image"
+							alt="" style="width: 260px" onclick="">
+					</c:if>
+					</a>
+					<h4>
+					<a href="/BucketTree/bucketList/${BucketListVO.idx}/bucket.do">${BucketListVO.title}</a>
+					</h4>
+					<c:if test="${BucketListVO.state == 0}">
+					<div class="f_right">
+						<a href="/BucketTree/bucketList/completeBucket?${pagination.queryString}&idx=${BucketListVO.idx}"class="btn btn-success" type="submit">진행중</a>
+					</div>
+					</c:if>
+						<c:if test="${BucketListVO.state == 1}">
+					<div class="f_right">
+						<a href="/BucketTree/bucketList/ingBucket?${pagination.queryString}&idx=${BucketListVO.idx}" class="btn btn-success" type="submit">완료</a>
+					</div>
+					</c:if>
+				</article>
+			</c:forEach>
+		</section>
+
+		<hr>
+	</div>
+	<!-- bucketList-listAll __ End -->
+</div>
 <script>
 $(function() {
 	$(".bs-calltoaction").click(function() { location.href = $(this).attr("data-url"); });
@@ -337,8 +317,7 @@ $(function() {
 
 	});
 	
-	
-	var pageCount=${pageCount}
+	var pageCount=${pageCount};
 	//검색
 	var pagination={};
 	pagination.orderType=$('select[name=orderType] option:selected').val();
@@ -348,67 +327,65 @@ $(function() {
 	pagination.when=$('input[name=when]').val();
 	pagination.what=$('input[name=what]').val();
 	pagination.categoryType=$('input[name=categoryType]').val();
-	
 
 	$('#form_search').submit(function() {
 		 $('input[name=currentPage]').val(1);
 	});
-	
-	 //무한 스크롤
     $(window).scroll(function() {
-   
-                   if ($(window).scrollTop() >= $(document).height()- $(window).height()-3) {
-                	
-                	     
-                	   if($('input[name=currentPage]').val() <= pageCount)
-                		   {   
-                		       $('input[name=currentPage]').val( parseInt($('input[name=currentPage]').val()) +1 );
-                		       pagination.currentPage= $('input[name=currentPage]').val();
-                		       
-                		           
-                		       $.ajax({
-                                  url : "/BucketTree/bucketList/ajaxlist",
-                                  dataType : "json",
-                                  type : "POST",
-                                  sync :false,
-                                  contentType: "application/json",
-                                  data :JSON.stringify(pagination),
-                                  success : function(data) {
-                					$(data).each(function() {
-                						
-                						var str="<article class='white-panel' style='width: 260px'>"
-                							+"<a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'> ";
-                							
-											if(this.imageIdx != 0)
-												{
-												str+="<img src='/BucketTree/bucket/"+this.imageIdx+"/image' alt='' style='width: 260px'>";
-												}
+    	   
+        if ($(window).scrollTop() >= $(document).height()- $(window).height()-3) {
+     			
+       
+     	   if($('input[name=currentPage]').val() <= pageCount)
+     		   {   
+     		       $('input[name=currentPage]').val( parseInt($('input[name=currentPage]').val()) +1 );
+     		       pagination.currentPage= $('input[name=currentPage]').val();
+     		      
+     		           
+     		       $.ajax({
+                       url : "/BucketTree/bucketList/ajaxMylist",
+                       dataType : "json",
+                       type : "POST",
+                       sync :false,
+                       contentType: "application/json",
+                       data :JSON.stringify(pagination),
+                       success : function(data) {
+     					$(data).each(function() {
+     			
+     							var str="<article class='white-panel' style='width: 260px'>"
+     							+"<a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'> ";
+     							
+     							if(this.imageIdx != 0)
+										{
+										str+="<img src='/BucketTree/bucket/"+this.imageIdx+"/image' alt='' style='width: 260px'>";
+										}
 
-                		
-                							 str+="</a> <h4> <a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'>"+this.title+"</a> </h4>";
-                							if(this.user_idx != ${user.idx})
-                								{
-                								   str+="<div class='f_right' id='select' data-id='" +this.idx+"' style='background: transparent; border: none; display: inline-block'>";
-                								   str+="<div class='btn btn-success'>여행담기"+ this.count+ "</div>";
-                								   str+="</div>";
-                								}
-                							if(this.user_idx == ${user.idx})
-                								{
-                								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
-              								      str+="<div class='btn btn-success'"+ this.count+ "</div>";
-              								      str+="</div>";
-                								}
-                							 
-                								  str+="</article>";
-                								  
-                								  $('.bucketbox').append(str);
-                					});
-                                  }
-                		       });
-                		   }
-                   }
-    });
-                
+     		
+     							 str+="</a> <h4> <a href='/BucketTree/bucketList/"+this.idx+"/bucket.do'>"+this.title+"</a> </h4>";
+     							if(this.state ==0)
+     								{
+     								   str+="<div class='f_right'>";
+     								   str+="<a href='/BucketTree/bucketList/completeBucket?${pagination.queryString}"+"&idx="+this.idx+"' class='btn btn-success' type='submit'>진행중</a>";
+     								   str+="</div>";
+     								}
+     							if(this.state ==1)
+     								{
+     								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
+     								 str+="<a href='/BucketTree/bucketList/ingBucket?${pagination.queryString}"+"&idx="+this.idx+"' class='btn btn-success' type='submit'>완료</a>";
+   								      str+="</div>";
+     								}
+     							 
+     								  str+="</article>";
+     								  
+     								  $('.bucketbox').append(str);
+     								
+     					});
+                       }
+     		       });
+     		   }
+        }
+});
+     
 	
 	
 	
@@ -449,8 +426,8 @@ $(function() {
                                                  }
                                     			});
                                  	       alert('담기에 성공하였습니다');
-                                 	       location.href="/BucketTree/bucketList/list?${pagination.queryString}";
-
+                                 	       location.href=location.pathname +"?${pagination.queryString}";
+										
                                  		}
                 				
                                 }
