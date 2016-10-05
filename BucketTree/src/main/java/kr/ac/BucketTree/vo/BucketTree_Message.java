@@ -1,5 +1,7 @@
 package kr.ac.BucketTree.vo;
 
+import java.util.List;
+
 public class BucketTree_Message {
 	
 	int idx;
@@ -9,7 +11,14 @@ public class BucketTree_Message {
 	int type;
 	String date;
 	int together;
+	List<BucketTree_Message_Comment> comment;
 	
+	public List<BucketTree_Message_Comment> getComment() {
+		return comment;
+	}
+	public void setComment(List<BucketTree_Message_Comment> comment) {
+		this.comment = comment;
+	}
 	public int getTogether() {
 		return together;
 	}

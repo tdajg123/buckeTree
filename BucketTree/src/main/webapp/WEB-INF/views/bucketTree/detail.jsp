@@ -8,6 +8,7 @@ input[type=checkbox]:checked {
 	border: 1px solid gray;
 }
 </style>
+<!-- 댓글부분 수정해야함 -->
 <div class="container">
 
 	<div class="page-header">
@@ -59,8 +60,6 @@ input[type=checkbox]:checked {
 							<div class="box-footer box-comments">
 								<div class="box-comment">
 									<!-- User image -->
-									<img src="/resources/img/user1-128x128.jpg"
-										class="user-image" alt="User Image">
 
 									<div class="comment-text">
 										<span class="username"> Maria Gonzales <span
@@ -75,8 +74,6 @@ input[type=checkbox]:checked {
 								<!-- /.box-comment -->
 								<div class="box-comment">
 									<!-- User image -->
-									<img src="/resources/img/user1-128x128.jpg"
-										class="user-image" alt="User Image">
 
 									<div class="comment-text">
 										<span class="username"> Nora Havisham <span
@@ -94,10 +91,16 @@ input[type=checkbox]:checked {
 							<!-- /.box-footer -->
 							<div class="box-footer">
 								<form action="#" method="post">
-									<div class="img-push">
-										<input type="text" class="form-control input-sm"
+									<div class="img-push"
+										style="display: inline-block; width: 320px">
+										<input type="text" name="comment_contents"class="form-control input-sm"
 											placeholder="Press enter to post comment">
+
 									</div>
+									<button class="btn btn-default" name=comment
+										data-idx="${no.idx}">
+										<i class="fa fa-pencil"></i>
+									</button>
 								</form>
 							</div>
 						</div>
@@ -118,7 +121,7 @@ input[type=checkbox]:checked {
 					<div class="timeline-body">
 						<p>${vo.contents}</p>
 					</div>
-						<hr>
+					<hr>
 					<div class="timeline-footer">
 						<button class="btn btn-default" title="수정" data-idx="${vo.idx}">
 							<i class="fa fa-pencil"></i>
@@ -127,7 +130,7 @@ input[type=checkbox]:checked {
 							class="fa fa-trash-o"></i>
 						</a>
 					</div>
-				
+
 					<div class="right">
 						<a class="btn btn-default" title="수정" data-toggle="collapse"
 							data-target="#collapseComment${vo.idx}">Comments <i
@@ -138,47 +141,36 @@ input[type=checkbox]:checked {
 					<div class="timeline-footer">
 						<div class="collapse" id="collapseComment${vo.idx}">
 							<div class="box-footer box-comments">
+								
+								<c:forEach var="c" items="${ vo.comment}">
 								<div class="box-comment">
 									<!-- User image -->
-									<img src="/resources/img/user1-128x128.jpg"
-										class="user-image" alt="User Image">
 
 									<div class="comment-text">
-										<span class="username"> Maria Gonzales <span
-											class="text-muted pull-right post_date">2016.08.30</span>
+										<span class="username">  ${c.userName} <span
+											class="text-muted pull-right post_date">${c.date} </span>
 										</span>
 										<!-- /.username -->
-										It is a long established fact that a reader will be distracted
-										by the readable content of a page when looking at its layout.
+									    ${c.contents}
 									</div>
 									<!-- /.comment-text -->
 								</div>
-								<!-- /.box-comment -->
-								<div class="box-comment">
-									<!-- User image -->
-									<img src="/resources/img/user1-128x128.jpg"
-										class="user-image" alt="User Image">
-
-									<div class="comment-text">
-										<span class="username"> Nora Havisham <span
-											class="text-muted pull-right post_date">2016.08.30</span>
-										</span>
-										<!-- /.username -->
-										The point of using Lorem Ipsum is that it has a more-or-less
-										normal distribution of letters, as opposed to using 'Content
-										here, content here', making it look like readable English.
-									</div>
-									<!-- /.comment-text -->
-								</div>
-								<!-- /.box-comment -->
+								</c:forEach>
+								
 							</div>
 							<!-- /.box-footer -->
 							<div class="box-footer">
-								<form action="#" method="post">
-									<div class="img-push">
-										<input type="text" class="form-control input-sm"
-											placeholder="Press enter to post comment">
+							<form action="#" method="post">
+									<div class="img-push"
+										style="display: inline-block; width: 320px">
+										<input type="text" name="comment_contents"class="form-control input-sm"
+											placeholder="Press enter to post comment" >
+
 									</div>
+									<button class="btn btn-default" name=comment
+										data-idx="${vo.idx}">
+										<i class="fa fa-pencil"></i>
+									</button>
 								</form>
 							</div>
 						</div>
@@ -252,8 +244,8 @@ input[type=checkbox]:checked {
 					</h4>
 				</div>
 				<div class="modal-body" style="padding: 40px 50px;">
-					<input type="hidden" id="idx2"> 
-			
+					<input type="hidden" id="idx2">
+
 					<div class="form-group" id="textarea">
 						<textarea id="body2" name="body2" class="smarteditor2"
 							style="width: 100%;"></textarea>
@@ -274,6 +266,31 @@ input[type=checkbox]:checked {
 </div>
 
 <script type="text/javascript">
+$(function() {
+	
+	$("button[name=comment]").click(function(e){
+		e.preventDefault();
+		$.ajax({
+			url : "/BucketTree/bucketTree/commentCreate",
+			type : "GET",
+			sync : false,
+			data : {
+				idx : $(this).attr("data-idx"),
+				contents : $(this).parent().children().children($("input[name=comment_contents]")).val()
+			},
+			success : function() {
+			
+			}
+		});
+		$(this).parent().children().children($("input[name=comment_contents]")).val("");
+	
+              
+	})
+	
+});
+
+
+	
 	$("#tree_add").click(function() {
 		$("#group_timeLine").modal();
 	});
@@ -284,18 +301,16 @@ input[type=checkbox]:checked {
 	$(function() {
 
 		var modify_modal = $('#journal_modify_modal');
-	
-		
-		  
+
 		$(".timeline-footer>button").click(function() {
-			
+
 			var idx = $(this).attr("data-idx");
 			$.ajax({
 				url : "/BucketTree/bucketTree/modify?idx=" + idx,
 				dataType : "json",
 				type : "GET",
 				success : function(data) {
-					oEditors.getById['body2'].exec("SET_CONTENTS", [""]);
+					oEditors.getById['body2'].exec("SET_CONTENTS", [ "" ]);
 					modify_modal.find('#idx2').val(data.idx);
 					htmlData = '<span>' + data.contents + '</span>';
 					oEditors.getById['body2'].exec("PASTE_HTML", [ htmlData ]);
@@ -328,11 +343,11 @@ input[type=checkbox]:checked {
 				url : "/BucketTree/bucketTree/delete",
 				data : {
 					idx : idx,
-				
+
 				},
 				type : "GET",
 				success : function() {
-					
+
 					window.location.reload(true);
 				}
 			});

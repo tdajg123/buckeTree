@@ -16,6 +16,7 @@ import kr.ac.BucketTree.service.BucketListService;
 import kr.ac.BucketTree.service.BucketTreeService;
 import kr.ac.BucketTree.service.BucketTree_MemberService;
 import kr.ac.BucketTree.service.BucketTree_MessageService;
+import kr.ac.BucketTree.service.BucketTree_Message_CommentService;
 import kr.ac.BucketTree.service.CategoryService;
 import kr.ac.BucketTree.service.ImageService;
 import kr.ac.BucketTree.service.Message_ImageService;
@@ -26,6 +27,7 @@ import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketListVO;
 import kr.ac.BucketTree.vo.BucketTreeVO;
 import kr.ac.BucketTree.vo.BucketTree_Message;
+import kr.ac.BucketTree.vo.BucketTree_Message_Comment;
 
 
 @Controller
@@ -50,6 +52,8 @@ public class BucketTreeController {
 	ImageService is;
 	@Autowired 
 	Message_ImageService mi;
+	@Autowired 
+	BucketTree_Message_CommentService bmcs;
 	// 전체목록
 	@RequestMapping(value = "/bucketTree/list")
 	public String list(Model model, Pagination pagination) throws Exception {
@@ -162,9 +166,30 @@ public class BucketTreeController {
 		model = bucketTreeCommon.commonMessenger(model);
 		model.addAttribute("vo",bs.selectByBucketTree(idx));
 		
+		
 		pagination.setRecordCount(bms.listCount(idx));
-		model.addAttribute("list", bms.list(idx, pagination));
-		model.addAttribute("notice", bms.noticeList(idx));
+		
+		
+		List<BucketTree_Message> list=bms.list(idx, pagination);
+		
+		for(BucketTree_Message vo : list)
+		{
+			vo.setComment(bmcs.selectByidx(vo.getIdx()));
+		}
+		List<BucketTree_Message> notice =bms.noticeList(idx);
+		
+		for(BucketTree_Message vo : notice)
+		{
+			vo.setComment(bmcs.selectByidx(vo.getIdx()));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("notice", notice);
+		
+	
+		
+		
 		
 		return "bucketTree/detail";
 	}
@@ -217,5 +242,18 @@ public class BucketTreeController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/bucketTree/commentCreate",method = RequestMethod.GET)
+	public  void delete(Model model, @RequestParam("idx") int idx, @RequestParam("contents") String contents)throws Exception
+	{	
+		BucketTree_Message_Comment bucketTree_Message_Comment=new BucketTree_Message_Comment();
+		bucketTree_Message_Comment.setUser_idx(us.getCurrentUser().getIdx());
+		bucketTree_Message_Comment.setBucketTree_Message_idx(idx);
+		bucketTree_Message_Comment.setContents(contents);
+		
+		
+		bmcs.insert(bucketTree_Message_Comment);
+		
+	}
 	
 }
