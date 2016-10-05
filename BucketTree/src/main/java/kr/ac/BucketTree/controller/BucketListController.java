@@ -340,5 +340,14 @@ public class BucketListController {
 		bls.updateComment(cvo);
 		return cvo;
 	}
+	
+	//버킷리스트 작성시 마이리스트에 타이틀이 존재하는지 체크
+	@ResponseBody
+	@RequestMapping(value="/bucketList/searchMylistTitle", method = RequestMethod.POST)
+	public boolean searchMylistTitle (@RequestParam("title") String title) throws Exception{
+		boolean  a=bls.titleCheck(title, us.getCurrentUser().getIdx() );
+		
+		return a;
+	}
 
 }

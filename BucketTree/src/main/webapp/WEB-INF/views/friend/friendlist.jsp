@@ -5,9 +5,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script>
-	
-	
-	
+		
 	
 	function formChk() {
 		var srchType = $("#search_param").val();
@@ -67,10 +65,10 @@
 
 			},
 			success : function(data) {
-				if (data==true)
-					
+				if (data==true)					
 					alert('찌르기 완료!')
-			
+				else
+					alert("하루 뒤에 가능합니다!")
 			}
 		});
 
@@ -105,9 +103,10 @@
 										},
 										success : function(data) {
 											if (data != "") {
-												$(data)
-														.each(
+												
+												$(data).each(
 																function() {
+																	if(this.image==null){
 																	str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
 																			+ "<div class='square pull-left'>"
 																			+ "<span class='glyphicon glyphicon-info-sign glyphicon-lg'></span>"
@@ -124,7 +123,27 @@
 																			+ "</button>"
 																			+ "</p>"
 																			+ "</div>";
-																})
+																	}else{
+													
+																		str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
+																		+ "<div class='square pull-left' style='padding:0px'>"
+																		+ "<img src='/BucketTree/Friend/"+this.idx+"/profile' style='height:95px'>"
+																		+ "</div>"
+																		+ "<h4>"
+																		+ this.name
+																		+ "</h4>"
+																		+ "<p>"
+																		+ this.email
+																		+ "</p>"
+																		+ "<p id='mbp'>"
+																		+ "<button type='button' class='btn btn-default' aria-label='right Align' id='add' data-idx='"+this.idx+"'>"
+																		+ "<span class='glyphicon glyphicon-plus'></span>"
+																		+ "</button>"
+																		+ "</p>"
+																		+ "</div>";
+																	}
+						
+																	})
 												$('.col-md-6').append(str);
 											} else
 												alert('불러올 데이터가 없습니다')
@@ -209,35 +228,85 @@
 	</div>
 	<hr>
 	<div class="row">
-		<c:forEach items="${list}" var="FriendVO">
+		<div class="col-md-12" id=e${UserVO.idx}>
+		<c:forEach items="${list}" var="UserVO">
 
-			<div class="col-md-6" id=e${FriendVO.idx}>
+			
 
 				<div class="blockquote-box blockquote-info clearfix"
-					data-row="${FriendVO.getRow()}" data-idx="${FriendVO.getIdx()}">
-					<div class="square pull-left" id=i${FriendVO.idx}> 
-					<img src='/BucketTree/FriendList/"+${FriendVO.getIdx()}+"/profile' style='height:100px'>
-					</div>
-					<h4>${FriendVO.name}</h4>
-					<p>${FriendVO.email }</p>
+					data-row="${UserVO.getRow()}" data-idx="${UserVO.getIdx()}" id=e${UserVO.getIdx()}>
+					<c:if test = "${UserVO.getImage() != null }">
+						<div class="square pull-left" style="padding:0px">
+							<img src="/BucketTree/Friend/${UserVO.getIdx()}/profile" style="height:95px">
+						</div>
+					</c:if>
+					<c:if test = "${UserVO.getImage() == null }">
+						<div class="square pull-left">
+							<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
+						</div>
+					</c:if>
+					<h4>${UserVO.name}</h4>
+					<p>${UserVO.email }</p>
 					<p id="mbp">
+					
+						<button type="button" class="btn btn-default"
+							aria-label="right Align" id="recommend"
+							data-idx="${UserVO.getIdx()}" data-target="#layerpop" data-toggle="modal">
+							<span class="glyphicon glyphicon-send" aria-hidden="true"
+								title="버킷추천"></span>
+						</button>				
 						<button type="button" class="btn btn-default"
 							aria-label="right Align" id="lunge"
-							data-idx="${FriendVO.getIdx()}">
+							data-idx="${UserVO.getIdx()}">
 							<span class="glyphicon glyphicon-hand-down" aria-hidden="true"
 								title="친구지목"></span>
 						</button>
 						<button type="button" class="btn btn-default"
 							aria-label="right Align" id="delete"
-							data-idx="${FriendVO.getIdx()}">
+							data-idx="${UserVO.getIdx()}">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"
 								title="친구끊기"></span>
 						</button>
+						
 					</p>
 				</div>
-			</div>
+			
 
 		</c:forEach>
+		</div>
 	</div>
 
 </div>
+
+<div class="modal fade" id="layerpop" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- header -->
+      <div class="modal-header">
+        <!-- 닫기(x) 버튼 -->
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <!-- header title -->
+        <h4 class="modal-title">Header</h4>
+      </div>
+      <!-- body -->
+      <div class="modal-body" style="height:500px;">
+       <table class="table">
+       	<tr>
+       	<td></td><td>제목</td><td>장소</td><td>카테고리</td>
+       	</tr>
+       	<tr>
+       	<td>1</td><td>한달에 책 3권 읽기</td><td>교보문고 광화문점</td><td>혼자,10대,여행</td>
+       	</tr>
+
+       	
+       </table>
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        Footer
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+

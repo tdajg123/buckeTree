@@ -14,7 +14,7 @@ public interface TimelineService {
 	public List<TimelineVO> timelineList(int user_idx);
 
 	// 1. 친구 추가시
-	public void Friendnsert_Timeline(FriendVO fv, UserVO uv);
+	public void Friendnsert_Timeline(UserVO fv, UserVO uv);
 
 	// 2. 버킷리스트 추가시
 	public void BucketInsert_Timeline(BucketListVO blv, UserVO uv);
@@ -29,7 +29,7 @@ public interface TimelineService {
 	public void BucketUpdate_Timeline(BucketListVO blv, UserVO uv);
 
 	// 6. 친구에게 찌름 당했을 시
-	public void FriendPointing_Timeline(FriendVO fv, UserVO uv);
+	public void FriendPointing_Timeline(UserVO fv, UserVO uv);
 
 	// 7. 버킷트리에 가입했을 시
 	public void TreeJoin_Timeline(UserVO uv);
@@ -54,5 +54,8 @@ public interface TimelineService {
 	
 	// 14. 버킷쉐어에 답변한 게 채택되었을 시 O
 	public void TreeCreate_Timeline(int user_idx,String title, String url);
+	
+	// ** 찌르기 시간 체크 (1일 뒤부터 체크 가능)
+	public boolean checkDate(int user_idx,int toUser);
 
 }

@@ -7,7 +7,7 @@ public class TimelineVO {
 	String message;
 	String date;
 	String url;
-	
+	int toUser;
 	
 	public int getIdx() {
 		return idx;
@@ -38,6 +38,12 @@ public class TimelineVO {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public int getToUser() {
+		return toUser;
+	}
+	public void setToUser(int toUser) {
+		this.toUser = toUser;
 	}
 	
 }

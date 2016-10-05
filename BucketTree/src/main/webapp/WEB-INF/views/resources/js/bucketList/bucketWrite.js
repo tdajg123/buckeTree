@@ -128,7 +128,7 @@ function displayPlaces(places) {
 				
          	$('#positionX').val(pom.getLat());
          	$('#positionY').val(pom.getLng());
-         	alert(title)
+         	alert('선택된 장소:'+title)
          	$('#view_keyword').val(title);
          	$('#title2').val(title);
          	$('#view_map').html(title);
@@ -143,6 +143,14 @@ function displayPlaces(places) {
          };
          itemEl.onclick =  function () {
          	position(marker,title);
+         	var pom = marker.getPosition();
+         	alert('선택된 장소:'+title)
+         	$('#view_map').html(title);
+         	$('#view_map').show();
+         	$('#positionX').val(pom.getLat());
+         	$('#positionY').val(pom.getLng());
+         	$('#view_keyword').val(title);
+         	$('#title2').val(title);
          };
 
          itemEl.onmouseout =  function () {
@@ -270,3 +278,13 @@ function removeAllChildNods(el) {
      el.removeChild (el.lastChild);
  }
 }
+
+function resetMap(){
+	$('#view_map').html();
+ 	$('#view_map').hide();
+ 	$('#positionX').val(0);
+ 	$('#positionY').val(0);
+ 	$('#view_keyword').val("");
+ 	$('#title2').val("");
+}
+

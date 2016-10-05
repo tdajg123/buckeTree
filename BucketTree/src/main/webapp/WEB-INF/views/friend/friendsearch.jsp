@@ -146,8 +146,9 @@
 											
 											$(data).each(
 
-															function() {
-																str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
+													function() {
+														if(this.image==null){
+														str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
 																+ "<div class='square pull-left'>"
 																+ "<span class='glyphicon glyphicon-info-sign glyphicon-lg'></span>"
 																+ "</div>"
@@ -163,7 +164,31 @@
 																+ "</button>"
 																+ "</p>"
 																+ "</div>";
-															})
+														}															
+												else{
+												
+														str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
+																+ "<div class='square pull-left'>"
+																+ "<img src='/BucketTree/Friend/"+this.idx+"/profile'>"
+																+ "</div>"
+																+ "<h4>"
+																+ this.name
+																+ "</h4>"
+																+ "<p>"
+																+ this.email
+																+ "</p>"
+																+ "<p id='mbp'>"
+																+ "<button type='button' class='btn btn-default' aria-label='right Align' id='add' data-idx='"+this.idx+"'>"
+																+ "<span class='glyphicon glyphicon-plus'></span>"
+																+ "</button>"
+																+ "</p>"
+																+ "</div>";
+															
+												}
+													}	
+															
+											
+											)
 											$('.col-md-12').append(str);
 										} else
 											alert('불러올 데이터가 없습니다')
@@ -248,23 +273,31 @@
 	<hr>
 	<div class="row">
 		<div class="col-md-12">	
-		<c:forEach items="${list}" var="FriendVO">
+		<c:forEach items="${list}" var="UserVO">
 
 			
 				<div class="blockquote-box blockquote-info clearfix"
-					data-row="${FriendVO.getRow()}" data-idx="${FriendVO.getIdx()}">
-					<div class="square pull-left">
-						<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
-					</div>
-					<h4>${FriendVO.name}</h4>
-					<p>${FriendVO.email }</p>
+					data-row="${UserVO.getRow()}" data-idx="${UserVO.getIdx()}">
+					<c:if test = "${userVO.getImage() != null }">
+						<div class="square pull-left" style="padding:0px">
+							<img src="/BucketTree/Friend/${userVO.getIdx()}/profile" style="height:95px">
+						</div>
+					</c:if>
+					<c:if test = "${userVO.getImage() == null }">
+						<div class="square pull-left">
+							<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
+						</div>
+					</c:if>
+					<h4>${UserVO.name}</h4>
+					<p>${UserVO.email }</p>
 					<p id="mbp">
 						<button type="button" class="btn btn-default"
-							aria-label="right Align" id="add" data-idx="${FriendVO.getIdx()}">
+							aria-label="right Align" id="add" data-idx="${UserVO.getIdx()}">
 							<span class="glyphicon glyphicon-plus"></span>
 						</button>
 					</p>
 				</div>
+				
 			
 		</c:forEach>
 			</div>

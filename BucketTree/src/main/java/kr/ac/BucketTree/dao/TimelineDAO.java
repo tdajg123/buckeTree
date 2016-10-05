@@ -15,4 +15,6 @@ public interface TimelineDAO {
 	// 일지 insert
 	public void insertTimeline(TimelineVO tlv);
 
+	//찌르기 날짜 체크
+	public int checkDate(int user_idx,int toUser);
 }

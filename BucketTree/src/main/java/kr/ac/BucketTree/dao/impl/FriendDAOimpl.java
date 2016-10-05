@@ -33,7 +33,7 @@ public class FriendDAOimpl implements FriendDAO{
 	}
 	// 친구 찾기 검색 목록 ,AJAX 활용
 		@Override
-		public List<FriendVO> FriendSearch(Pagination page,int idx){
+		public List<UserVO> FriendSearch(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);
@@ -41,7 +41,7 @@ public class FriendDAOimpl implements FriendDAO{
 		}
 		//친구 목록 내 검색 , AJAX 활용
 		@Override
-		public List<FriendVO> SearchFriendList(Pagination page,int idx){
+		public List<UserVO> SearchFriendList(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);
@@ -49,7 +49,7 @@ public class FriendDAOimpl implements FriendDAO{
 		}
 		// 친구 찾기 무한스크롤 , AJAX 활용
 		@Override
-		public List<FriendVO> FriendAjaxSearch(Pagination page,int idx){
+		public List<UserVO> FriendAjaxSearch(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);
@@ -77,35 +77,35 @@ public class FriendDAOimpl implements FriendDAO{
 		}
 		//친구 목록
 		@Override
-		public List<FriendVO> FriendList(Pagination page,int idx){
+		public List<UserVO> FriendList(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);
 			return sqlSession.selectList(namespace+".FriendList",input);
 		}
 		//친구 목록 추가 조회 Ajax 활용 (무한 스크롤)
-		public List<FriendVO> FriendListAjax(Pagination page,int idx){
+		public List<UserVO> FriendListAjax(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);
 			return sqlSession.selectList(namespace+".FriendListAjax",input);
 		}
 		//받은 친구 요청 목록
-		public List<FriendVO> FriendRequestList(Pagination page,int idx){
+		public List<UserVO> FriendRequestList(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);
 			return sqlSession.selectList(namespace+".selectRequestFriend",input);
 		}
 		//보낸 친구 요청 목록
-		public List<FriendVO> FriendSendList(Pagination page,int idx){
+		public List<UserVO> FriendSendList(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);
 			return sqlSession.selectList(namespace+".selectSendFriend", input);
 		}
 		//보낸 친구 요청 목록 Ajax 활용
-		public List<FriendVO> FriendSendAjaxList(Pagination page,int idx){
+		public List<UserVO> FriendSendAjaxList(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);
@@ -128,11 +128,11 @@ public class FriendDAOimpl implements FriendDAO{
 			return sqlSession.delete(namespace+".deleteRequestToFriend", friend);
 		}
 		//idx로 친구 조회
-		public FriendVO selectByIdFriend(int idx){
+		public UserVO selectByIdFriend(int idx){
 			return sqlSession.selectOne(namespace+".selectByIdFriend", idx);
 	    }
 		//친구가 아닌 유저 조회
-		public List<FriendVO> UserSearch(Pagination page,int idx){
+		public List<UserVO> UserSearch(Pagination page,int idx){
 			HashMap<String,Object> input=new HashMap<String,Object>();
 			input.put("idx", idx);
 			input.put("p", page);

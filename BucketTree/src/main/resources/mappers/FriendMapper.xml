@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 친구 목록 -->
-	<select id="FriendList" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="FriendList" resultType="kr.ac.BucketTree.vo.UserVO">
 	SELECT* 
 	FROM(
 	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as 행번호
@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--친구 목록 추가 조회 (무한 스크롤)  -->
 	
-	<select id="FriendListAjax" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="FriendListAjax" resultType="kr.ac.BucketTree.vo.UserVO">
 	SELECT* 
 	FROM(
 	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as 행번호
@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	ORDER BY 행번호
 	</select>
 	<!-- 검색된 친구목록 -->
-	<select id="FriendSearch" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="FriendSearch" resultType="kr.ac.BucketTree.vo.UserVO">
 		SELECT * 
 		FROM(
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY row
 	</select>
 	<!-- 친구목록 내 검색 -->
-	<select id="SearchFriendList" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="SearchFriendList" resultType="kr.ac.BucketTree.vo.UserVO">
 		SELECT * 
 		FROM(
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
@@ -88,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 	<!-- 검색된 친구 목록 ajax 조회 (무한 스크롤) -->
-	<select id="FriendAjaxSearch" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="FriendAjaxSearch" resultType="kr.ac.BucketTree.vo.UserVO">
      	SELECT * 
 		FROM(
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
@@ -102,7 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY row
 	</select>
 	<!-- 전송한 친구 요청  ajax 조회 (무한 스크롤)-->
-	<select id="FriendSendAjaxList" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="FriendSendAjaxList" resultType="kr.ac.BucketTree.vo.UserVO">
 	SELECT* 
 	FROM(
 	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
@@ -138,7 +138,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!--받은 친구 요청  목록-->
-	<select id="selectRequestFriend" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="selectRequestFriend" resultType="kr.ac.BucketTree.vo.UserVO">
 	SELECT* 
 	FROM(
 	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
@@ -152,7 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 신청한 친구 요청 목록 -->
-	<select id="selectSendFriend" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="selectSendFriend" resultType="kr.ac.BucketTree.vo.UserVO">
 	SELECT* 
 	FROM(
 	SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
@@ -185,7 +185,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!-- idx로 친구조회 -->
-	<select id="selectByIdFriend" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="selectByIdFriend" resultType="kr.ac.BucketTree.vo.UserVO">
 	SELECT *
 	FROM [USER]
 	WHERE idx=#{idx}
@@ -193,7 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 친구가 아닌 유저 목록 -->
-	<select id="UserSearch" resultType="kr.ac.BucketTree.vo.FriendVO">
+	<select id="UserSearch" resultType="kr.ac.BucketTree.vo.UserVO">
 		SELECT * 
 		FROM(
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
@@ -212,7 +212,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM(
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
 		FROM [User] 
-		where idx not in (SELECT toUser FROM Friend where fromUser=#{idx}))
+		where idx not in (SELECT toUser FROM Friend where fromUser=#{idx})
+		AND idx !=#{idx}
+		) 
 		subquery
 	<![CDATA[
 		WHERE row > #{p.row} AND row <= #{p.row} + #{p.pageSize}

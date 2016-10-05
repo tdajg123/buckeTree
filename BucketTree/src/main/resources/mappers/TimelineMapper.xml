@@ -23,8 +23,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 타임라인 작성 -->
 	<insert id="insertTimeline" useGeneratedKeys="true" keyProperty="idx">
-		INSERT INTO [TIMELINE](USER_IDX,MESSAGE,DATE,URL)
-		VALUES(#{user_idx},#{message},#{date},#{url})
+		INSERT INTO [TIMELINE](USER_IDX,MESSAGE,DATE,URL,toUser)
+		VALUES(#{user_idx},#{message},#{date},#{url},#{toUser})
 	</insert>
-
+	
+	<!-- 찌르기 날짜 체크 -->
+	<select id="checkDate" resultType="int">
+	  SELECT COUNT(1)
+	  FROM(	
+	  SELECT *
+	  FROM TimeLine
+	  WHERE user_idx=#{user_idx} AND toUser=#{toUser}
+	  )subquery
+	  WHERE date+1 >GETDATE()
+	
+	</select>
 </mapper>

@@ -12,7 +12,6 @@
 		$("ul.timeline>li:nth-child(even)").addClass('timeline-inverted');
 	});
 </script>
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -30,6 +29,7 @@
 							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/delete.do'">
 							<i class="fa fa-trash-o"></i>
 						</button>
+						<button class="btn btn-default" data-target="#layerpop" data-toggle="modal">공유</button><br/>
 					</c:if>
 
 				</div>
@@ -376,12 +376,67 @@
 <!-- 지도 모달창 -->
 <div id="popup"
 	style="position: absolute; visibility: hidden; height: 535px; background-color: white; background-color: #f1f6f7; text-align: right">
-	<span style="margin-right: 400px">버킷리스트 장소</span>
+	<span style="margin-right: 400px">버킷리스트 
+</span>
 	<button onclick="popupOpen()">닫기</button>
 	<div id="staticMap" style="width: 1000px; height: 500px;"></div>
 </div>
 <!-- 지도 모달창 종료 -->
 
+<!-- 검색 모달 창 시작 -->
+<div class="modal fade" id="layerpop" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- header -->
+      <div class="modal-header">
+        <!-- 닫기(x) 버튼 -->
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <!-- header title -->
+        <h4 class="modal-title">Header</h4>
+      </div>
+      <!-- body -->
+      <div class="modal-body">
+				<div class="input-group-btn search-panel">
+					<button type="button" class="btn btn-default dropdown-toggle"
+						data-toggle="dropdown">
+						<c:set var="srch" value="${srch}" />
+						<c:choose>
+							<c:when test="${empty srch.getSrchType()}">
+								<span id="search_concept">검색 조건</span>
+								<span class="caret"></span>
+							</c:when>
+							<c:when test="${srch.getSrchType() eq 1}">
+								<span id="search_concept">이름</span>
+								<span class="caret"></span>
+							</c:when>
+							<c:when test="${srch.getSrchType() eq 2}">
+								<span id="search_concept">이메일</span>
+								<span class="caret"></span>
+							</c:when>
+						</c:choose>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a onclick="onclickName()">이름</a></li>
+						<li><a onclick="onclickEmail()">이메일</a></li>
+					</ul>
+				</div>
+				<input type="hidden" name="srchType" value="${srch.getSrchType()}"
+					id="search_param"> <input type="text" class="form-control"
+					name="srchText" value="${srch.getSrchText()}" id="search_text">
+				<span class="input-group-btn">
+					<button class="btn btn-default" id="sub">
+						<span class="glyphicon glyphicon-search" onclick="return false"></span>
+					</button>
+				</span>
+			
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -650,4 +705,48 @@ $(document).on('click', '#addComment', function(){
 	var staticMap = new daum.maps.StaticMap(staticMapContainer, staticMapOption);
 	
 	
+	function onclickName() {
+		$('#search_param').val(1);
+		$('#search_concept').text("이름");
+	}
+	function onclickEmail() {
+		$('#search_param').val(2);
+		$('#search_concept').text("이메일");
+	}
+	
+	
+	$(document).on('click', '#sub', function(){
+		
+		var srchType = $('#search_param').val();
+		var srchText = $('#search_text').val();
+		var str='';
+		jQuery.ajax({
+			
+			url : "/BucketTree/Friend/fRecommendRequestAjax",
+			type : "POST",
+			dataType : "json",
+			data : {sText : srchText,
+					sType : srchType,	},
+			cache: false,
+			success :  function(data) {
+				alert(data)
+				if(data !=""){
+					$(data).each(
+						function(){
+							alert(this.name);
+							str+="<p>"+this.name+"</p>";
+						})
+						//$('.modal-body').html(str);
+	
+								  
+
+					 		 }
+							
+									}
+
+									});
+		
+													}
+
+						);
 </script>

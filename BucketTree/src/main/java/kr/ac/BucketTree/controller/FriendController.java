@@ -71,7 +71,7 @@ public class FriendController {
 			page.setCurrentPage(1);
 			page.setPageSize(10);
 			int idx = user.getIdx();
-			List<FriendVO> list = fs.FriendSearch(page,idx);
+			List<UserVO> list = fs.FriendSearch(page,idx);
 			model=bucketTreeCommon.commonMessenger(model);
 			model.addAttribute("list", list);
 			model.addAttribute("srch", page);
@@ -82,7 +82,7 @@ public class FriendController {
 		public String friendSearchGet(Model model,HttpServletRequest request) {
 			model=bucketTreeCommon.commonMessenger(model);
 			UserVO user = us.getCurrentUser();
-			List<FriendVO> list = new ArrayList();
+			List<UserVO> list = new ArrayList();
 			Pagination page = new Pagination();
 	        page.setCurrentPage(1);
 			page.setPageSize(10);
@@ -93,7 +93,7 @@ public class FriendController {
 		//검색된 친구 목록 추가 로딩(무한 스크롤) , AJAX 활용
 		@ResponseBody
 		@RequestMapping(value="/Friend/searchAjaxFriendList", method = RequestMethod.POST)
-		public List<FriendVO> friendsearchAjaxFriendList (@RequestParam("row") String row,@RequestParam("srchType") String srchType,@RequestParam("srchText") String srchText, HttpServletResponse response, Model model){
+		public List<UserVO> friendsearchAjaxFriendList (@RequestParam("row") String row,@RequestParam("srchType") String srchType,@RequestParam("srchText") String srchText, HttpServletResponse response, Model model){
 			
 			UserVO user =us.getCurrentUser();
 			Pagination page = new Pagination();
@@ -105,12 +105,12 @@ public class FriendController {
 		    page.setRow(rowResult);
 		    page.setPageSize(5);
 		    
-			List<FriendVO> list = fs.FriendAjaxSearch(page,idx);
+			List<UserVO> list = fs.FriendAjaxSearch(page,idx);
 		    return list;
 		}
 		@ResponseBody
 		@RequestMapping(value="/Friend/sendFriendRequestAjaxList", method = RequestMethod.POST)
-		public List<FriendVO> sendRequestAjaxFriendList(@RequestParam("row") String row,@RequestParam("srchType") String srchType,@RequestParam("srchText") String srchText, HttpServletResponse response, Model model){
+		public List<UserVO> sendRequestAjaxFriendList(@RequestParam("row") String row,@RequestParam("srchType") String srchType,@RequestParam("srchText") String srchText, HttpServletResponse response, Model model){
 			System.out.println("무한스크롤:"+row);
 			UserVO user =us.getCurrentUser();
 			Pagination page = new Pagination();
@@ -121,7 +121,7 @@ public class FriendController {
 			page.setSrchText(srchText);
 		    page.setRow(rowResult);
 		    page.setPageSize(5);
-			List<FriendVO> SendAjaxlist = fs.FriendSendAjaxList(page,idx);
+			List<UserVO> SendAjaxlist = fs.FriendSendAjaxList(page,idx);
 		    return SendAjaxlist;
 		}
 		//친구 추가
@@ -167,11 +167,11 @@ public class FriendController {
 			int idx = user.getIdx();
 			page.setPageSize(10);
 			page.setCurrentPage(1);		
-			List<FriendVO> list = fs.FriendList(page,idx);
+			List<UserVO> list = fs.FriendList(page,idx);
 			model.addAttribute("list",list);
 			return "friend/friendlist";
 		}
-		//친구 목록 내 검색
+		//친구 목록 내 검색   
 		@RequestMapping(value = "/Friend/FriendListSearch", method = RequestMethod.POST)
 		public String SearchFriendList(Model model,HttpServletRequest request) {
 			model = bucketTreeCommon.commonMessenger(model);
@@ -184,16 +184,33 @@ public class FriendController {
 			page.setCurrentPage(1);
 			page.setPageSize(10); //사이즈 고민해 볼 것
 			int idx = user.getIdx();
-			List<FriendVO> list = fs.SearchFriendList(page, idx);
-			model=bucketTreeCommon.commonMessenger(model);
+			List<UserVO> list = fs.SearchFriendList(page, idx);
+
 			model.addAttribute("list", list);
 			model.addAttribute("srch", page);
 			return "friend/friendlist";
 		}
+		@ResponseBody         
+		@RequestMapping(value="/Friend/fRecommendRequestAjax", method = RequestMethod.POST)
+		public List<UserVO> fReccommedRequestAjax (HttpServletRequest request,HttpServletResponse response, Model model){
+			System.out.println("컨트롤러 도착함");
+			UserVO user =us.getCurrentUser();
+			int srchType = Integer.parseInt(request.getParameter("sType"));
+			String srchText = request.getParameter("sText");
+			System.out.println(srchType +" aa" + srchText);
+			Pagination page = new Pagination();
+			page.setSrchType(srchType);
+			page.setSrchText(srchText);
+			page.setCurrentPage(1);
+			page.setPageSize(10); //사이즈 고민해 볼 것
+			int idx = user.getIdx();
+			List<UserVO> list = fs.SearchFriendList(page, idx);
+			return list;
+		}
 		//친구 목록 추가 로드 (무한 스크롤), AJAX 활용
 		@ResponseBody
 		@RequestMapping(value="/Friend/FriendListAjax", method = RequestMethod.POST)
-		public List<FriendVO> FriendListAjax (@RequestParam("row") String row,@RequestParam("srchType") String srchType,@RequestParam("srchText") String srchText, HttpServletResponse response, Model model){
+		public List<UserVO> FriendListAjax (@RequestParam("row") String row,@RequestParam("srchType") String srchType,@RequestParam("srchText") String srchText, HttpServletResponse response, Model model){
 			
 			UserVO user =us.getCurrentUser();
 			Pagination page = new Pagination();
@@ -205,7 +222,7 @@ public class FriendController {
 		    page.setRow(rowResult);
 		    page.setPageSize(5);
 		    
-			List<FriendVO> list = fs.FriendListAjax(page, idx);
+			List<UserVO> list = fs.FriendListAjax(page, idx);
 		    return list;
 		}
 		
@@ -217,8 +234,8 @@ public class FriendController {
 			int idx = user.getIdx();
 			page.setCurrentPage(1);
 			page.setPageSize(10);
-			List<FriendVO> rlist = fs.FriendRequestList(page,idx);
-			List<FriendVO> slist = fs.FriendSendList(page,idx);
+			List<UserVO> rlist = fs.FriendRequestList(page,idx);
+			List<UserVO> slist = fs.FriendSendList(page,idx);
 			model.addAttribute("rlist",rlist);
 			model.addAttribute("slist",slist);
 			return "friend/friendrequest";
@@ -250,10 +267,14 @@ public class FriendController {
 			 FriendVO friend = new FriendVO();
 			 friend.setToUser(Integer.parseInt(add_idx));
 			 friend.setFromUser(user.getIdx());
-			 
+			 UserVO fv = fs.selectByIdFriend(Integer.parseInt(add_idx));
+
 			 System.out.println("친구 수락 수행 :"+ add_idx);
 			 fs.FriendRequestFromUpdate(friend);
 			 fs.FriendRequestToUpdate(friend);
+			 //타임라인 두개 등록
+			 ts.Friendnsert_Timeline(fv, user);
+			 ts.Friendnsert_Timeline(user, fv);
 			 
 			return true;
 
@@ -261,11 +282,26 @@ public class FriendController {
 		@ResponseBody
 		@RequestMapping(value ="/friend/lungeFriendAjax",method = RequestMethod.POST)
 		public boolean lungeFriendAjax(@RequestParam("lunge_idx") String lunge_idx,HttpServletResponse response,Model model) throws Exception {
+			//찌른 사람 toUser
+			
 			UserVO uv = us.getCurrentUser();
-			FriendVO fv = fs.selectByIdFriend(Integer.parseInt(lunge_idx));
-			ts.FriendPointing_Timeline(fv, uv);
-			return true;
+			//찔린 사람 UserVO
+			UserVO fv = fs.selectByIdFriend(Integer.parseInt(lunge_idx));
+		 	boolean checkDate = ts.checkDate(fv.getIdx(), uv.getIdx());
+			if(checkDate==false){
+				ts.FriendPointing_Timeline(fv, uv);
+				return true;
+			}
+				
+			
+			return false;	
+			
+			
+			
 		}
+		
+		
+		
 		
 		/* 친구리스트 프로필 이미지 보여주기*/
 		@RequestMapping("Friend/{idx}/profile")
@@ -294,5 +330,7 @@ public class FriendController {
 			return list;
 
 		}
+		
+		
 
 }

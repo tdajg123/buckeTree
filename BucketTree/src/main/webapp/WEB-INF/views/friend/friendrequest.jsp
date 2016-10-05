@@ -157,21 +157,21 @@
 					<c:if test="${empty rlist}">
 						<h3>새로운 친구요청 없음</h3>
 					</c:if>
-					<c:forEach items="${rlist}" var="FriendVO">
+					<c:forEach items="${rlist}" var="UserVO">
 						<div class="blockquote-box blockquote-info clearfix"
-							data-num="${FriendVO.getRow()}" id="${FriendVO.getIdx()}">
+							data-num="${UserVO.getRow()}" id="${UserVO.getIdx()}" style="width:100%">
 							<div class="square pull-left">
 								<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
 							</div>
-							<h4>${FriendVO.name}</h4>
-							<p>${FriendVO.email }</p>
+							<h4>${UserVO.name}</h4>
+							<p>${UserVO.email }</p>
 							<p id="mbp">
 								<button type="button" class="btn btn-default"
 									aria-label="right Align" id="addFriend"
-									data-idx="${FriendVO.getIdx()}">확인</button>
+									data-idx="${UserVO.getIdx()}">확인</button>
 								<button type="button" class="btn btn-default"
 									aria-label="right Align" id="deleteRequest"
-									data-idx="${FriendVO.getIdx()}">거절</button>
+									data-idx="${UserVO.getIdx()}">거절</button>
 							</p>
 						</div>
 					</c:forEach>
@@ -191,18 +191,25 @@
 					<c:if test="${empty slist}">
 						<h3>새로운 친구요청 없음</h3>
 					</c:if>
-					<c:forEach items="${slist}" var="FriendVO">
+					<c:forEach items="${slist}" var="UserVO">
 						<div class="blockquote-box blockquote-info clearfix"
-							data-num="${FriendVO.getRow()}" id="${FriendVO.getIdx()}">
-							<div class="square pull-left">
-								<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
-							</div>
-							<h4>${FriendVO.name}</h4>
-							<p>${FriendVO.email }</p>
+							data-num="${UserVO.getRow()}" id="${UserVO.getIdx()}" style="width:100%">
+							<c:if test = "${UserVO.getImage() != null }">
+						<div class="square pull-left" style="padding:0px">
+							<img src="/BucketTree/Friend/${UserVO.getIdx()}/profile" style="height:95px"> 
+						</div>
+					</c:if>
+					<c:if test = "${UserVO.getImage() == null }">
+						<div class="square pull-left">
+							<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
+						</div>
+					</c:if>
+							<h4>${UserVO.name}</h4>
+							<p>${UserVO.email }</p>
 							<p id="mbp">
 								<button type="button" class="btn btn-default"
 									aria-label="right Align" id="deleteRequest"
-									data-idx="${FriendVO.getIdx()}">요청 취소</button>
+									data-idx="${UserVO.getIdx()}">요청 취소</button>
 							</p>
 						</div>
 					</c:forEach>

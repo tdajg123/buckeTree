@@ -29,23 +29,23 @@ public class FriendServiceimpl implements FriendService{
 	
 	//친구 검색 목록
 		@Override
-		public List<FriendVO> FriendSearch(Pagination page,int idx){
+		public List<UserVO> FriendSearch(Pagination page,int idx){
 			
 			return dao.FriendSearch(page,idx);
 		}
 		//ajax 를 활용한 친구 검색 목록
 		@Override
-		public List<FriendVO> FriendAjaxSearch(Pagination page,int idx){
+		public List<UserVO> FriendAjaxSearch(Pagination page,int idx){
 			return dao.FriendAjaxSearch(page,idx);
 		}
 		//ajax를 활용한 전송한 친구 찾기 내 검색 목록 추가 요청
 		@Override
-		public List<FriendVO> FriendSendAjaxList(Pagination page,int idx){
+		public List<UserVO> FriendSendAjaxList(Pagination page,int idx){
 			return dao.FriendSendAjaxList(page,idx);
 		}
 		//ajax를 활용한 친구 목록 내 검색
 		@Override
-		public List<FriendVO> SearchFriendList(Pagination page,int idx){
+		public List<UserVO> SearchFriendList(Pagination page,int idx){
 			return dao.SearchFriendList(page, idx);
 		}
 		//친구 요청 from  > to
@@ -70,22 +70,22 @@ public class FriendServiceimpl implements FriendService{
 		}
 		//친구 목록
 		@Override
-		public List<FriendVO> FriendList(Pagination page,int idx){
+		public List<UserVO> FriendList(Pagination page,int idx){
 			return dao.FriendList(page,idx);
 		}
 		//친구 목록 추가 조회 , ajax 활용
 		@Override
-		public List<FriendVO> FriendListAjax(Pagination page,int idx){
+		public List<UserVO> FriendListAjax(Pagination page,int idx){
 			return dao.FriendListAjax(page, idx);
 		}
 		//받은 친구 요청
 		@Override
-		public List<FriendVO> FriendRequestList(Pagination page,int idx){
+		public List<UserVO> FriendRequestList(Pagination page,int idx){
 			return dao.FriendRequestList(page,idx);
 		}
 		//보낸 친구 요청
 		@Override
-		public List<FriendVO> FriendSendList(Pagination page,int idx){
+		public List<UserVO> FriendSendList(Pagination page,int idx){
 			return dao.FriendSendList(page,idx);
 		}
 		//친구 수락 from > to
@@ -110,13 +110,13 @@ public class FriendServiceimpl implements FriendService{
 		}
 		//idx로 친구 조회
 		@Override
-		public FriendVO selectByIdFriend(int idx){
+		public UserVO selectByIdFriend(int idx){
 			return dao.selectByIdFriend(idx);
 		}
 		
 		//친구가 아닌 유저 조회
 		@Override
-		public List<FriendVO> UserSearch(Pagination page,int idx){
+		public List<UserVO> UserSearch(Pagination page,int idx){
 			return dao.UserSearch(page, idx);
 		}
 		//친구가 아닌 유저 조회 Ajax

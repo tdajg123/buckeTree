@@ -37,13 +37,14 @@ public class TimelineServiceimpl implements TimelineService {
 
 	// 1. 친구 추가시
 	@Override
-	public void Friendnsert_Timeline(FriendVO fv, UserVO uv) {
+	public void Friendnsert_Timeline(UserVO fv, UserVO uv) {
 		// TODO Auto-generated method stub
 
 		TimelineVO tv = new TimelineVO();
 
 		// user idx 삽입
 		tv.setUser_idx(uv.getIdx());
+		tv.setToUser(fv.getIdx());
 
 		// 친구 이름 삽입
 		String friend_name = fv.getName();
@@ -166,7 +167,7 @@ public class TimelineServiceimpl implements TimelineService {
 
 	// 6. 친구에게 찌름 당했을 시
 	@Override
-	public void FriendPointing_Timeline(FriendVO fv, UserVO uv) {
+	public void FriendPointing_Timeline(UserVO fv, UserVO uv) {
 		// TODO Auto-generated method stub
 
 		TimelineVO tv = new TimelineVO();
@@ -181,6 +182,7 @@ public class TimelineServiceimpl implements TimelineService {
 
 		// 현재 시간 삽입
 		tv.setDate(stime);
+		tv.setToUser(uv.getIdx());
 
 		// url 삽입
 		String url = "/BucketTree/";
@@ -259,6 +261,7 @@ public class TimelineServiceimpl implements TimelineService {
 		tv.setDate(stime);
 
 		// url 삽입
+		
 		String url = "/BucketTree/";
 		tv.setUrl(url);
 
@@ -383,5 +386,12 @@ public class TimelineServiceimpl implements TimelineService {
 		dao.insertTimeline(tv);
 		
 	}
+	
+	@Override
+	public boolean checkDate(int user_idx,int toUser){
+		int result = dao.checkDate(user_idx, toUser);
+		return result>0;
+	}
+	
 
 }

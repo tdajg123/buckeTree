@@ -1,5 +1,6 @@
 package kr.ac.BucketTree.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -39,5 +40,12 @@ public class TimelineDAOimpl implements TimelineDAO {
 		// TODO Auto-generated method stub
 		sqlSession.insert(namespace + ".insertTimeline", tlv);
 	}
-
+	
+	@Override
+	public int checkDate(int user_idx,int toUser){
+		TimelineVO ti = new TimelineVO();
+		ti.setUser_idx(user_idx);
+		ti.setToUser(toUser);
+		return sqlSession.selectOne(namespace +".checkDate",ti);
+	}
 }

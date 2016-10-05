@@ -13,7 +13,7 @@
 	<div class="box-group" id="accordion"
 		style="height: 900px; width: 1200px; padding-top: 100px;">
 		<div class="panel box box-primary">
-			<form action="/BucketTree/bucketList/bucketCreate" method="post" enctype="multipart/form-data">
+			<form name="formData" action="/BucketTree/bucketList/bucketCreate" method="post" enctype="multipart/form-data" onsubmit="formChk();return false;">
 				<div class="modal-header" style="padding: 15px 50px;">
 
 					<!-- 제목 -->
@@ -25,7 +25,7 @@
 					<!-- 제목 -->
 					<div class="form-group">
 						<input type="text" class="form-control" name="title"
-							placeholder="Title">
+							placeholder="Title" id="title">
 					</div>
 					<!--버킷리스트 지정-->
 					<div class="form-group">
@@ -101,7 +101,7 @@
     </div>
 </div>
 <span style="color:#48cfc8; margin-right:560px">마커나 검색 목록을 클릭하여 선택하세요</span>
-<input type="button" onclick="" class="btn btn-default" value="초기화"/>
+<input type="button" onclick="resetMap()" class="btn btn-default" value="초기화"/>
 <input type="button" class="btn btn-default" onclick="popupOpen()" value="확인" style="margin-left:5px">
 </div>
 <!-- 지도 모달창 종료 -->
@@ -218,5 +218,33 @@
 	});
 	
 	$('#view_map').hide();
+	
+	
+	function formChk() {
+	
+		var inputTitle = $('#title').val();
+		  $.ajax({
+			  
+              url : "/BucketTree/bucketList/searchMylistTitle",
+              dataType : "json",
+              type : "POST",
+              sync :false,
+              data :{title: inputTitle},
+              success : function(data) {
+			
+			
+             		if(true==data)
+             			{
+             			  alert('이미 같은 이름의 버킷리스트가 있습니다');
+             				return false;
+             			}
+             		else{
+             			document.formData.submit();
+            			return true;
+             		}
+              }
+		  })
+		  };
+		
 </script>
 <script type="text/javascript"	src="/BucketTree/js/bucketList/bucketWrite.js"></script>
