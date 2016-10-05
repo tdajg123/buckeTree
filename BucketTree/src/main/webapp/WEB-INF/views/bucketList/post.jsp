@@ -29,7 +29,6 @@
 							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/delete.do'">
 							<i class="fa fa-trash-o"></i>
 						</button>
-						<button class="btn btn-default" data-target="#layerpop" data-toggle="modal">공유</button><br/>
 					</c:if>
 
 				</div>
