@@ -1,5 +1,7 @@
 package kr.ac.BucketTree.dao.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,6 +29,17 @@ public class Journal_ImageDAOimpl implements Journal_ImageDAO {
 	public void deleteByJournal_idx(int journal_idx) {
 		// TODO Auto-generated method stub
 		sqlSession.delete(namespace + ".deleteByJournal_Idx", journal_idx);
+
+	}
+
+	@Override
+	public List<Journal_ImageVO> selectByBucket_idx(int bucket_idx) {
+		// TODO Auto-generated method stub
+		if (sqlSession.selectList(namespace + ".selectByBucket_Idx", bucket_idx) == null) {
+			return null;
+		} else {
+			return sqlSession.selectList(namespace + ".selectByBucket_Idx", bucket_idx);
+		}
 
 	}
 

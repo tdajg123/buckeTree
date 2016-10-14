@@ -8,10 +8,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 타임라인 목록 -->
 	<select id="timelineList" resultType="kr.ac.BucketTree.vo.TimelineVO">
-		SELECT * ,ROW_NUMBER() OVER
-		(ORDER BY DATE DESC) AS ROW
+
+		SELECT * FROM
+		(
+		SELECT * ,ROW_NUMBER() OVER(ORDER BY DATE DESC) AS ROW
 		FROM [TimeLine]
-		WHERE USER_IDX = #{user_idx}
+		WHERE
+		USER_IDX = #{user_idx}
+		)SUBQUERY
+		<![CDATA[
+			WHERE ROW>(#{p.currentPage}-1) * #{p.pageSize} AND ROW <= #{p.currentPage} * #{p.pageSize}
+		]]>
+		ORDER BY ROW
+
 	</select>
 
 	<!-- 타임라인 select -->

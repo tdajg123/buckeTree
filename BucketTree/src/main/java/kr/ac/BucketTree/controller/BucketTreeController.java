@@ -263,18 +263,40 @@ public class BucketTreeController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/bucketTree/commentCreate",method = RequestMethod.GET)
-	public  void delete(Model model, @RequestParam("idx") int idx, @RequestParam("contents") String contents)throws Exception
-	{	
-		BucketTree_Message_Comment bucketTree_Message_Comment=new BucketTree_Message_Comment();
+	@RequestMapping(value = "/bucketTree/commentCreate", method = RequestMethod.GET)
+	public void commentCreate(Model model, @RequestParam("idx") int idx, @RequestParam("contents") String contents)
+			throws Exception {
+		model = bucketTreeCommon.commonMessenger(model);
+		BucketTree_Message_Comment bucketTree_Message_Comment = new BucketTree_Message_Comment();
 		bucketTree_Message_Comment.setUser_idx(us.getCurrentUser().getIdx());
 		bucketTree_Message_Comment.setBucketTree_Message_idx(idx);
 		bucketTree_Message_Comment.setContents(contents);
-		
-		
+
 		bmcs.insert(bucketTree_Message_Comment);
-		
+
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "/bucketTree/commentModify", method = RequestMethod.GET)
+	public void commentModify(Model model, @RequestParam("idx") int idx, @RequestParam("contents") String contents)
+			throws Exception {
+		model = bucketTreeCommon.commonMessenger(model);
+		
+		BucketTree_Message_Comment bucketTree_Message_Comment = new BucketTree_Message_Comment();
+		bucketTree_Message_Comment.setUser_idx(us.getCurrentUser().getIdx());
+		bucketTree_Message_Comment.setIdx(idx);
+		bucketTree_Message_Comment.setContents(contents);
+
+		bmcs.update(bucketTree_Message_Comment);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/bucketTree/commentDelete", method = RequestMethod.GET)
+	public void commentDelete(Model model, @RequestParam("idx") int idx) throws Exception {
+		model = bucketTreeCommon.commonMessenger(model);
+		bmcs.delete(idx);
+	}
+
 	
 	/*스마트에디터 사용 - 이미지 업로드*/
 	@RequestMapping("/tree/{idx}/image")

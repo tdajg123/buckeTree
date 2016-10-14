@@ -91,9 +91,21 @@
 
 	<!-- ##Mypage-프로필 파일 업로드를 위한 context 환경 설정 추가## -->
 	<bean id="multipartResolver"
-        class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-    </bean>
+		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</bean>
 
 
+	<!-- ITEXT -->
+	<!-- ViewResolver 설정 -->
+	<bean id="beanNameViewResolver"
+		class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		p:order="1" />
+
+	<bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:order="2" p:prefix="/WEB-INF/views/" p:suffix=".jsp"></bean>
+
+	<!-- itext bean 설정 -->
+	<bean id="pdfDownload" class="kr.ac.BucketTree.util.PdfDownloadView"></bean>
 
 </beans>

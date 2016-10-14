@@ -9,6 +9,5 @@ public interface BucketTree_Message_CommentService {
 	public List<BucketTree_Message_Comment> selectByidx(int idx);
 	public void insert(BucketTree_Message_Comment BucketTree_Message_Comment);
 	public void update(BucketTree_Message_Comment BucketTree_Message_Comment);
-	public void delete(int idx);
-	
+	public void delete(int idx);	
 }

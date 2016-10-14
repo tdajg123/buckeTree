@@ -16,5 +16,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 		JOURNAL_IDX=#{journal_idx}
 	</delete>
+	
+	<select id="selectByBucket_Idx" resultType="kr.ac.BucketTree.vo.Journal_ImageVO">
+		SELECT *
+		FROM
+		Journal_Image
+		WHERE journal_idx IN
+		(
+		SELECT idx
+		FROM BucketList_Journal
+		WHERE bucket_idx=#{bucket_idx}
+		)
+	</select>
 
 </mapper>
