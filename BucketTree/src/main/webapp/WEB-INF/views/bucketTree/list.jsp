@@ -72,9 +72,13 @@
 			<c:forEach items="${list}" var="BucketTreeVO">
 				<article data-id="${BucketTreeVO.idx}" class="white-panel"
 					style="width: 260px">
-
-					<img src="/BucketTree/images/image7.jpg" alt=""
-						style="width: 260px">
+					
+					<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do">
+						<c:if test="${BucketTreeVO.imageIdx != 0 }">
+							<img src="/BucketTree/tree/${BucketTreeVO.imageIdx}/image">
+						</c:if>
+					</a>
+					
 					<h4>
 						<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
 					</h4>
@@ -149,7 +153,9 @@
 <script>
 $(function() {
 	
-	
+	$(document).on("click","article",function(){
+		location.href="/BucketTree/bucketTree/detail?idx="+$(this).attr("data-id");
+	});
 
 	$(".bs-calltoaction").click(function() { location.href = $(this).attr("data-url"); });
 	

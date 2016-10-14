@@ -1,16 +1,25 @@
 package kr.ac.BucketTree.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ac.BucketTree.service.BucketListService;
 import kr.ac.BucketTree.service.BucketTreeService;
@@ -28,6 +37,7 @@ import kr.ac.BucketTree.vo.BucketListVO;
 import kr.ac.BucketTree.vo.BucketTreeVO;
 import kr.ac.BucketTree.vo.BucketTree_Message;
 import kr.ac.BucketTree.vo.BucketTree_Message_Comment;
+import kr.ac.BucketTree.vo.ImageVO;
 
 
 @Controller
@@ -66,6 +76,13 @@ public class BucketTreeController {
 		model.addAttribute("list",bs.selectPage(pagination, us.getCurrentUser().getIdx()) );
 		model.addAttribute("pageCount",pagination.getRecordCount()/pagination.getPageSize()+1);
 		return "bucketTree/list";
+	}
+	
+	@RequestMapping("/bucketTree/{idx}/tree.do")
+	public String treeList(@PathVariable("idx") int idx, Model model) throws Exception {
+		model = bucketTreeCommon.commonMessenger(model);
+
+		return "bucketTree/detail";
 	}
 	
 	//ajax로 가져올 데이터
@@ -146,6 +163,9 @@ public class BucketTreeController {
 		bucketTreeVO.setMember_num(5);;
 		bucketTreeVO.setUser_idx(us.getCurrentUser().getIdx());
 		bs.insert(bucketTreeVO);
+		bs.updateTreeImage(bucketTreeVO);
+		is.deleteOrphan();
+		
 		//멤버에 추가되야함
 		btms.apply(bucketTreeVO.getIdx(), us.getCurrentUser().getIdx(),2);
 		//2 버킷리스트에 TREE_IDX 지정
@@ -256,4 +276,126 @@ public class BucketTreeController {
 		
 	}
 	
+	/*스마트에디터 사용 - 이미지 업로드*/
+	@RequestMapping("/tree/{idx}/image")
+	public void image(@PathVariable("idx") int idx, HttpServletResponse response) throws Exception {
+
+		ImageVO image = is.selectByIdx(idx);
+		if (image == null)
+			return;
+		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
+		response.setContentType(image.getMimeType());
+		response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+			output.write(image.getData());
+		}
+	}
+
+	@RequestMapping(value = "/tree/smartEditorUpload", method = RequestMethod.POST)
+	public String photoUpload(@RequestParam("callback") String callback,
+			@RequestParam("callback_func") String callback_func, @RequestParam("Filedata") MultipartFile uploadedFile)
+			throws Exception {
+		String r;
+		String fname = Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString();
+		if (uploadedFile.getSize() > 0) {
+			ImageVO image = new ImageVO();
+			image.setFileName(fname);
+			image.setFileSize((int) uploadedFile.getSize());
+			image.setData(uploadedFile.getBytes());
+			is.insertImage(image);
+			r = "&bNewLine=true&sFileName=" + fname + "&sFileURL=/BucketTree/bucket/" + image.getIdx() + "/image";
+		} else
+			r = "&errstr=" + fname;
+		String url = callback + "?callback_func=" + callback_func + r;
+		return "redirect:" + url;
+	}
+
+	@RequestMapping(value = "/tree/smartEditorUpload5", method = RequestMethod.POST)
+	public void multiplePhotoUpload(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String fileName = request.getHeader("file-name");
+
+			int fileSize = Integer.parseInt(request.getHeader("file-size"));
+			InputStream input = request.getInputStream();
+			int count = 0;
+			byte[] data = new byte[fileSize];
+			while (count < fileSize)
+				count += input.read(data, count, data.length - count);
+			ImageVO image = new ImageVO();
+			image.setFileName(fileName);
+			image.setFileSize(fileSize);
+			image.setData(data);
+			is.insertImage(image);
+			String s = "&bNewLine=true&sFileName=" + fileName;
+			s += "&sFileURL=/BucketTree/bucket/" + image.getIdx() + "/image";
+			PrintWriter out = response.getWriter();
+			out.print(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*스마트에디터 이미지 부분 끝*/
+	
+	
+	
+	
+//	
+//	@RequestMapping("/mytree/{idx}/image")
+//	public void myimage(@PathVariable("idx") int idx, HttpServletResponse response) throws Exception {
+//
+//		ImageVO image = is.selectByIdx(idx);
+//		if (image == null)
+//			return;
+//		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
+//		response.setContentType(image.getMimeType());
+//		response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+//		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+//			output.write(image.getData());
+//		}
+//	}
+//
+//	@RequestMapping(value = "/mytree/smartEditorUpload", method = RequestMethod.POST)
+//	public String myphotoUpload(@RequestParam("callback") String callback,
+//			@RequestParam("callback_func") String callback_func, @RequestParam("Filedata") MultipartFile uploadedFile)
+//			throws Exception {
+//		String r;
+//		String fname = Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString();
+//		if (uploadedFile.getSize() > 0) {
+//			ImageVO image = new ImageVO();
+//			image.setFileName(fname);
+//			image.setFileSize((int) uploadedFile.getSize());
+//			image.setData(uploadedFile.getBytes());
+//			is.insertImage(image);
+//			r = "&bNewLine=true&sFileName=" + fname + "&sFileURL=/BucketTree/bucket/" + image.getIdx() + "/image";
+//		} else
+//			r = "&errstr=" + fname;
+//		String url = callback + "?callback_func=" + callback_func + r;
+//		return "redirect:" + url;
+//	}
+//
+//	@RequestMapping(value = "/mytree/smartEditorUpload5", method = RequestMethod.POST)
+//	public void mymultiplePhotoUpload(HttpServletRequest request, HttpServletResponse response) {
+//		try {
+//			String fileName = request.getHeader("file-name");
+//
+//			int fileSize = Integer.parseInt(request.getHeader("file-size"));
+//			InputStream input = request.getInputStream();
+//			int count = 0;
+//			byte[] data = new byte[fileSize];
+//			while (count < fileSize)
+//				count += input.read(data, count, data.length - count);
+//			ImageVO image = new ImageVO();
+//			image.setFileName(fileName);
+//			image.setFileSize(fileSize);
+//			image.setData(data);
+//			is.insertImage(image);
+//			String s = "&bNewLine=true&sFileName=" + fileName;
+//			s += "&sFileURL=/BucketTree/bucket/" + image.getIdx() + "/image";
+//			PrintWriter out = response.getWriter();
+//			out.print(s);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

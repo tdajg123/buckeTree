@@ -16,7 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY bl.count desc)/*버킷트리에 지정된 좋아요갯수*/
 		END 행번호, 
 		(select state from BucketTree_Member where user_idx= #{user_idx}  and  bucketTree_idx =b.idx) as 'regist',
-		(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
+		(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current',
+		(select top 1 idx from image where idx IN (SELECT image_idx FROM BucketList_Image where bucket_idx=b.bucketList_idx)) as 'imageIdx'
 		FROM [BucketTree] b join [User] u
 		ON b.user_idx=u.idx
 		JOIN [BucketList] bl
@@ -198,5 +199,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			from BucketTree   
 			where idx=#{idx};	   
 	</select>
+	
+	<insert id="insertTree_Image">
+		INSERT INTO BucketTree_Image
+		VALUES(#{tree_idx}, #{image_idx})
+	</insert>
+
+	<delete id="deleteByTree_Idx">
+		DELETE BucketTree_image
+		WHERE
+		TREE_IDX = #{tree_idx}
+	</delete>
 
 </mapper>

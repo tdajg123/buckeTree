@@ -8,6 +8,28 @@ input[type=checkbox]:checked {
 	border: 1px solid gray;
 }
 </style>
+
+<!-- 트리장만 볼 수 있는 관리 메뉴 탭 -->
+<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
+
+	<nav class="navbar navbar-default" role="navigation"
+		style="width: 200px">
+
+		<!-- Main Menu -->
+		<div class="side-menu-container">
+		
+		<%-- <c if --%>
+			<ul class="nav navbar-nav">
+
+				<li><a href="/BucketTree/bucketTree/treeAdmin"> 트리관리 <span
+						class="fa fa-angle-right f_right"></span></a></li>
+				<li><a href="/BucketTree/bucketTree/memberAdmin">회원관리 <span
+						class="fa fa-angle-right f_right"></span></a></li>
+			</ul>
+		</div>
+	</nav>
+</div>
+
 <!-- 댓글부분 수정해야함 -->
 <div class="container">
 

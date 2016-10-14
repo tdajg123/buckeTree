@@ -14,6 +14,7 @@ public class BucketTreeVO {
 	int  regist;
 	int current;
 	String title;
+	int imageIdx;
 	
 	public String getTitle() {
 		return title;
@@ -96,7 +97,12 @@ public class BucketTreeVO {
 		this.current = current;
 	}
 	
-	
+	public int getImageIdx() {
+		return imageIdx;
+	}
+	public void setImageIdx(int imageIdx) {
+		this.imageIdx = imageIdx;
+	}
 	
 
 }
