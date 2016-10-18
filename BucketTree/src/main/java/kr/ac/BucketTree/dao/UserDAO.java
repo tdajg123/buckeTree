@@ -3,6 +3,7 @@ package kr.ac.BucketTree.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.PointVO;
 import kr.ac.BucketTree.vo.UserVO;
 
@@ -52,4 +53,8 @@ public interface UserDAO {
 	
 	public int sumPoint(int user_idx) throws Exception;
 	
+	//유저목록 전체 출력
+	public List<UserVO> userSelectAll(Pagination pagination); 
+	
+	public int selectCount(Pagination pagination);
 }

@@ -29,8 +29,23 @@
 							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/delete.do'">
 							<i class="fa fa-trash-o"></i>
 						</button>
+						<button class="btn btn-default" data-target="#layerpop" data-toggle="modal" style="width:60px; height:30px">추천</button><br/>
 					</c:if>
-
+					
+					<c:set var="check3" value="${user.type}" />
+					<c:set var="check4" value="관리자" />
+					<c:if test="${check3 eq check4}">
+						<button class="btn btn-default" title="수정"
+							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/edit.do'">
+							<i class="fa fa-pencil"></i>
+						</button>
+						<button class="btn btn-default" title="삭제"
+							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/delete.do'">
+							<i class="fa fa-trash-o"></i>
+						</button>
+						<button class="btn btn-default" data-target="#layerpop" data-toggle="modal" style="width:60px; height:30px">추천</button><br/>
+					</c:if>
+					
 				</div>
 				<div class="x_title">
 					<h2>${bucket.title}</h2>
@@ -41,10 +56,13 @@
 
 					<div class="right">
 						<span class="tag">${ctlist.get(0).who}</span> <span class="tag">${ctlist.get(1).when}</span>
-						<span class="tag">${ctlist.get(2).what}</span> <span class="tag"
-							onclick="popupOpen()">버킷 장소</span> <input type="hidden"
-							id="positionX" value="${bucket.x}"> <input type="hidden"
-							id="positionY" value="${bucket.y}">
+						<span class="tag">${ctlist.get(2).what}</span> 
+						<c:set var="checkMap" value="${bucket.x}" />
+						<c:if test="${checkMap ne 0}">
+						<span class="tag" onclick="popupOpen()">버킷 장소</span>
+						</c:if> 
+						<input type="hidden" id="positionX" value="${bucket.x}"> 
+						<input type="hidden" id="positionY" value="${bucket.y}">
 					</div>
 
 				</div>
@@ -263,7 +281,7 @@
 									</span>
 								</div>
 							</div>
-							<input type="hidden" name="bidx" value="${bucket.idx }">
+							<input type="hidden" id="bidx" name="bidx" value="${bucket.idx }">
 							<input name="author" type="checkBox" id="check" value="1"
 								style="width: 20px; height: 20px">작성자만
 
@@ -391,7 +409,7 @@
         <!-- 닫기(x) 버튼 -->
         <button type="button" class="close" data-dismiss="modal">×</button>
         <!-- header title -->
-        <h4 class="modal-title">Header</h4>
+        <h4 class="modal-title">버킷 친구 추천</h4>
       </div>
       <!-- body -->
       <div class="modal-body">
@@ -418,23 +436,28 @@
 						<li><a onclick="onclickName()">이름</a></li>
 						<li><a onclick="onclickEmail()">이메일</a></li>
 					</ul>
-				</div>
 				<input type="hidden" name="srchType" value="${srch.getSrchType()}"
 					id="search_param"> <input type="text" class="form-control"
-					name="srchText" value="${srch.getSrchText()}" id="search_text">
-				<span class="input-group-btn">
+					name="srchText" value="${srch.getSrchText()}" id="search_text"
+					style="display:inline; width:430px; vertical-align:middle">
+				<span class="input-group-btn" style="display:inline">
 					<button class="btn btn-default" id="sub">
 						<span class="glyphicon glyphicon-search" onclick="return false"></span>
 					</button>
 				</span>
+				</div>
+				<table class="table" style="margin-top:30px">
+				
+				</table>
 			
       </div>
       <!-- Footer -->
       <div class="modal-footer">
+      	<span style="margin-right:330px">추천할 친구를 선택해주세요</span>
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
       </div>
     </div>
-  </div>
+    </div>
 </div>
 
 
@@ -718,7 +741,9 @@ $(document).on('click', '#addComment', function(){
 		
 		var srchType = $('#search_param').val();
 		var srchText = $('#search_text').val();
+
 		var str='';
+		var table="<tr><td>이름</td><td>이메일</td><td style='text-align:center'>추천</td></tr>";
 		jQuery.ajax({
 			
 			url : "/BucketTree/Friend/fRecommendRequestAjax",
@@ -728,24 +753,49 @@ $(document).on('click', '#addComment', function(){
 					sType : srchType,	},
 			cache: false,
 			success :  function(data) {
-				alert(data)
 				if(data !=""){
 					$(data).each(
 						function(){
-							alert(this.name);
-							str+="<p>"+this.name+"</p>";
+							str+="<tr data-idx='"+this.idx+"'><td>"+this.name+"</td>"
+							+"<td>"+this.email+"</td>"
+							+"<td style='text-align:center'><button class='btn btn-default' id='rec' data-idx='"+this.idx+"'>추천하기</button></td></tr>"
+							;
 						})
-						//$('.modal-body').html(str);
-	
-								  
-
-					 		 }
-							
+						$('.table').html(table);
+						$('.table').append(str);
+					 		 }else{
+					 			 alert('검색 결과가 없습니다')
+					 		 }						
 									}
 
-									});
-		
+									});		
 													}
-
 						);
+	//친구 추천 ajax
+	$(document).on('click', '#rec', function() {
+		var evnetTarget = this;
+		var eventIdx = $(this).attr('data-idx');
+		var bidx = $('#bidx').val();
+
+		jQuery.ajax({
+			method : "POST",
+			url : "/BucketTree/bucketList/friendRecommendAjax",
+			type : "JSON",
+			data : {
+				friendIdx : eventIdx,
+				bidx : bidx,
+			},
+			success : function(data) {
+				if (data == true) {
+					alert('추천이 완료되었습니다')
+				}else{
+					alert('이미 추천되었습니다')
+				}
+				
+			}
+
+		});
+
+	});
+	
 </script>

@@ -123,7 +123,7 @@
     </div>
 </div>
 <span style="color:#48cfc8; margin-right:560px">마커나 검색 목록을 클릭하여 선택하세요</span>
-<input type="button" onclick="" class="btn btn-default" value="초기화"/>
+<input type="button" onclick="resetMap()" class="btn btn-default" value="초기화"/>
 <input type="button" class="btn btn-default" onclick="popupOpen()" value="확인" style="margin-left:5px">
 </div>
 <!-- 지도 모달창 종료 -->

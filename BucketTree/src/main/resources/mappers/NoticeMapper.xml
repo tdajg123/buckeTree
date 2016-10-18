@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.BucketTree.NoticeMapper">
+
+	<insert id="createNotice" useGeneratedKeys="true"
+		keyProperty="idx">
+	
+		INSERT INTO NOTICE VALUES(#{title},#{contents},getDate(),#{user_idx})
+	
+	</insert>
+	
+	<!-- NoticeService의  updateNoticeImage에서 호출-->
+	<!-- Notice_Image 테이블의 notice_idx가 #인 레코드를 삭제 -->
+	<delete id="deleteByNoticeIdx">
+		DELETE FROM [Notice_Image] WHERE notice_idx = #{notice_idx}
+	</delete>
+	
+	<insert id="insertNoticeImage">
+		INSERT INTO [Notice_Image] VALUES(#{notice_idx},#{image_idx})	
+	</insert>
+	
+	<!-- 공지사항 전체 출력 -->
+	
+	<select id="noticeSelectAll" resultType="kr.ac.BucketTree.vo.NoticeVO">
+	<![CDATA[
+		SELECT *
+	FROM 
+	(
+	 SELECT *, CASE 1
+				   WHEN 1 THEN ROW_NUMBER() OVER(ORDER BY n.date desc)
+				END 행번호
+	FROM NOTICE n
+	WHERE    
+	 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+	 (#{srchType}= 1 AND CHARINDEX(#{srchText},n.title)>=1) OR /*공지 제목*/
+	 (#{srchType}= 2 AND CHARINDEX(#{srchText},n.title)>=1 OR CHARINDEX(#{srchText},n.contents)>=1) /*공지 제목이나 내용 */
+
+	) subquery
+	WHERE 행번호>(#{currentPage}-1) * #{pageSize} And
+        행번호<=(#{currentPage} *#{pageSize})
+	ORDER BY 행번호 
+	
+	]]>
+	</select>
+	
+	<select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM NOTICE n
+		WHERE    
+		 (#{srchType}= 0) OR  /*검색조건이 없을때 */
+		 (#{srchType}= 1 AND CHARINDEX(#{srchText},n.title)>=1) OR /*공지 제목*/
+		 (#{srchType}= 2 AND CHARINDEX(#{srchText},n.title)>=1 OR CHARINDEX(#{srchText},n.contents)>=1) /*공지 제목이나 내용 */
+	</select>
+	
+	<select id="selectByIdx" resultType="kr.ac.BucketTree.vo.NoticeVO">
+	SELECT *
+	FROM NOTICE
+	WHERE idx=#{idx}
+	
+	</select>
+	
+	<update id="updateNotice">
+	UPDATE NOTICE SET title=#{title},contents=#{contents} WHERE idx=#{idx}
+	
+	</update>
+	
+	<delete id="deleteNotice">
+	DELETE FROM NOTICE WHERE idx=#{idx}
+	</delete>
+	
+	<delete id="deleteNoticeImage">
+	DELETE FROM Notice_Image WHERE Notice_idx=#{Notice_idx}
+	</delete>
+	
+	<select id="selectByImageIdx" resultType="int">
+		SELECT image_idx
+		FROM
+		[Notice_Image]
+		WHERE Notice_idx=#{Notice_idx}
+	</select>
+	
+	<select id="selectTop" resultType="kr.ac.BucketTree.vo.NoticeVO">
+	SELECT TOP(1) *
+	FROM NOTICE
+	ORDER BY DATE DESC
+	</select>
+</mapper>

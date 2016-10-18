@@ -99,6 +99,17 @@ public class BucketListDAOimpl implements BucketListDAO {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace + ".adminRecommendList",user_idx);
 	}
+	/*마이 : 친구 추천하기 */
+	@Override
+	public int recommendFriend(int fromUser,int toUser,int bucket_idx){
+		HashMap<String,Object> input = new HashMap<String, Object>();
+		input.put("fromUser", fromUser);
+		input.put("toUser", toUser);
+		input.put("bucket_idx", bucket_idx);
+		return session.insert(namespace +".recommendFriend",input);
+	}
+	
+	
 	@Override
 	public List<BucketListVO> bucketShare_MyBucketList(int user_idx) {
 		// TODO Auto-generated method stub
@@ -235,5 +246,16 @@ public class BucketListDAOimpl implements BucketListDAO {
 		// TODO Auto-generated method stub
 		return session.selectOne(namespace + ".selectByName", title);
 	}
+	/*친구 추천 중복검사 */
+	@Override
+	public boolean friendCheckRecommend(int fromUser,int toUser,int bucket_idx){
+		HashMap<String,Object> input = new HashMap<String, Object>();
+		input.put("fromUser", fromUser);
+		input.put("toUser", toUser);
+		input.put("bucket_idx", bucket_idx);
 
+		int count = session.selectOne(namespace +".friendCheckRecommend",input);
+		
+		return count>0;
+	}
 }

@@ -59,7 +59,7 @@
 
 					<div class="form-group">
 						<textarea id="body" name="contents" class="smarteditor2"
-							style="width: 100%; height: 450p	x"></textarea>
+							style="width: 100%; height: 450px"></textarea>
 					</div>
 
 				</div>
@@ -222,14 +222,37 @@
 	
 	function formChk() {
 	
-		var inputTitle = $('#title').val();
+	//	var inputTitle = $('#title').val();
+		
+	    var contentChk = $("#body").val();
+	    var value = $('input[name=title]').val();
+		//스마트 에디터 공백 체크 변수
+	    contentChk2 = contentChk.replace(/&nbsp;/gi,"");
+		contentChk2 = contentChk2.replace(/<br>/gi,"");
+		contentChk2 = contentChk2.replace(/ /gi,"");
+			if (value == ""
+					|| value == null
+					|| value == undefined
+					|| (value != null
+							&& typeof value == "object" && !Object
+							.keys(value).length)) {
+				alert('제목을 입력하세요');
+				return false;
+			
+	     // 스마트 에디터 공백체크
+		}else if(contentChk2 =="<p><\/p>" || contentChk2 ==""){
+			alert('내용을 입력하세요')
+			return false;
+	    }else{
+		
+		
 		  $.ajax({
 			  
               url : "/BucketTree/bucketList/searchMylistTitle",
               dataType : "json",
               type : "POST",
               sync :false,
-              data :{title: inputTitle},
+              data :{title: value},
               success : function(data) {
 			
 			
@@ -244,6 +267,8 @@
              		}
               }
 		  })
+		  
+		  }
 		  };
 		
 </script>

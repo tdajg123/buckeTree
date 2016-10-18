@@ -79,4 +79,11 @@ public interface BucketListService {
 	public void updateTreeidx(BucketListVO bucketListVO);
 	public void completeBucket(int idx);
 	public void ingBucket(int idx);
+	
+	/*친구 추천 하기 */
+	public int recommendFriend(int fromUser,int toUser,int bucket_idx);
+	/*친구 추천 중복검사 */
+	public boolean friendCheckRecommend(int fromUser, int toUser,int bucket_idx);
+	
+	
 }

@@ -9,6 +9,7 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 
+		
 		<!-- JAVA MAIL API -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -127,6 +128,7 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>BucketTree</finalName>

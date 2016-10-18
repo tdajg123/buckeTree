@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
 		FROM [User] 
 		where (#{p.srchType}=1 AND (name like #{p.srchText}) OR (#{p.srchType}=2 AND email = #{p.srchText})) AND
-		idx not in (SELECT toUser FROM Friend where fromUser=#{idx}))
+		idx not in (SELECT toUser FROM Friend where fromUser=#{idx}) AND type='일반' AND idx != #{idx})
 		subquery
 			<![CDATA[
 		WHERE row > (#{p.currentPage} - 1) * #{p.pageSize} AND row <= #{p.currentPage} * #{p.pageSize} 
@@ -94,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
 		FROM [User] 
 		where (#{p.srchType}=1 AND (name like #{p.srchText}) OR (#{p.srchType}=2 AND email = #{p.srchText})) AND
-		idx not in (SELECT toUser FROM Friend where fromUser=#{idx}))
+		idx not in (SELECT toUser FROM Friend where fromUser=#{idx}) AND type='일반' AND idx != #{idx})
 		subquery
 		<![CDATA[
 		WHERE row > #{p.row} AND row <= #{p.row} + #{p.pageSize}
@@ -198,7 +198,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM(
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
 		FROM [User] 
-		where idx not in (SELECT toUser FROM Friend where fromUser=#{idx}))
+		where idx not in (SELECT toUser FROM Friend where fromUser=#{idx}) AND type='일반' AND idx != #{idx}) 
 		subquery
 			<![CDATA[
 		WHERE row > (#{p.currentPage} - 1) * #{p.pageSize} AND row <= #{p.currentPage} * #{p.pageSize} 
@@ -212,8 +212,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM(
 		SELECT * ,ROW_NUMBER() OVER(ORDER BY [User].name) as row
 		FROM [User] 
-		where idx not in (SELECT toUser FROM Friend where fromUser=#{idx})
-		AND idx !=#{idx}
+		where idx not in (SELECT toUser FROM Friend where fromUser=#{idx}) 
+		AND idx !=#{idx} AND type='일반' AND idx != #{idx}
 		) 
 		subquery
 	<![CDATA[

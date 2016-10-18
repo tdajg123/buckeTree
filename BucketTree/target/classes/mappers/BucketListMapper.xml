@@ -197,6 +197,11 @@ ORDER BY 행번호
 		ORDER BY NEWID()
 
 	</select>
+	
+	<!-- 버킷리스트 친구 추천하기 -->
+	<insert id="recommendFriend">
+	INSERT INTO [RecommendBucketList] VALUES(#{toUser},#{fromUser},#{bucket_idx});
+	</insert>
 
 	<!-- 버킷리스트 관리자 추천 목록 -->
 	<select id="adminRecommendList" resultType="kr.ac.BucketTree.vo.BucketListVO">
@@ -384,4 +389,10 @@ ORDER BY 행번호
 		#{idx}
 
 	</update>
+	<!-- 친구 추천 중복 검사 -->
+	<select id="friendCheckRecommend" resultType="int">
+	SELECT COUNT(*)
+	FROM [RecommendBucketList]
+	WHERE (fromUser=#{fromUser} AND toUser=#{toUser}) AND BucketList_idx=#{bucket_idx};
+	</select>
 </mapper>

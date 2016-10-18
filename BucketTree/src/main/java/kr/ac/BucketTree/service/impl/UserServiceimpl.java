@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.ac.BucketTree.dao.UserDAO;
 import kr.ac.BucketTree.service.UserService;
 import kr.ac.BucketTree.util.MyAuthenticationProvider;
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.PointVO;
 import kr.ac.BucketTree.vo.UserVO;
 
@@ -260,5 +261,14 @@ public class UserServiceimpl implements UserService {
 		// TODO Auto-generated method stub
 		return dao.sumPoint(user_idx);
 	}
-
+	
+	@Override
+	public List<UserVO> userSelectAll(Pagination pagination){
+		return dao.userSelectAll(pagination);
+	}
+	
+	@Override
+	public int selectCount(Pagination pagination){
+		return dao.selectCount(pagination);
+	}
 }

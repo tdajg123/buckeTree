@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import kr.ac.BucketTree.service.FriendService;
+import kr.ac.BucketTree.service.NoticeService;
 import kr.ac.BucketTree.service.UserService;
 import kr.ac.BucketTree.vo.FriendVO;
+import kr.ac.BucketTree.vo.NoticeVO;
 import kr.ac.BucketTree.vo.UserVO;
 
 @Controller
@@ -17,6 +19,8 @@ public class BucketTreeCommon {
 	FriendService fs;
 	@Autowired
 	UserService us;
+	@Autowired
+	NoticeService ns;
 	//어느 페이지에서나 메신저를 쓰기위해 모델에 추가
 	public Model commonMessenger(Model model)
 	{	
@@ -32,6 +36,10 @@ public class BucketTreeCommon {
 		model.addAttribute("flist2", flist2);
 		//유저정보
 		model.addAttribute("user",user);
+		//최근 공지사항 가져오기 (1개만)
+		NoticeVO nv = ns.selectTop();
+		model.addAttribute("notice", nv);
+		
 		return model;
 	}
 
