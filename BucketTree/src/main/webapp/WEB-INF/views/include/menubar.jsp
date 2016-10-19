@@ -136,9 +136,14 @@
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
-		<a href="/BucketTree/notice/read?idx=${notice.idx}" style="color:black">
-		${notice.contents}
-		</a>
+		<c:if test="${notice.contents == null }">
+			공지사항이 없습니다.
+		</c:if>
+		<c:if test="${notice.contents != null }">	
+			<a href="/BucketTree/notice/read?idx=${notice.idx}" style="color:black">
+				${notice.contents}
+			</a>
+		</c:if>
 		</div>
 		<!-- /.box-body -->
 	</div>
