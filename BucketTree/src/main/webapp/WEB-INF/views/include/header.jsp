@@ -45,6 +45,8 @@
 <link href="/BucketTree/css/mypage.css" rel="stylesheet" type="text/css" />
 <!--  BucketShare -->
 <link href="/BucketTree/css/bucketShare.css" rel="stylesheet" type="text/css" />
+<!--  BucketTree -->
+<link href="/BucketTree/css/bucketTree.css" rel="stylesheet" type="text/css" />
 
 <!-- MENU JS-->
 <script type="text/javascript"	src="/BucketTree/js/menu/modernizr.custom.js"></script>
@@ -56,7 +58,6 @@
 <script type="text/javascript"	src="/BucketTree/js/bucketList/bucketList.js"></script>
 <!-- BUCKETLIST_SELELCTBOX -->
 <script type="text/javascript"	src="/BucketTree/js/bucketList/selectbox.js"></script>
-
  
  <!-- SMART EDITOR -->
 <script type="text/javascript"	src="/BucketTree/se2/init.js"></script>

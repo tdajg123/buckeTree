@@ -85,7 +85,7 @@
 								<img src="/BucketTree/mytree/${BucketTreeVO.imageIdx}/image">
 							</c:if>
 						</a>
-						
+
 						<h4>
 							<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
 						</h4>
@@ -158,11 +158,11 @@
 				<article data-id="${BucketTreeVO.idx}" class="white-panel "
 					style="width: 260px">
 
-					<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do"> 
-					<c:if test="${BucketListVO.imageIdx != 0 }">
+					<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do"> <c:if
+							test="${BucketListVO.imageIdx != 0 }">
 							<img src="/BucketTree/tree/${BucketListVO.imageIdx}/image" alt=""
 								style="width: 260px" onclick="">
-					</c:if>
+						</c:if>
 					</a>
 
 					<h4>

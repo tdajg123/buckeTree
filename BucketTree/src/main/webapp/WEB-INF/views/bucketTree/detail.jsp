@@ -3,16 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style>
-input[type=checkbox]:checked {
-	border: 1px solid gray;
-}
-
-#modifyComment:hover {
-	color: #48cfc8;
-}
-</style>
-
 <script>
 	//짝수번째 li는 오른쪽으로 보이기
 	$(function() {
@@ -40,7 +30,6 @@ input[type=checkbox]:checked {
 	</nav>
 </div>
 
-<!-- 댓글부분 수정해야함 -->
 <div class="container">
 
 	<div class="page-header">
@@ -52,7 +41,7 @@ input[type=checkbox]:checked {
 			<div class="timeline-panel">
 				<div class="timeline-heading" id="tree_add">
 					<p>
-						<i class="fa fa-plus"></i> 글쓰기
+						<i class="fa fa-plus"></i> 메세지 쓰기
 					</p>
 				</div>
 			</div>
@@ -73,20 +62,26 @@ input[type=checkbox]:checked {
 					</div>
 					<div class="timeline-body">
 						<p>${no.contents}</p>
+						<c:if test="${vo.user_idx eq user.idx}">
+							<button type="button" class="btn btn-block btn-mission btn-sm"
+								id="missionComplete" data-idx="${no.idx}">미션 완료</button>
+						</c:if>
 					</div>
 					<hr>
 					<div class="timeline-footer">
-						<div class="f_right">
-							<button class="btn btn-default" title="수정" data-idx="${no.idx}">
-								<i class="fa fa-pencil"></i>
-							</button>
-							<a class="btn btn-default" title="삭제" data-idx="${no.idx}"> <i
-								class="fa fa-trash-o"></i>
-							</a>
-						</div>
+						<c:if test="${vo.user_idx eq user.idx}">
+							<div class="f_right">
+								<button class="btn btn-default" title="수정" data-idx="${no.idx}">
+									<i class="fa fa-pencil"></i>
+								</button>
+								<a class="btn btn-default" title="삭제" data-idx="${no.idx}">
+									<i class="fa fa-trash-o"></i>
+								</a>
+							</div>
+						</c:if>
 					</div>
 					<div class="right">
-						<a class="btn btn-default" title="수정" data-toggle="collapse"
+						<a class="btn btn-default" title="댓글" data-toggle="collapse"
 							data-target="#collapseComment${no.idx}">Comments <i
 							class="fa fa-commenting-o"></i>
 						</a>
@@ -101,11 +96,35 @@ input[type=checkbox]:checked {
 										<!-- User image -->
 
 										<div class="comment-text">
-											<span class="username"> ${c.userName} <span
-												class="text-muted pull-right post_date">${c.date} </span>
-											</span>
+											<span class="text-muted"> ${c.userName}</span>
+
+
+											<div class="f_right">
+												<span class="text-muted post_date">${c.date} </span>
+												<c:if test="${c.user_idx eq user.idx}">
+													<span class="text-muted" id="modifyComment"
+														data-idx="${c.idx}">수정 </span>
+													<a data-idx="${c.idx}" id="deleteComment" title="삭제"
+														class="text-muted">삭제</a>
+												</c:if>
+											</div>
 											<!-- /.username -->
-											${c.contents}
+											<div>${c.contents}</div>
+											<div class="modify">
+
+												<div class="img-push">
+													<div class="input-group">
+														<input name="contents_modify" type="text"
+															class="form-control" value="${c.contents}"> <span
+															class="input-group-btn">
+															<button type="submit" class="btn btn-default"
+																id="commentModify" data-idx="${c.idx}">확인</button>
+															<button type="reset" class="btn btn-default modifyCancel">취소</button>
+														</span>
+													</div>
+												</div>
+
+											</div>
 										</div>
 										<!-- /.comment-text -->
 									</div>
@@ -115,17 +134,14 @@ input[type=checkbox]:checked {
 							</div>
 							<!-- /.box-footer -->
 							<div class="box-footer">
-								<form action="#" method="post">
-									<div class="img-push"
-										style="display: inline-block; width: 90%;">
+								<form action="#" method="get">
+									<div class="input-group">
 										<input type="text" name="comment_contents"
-											class="form-control input-sm" placeholder="...">
-
+											class="form-control"> <span class="input-group-btn">
+											<button class="btn btn-default" name="comment"
+												data-idx="${no.idx}">등록</button>
+										</span>
 									</div>
-									<button class="btn btn-default" name=comment
-										data-idx="${vo.idx}">
-										<i class="fa fa-check"></i>
-									</button>
 								</form>
 							</div>
 						</div>
@@ -134,8 +150,6 @@ input[type=checkbox]:checked {
 			</li>
 		</c:forEach>
 		<!-- /미션 -->
-
-
 		<c:forEach var="vo" items="${ list }">
 			<li>
 				<div class="timeline-badge"></div>
@@ -143,7 +157,7 @@ input[type=checkbox]:checked {
 					<div class="timeline-heading">
 						<p class="f_right">
 							<small class="text-muted"><i
-								class="glyphicon glyphicon-time"></i>${vo.date} </small>
+								class="glyphicon glyphicon-time"></i> ${vo.date} </small>
 						</p>
 					</div>
 					<div class="timeline-body">
@@ -152,19 +166,19 @@ input[type=checkbox]:checked {
 					<hr>
 					<div class="timeline-footer">
 						<c:if test="${vo.user_idx eq user.idx}">
-						<div class="f_right">
-							<button class="btn btn-default" title="수정" data-idx="${vo.idx}">
-								<i class="fa fa-pencil"></i>
-							</button>
-							<a class="btn btn-default" title="삭제" data-idx="${vo.idx}"> <i
-								class="fa fa-trash-o"></i>
-							</a>
-						</div>
+							<div class="f_right">
+								<button class="btn btn-default" title="수정" data-idx="${vo.idx}">
+									<i class="fa fa-pencil"></i>
+								</button>
+								<a class="btn btn-default" title="삭제" data-idx="${vo.idx}">
+									<i class="fa fa-trash-o"></i>
+								</a>
+							</div>
 						</c:if>
 					</div>
 
 					<div class="right">
-						<a class="btn btn-default" title="수정" data-toggle="collapse"
+						<a class="btn btn-default" title="댓글" data-toggle="collapse"
 							data-target="#collapseComment${vo.idx}">Comments <i
 							class="fa fa-commenting-o"></i>
 						</a>
@@ -180,18 +194,20 @@ input[type=checkbox]:checked {
 
 										<div class="comment-text">
 											<span class="text-muted"> ${c.userName}</span>
-											
 
-												<div class="f_right">
-													<span class="text-muted post_date">${c.date} </span> 
-													<c:if test="${c.user_idx eq user.idx}"><span
-														class="text-muted" id="modifyComment" data-idx="${c.idx}">수정
-													</span> <a data-idx="${c.idx}" id="deleteComment" title="삭제"
-														class="text-muted">삭제</a></c:if>
-												</div>
-											
+
+											<div class="f_right">
+												<span class="text-muted post_date">${c.date} </span>
+												<c:if test="${c.user_idx eq user.idx}">
+													<span class="text-muted" id="modifyComment"
+														data-idx="${c.idx}">수정 </span>
+													<a data-idx="${c.idx}" id="deleteComment" title="삭제"
+														class="text-muted">삭제</a>
+												</c:if>
+											</div>
+
 											<!-- /.username -->
-											<div>${c.contents}</div>
+											<div style="margin-top: 3px;">${c.contents}</div>
 											<div class="modify">
 
 												<div class="img-push">
@@ -248,21 +264,23 @@ input[type=checkbox]:checked {
 						<span class="fa fa-pencil"></span> 버킷트리 글쓰기
 					</h4>
 				</div>
+				<input id="mc" type="hidden" value="${mc}">
 				<div class="modal-body" style="padding: 40px 50px;">
 
+					<c:if test="${vo.user_idx eq user.idx}">
+						<div class="form-group setMission">
+							<div class="checks etrans">
+								<input name="type" value="1" type="checkbox" id="mission"><label
+									for="mission">미션으로 설정하기</label>
+							</div>
+						</div>
+					</c:if>
 					<div class="form-group">
-
-						<span>공지사항 </span> <input style="width: 50px" name="type"
-							type="checkbox" value="1" class="form-control pull-right">
-
+						<div class="checks etrans">
+							<input name="togeter" type="checkbox" id="addBucket"> <label
+								for="addBucket">버킷리스트 저널에 추가하기</label>
+						</div>
 					</div>
-
-					<div class="form-group">
-
-						<span>내 여행일지에 추가</span> <input style="width: 50px" name="togeter"
-							type="checkbox" class="form-control pull-right">
-					</div>
-
 					<div class="form-group">
 						<input type="hidden" name="bucketTree_idx" value="${vo.idx}">
 						<textarea id="body" name="contents" class="smarteditor2"
@@ -382,10 +400,11 @@ input[type=checkbox]:checked {
 		$("#group_timeLine").modal();
 	});
 
+	//메세지
 	$(function() {
 
 		var tree_modal = $('#tree_modify_modal');
-
+		//메세지 수정
 		$(".timeline-footer>.f_right>button").click(function() {
 
 			var idx = $(this).attr("data-idx");
@@ -403,7 +422,7 @@ input[type=checkbox]:checked {
 			});
 		});
 
-		// 수정하기 버튼 누르면 일지 업데이트됨
+		// 수정하기 버튼 누르면 메세지 업데이트됨
 		$('#journal_m_submit').click(function() {
 			var contents = oEditors.getById['body2'].getIR();
 			$.ajax({
@@ -419,26 +438,60 @@ input[type=checkbox]:checked {
 			});
 		});
 
-		/*-- 일지 삭제 --*/
+		// 메세지 삭제 
 		$(".timeline-footer>.f_right>a").click(function() {
-			var idx = $(this).attr("data-idx");
-			$.ajax({
-				url : "/BucketTree/bucketTree/delete",
-				data : {
-					idx : idx
-				},
-				type : "GET",
-				success : function() {
-					window.location.reload(true);
-				}
-			});
+
+			var c = confirm('버킷트리 메세지를 삭제하시겠습니까?');
+
+			if (c) {
+				var idx = $(this).attr("data-idx");
+				$.ajax({
+					url : "/BucketTree/bucketTree/delete",
+					data : {
+						idx : idx
+					},
+					type : "GET",
+					success : function() {
+						window.location.reload(true);
+					}
+				});
+			}
 		});
 	});
 
+	// 댓글 수정시 input 부분
 	$('span[id=modifyComment]').click(function() {
 		$(this).parent().parent().children(".modify").addClass("modifyShow");
 	})
 	$('.modifyCancel').click(function() {
 		$('.modify').removeClass("modifyShow");
+	})
+
+	// 미션
+	$(function() {
+
+		// 미션이 없을떄만 미션설정 가능하도록
+		var mc = $('#mc').attr("value");
+		if (mc == 0) {
+			$('.setMission').addClass('modifyShow');
+			$('.setMission').removeClass('setMission');
+		}
+
+		$('#missionComplete').click(function() {
+			var mcheck = confirm('미션을 완료하시겠습니까?');
+
+			if (mcheck) {
+				$.ajax({
+					url : "/BucketTree/bucketTree/mcomplete",
+					data : {
+						idx : $(this).attr("data-idx")
+					},
+					type : "GET",
+					success : function() {
+						window.location.reload(true);
+					}
+				});
+			}
+		})
 	})
 </script>
