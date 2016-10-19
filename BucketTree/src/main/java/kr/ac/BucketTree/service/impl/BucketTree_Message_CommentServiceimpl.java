@@ -36,4 +36,6 @@ public class BucketTree_Message_CommentServiceimpl implements BucketTree_Message
 		dao.delete(idx);
 	}
 
+	
+
 }

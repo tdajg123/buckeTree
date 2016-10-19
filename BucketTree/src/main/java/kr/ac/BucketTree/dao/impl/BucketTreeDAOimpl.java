@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import kr.ac.BucketTree.dao.BucketTreeDAO;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketTreeVO;
+import kr.ac.BucketTree.vo.Tree_ImageVO;
 
 @Repository
 public class BucketTreeDAOimpl implements BucketTreeDAO {
@@ -73,4 +74,15 @@ public class BucketTreeDAOimpl implements BucketTreeDAO {
 		return session.selectOne(namespace+".selectByBucketTree", idx );
 	}
 
+	@Override
+	public void insertTree_Image(Tree_ImageVO tivo) {
+		// TODO Auto-generated method stub
+		session.insert(namespace + ".insertTree_Image", tivo);
+	}
+
+	@Override
+	public void deleteByTree_idx(int tree_idx) {
+		// TODO Auto-generated method stub
+		session.delete(namespace + ".deleteByTree_Idx", tree_idx);
+	}
 }

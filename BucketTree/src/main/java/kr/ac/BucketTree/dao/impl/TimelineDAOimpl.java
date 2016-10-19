@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.BucketTree.dao.TimelineDAO;
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.TimelineVO;
 
 @Repository
@@ -22,10 +23,14 @@ public class TimelineDAOimpl implements TimelineDAO {
 
 	// user_idx로 타임라인 리스트 조회
 	@Override
-	public List<TimelineVO> timelineList(int user_idx) {
+	public List<TimelineVO> timelineList(Pagination page, int user_idx) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace + ".timelineList", user_idx);
+		HashMap<String, Object> input = new HashMap<String, Object>();
+		input.put("user_idx", user_idx);
+		input.put("p", page);
+		return sqlSession.selectList(namespace + ".timelineList", input);
 	}
+
 
 	// idx로 타임라인 조회
 	@Override

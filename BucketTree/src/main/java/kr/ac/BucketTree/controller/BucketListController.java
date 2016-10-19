@@ -40,6 +40,7 @@ import kr.ac.BucketTree.vo.CategoryVO;
 import kr.ac.BucketTree.vo.CommentVO;
 import kr.ac.BucketTree.vo.FriendVO;
 import kr.ac.BucketTree.vo.ImageVO;
+import kr.ac.BucketTree.vo.Journal_ImageVO;
 import kr.ac.BucketTree.vo.UserVO;
 
 @Controller
@@ -73,126 +74,145 @@ public class BucketListController {
 	public String list(Model model, Pagination pagination) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 
-	
-
 		model.addAttribute("what", cs.whatList());
 		model.addAttribute("who", cs.whoList());
 		model.addAttribute("when", cs.whenList());
 
-		pagination.setRecordCount(bls.listCount(pagination,us.getCurrentUser().getIdx()));
+		pagination.setRecordCount(bls.listCount(pagination, us.getCurrentUser().getIdx()));
 		/* 리스트에 보여줄 객체 */
-		model.addAttribute("list", bls.list(pagination,us.getCurrentUser().getIdx()));
-		model.addAttribute("pageCount", bls.listCount(pagination,us.getCurrentUser().getIdx()));
-		
+		model.addAttribute("list", bls.list(pagination, us.getCurrentUser().getIdx()));
+		model.addAttribute("pageCount", bls.listCount(pagination, us.getCurrentUser().getIdx()));
+
 		return "bucketList/list";
 	}
-	//ajax로 가져올 데이터
-		@ResponseBody
-		@RequestMapping(value = "/bucketList/ajaxlist")
-		public List<BucketListVO> ajaxlist(@RequestBody Pagination pagination) throws Exception {
 
-			
-			return  bls.list(pagination,us.getCurrentUser().getIdx());
-		}
-		
-	//타이틀이 존재하는지 체크
+	// ajax로 가져올 데이터
 	@ResponseBody
-	@RequestMapping(value="/bucketList/searchTitle", method = RequestMethod.POST)
-	public boolean searchTitle (@RequestParam("idx") int idx) throws Exception{
-		boolean  a=bls.titleCheck(bls.bucket(idx).getTitle(), us.getCurrentUser().getIdx() );
-		
+	@RequestMapping(value = "/bucketList/ajaxlist")
+	public List<BucketListVO> ajaxlist(@RequestBody Pagination pagination) throws Exception {
+
+		return bls.list(pagination, us.getCurrentUser().getIdx());
+	}
+
+	// 타이틀이 존재하는지 체크
+	@ResponseBody
+	@RequestMapping(value = "/bucketList/searchTitle", method = RequestMethod.POST)
+	public boolean searchTitle(@RequestParam("idx") int idx) throws Exception {
+		boolean a = bls.titleCheck(bls.bucket(idx).getTitle(), us.getCurrentUser().getIdx());
+
 		return a;
 	}
-	//카운트 업해주고 내 버킷에 추가
-	@ResponseBody
-	@RequestMapping(value="/bucketList/countUpAddBucket", method = RequestMethod.POST)
-	public void countUpAddBucket (@RequestParam("idx") int idx) throws Exception{
-			bls.countUp(idx);
-			BucketListVO vo=bls.bucket(idx);
-			vo.setUser_idx(us.getCurrentUser().getIdx());
 
-	        bls.addBucket(vo);
-			bls.updateBucketImage(vo);
-			is.deleteOrphan();
-			ts.BucketInsert_Timeline(us.getCurrentUser().getIdx(), vo.getTitle(), "BucketTree/bucketList/"+vo.getIdx()+"/bucket.do");
-		
+	// 카운트 업해주고 내 버킷에 추가
+	@ResponseBody
+	@RequestMapping(value = "/bucketList/countUpAddBucket", method = RequestMethod.POST)
+	public void countUpAddBucket(@RequestParam("idx") int idx) throws Exception {
+		bls.countUp(idx);
+		BucketListVO vo = bls.bucket(idx);
+		vo.setUser_idx(us.getCurrentUser().getIdx());
+
+		bls.addBucket(vo);
+		bls.updateBucketImage(vo);
+		is.deleteOrphan();
+		ts.BucketInsert_Timeline(us.getCurrentUser().getIdx(), vo.getTitle(),
+				"BucketTree/bucketList/" + vo.getIdx() + "/bucket.do");
+
 	}
-	//myBucketList
+
+	// myBucketList
 	@RequestMapping(value = "/bucketList/mylist")
 	public String mylist(Model model, Pagination pagination) throws Exception {
 		model.addAttribute("what", cs.whatList());
 		model.addAttribute("who", cs.whoList());
 		model.addAttribute("when", cs.whenList());
 		model = bucketTreeCommon.commonMessenger(model);
-		
-		//친구가 추천해준거
+
+		// 친구가 추천해준거
 
 		model.addAttribute("friendBylist", bls.recommendList(us.getCurrentUser().getIdx()));
 		model.addAttribute("adminBylist", bls.adminRecommendList(us.getCurrentUser().getIdx()));
-		
-		pagination.setRecordCount(bls.mylistCount(pagination,us.getCurrentUser().getIdx()));
+
+		pagination.setRecordCount(bls.mylistCount(pagination, us.getCurrentUser().getIdx()));
 		/* 리스트에 보여줄 객체 */
-		model.addAttribute("mylist", bls.mylist(pagination,us.getCurrentUser().getIdx()));
-		model.addAttribute("pageCount", bls.mylistCount(pagination,us.getCurrentUser().getIdx()));
+		model.addAttribute("mylist", bls.mylist(pagination, us.getCurrentUser().getIdx()));
+		model.addAttribute("pageCount", bls.mylistCount(pagination, us.getCurrentUser().getIdx()));
 		return "bucketList/mylist";
 	}
-	
-	//ajax로 가져올 데이터
+
+	// ajax로 가져올 데이터
 	@ResponseBody
 	@RequestMapping(value = "/bucketList/ajaxMylist")
 	public List<BucketListVO> ajaxMylist(@RequestBody Pagination pagination) throws Exception {
 
-				
-				return  bls.mylist(pagination,us.getCurrentUser().getIdx());
+		return bls.mylist(pagination, us.getCurrentUser().getIdx());
 	}
-	//버킷리스트 완료
+
+	// 버킷리스트 완료
 	@RequestMapping(value = "/bucketList/completeBucket")
-	public String completeBucket(Model model, Pagination pagination,@RequestParam("idx") int idx) throws Exception {
+	public String completeBucket(Model model, Pagination pagination, @RequestParam("idx") int idx) throws Exception {
 		pagination.setCurrentPage(1);
 		bls.completeBucket(idx);
-		BucketListVO vo=bls.bucket(idx);
-		ts.BucketComplete_Timeline(us.getCurrentUser().getIdx(), vo.getTitle(), "BucketTree/bucketList/"+vo.getIdx()+"/bucket.do");
-		return "redirect:/bucketList/mylist?"+pagination.getQueryString();
+		BucketListVO vo = bls.bucket(idx);
+		ts.BucketComplete_Timeline(us.getCurrentUser().getIdx(), vo.getTitle(),
+				"BucketTree/bucketList/" + vo.getIdx() + "/bucket.do");
+		return "redirect:/bucketList/mylist?" + pagination.getQueryString();
 	}
-	
-	//버킷리스트 완료
+
+	// 버킷리스트 완료
 	@RequestMapping(value = "/bucketList/ingBucket")
-	public String ingBucket(Model model, Pagination pagination,@RequestParam("idx") int idx) throws Exception {
+	public String ingBucket(Model model, Pagination pagination, @RequestParam("idx") int idx) throws Exception {
 		pagination.setCurrentPage(1);
 		bls.ingBucket(idx);
-		return "redirect:/bucketList/mylist?"+pagination.getQueryString();
+		return "redirect:/bucketList/mylist?" + pagination.getQueryString();
 	}
-	
-	
+
 	@RequestMapping(value = "/bucketList/bucketWrite", method = RequestMethod.GET)
-	public String bucketWrite(Model model,Pagination pagination) throws Exception{
+	public String bucketWrite(Model model, Pagination pagination) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
-		model.addAttribute("what",cs.whatList() );
+		model.addAttribute("what", cs.whatList());
 		model.addAttribute("who", cs.whoList());
 		model.addAttribute("when", cs.whenList());
-		
+
 		return "bucketList/buck_write";
 	}
-	
-	@RequestMapping(value = "/bucketList/bucketCreate", method = RequestMethod.POST)
-	public String bucketCreate(Model model, HttpServletRequest request,	BucketListVO vo,@RequestParam("x") float x,@RequestParam("y") float y) throws Exception {
 
+	@RequestMapping(value = "/bucketList/bucketCreate", method = RequestMethod.POST)
+	public String bucketCreate(Model model, HttpServletRequest request, BucketListVO vo, @RequestParam("x") float x,
+			@RequestParam("y") float y) throws Exception {
 
 		UserVO user = us.getCurrentUser();
 		// vo.setTitle(request.getParameter("title"));
 		vo.setUser_idx(user.getIdx());
 		vo.setContents(request.getParameter("contents"));
-	
+
 		vo.setX(x);
 		vo.setY(y);
-	
+
 		bls.insertBucketList(vo);
 		bls.updateBucketImage(vo);
 		is.deleteOrphan();
 
-
 		return "forward:/bucketList/list";
 	}
+
+	@RequestMapping("/bucketList/{id}/image.do")
+	public void image(@PathVariable("id") int id, HttpServletResponse response, Model model) throws IOException {
+
+		ImageVO vo = new ImageVO();
+		vo.setIdx(id);
+		ImageVO image = bls.selectById(vo);
+		model.addAttribute("image", vo);
+		if (image == null)
+			return;
+		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
+		response.setContentType(image.getMimeType());
+		response.setHeader("Content-Disposition", "idx=" + image.getIdx() + ";");
+		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+			output.write(image.getData());
+
+		}
+	}
+
 
 	@RequestMapping("/bucketList/{idx}/bucket.do")
 	public String bucketDetail(@PathVariable("idx") int idx, Model model) throws Exception {
@@ -206,7 +226,7 @@ public class BucketListController {
 		ctlist.add(cs.whoName(bc.getWho()));
 		ctlist.add(cs.whenName(bc.getWhen()));
 		ctlist.add(cs.whatName(bc.getWhat()));
-		
+
 		bc.setName(buser.getName());
 		List<CommentVO> clist = new ArrayList();
 		clist = bls.selectComment(idx);
@@ -223,10 +243,11 @@ public class BucketListController {
 	}
 
 	@RequestMapping("/bucketList/{idx}/edit.do")
-	public String bucketEdit(@PathVariable("idx") int idx, HttpServletResponse response,Model model,Pagination pagination) throws Exception {
-		
+	public String bucketEdit(@PathVariable("idx") int idx, HttpServletResponse response, Model model,
+			Pagination pagination) throws Exception {
+
 		model = bucketTreeCommon.commonMessenger(model);
-		model.addAttribute("what",cs.whatList() );
+		model.addAttribute("what", cs.whatList());
 		model.addAttribute("who", cs.whoList());
 		model.addAttribute("when", cs.whenList());
 		UserVO user = us.getCurrentUser();
@@ -234,11 +255,13 @@ public class BucketListController {
 		vo = bls.bucket(idx);
 		vo.setName(user.getName());
 		model.addAttribute("bucket", vo);
+
 		return "bucketList/buck_edit";
 	}
 
 	@RequestMapping("/bucketList/edit.do")
-	public String bucketEditPost(HttpServletRequest request,Model model,@RequestParam("file") MultipartFile[] uploadedFiles) throws Exception{
+	public String bucketEditPost(HttpServletRequest request, Model model,
+			@RequestParam("file") MultipartFile[] uploadedFiles) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 
 		int idx = Integer.parseInt(request.getParameter("idx"));
@@ -340,13 +363,13 @@ public class BucketListController {
 		bls.updateComment(cvo);
 		return cvo;
 	}
-	
-	//버킷리스트 작성시 마이리스트에 타이틀이 존재하는지 체크
+
+	// 버킷리스트 작성시 마이리스트에 타이틀이 존재하는지 체크
 	@ResponseBody
-	@RequestMapping(value="/bucketList/searchMylistTitle", method = RequestMethod.POST)
-	public boolean searchMylistTitle (@RequestParam("title") String title) throws Exception{
-		boolean  a=bls.titleCheck(title, us.getCurrentUser().getIdx() );
-		
+	@RequestMapping(value = "/bucketList/searchMylistTitle", method = RequestMethod.POST)
+	public boolean searchMylistTitle(@RequestParam("title") String title) throws Exception {
+		boolean a = bls.titleCheck(title, us.getCurrentUser().getIdx());
+
 		return a;
 	}
 	
@@ -368,5 +391,27 @@ public class BucketListController {
 		
 	}
 	
+
+	@RequestMapping("/bucketList/{idx}/pdfdown.do")
+	public String pdfDownload(Model model, @PathVariable("idx") int idx, HttpServletResponse response)
+			throws Exception {
+		System.out.println("----- FileDownloadController.pdfDownload() -----");
+
+		BucketListVO bc = bls.bucket(idx);
+		List<BucketJournalVO> bjl = bjs.bucketJournalList(idx);
+		List<Journal_ImageVO> jil = jis.selectByBucket_idx(idx);
+		int b_image = bls.selectByImageIdx(idx);
+
+		Journal_ImageVO ji = jil.get(0);
+		int ji_1 = ji.getImage_idx();
+		System.out.println(ji_1);
+
+		model.addAttribute("bucket", bc);
+		model.addAttribute("journals", bjl);
+		model.addAttribute("j_images", jil);
+		model.addAttribute("b_image", b_image);
+
+		return "pdfDownload";
+	}
 
 }

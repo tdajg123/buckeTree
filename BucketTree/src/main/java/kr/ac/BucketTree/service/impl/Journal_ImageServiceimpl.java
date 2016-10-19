@@ -1,5 +1,7 @@
 package kr.ac.BucketTree.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,12 @@ public class Journal_ImageServiceimpl implements Journal_ImageService {
 	public void deleteByJournal_idx(int journal_idx) {
 		// TODO Auto-generated method stub
 		dao.deleteByJournal_idx(journal_idx);
+	}
+	
+	@Override
+	public List<Journal_ImageVO> selectByBucket_idx(int bucket_idx) {
+		// TODO Auto-generated method stub
+		return dao.selectByBucket_idx(bucket_idx);
 	}
 
 }

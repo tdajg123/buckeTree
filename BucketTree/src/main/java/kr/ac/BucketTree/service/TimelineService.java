@@ -2,6 +2,7 @@ package kr.ac.BucketTree.service;
 
 import java.util.List;
 
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketJournalVO;
 import kr.ac.BucketTree.vo.BucketListVO;
 import kr.ac.BucketTree.vo.FriendVO;
@@ -11,7 +12,7 @@ import kr.ac.BucketTree.vo.UserVO;
 public interface TimelineService {
 
 	// user_idx로 타임라인 리스트 조회
-	public List<TimelineVO> timelineList(int user_idx);
+	public List<TimelineVO> timelineList(Pagination page, int user_idx);
 
 	// 1. 친구 추가시
 	public void Friendnsert_Timeline(UserVO fv, UserVO uv);

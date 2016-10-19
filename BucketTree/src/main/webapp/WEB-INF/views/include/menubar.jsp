@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <script type="text/javascript"
 	src="/BucketTree/js/menu/jquery.dlmenu.js"></script>
 
@@ -48,19 +49,19 @@
 				<li id="dl-menu-1" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷리스트</a>
 					<ul class="dl-menu">
-						<li><a href="/BucketTree/bucketList/mylist">마이버킷리스트</a></li>
+						<li><a href="/BucketTree/bucketList/mylist">나의버킷리스트</a></li>
 						<li><a href="/BucketTree/bucketList/list">전체버킷리스트</a></li>
 					</ul></li>
 				<li id="dl-menu-2" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷트리</a>
 					<ul class="dl-menu">
-						<li><a href="/BucketTree/bucketTree/myList">마이버킷트리</a></li>
+						<li><a href="/BucketTree/bucketTree/myList">나의버킷트리</a></li>
 						<li><a href="/BucketTree/bucketTree/list">전체버킷트리</a></li>
 					</ul></li>
 				<li id="dl-menu-3" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷쉐어</a>
 					<ul class="dl-menu">
-						<li><a href="/BucketTree/bucketShare/mylist">마이버킷쉐어</a></li>
+						<li><a href="/BucketTree/bucketShare/mylist">나의버킷쉐어</a></li>
 						<li><a href="/BucketTree/bucketShare/list">전체버킷쉐어</a></li>
 
 					</ul></li>
@@ -77,14 +78,16 @@
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
 								src="/BucketTree/menubar/${userVO.getIdx()}/profile"
-								class="user-image" alt="User Image"> <sec:authentication property="user.name" /> <b class="caret"></b></a>
+								class="user-image" alt="User Image"> <sec:authentication
+									property="user.name" /> <b class="caret"></b></a>
 					</c:if>
 
 					<c:if test="${userVO.getImage() == null }">
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
 								src="/BucketTree/images/PROFILE_image.png" class="user-image"
-								alt="User Image"> <sec:authentication property="user.name" /> <b class="caret"></b></a>
+								alt="User Image"> <sec:authentication property="user.name" />
+								<b class="caret"></b></a>
 					</c:if>
 
 
@@ -235,7 +238,11 @@
 		$('#showRight').click(function() {
 
 			if ($('#cbp-spmenu-s2').hasClass('cbp-spmenu-open')) {
-				messenger.from_user_idx = ${user.idx};
+				messenger.from_user_idx = $
+				{
+					user.idx
+				}
+				;
 				connect();
 
 			}

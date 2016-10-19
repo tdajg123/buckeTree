@@ -7,7 +7,7 @@ import kr.ac.BucketTree.dao.BucketTree_MemberDAO;
 import kr.ac.BucketTree.service.BucketTree_MemberService;
 
 @Service
-public class BuceketTree_MemberServiceimpl implements BucketTree_MemberService{
+public class BucketTree_MemberServiceimpl implements BucketTree_MemberService{
 	@Autowired 
 	 BucketTree_MemberDAO dao;
 	@Override

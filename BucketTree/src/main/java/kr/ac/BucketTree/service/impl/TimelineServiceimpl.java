@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import kr.ac.BucketTree.dao.BucketJournalDAO;
 import kr.ac.BucketTree.dao.TimelineDAO;
 import kr.ac.BucketTree.service.TimelineService;
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketJournalVO;
 import kr.ac.BucketTree.vo.BucketListVO;
 import kr.ac.BucketTree.vo.FriendVO;
@@ -30,9 +31,9 @@ public class TimelineServiceimpl implements TimelineService {
 
 	// user_idx로 타임라인 리스트 조회
 	@Override
-	public List<TimelineVO> timelineList(int user_idx) {
+	public List<TimelineVO> timelineList( Pagination page,int user_idx) {
 		// TODO Auto-generated method stub
-		return dao.timelineList(user_idx);
+		return dao.timelineList(page, user_idx);
 	}
 
 	// 1. 친구 추가시
