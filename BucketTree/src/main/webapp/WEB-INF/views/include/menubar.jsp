@@ -96,8 +96,17 @@
 								class="fa fa-fw fa-user"></i> 타임라인</a></li>
 						<li><a href="/BucketTree/Friend/searchFriendList"><i
 								class="fa fa-fw fa-group"></i> 친구</a></li>
+						<c:set var="check" value="${user.type}" />
+						<c:set var="check2" value="관리자" />
+						<c:set var="check3" value="일반" />
+						<c:if test="${check eq check2}">
+						<li><a href="/BucketTree/userlist"><i
+								class="fa fa-fw fa-gear"></i> 관리자메뉴</a></li>
+						</c:if>
+						<c:if test="${check eq check3}">
 						<li><a href="/BucketTree/mypage"><i
 								class="fa fa-fw fa-gear"></i> 정보관리</a></li>
+						</c:if>
 						<li class="divider"></li>
 						<li><a href="/BucketTree/logout"><i
 								class="fa fa-fw fa-power-off"></i> 로그아웃</a></li>
@@ -126,7 +135,16 @@
 			<h3 class="box-title">NOTICE</h3>
 		</div>
 		<!-- /.box-header -->
-		<div class="box-body">공지사항입니다.</div>
+		<div class="box-body">
+		<c:if test="${notice.contents == null }">
+			공지사항이 없습니다.
+		</c:if>
+		<c:if test="${notice.contents != null }">	
+			<a href="/BucketTree/notice/read?idx=${notice.idx}" style="color:black">
+				${notice.contents}
+			</a>
+		</c:if>
+		</div>
 		<!-- /.box-body -->
 	</div>
 	<div class="box box-solid box-default">

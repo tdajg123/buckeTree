@@ -232,4 +232,15 @@ public class BucketListServiceimpl implements BucketListService{
 		return dao.selectByName(title);
 	}
 
+	/*친구 추천하기 */
+	@Override
+	public int recommendFriend(int fromUser,int toUser, int bucket_idx){
+		return dao.recommendFriend(fromUser, toUser, bucket_idx);
+	}
+	
+	/*친구 추천 중복검사*/
+	@Override
+	public boolean friendCheckRecommend(int fromUser,int toUser, int bucket_idx){
+		return dao.friendCheckRecommend(fromUser, toUser, bucket_idx);
+	}
 }

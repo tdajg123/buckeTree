@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.BucketTree.dao.UserDAO;
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.PointVO;
 import kr.ac.BucketTree.vo.UserVO;
 @Repository
@@ -161,4 +162,13 @@ public class UserDAOimpl implements UserDAO {
 		return sqlSession.selectOne(namespace + ".sumPoint", user_idx);
 	}
 	
+	@Override
+	public List<UserVO> userSelectAll(Pagination pagination){
+		return sqlSession.selectList(namespace+".userSelectAll",pagination);
+	}
+	
+	@Override
+	public int selectCount(Pagination pagination){
+		return sqlSession.selectOne(namespace+".selectCount", pagination);
+	}
 }

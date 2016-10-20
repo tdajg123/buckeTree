@@ -248,13 +248,14 @@
 					<h4>${UserVO.name}</h4>
 					<p>${UserVO.email }</p>
 					<p id="mbp">
-					
+						<!-- 버킷 추천기능은 버킷리스트 상세보기에 구현하였습니다 
 						<button type="button" class="btn btn-default"
 							aria-label="right Align" id="recommend"
 							data-idx="${UserVO.getIdx()}" data-target="#layerpop" data-toggle="modal">
 							<span class="glyphicon glyphicon-send" aria-hidden="true"
 								title="버킷추천"></span>
-						</button>				
+						</button>
+						 -->				
 						<button type="button" class="btn btn-default"
 							aria-label="right Align" id="lunge"
 							data-idx="${UserVO.getIdx()}">

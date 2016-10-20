@@ -28,7 +28,8 @@ public interface BucketListDAO {
 	public List<BucketListVO> recommendList(int user_idx) throws Exception;		
 	/*관리자 추천*/
 	public List<BucketListVO> adminRecommendList(int user_idx) throws Exception;				
-	
+	/*친구 추천 추가 */
+	public int recommendFriend(int fromUser,int toUser,int bucket_idx);
     public List<BucketListVO> bucketShare_MyBucketList(int user_idx);	
     public List<BucketListVO> bucketTree_MyBucketList(int user_idx);	
     /*버킷리스트 추가*/
@@ -86,4 +87,7 @@ public interface BucketListDAO {
 	
 	public void completeBucket(int idx);
 	public void ingBucket(int idx);
+	
+	/* 친구 추천 중복검사 */
+	public boolean friendCheckRecommend(int fromUser,int toUser,int bucket_idx);
 }

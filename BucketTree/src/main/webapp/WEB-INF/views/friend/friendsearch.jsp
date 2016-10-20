@@ -278,12 +278,12 @@
 			
 				<div class="blockquote-box blockquote-info clearfix"
 					data-row="${UserVO.getRow()}" data-idx="${UserVO.getIdx()}">
-					<c:if test = "${userVO.getImage() != null }">
+					<c:if test = "${UserVO.getImage() != null }">
 						<div class="square pull-left" style="padding:0px">
-							<img src="/BucketTree/Friend/${userVO.getIdx()}/profile" style="height:95px">
+							<img src="/BucketTree/Friend/${UserVO.getIdx()}/profile" style="height:95px">
 						</div>
 					</c:if>
-					<c:if test = "${userVO.getImage() == null }">
+					<c:if test = "${UserVO.getImage() == null }">
 						<div class="square pull-left">
 							<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
 						</div>

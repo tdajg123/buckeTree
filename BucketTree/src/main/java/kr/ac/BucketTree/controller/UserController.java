@@ -28,6 +28,7 @@ import kr.ac.BucketTree.util.AjaxUtil;
 import kr.ac.BucketTree.util.BucketTreeCommon;
 import kr.ac.BucketTree.util.Email;
 import kr.ac.BucketTree.util.EmailSender;
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.PointVO;
 import kr.ac.BucketTree.vo.UserVO;
 
@@ -244,6 +245,7 @@ public class UserController {
 
 		return "login";
 	}
+	
 
 	/*프로필 수정 페이지에서 이미지 보여주기*/
 	@RequestMapping("profile/{idx}/profile")
@@ -321,6 +323,26 @@ public class UserController {
 		
 		return "user/point";
 	}
+	
+	@RequestMapping(value="/userlist")
+	public String userlist(Model model , Pagination pagination){
+		UserVO user = us.getCurrentUser();
+		model = bucketTreeCommon.commonMessenger(model);
+		pagination.setRecordCount(us.selectCount(pagination));
+		model.addAttribute("ulist", us.userSelectAll(pagination));
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("user",user );
+		return "manager/userlist";
+	}
+	
+	@RequestMapping(value="/deleteUser")
+	public String deleteUser(Model model,@RequestParam("idx") int idx) throws Exception{
+		
+
+		us.delete(idx);
+		return "forward:/userlist";
+	}
+	
 
 }
 	

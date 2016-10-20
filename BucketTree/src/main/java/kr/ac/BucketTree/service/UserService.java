@@ -3,6 +3,7 @@ package kr.ac.BucketTree.service;
 import java.util.HashMap;
 import java.util.List;
 
+import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.PointVO;
 import kr.ac.BucketTree.vo.UserVO;
 
@@ -66,4 +67,8 @@ public interface UserService {
 	public PointVO updateMinusPoint(int idx, int sq, int point) throws Exception;
 	
 	public int sumPoint(int user_idx) throws Exception;
+	
+	public List<UserVO> userSelectAll(Pagination pagination);
+	
+	public int selectCount(Pagination pagination);
 }

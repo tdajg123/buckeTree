@@ -30,7 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		idx NOT IN (SELECT image_idx
 		FROM
 		BucketList_image)
-		AND
+		AND idx NOT IN(SELECT image_idx
+		FROM Notice_Image) AND
 		DATEDIFF(minute, fileTime, GETDATE()) > 60
 	</delete>
 

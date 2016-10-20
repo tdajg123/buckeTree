@@ -213,6 +213,7 @@ public class BucketListController {
 		}
 	}
 
+
 	@RequestMapping("/bucketList/{idx}/bucket.do")
 	public String bucketDetail(@PathVariable("idx") int idx, Model model) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
@@ -233,11 +234,11 @@ public class BucketListController {
 		model.addAttribute("clist", clist);
 		model.addAttribute("check", user);
 		model.addAttribute("ctlist", ctlist);
+		model.addAttribute("user", user);
 
 		List<BucketJournalVO> bjl = new ArrayList();
 		bjl = bjs.bucketJournalList(idx);
 		model.addAttribute("list", bjl);
-
 		return "bucketList/post";
 	}
 
@@ -254,7 +255,7 @@ public class BucketListController {
 		vo = bls.bucket(idx);
 		vo.setName(user.getName());
 		model.addAttribute("bucket", vo);
-		System.out.println("에디트 컨트롤러 정상 작동 :" + idx);
+
 		return "bucketList/buck_edit";
 	}
 
@@ -341,7 +342,7 @@ public class BucketListController {
 	@RequestMapping(value = "/bucketList/deleteCommentRequestAjax", method = RequestMethod.POST)
 	public boolean deleteCommentRequestAjax(@RequestParam("commentIdx") String cidx, HttpServletResponse response,
 			Model model) {
-		System.out.println("에이젝스 코멘트 딜리트");
+
 		int cIdx = Integer.parseInt(cidx);
 		bls.deleteComment(cIdx);
 
@@ -353,12 +354,11 @@ public class BucketListController {
 	@RequestMapping(value = "/bucketList/editCommentRequestAjax", method = RequestMethod.POST)
 	public CommentVO editComment(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws Exception {
-		System.out.println("댓글 수정 컨트롤러 도착");
+
 		UserVO user = us.getCurrentUser();
 		int editIdx = Integer.parseInt(request.getParameter("editIdx"));
 		CommentVO cvo = bls.selectByIdxComment(editIdx);
 		String content = request.getParameter("editContent");
-		System.out.println("수정된 내용:" + content + "idx" + editIdx);
 		cvo.setContents(content);
 		bls.updateComment(cvo);
 		return cvo;
@@ -372,6 +372,25 @@ public class BucketListController {
 
 		return a;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/bucketList/friendRecommendAjax", method = RequestMethod.POST)
+	public boolean friendRecommend(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws Exception {
+		UserVO user = us.getCurrentUser();
+		int toUser = Integer.parseInt(request.getParameter("friendIdx"));
+		int fromUser = user.getIdx();
+		int bucket_idx = Integer.parseInt(request.getParameter("bidx"));
+		boolean checkData = bls.friendCheckRecommend(fromUser, toUser, bucket_idx);
+		if(checkData == true){
+			return false;
+		}else{
+			bls.recommendFriend(fromUser, toUser, bucket_idx);
+			return true;
+		}
+		
+	}
+	
 
 	@RequestMapping("/bucketList/{idx}/pdfdown.do")
 	public String pdfDownload(Model model, @PathVariable("idx") int idx, HttpServletResponse response)

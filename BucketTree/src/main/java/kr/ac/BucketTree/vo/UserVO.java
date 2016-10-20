@@ -15,7 +15,7 @@ public class UserVO {
 	String fileName;
 	int row;
 	public int getRow() {
-		return row;
+		return row;  
 	}
 	public void setRow(int row) {
 		this.row = row;
