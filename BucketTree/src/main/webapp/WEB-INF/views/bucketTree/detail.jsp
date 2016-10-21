@@ -33,7 +33,8 @@
 <div class="container">
 
 	<div class="page-header">
-		<h1 id="timeline">${vo.treeName}</h1>
+		<h1 id="timeline" data-idx="${vo.bucketList_idx}"
+			data-name="${vo.treeName}">${vo.treeName}</h1>
 	</div>
 	<ul class="timeline">
 		<li class="timeline-add">
@@ -48,7 +49,7 @@
 		</li>
 
 		<!-- 미션 -->
-		<c:forEach var="no" items="${notice}">
+		<c:forEach var="no" items="${no}">
 			<li class="timeline-inverted">
 				<div class="timeline-badge timeline-mission"></div>
 				<div class="timeline-panel timeline-mission">
@@ -266,7 +267,7 @@
 				</div>
 				<input id="mc" type="hidden" value="${mc}">
 				<div class="modal-body" style="padding: 40px 50px;">
-
+					<input type="hidden" name="list_idx" value="${vo.bucketList_idx}">
 					<c:if test="${vo.user_idx eq user.idx}">
 						<div class="form-group setMission">
 							<div class="checks etrans">
@@ -277,9 +278,11 @@
 					</c:if>
 					<div class="form-group">
 						<div class="checks etrans">
-							<input name="togeter" type="checkbox" id="addBucket"> <label
+							<input type="hidden" name="together" id="addCheck" value="0">
+							<input type="checkbox" id="addBucket"> <label
 								for="addBucket">버킷리스트 저널에 추가하기</label>
 						</div>
+
 					</div>
 					<div class="form-group">
 						<input type="hidden" name="bucketTree_idx" value="${vo.idx}">
@@ -288,6 +291,9 @@
 					</div>
 
 				</div>
+				<div>
+					<input type="checkbox" name="together">
+				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-success">
 						<span class="fa fa-check"></span> 작성하기
@@ -295,6 +301,7 @@
 					<button type="reset" class="btn btn-default" data-dismiss="modal">
 						<span class="fa fa-remove"></span> 취소하기
 					</button>
+
 				</div>
 			</form>
 		</div>
@@ -491,6 +498,18 @@
 						window.location.reload(true);
 					}
 				});
+			}
+		})
+
+		$('#addBucket').click(function() {
+			var ccheck = $('#addBucket').prop("checked");
+			if (ccheck) {
+				var c = confirm('저널에 추가하시겠습니까?');
+				if (c) {
+					document.getElementById('addCheck').value = 1;
+				} else if (!c) {
+					$('#addBucket').prop("checked", false);
+				}
 			}
 		})
 	})

@@ -3,6 +3,7 @@ package kr.ac.BucketTree.service;
 import java.util.List;
 
 import kr.ac.BucketTree.vo.BucketJournalVO;
+import kr.ac.BucketTree.vo.BucketTree_Message;
 
 public interface BucketJournalService {
 
@@ -22,5 +23,7 @@ public interface BucketJournalService {
 	public void deleteJournal(int idx);
 
 	public void updateJournalImage(BucketJournalVO bj);
+
+	public BucketJournalVO createJournal(BucketTree_Message bm,int idx);
 
 }

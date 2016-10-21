@@ -65,7 +65,6 @@
 						<form:option value="0" label="검색조건" />
 						<form:option value="1" label="버킷리스트" />
 						<form:option value="2" label="작성자" />
-
 					</form:select>
 
 					<!-- 검색 input 박스 -->

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.ac.BucketTree.service.BucketJournalService;
 import kr.ac.BucketTree.service.BucketListService;
 import kr.ac.BucketTree.service.BucketTreeService;
 import kr.ac.BucketTree.service.BucketTree_MemberService;
@@ -33,11 +35,13 @@ import kr.ac.BucketTree.service.TimelineService;
 import kr.ac.BucketTree.service.UserService;
 import kr.ac.BucketTree.util.BucketTreeCommon;
 import kr.ac.BucketTree.util.Pagination;
+import kr.ac.BucketTree.vo.BucketJournalVO;
 import kr.ac.BucketTree.vo.BucketListVO;
 import kr.ac.BucketTree.vo.BucketTreeVO;
 import kr.ac.BucketTree.vo.BucketTree_Message;
 import kr.ac.BucketTree.vo.BucketTree_Message_Comment;
 import kr.ac.BucketTree.vo.ImageVO;
+import kr.ac.BucketTree.vo.UserVO;
 
 @Controller
 public class BucketTreeController {
@@ -63,6 +67,8 @@ public class BucketTreeController {
 	Message_ImageService mi;
 	@Autowired
 	BucketTree_Message_CommentService bmcs;
+	@Autowired
+	BucketJournalService bjs;
 
 	// 전체목록
 	@RequestMapping(value = "/bucketTree/list")
@@ -197,7 +203,7 @@ public class BucketTreeController {
 		}
 
 		model.addAttribute("list", list);
-		model.addAttribute("notice", notice);
+		model.addAttribute("no", notice);
 
 		int mc = bms.missionCount(idx);
 		model.addAttribute("mc", mc);
@@ -206,13 +212,25 @@ public class BucketTreeController {
 	}
 
 	@RequestMapping(value = "/bucketTree/write", method = RequestMethod.POST)
-	public String write(Model model, BucketTree_Message bucketTree_Message) throws Exception {
+	public String write(Model model, BucketTree_Message bucketTree_Message, @RequestParam("together") int check,@RequestParam("list_idx") int list_idx)
+			throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 		bucketTree_Message.setUser_idx(us.getCurrentUser().getIdx());
 
 		bms.insert(bucketTree_Message);
 		bms.updateBucketTreeImage(bucketTree_Message);
 		is.deleteOrphan();
+
+		if(check==1){
+			BucketJournalVO bjv=bjs.createJournal(bucketTree_Message, list_idx);
+			
+			bjs.insertJournal(bjv);
+			bjs.updateJournalImage(bjv);
+			is.deleteOrphan();
+
+			UserVO uv = us.getCurrentUser();
+			ts.JournalInsert_Timeline(bjv, uv);
+		}
 
 		return "redirect:/bucketTree/detail?idx=" + bucketTree_Message.getBucketTree_idx();
 	}

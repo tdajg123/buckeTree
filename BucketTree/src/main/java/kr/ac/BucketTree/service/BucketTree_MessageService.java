@@ -25,4 +25,5 @@ public interface BucketTree_MessageService {
 	public void delete(int idx);
 
 	public int missionCount(int idx);
+	
 }
