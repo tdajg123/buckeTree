@@ -88,6 +88,13 @@ a {
 	background-position: 0 0px;
 }
 
+/*btn-line*/
+.btn-line {
+	background: #fff;
+	border: 1px solid #48cfc8;
+	width:100px;
+}
+
 /*btn-success*/
 .btn-success {
 	background: #48cfc8;

@@ -333,9 +333,6 @@ img {
 	filter: alpha(opacity = 0); /* IE 8 */
 }
 
-#category {
-	height: 30px;
-}
 
 #form_search button, #form_search a {
 	height: 40px;
