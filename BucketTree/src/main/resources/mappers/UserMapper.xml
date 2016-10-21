@@ -37,8 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertUser">
-	INSERT INTO [USER](email,password,name,birth,type,point) 
-	values(#{email},#{password},#{name},#{birth},'일반',0) 
+	INSERT INTO [USER](email,password,name,birth,type) 
+	values(#{email},#{password},#{name},#{birth},'일반') 
 	</insert>
 	
 	
