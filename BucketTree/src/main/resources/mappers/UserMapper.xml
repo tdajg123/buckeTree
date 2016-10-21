@@ -92,6 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT *
 		FROM [POINT] 
 		WHERE USER_IDX = #{user_idx} AND STATE = 1
+		ORDER BY DATE ASC
 	</select>
 	
 	<!-- 사용한 포인트 내역 조회 -->
@@ -99,19 +100,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT *
 		FROM [POINT] 
 		WHERE USER_IDX = #{user_idx} AND STATE = 0
+		ORDER BY DATE ASC
 	</select>
-	
-	<!-- 포인트 적립 업데이트  가희야 이거 지웡~-->
-	<update id="upPoint" parameterType="java.util.HashMap">
-		UPDATE [USER] SET POINT = POINT + #{point}
-		WHERE IDX = #{idx}
-	</update>
-	
-	<!-- 포인트 사용 업데이트  가희야 이거 지웡~-->
-	<update id="downPoint" parameterType="java.util.HashMap">
-		UPDATE [USER] SET POINT = POINT - #{point}
-		WHERE IDX = #{idx}
-	</update>
 	
 	<!-- 포인트 적립 내역 업데이트 -->
 	<insert id="updatePlusPoint">
@@ -124,12 +114,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO [POINT] (USER_IDX, STATE, POINT, DATE, CONTENTS) 
 		values(#{user_idx}, 0, #{point}, GETDATE(), #{contents}) 
 	</insert>
+	
 	<!--최종 포인트 계산   -->
 	<select id="sumPoint" resultType="int">
 		SELECT sum(point) 
 		FROM POINT
 		WHERE user_idx=#{user_idx}
 	</select>
+	
 	<!-- 유저 목록 전체출력 -->
 	<select id="userSelectAll" resultType="kr.ac.BucketTree.vo.UserVO">
 	<![CDATA[

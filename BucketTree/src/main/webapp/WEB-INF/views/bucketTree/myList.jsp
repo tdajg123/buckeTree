@@ -6,7 +6,7 @@
 
 <div class="container">
 	<div class="row" style="margin: 25px 0 55px 0;">
-		<!-- bucketList-Category & Type & Search __ Start -->
+		<!-- 카테고리 및 검색 시작 -->
 		<div class="col-md=4 col-md-offset-6" style="margin-bottom: 3px;">
 			<button id="view_when" type="button" class="btn btn-success">없음</button>
 			<button id="view_who" type="button" class="btn btn-success">없음</button>
@@ -24,7 +24,7 @@
 						<form:option value="0" label="검색조건" />
 						<form:option value="1" label="버킷트리" />
 						<form:option value="2" label="버킷리스트" />
-						<form:option value="3" label="주인장" />
+						<form:option value="3" label="트리장" />
 					</form:select>
 
 					<!-- 검색 input 박스 -->
@@ -58,8 +58,7 @@
 			</div>
 		</form:form>
 	</div>
-	<!-- bucketList-Category & Type & Search __ End -->
-
+	<!-- 카테고리 및 검색 끝 -->
 
 	<!--가입 신청한  버킷트리  -->
 	<div id="applyBucketList" class="box box-default collapsed-box">
@@ -81,8 +80,8 @@
 						style="width: 260px; margin: 0 5px; display: inline-Block">
 
 						<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do">
-							<c:if test="${BucketTreeVO.imageIdx == 0 }">
-								<img src="/BucketTree/mytree/${BucketTreeVO.imageIdx}/image">
+							<c:if test="${BucketTreeVO.imageIdx != 0 }">
+								<img src="/BucketTree/tree/${BucketTreeVO.imageIdx}/image">
 							</c:if>
 						</a>
 
@@ -123,8 +122,12 @@
 					<article data-id="${BucketTreeVO.idx}"
 						style="width: 260px; display: inline-Block">
 
-						<img src="/BucketTree/images/image7.jpg" alt=""
-							style="width: 260px">
+						<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do">
+							<c:if test="${BucketTreeVO.imageIdx != 0 }">
+								<img src="/BucketTree/tree/${BucketTreeVO.imageIdx}/image">
+							</c:if>
+						</a>
+
 						<h4>
 							<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
 						</h4>
@@ -142,8 +145,7 @@
 	</div>
 	<!--/ 관리자추천 버킷트리 -->
 
-
-	<!-- bucketList-listAll __ Start -->
+	<!-- 마이 버킷트리 시작 -->
 	<div class="pinboot">
 		<hr>
 		<section id="pinBoot" class="bucketbox bucketTreeMyList">
@@ -159,9 +161,8 @@
 					style="width: 260px">
 
 					<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do"> <c:if
-							test="${BucketListVO.imageIdx != 0 }">
-							<img src="/BucketTree/tree/${BucketListVO.imageIdx}/image" alt=""
-								style="width: 260px" onclick="">
+							test="${BucketTreeVO.imageIdx != 0 }">
+							<img src="/BucketTree/tree/${BucketTreeVO.imageIdx}/image">
 						</c:if>
 					</a>
 
@@ -180,10 +181,7 @@
 		<hr>
 	</div>
 </div>
-
-
-<!-- bucketList-listAll __ End -->
-
+<!-- 마이 버킷트리 끝 -->
 
 <!-- 카테고리 모달창 -->
 <div class="modal fade" id="category_modal" role="dialog"
@@ -208,7 +206,6 @@
 				<select id="when_temp"></select> <select id="who_temp"></select> <select
 					id="what_temp"></select>
 
-
 			</div>
 			<div class="modal-footer">
 				<button type="submit" id="categoryAble" class="btn btn-default">
@@ -230,8 +227,6 @@ $(function() {
 	$(document).on("click","article",function(){
 		location.href="/BucketTree/bucketTree/detail?idx="+$(this).attr("data-id");
 	});
-	
-	
 	
 	$(".bs-calltoaction").click(function() { location.href = $(this).attr("data-url"); });
 	
@@ -353,20 +348,14 @@ $(function() {
                                  			str+= "<p style='width: 250px'>인원 :+"+this.current+"/"+this.member_num+"</p> </article>";
                             			
                                  			  $('.bucketTreeMyList').append(str);
-                                 			  
-                                 				
                 					});
                                 }
                                });
                 		       
                 		   }
             
-                	   
-                	   
-                	   
                    }
                 });
-	
 });
 
    

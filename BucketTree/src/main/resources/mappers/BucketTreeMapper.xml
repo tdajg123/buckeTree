@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ac.BucketTree.BucketTreeMapper">
 
-
+	<!-- 전체 버킷트리 -->
 	<select id="selectPage" resultType="kr.ac.BucketTree.vo.BucketTreeVO"
 		parameterType="hashmap">
 	<![CDATA[
@@ -48,7 +48,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY 행번호
 		]]>
 	</select>
-
+	
+	<!-- 전체 버킷트리 카테고리 및 검색 -->
 	<select id="selectCount" resultType="int">
      <![CDATA[
 		SELECT COUNT(*)
@@ -76,6 +77,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) /*답변을 채택한것*/
 		]]>
 	</select>
+	
+	<!-- 마이 버킷트리 보여주기 -->
 	<select id="selectMyPage" resultType="kr.ac.BucketTree.vo.BucketTreeVO"
 		parameterType="hashmap">
 	<![CDATA[
@@ -87,7 +90,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHEN 2 THEN ROW_NUMBER() OVER(ORDER BY bl.count desc)/*버킷트리에 지정된 좋아요갯수*/
 		END 행번호, 
 		(select state from BucketTree_Member where user_idx= #{user_idx}  and  bucketTree_idx =b.idx) as 'regist',
-		(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
+		(select count(*) from BucketTree_Member where state = 2 and bucketTree_idx =b.idx) as 'current',
+		(select top 1 idx from image where idx IN (SELECT image_idx FROM BucketList_Image where bucket_idx=b.bucketList_idx)) as 'imageIdx'
 		FROM [BucketTree] b join [User] u
 		ON b.user_idx=u.idx
 		JOIN [BucketList] bl
@@ -113,7 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(#{pagination.type}=2 and b.author=0) 
 		) /*답변을 채택한것*/
 		and 
-		(b.idx in (select bucketTree_idx  from BucketTree_Member where user_idx =#{user_idx} and state=2))
+		(b.idx in (select bucketTree_idx from BucketTree_Member where user_idx =#{user_idx} and ((state=0) OR (state=2)) ))
 		
 		) subquery
 		WHERE 행번호> (#{pagination.currentPage}-1)* #{pagination.pageSize} And
@@ -122,6 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 
+	<!-- 마이 버킷트리 카테고리 및 검색 -->
 	<select id="selectMyCount" resultType="int" parameterType="hashmap">
      <![CDATA[
 		SELECT COUNT(*)
@@ -154,16 +159,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 
-
-
 	<select id="applyBucketTree" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
-				select b.*,bl.title,(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
-		from BucketTree  b join 
+		select b.*,bl.title,(select count(*) from BucketTree_Member where state = 2
+		and bucketTree_idx =b.idx) as 'current'
+		from BucketTree b join
 		[BucketList] bl
 		ON b.bucketList_idx=bl.idx
-		where b.idx in (select bucketTree_idx from BucketTree_Member where
-		user_idx=#{user_idx} and state=1)
+		where b.idx in (select
+		bucketTree_idx from BucketTree_Member where
+		user_idx=#{user_idx} and
+		state=1)
 	</select>
+	
 	<select id="adminByReommend" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
 	<![CDATA[
 		select TOP 4 b.*,bl.title,(select count(*) from BucketTree_Member where  state = 2  and bucketTree_idx =b.idx) as 'current'
@@ -186,29 +193,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY NEWID()
 		]]>
 	</select>
-	
+
+	<!-- 버킷트리 만들기 -->
 	<insert id="insert" useGeneratedKeys="true" keyProperty="idx">
-		
-		INSERT INTO BucketTree(treeName,bucketList_idx,user_idx,contents,author,member_num,date)
+
+		INSERT INTO
+		BucketTree(treeName,bucketList_idx,user_idx,contents,author,member_num,date)
 		Values(#{treeName},#{bucketList_idx},#{user_idx},#{contents},#{author},#{member_num},GETDATE())
-	
+
 	</insert>
-	
+
+	<!-- 아이디로 버킷트리 조회 -->
 	<select id="selectByBucketTree" resultType="kr.ac.BucketTree.vo.BucketTreeVO">
-			select *  
-			from BucketTree   
-			where idx=#{idx};	   
+		select *
+		from BucketTree
+		where idx=#{idx};
 	</select>
-	
+
 	<insert id="insertTree_Image">
 		INSERT INTO BucketTree_Image
-		VALUES(#{tree_idx}, #{image_idx})
+		VALUES(#{tree_idx},
+		#{image_idx})
 	</insert>
 
 	<delete id="deleteByTree_Idx">
 		DELETE BucketTree_image
 		WHERE
 		TREE_IDX = #{tree_idx}
+	</delete>
+
+	<!-- 트리관리 - 수정 -->
+	<update id="modifyTreeAdmin">
+		UPDATE BucketTree
+		SET CONTENTS=#{contents}, member_num
+		+= #{member_num}, author = #{author}
+		WHERE IDX = #{idx}
+	</update>
+
+	<!-- 트리관리 - 트리장의 선택으로 해당 트리 해체 -->
+	<delete id="deleteTreeByAdmin">
+		DELETE FROM BucketTree
+		WHERE IDX = #{idx}
 	</delete>
 
 </mapper>

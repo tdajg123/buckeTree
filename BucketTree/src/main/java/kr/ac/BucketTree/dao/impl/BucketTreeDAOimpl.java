@@ -17,61 +17,60 @@ public class BucketTreeDAOimpl implements BucketTreeDAO {
 	@Autowired
 	private SqlSession session;
 	private static final String namespace = "kr.ac.BucketTree.BucketTreeMapper";
-	
-	
+
 	@Override
-	public List<BucketTreeVO> selectPage(Pagination pagination,int user_idx) {
+	public List<BucketTreeVO> selectPage(Pagination pagination, int user_idx) {
 		// TODO Auto-generated method stub
-		HashMap<String,Object> input = new HashMap<String, Object>();
+		HashMap<String, Object> input = new HashMap<String, Object>();
 		input.put("pagination", pagination);
 		input.put("user_idx", user_idx);
-		return session.selectList(namespace+".selectPage", input);
+		return session.selectList(namespace + ".selectPage", input);
 	}
 
 	@Override
 	public int selectCount(Pagination pagination) {
 		// TODO Auto-generated method stub
-		return session.selectOne(namespace+".selectCount", pagination);
+		return session.selectOne(namespace + ".selectCount", pagination);
 	}
 
 	@Override
 	public List<BucketTreeVO> selectMyPage(Pagination pagination, int user_idx) {
-		HashMap<String,Object> input = new HashMap<String, Object>();
+		HashMap<String, Object> input = new HashMap<String, Object>();
 		input.put("pagination", pagination);
 		input.put("user_idx", user_idx);
-		return session.selectList(namespace+".selectMyPage", input);
+		return session.selectList(namespace + ".selectMyPage", input);
 	}
 
 	@Override
 	public int selectMyCount(Pagination pagination, int user_idx) {
-		HashMap<String,Object> input = new HashMap<String, Object>();
+		HashMap<String, Object> input = new HashMap<String, Object>();
 		input.put("pagination", pagination);
 		input.put("user_idx", user_idx);
-		return session.selectOne(namespace+".selectMyCount", input);
+		return session.selectOne(namespace + ".selectMyCount", input);
 	}
 
 	@Override
 	public List<BucketTreeVO> applyBucketTree(int user_idx) {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".applyBucketTree", user_idx);
+		return session.selectList(namespace + ".applyBucketTree", user_idx);
 	}
 
 	@Override
 	public List<BucketTreeVO> adminByReommend(int user_idx) {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".adminByReommend", user_idx);
+		return session.selectList(namespace + ".adminByReommend", user_idx);
 	}
 
 	@Override
-	public void insert(BucketTreeVO bucketTreeVO) {
-		session.insert(namespace+".insert",bucketTreeVO);
-		
+	public int insert(BucketTreeVO bucketTreeVO) {
+		return session.insert(namespace + ".insert", bucketTreeVO);
+
 	}
 
 	@Override
 	public BucketTreeVO selectByBucketTree(int idx) {
-		
-		return session.selectOne(namespace+".selectByBucketTree", idx );
+
+		return session.selectOne(namespace + ".selectByBucketTree", idx);
 	}
 
 	@Override
@@ -85,4 +84,19 @@ public class BucketTreeDAOimpl implements BucketTreeDAO {
 		// TODO Auto-generated method stub
 		session.delete(namespace + ".deleteByTree_Idx", tree_idx);
 	}
+
+	/* 트리관리 - 수정 */
+	@Override
+	public void modifyTreeAdmin(BucketTreeVO bt) {
+		// TODO Auto-generated method stub
+		session.update(namespace + ".modifyTreeAdmin", bt);
+	}
+
+	/* 트리관리 - 삭제 */
+	@Override
+	public void deleteTreeByAdmin(int idx) {
+		// TODO Auto-generated method stub
+		session.delete(namespace + ".deleteTreeByAdmin", idx);
+	}
+
 }

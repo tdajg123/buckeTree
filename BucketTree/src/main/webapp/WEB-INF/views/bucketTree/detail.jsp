@@ -3,6 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+input[type=checkbox]:checked {
+	border: 1px solid gray;
+}
+</style>
 <script>
 	//짝수번째 li는 오른쪽으로 보이기
 	$(function() {
@@ -18,14 +23,20 @@
 		<!-- Main Menu -->
 		<div class="side-menu-container">
 
-			<%-- <c if --%>
-			<ul class="nav navbar-nav">
-
-				<li><a href="/BucketTree/bucketTree/treeAdmin"> 트리관리 <span
-						class="fa fa-angle-right f_right"></span></a></li>
-				<li><a href="/BucketTree/bucketTree/memberAdmin">회원관리 <span
-						class="fa fa-angle-right f_right"></span></a></li>
-			</ul>
+			<!-- 트리장만 해당 메뉴가 보임 -->
+			<c:set var="admin" value="${admin}" />
+			<c:if test="${admin eq 2}">
+				<ul class="nav navbar-nav">
+						<li>
+							<a onclick="location.href='/BucketTree/bucketTree/treeAdmin/${tree.idx}/modify.do'">트리관리
+							<span class="fa fa-angle-right f_right"></span></a>
+						</li>
+						<li>
+							<a onclick="location.href='/BucketTree/bucketTree/memberAdmin/${tree.idx}/member.do'">회원관리
+							<span class="fa fa-angle-right f_right"></span></a>
+						</li>
+				</ul>
+			</c:if>
 		</div>
 	</nav>
 </div>
@@ -344,6 +355,15 @@
 </div>
 
 <script type="text/javascript">
+$(document).on('click', '#treeIdx', function(){ 
+	var idx = $(this).attr("data-idx");
+	$.ajax({
+		url : "/BucketTree/bucketTree/treeAdmin?idx=" + idx,
+		dataType : "json",
+		type : "GET"
+	});
+});
+
 	$(function() {
 
 		$("button[name=comment]").click(
