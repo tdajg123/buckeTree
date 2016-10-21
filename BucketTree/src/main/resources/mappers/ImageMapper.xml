@@ -29,7 +29,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM Message_image) AND
 		idx NOT IN (SELECT image_idx
 		FROM
-		BucketList_image)
+		BucketList_image)AND
+		idx NOT IN (SELECT image_idx
+		FROM
+		BucketTree_image)
 		AND idx NOT IN(SELECT image_idx
 		FROM Notice_Image) AND
 		DATEDIFF(minute, fileTime, GETDATE()) > 60

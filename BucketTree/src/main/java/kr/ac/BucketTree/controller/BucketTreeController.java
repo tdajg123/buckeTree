@@ -507,6 +507,7 @@ public class BucketTreeController {
 
 		bs.modifyTreeAdmin(bt);
 		bs.updateTreeImage(bt);
+		is.deleteOrphan();
 
 		/* 인원 증대 시 포인트 차감 */
 		us.updateMinusPoint(us.getCurrentUser().getIdx(), 2, Integer.parseInt(request.getParameter("point")) * (-20));
