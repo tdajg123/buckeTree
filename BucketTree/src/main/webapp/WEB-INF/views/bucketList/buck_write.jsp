@@ -18,10 +18,11 @@
 			<i class="fa fa-chevron-right"></i> 버킷리스트 작성하기
 		</h3>
 		<hr>
-		<div class="x_panel">
-			<form name="formData" action="/BucketTree/bucketList/bucketCreate"
-				method="post" enctype="multipart/form-data"
-				onsubmit="formChk();return false;">
+		<form name="formData" action="/BucketTree/bucketList/bucketCreate"
+			method="post" enctype="multipart/form-data"
+			onsubmit="formChk();return false;">
+			<div class="x_panel">
+
 				<div class="x_title">
 					<!--버킷리스트 지정-->
 					<div class="row">
@@ -48,11 +49,10 @@
 							<button type="button" class="btn btn-line" onclick="popupOpen()">장소지정</button>
 							<button id="view_map" type="button" class="btn btn-success">없음</button>
 						</div>
-						
+
 						<div class="col-md-4">
 							<button class="btn btn-line" onclick="return false;">공개범위</button>
-							<select id="srch_type" 
-								onchange="javascript:selectEvent(this)">
+							<select id="srch_type" onchange="javascript:selectEvent(this)">
 								<option value="0">전체 공개</option>
 								<option value="1">친구 공개</option>
 								<option value="2">나만 보기</option>
@@ -74,16 +74,16 @@
 							style="width: 100%; height: 450px"></textarea>
 					</div>
 				</div>
-			</form>
-		</div>
-		<div class="f_right">
-			<button type="submit" class="btn btn-success">
-				<span class="fa fa-check"></span> 작성하기
-			</button>
-			<a href="/BucketTree/bucketShare/list" class="btn btn-default"> <span
-				class="fa fa-remove"></span> 취소하기
-			</a>
-		</div>
+			</div>
+			<div class="f_right">
+				<button type="submit" class="btn btn-success">
+					<span class="fa fa-check"></span> 작성하기
+				</button>
+				<a href="/BucketTree/bucketList/mylist" class="btn btn-default">
+					<span class="fa fa-remove"></span> 취소하기
+				</a>
+			</div>
+		</form>
 	</div>
 
 
