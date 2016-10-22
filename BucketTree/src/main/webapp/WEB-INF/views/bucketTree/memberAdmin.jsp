@@ -21,16 +21,21 @@
 </style>
 
 <hr>
-<div class="row">
-	<div class="col-md-6">
+<div class="row" style="width: 1500px; height: 500px; display:inline-flex">
+	<div class="col-md-6" style="margin-left: 370px; display:inline-block">
 
-		<div class="x_panel">
+		<div class="x_panel" style="width:550px;">
+			<div class="x_title">
+				<a name="sendlist"></a>
+				<h2>트리 가입 요청 목록</h2>
+			</div>
+			
 			<div class="x_content">
 				<c:set var="applyList" value="${applyList}" />
 				<c:set var="treeidx" value="${treeidx}" />
 				
 				<c:if test="${empty applyList}">
-					<h4>새로 가입요청한 친구 없음</h4>
+					<h3>새로 가입요청한 친구 없음</h3>
 				</c:if>
 				
 				<c:forEach items="${applyList}" var="UserVO">
@@ -67,8 +72,8 @@
 		</div>
 	</div>
 
-	<div class="col-md-6" id="slist">
-		<div class="x_panel">
+	<div class="col-md-6" id="slist" style="margin-left:10px; display:inline-block">
+		<div class="x_panel" style="width: 550px; margin-left: 5px">
 			<div class="x_title">
 				<a name="sendlist"></a>
 				<h2>트리 회원 전체 목록</h2>

@@ -431,8 +431,9 @@ public class BucketTreeController {
 
 		btms.addMember(member);
 
-		BucketListVO vo = new BucketListVO();
-		bls.addBucket(vo);
+		/*버킷리스트에 추가-수정필요*/
+//		BucketListVO vo = new BucketListVO();
+//		bls.addBucket(vo);
 
 		return true;
 
