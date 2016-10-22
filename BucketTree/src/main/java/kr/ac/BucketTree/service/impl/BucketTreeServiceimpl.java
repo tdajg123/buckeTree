@@ -54,8 +54,8 @@ public class BucketTreeServiceimpl implements BucketTreeService {
 	}
 
 	@Override
-	public void insert(BucketTreeVO bucketTreeVO) {
-		dao.insert(bucketTreeVO);
+	public int insert(BucketTreeVO bucketTreeVO) {
+		return dao.insert(bucketTreeVO);
 		
 	}
 	
@@ -64,8 +64,7 @@ public class BucketTreeServiceimpl implements BucketTreeService {
 		
 		return dao.selectByBucketTree(idx);
 	}
-	
-	/*스마트에디터 사용 - 이미지 업로드*/
+
 	@Override
 	public void updateTreeImage(BucketTreeVO vo) {
 		// TODO Auto-generated method stub
@@ -82,6 +81,8 @@ public class BucketTreeServiceimpl implements BucketTreeService {
 			dao.insertTree_Image(tivo);
 		
 		}
+		//if count ==0 () 버킷트리 이미지칼럼을 null로 만들어주는 mapper
+		//  버킷트리이미지에다가 복사해주는거
 	}
 
 	@Override
@@ -95,6 +96,21 @@ public class BucketTreeServiceimpl implements BucketTreeService {
 		// TODO Auto-generated method stub
 		dao.deleteByTree_idx(tree_idx);
 	}
+
+	/*트리관리 - 수정*/
+	@Override
+	public void modifyTreeAdmin(BucketTreeVO bt) {
+		// TODO Auto-generated method stub
+		dao.modifyTreeAdmin(bt);
+	}
+
+	/*트리관리 - 삭제*/
+	@Override
+	public void deleteTreeByAdmin(int idx) {
+		// TODO Auto-generated method stub
+		dao.deleteTreeByAdmin(idx);
+	}
 	
 	
+
 }

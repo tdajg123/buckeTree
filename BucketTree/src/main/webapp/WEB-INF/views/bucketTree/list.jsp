@@ -6,14 +6,14 @@
 
 <div class="container">
 	<div class="row" style="margin-top: 25px;">
-		<!-- bucketList-Category & Type & Search __ Start -->
+		<!-- 카테고리 및 검색 시작 -->
 
 		<div class="col-md-4 col-md-offset-6" style="margin-bottom: 3px;">
 			<button id="view_when" type="button" class="btn btn-success">없음</button>
 			<button id="view_who" type="button" class="btn btn-success">없음</button>
 			<button id="view_what" type="button" class="btn btn-success">없음</button>
 		</div>
-		<!-- Search Form __ Start -->
+		<!-- 검색 부분 시작 -->
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
 			action="/BucketTree/bucketTree/list">
 			<div class="col-md-11 col-md-offset-1">
@@ -27,7 +27,7 @@
 						<form:option value="0" label="검색조건" />
 						<form:option value="1" label="버킷트리" />
 						<form:option value="2" label="버킷리스트" />
-						<form:option value="3" label="주인장" />
+						<form:option value="3" label="트리장" />
 					</form:select>
 
 					<!-- 검색 input 박스 -->
@@ -62,10 +62,10 @@
 			</div>
 		</form:form>
 	</div>
-	<!-- bucketList-Category & Type & Search __ End -->
+	<!-- 카테고리 및 검색 끝 -->
 
 
-	<!-- bucketList-listAll __ Start -->
+	<!-- 전체 버킷트리 시작 -->
 	<div class="pinboot">
 		<hr>
 		<section id="pinBoot" class="bucketbox">
@@ -107,7 +107,7 @@
 		<hr>
 	</div>
 </div>
-<!-- bucketList-listAll __ End -->
+<!-- 전체 버킷트리 끝 -->
 
 <!-- 카테고리 모달창 -->
 <div class="modal fade" id="category_modal" role="dialog"
@@ -132,7 +132,6 @@
 				<select id="when_temp"></select> <select id="who_temp"></select> <select
 					id="what_temp"></select>
 
-
 			</div>
 			<div class="modal-footer">
 				<button type="submit" id="categoryAble" class="btn btn-default">
@@ -148,8 +147,6 @@
 	</div>
 </div>
 
-
-
 <script>
 $(function() {
 	
@@ -158,8 +155,6 @@ $(function() {
 	});
 
 	$(".bs-calltoaction").click(function() { location.href = $(this).attr("data-url"); });
-	
-
 	
 	//카테고리 옵션으로 값뿌려주기
 	<c:forEach items="${what}" var="what">
@@ -232,7 +227,6 @@ $(function() {
 
 	});
 	
-	
 	var pageCount=${pageCount}
 	//검색
 	var pagination={};
@@ -300,8 +294,4 @@ $(function() {
                    }
                 });
 });
-
-   
-
-  
 </script>

@@ -21,50 +21,58 @@
 					<c:set var="check" value="${check.idx}" />
 					<c:set var="check2" value="${bucket.user_idx}" />
 					<c:if test="${check eq check2}">
-						<button class="btn btn-default" title="수정"
-							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/edit.do'">
-							<i class="fa fa-pencil"></i>
-						</button>
-						<button class="btn btn-default" title="삭제"
-							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/delete.do'">
-							<i class="fa fa-trash-o"></i>
-						</button>
-						<button class="btn btn-default" data-target="#layerpop" data-toggle="modal" style="width:60px; height:30px">추천</button><br/>
+						<div class="f_right">
+							<button class="btn btn-default" title="수정"
+								onclick="location.href='/BucketTree/bucketList/${bucket.idx}/edit.do'">
+								<i class="fa fa-pencil"></i>
+							</button>
+							<button class="btn btn-default" title="삭제"
+								onclick="location.href='/BucketTree/bucketList/${bucket.idx}/delete.do'">
+								<i class="fa fa-trash-o"></i>
+							</button>
+							<button class="btn btn-default" data-target="#layerpop"
+								data-toggle="modal" style="width: 60px; height: 30px">추천</button>
+							<br />
+						</div>
 					</c:if>
-					
+
 					<c:set var="check3" value="${user.type}" />
 					<c:set var="check4" value="관리자" />
 					<c:if test="${check3 eq check4}">
-						<button class="btn btn-default" title="수정"
-							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/edit.do'">
-							<i class="fa fa-pencil"></i>
-						</button>
-						<button class="btn btn-default" title="삭제"
-							onclick="location.href='/BucketTree/bucketList/${bucket.idx}/delete.do'">
-							<i class="fa fa-trash-o"></i>
-						</button>
-						<button class="btn btn-default" data-target="#layerpop" data-toggle="modal" style="width:60px; height:30px">추천</button><br/>
+						<div class="f_right">
+							<button class="btn btn-default" title="수정"
+								onclick="location.href='/BucketTree/bucketList/${bucket.idx}/edit.do'">
+								<i class="fa fa-pencil"></i>
+							</button>
+							<button class="btn btn-default" title="삭제"
+								onclick="location.href='/BucketTree/bucketList/${bucket.idx}/delete.do'">
+								<i class="fa fa-trash-o"></i>
+							</button>
+							<button class="btn btn-default" data-target="#layerpop"
+								data-toggle="modal" style="width: 60px; height: 30px">추천</button>
+							<br />
+						</div>
 					</c:if>
-					
+
 				</div>
 				<div class="x_title">
 					<h2>${bucket.title}</h2>
 				</div>
 				<div class="x_title_m">
-					<span class="post_writer">${bucket.name}</span> <span
-						class="post_date">${bucket.date }</span>
-
-					<div class="right">
+					<div class="f_left">
 						<span class="tag">${ctlist.get(0).who}</span> <span class="tag">${ctlist.get(1).when}</span>
-						<span class="tag">${ctlist.get(2).what}</span> 
+						<span class="tag">${ctlist.get(2).what}</span>
 						<c:set var="checkMap" value="${bucket.x}" />
 						<c:if test="${checkMap ne 0}">
-						<span class="tag" onclick="popupOpen()">버킷 장소</span>
-						</c:if> 
-						<input type="hidden" id="positionX" value="${bucket.x}"> 
-						<input type="hidden" id="positionY" value="${bucket.y}">
+							<span class="tag" onclick="popupOpen()">버킷 장소</span>
+						</c:if>
 					</div>
 
+					<div class="f_right">
+						<input type="hidden" id="positionX" value="${bucket.x}"> <input
+							type="hidden" id="positionY" value="${bucket.y}"> <span
+							class="post_writer">${bucket.name}</span> <span class="post_date">${bucket.date }</span>
+					</div>
 				</div>
 
 				<div class="x_content">${bucket.contents}</div>
@@ -75,7 +83,7 @@
 					<h3 class="box-title">Timeline</h3>
 
 					<div class="box-tools pull-right">
-						<button type="button" class="btn btn-box-tool"
+						<button type="button" class="btn btn-default"
 							data-toggle="collapse" data-target="#collapseTimeline">
 							<i class="fa fa-plus"></i>
 						</button>
@@ -119,14 +127,16 @@
 									<c:if test="${check eq check2}">
 										<hr />
 										<div class="timeline-footer">
-											<button class="btn btn-default" title="수정"
-												data-idx="${BucketJournalVO.idx}">
-												<i class="fa fa-pencil"></i>
-											</button>
-											<a class="btn btn-default" title="삭제"
-												data-idx="${BucketJournalVO.idx}"> <i
-												class="fa fa-trash-o"></i>
-											</a>
+											<div class="f_right">
+												<button class="btn btn-default" title="수정"
+													data-idx="${BucketJournalVO.idx}">
+													<i class="fa fa-pencil"></i>
+												</button>
+												<a class="btn btn-default" title="삭제"
+													data-idx="${BucketJournalVO.idx}"> <i
+													class="fa fa-trash-o"></i>
+												</a>
+											</div>
 										</div>
 									</c:if>
 								</div></li>
@@ -142,7 +152,7 @@
 					<h3 class="box-title">Comments</h3>
 
 					<div class="box-tools pull-right">
-						<button type="button" class="btn btn-box-tool"
+						<button type="button" class="btn btn-default"
 							data-toggle="collapse" data-target="#collapseComment">
 							<i class="fa fa-plus"></i>
 						</button>
@@ -153,118 +163,119 @@
 				<div class="collapse" id="collapseComment">
 					<div class="box-footer box-comments">
 						<c:forEach items="${clist}" var="CommentVO">
-		
-										<c:set var="check3" value="${CommentVO.user_idx}" /> <c:set
-											var="viewCheck" value="${CommentVO.author}" /> <c:choose>
 
-											<c:when test="${viewCheck eq 1}">
-												<c:if test="${check eq check2}">
-													<div class="box-comment" id="${CommentVO.idx}">
-														<!-- User image -->
+							<c:set var="check3" value="${CommentVO.user_idx}" />
+							<c:set var="viewCheck" value="${CommentVO.author}" />
+							<c:choose>
 
-														<div class="comment-text" id=d${CommentVO.idx}>
-															<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
-																<a class=d${CommentVO.idx} id="cdelete"
-																data-idx="${CommentVO.idx }" style="margin-left: 850px">삭제</a>
-																<span style="margin-left: 10px"
-																class="text-muted pull-right post_date">${CommentVO.date}</span>
-															</span>
+								<c:when test="${viewCheck eq 1}">
+									<c:if test="${check eq check2}">
+										<div class="box-comment" id="${CommentVO.idx}">
+											<!-- User image -->
 
-															<!-- /.username -->
-															<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
-														</div>
-														<!-- /.comment-text -->
-													</div>
-												</c:if>
-											</c:when>
-											<c:when test="${viewCheck eq 1}">
-												<c:if test="${check eq check3}">
-													<div class="box-comment" id="${CommentVO.idx}">
-														<!-- User image -->
+											<div class="comment-text" id=d${CommentVO.idx}>
+												<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+													<a class=d${CommentVO.idx} id="cdelete"
+													data-idx="${CommentVO.idx }" style="margin-left: 850px">삭제</a>
+													<span style="margin-left: 10px"
+													class="text-muted pull-right post_date">${CommentVO.date}</span>
+												</span>
 
-														<div class="comment-text" id=d${CommentVO.idx}>
-															<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
-																<a class=e${CommentVO.idx} id="cedit"
-																style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
+												<!-- /.username -->
+												<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+											</div>
+											<!-- /.comment-text -->
+										</div>
+									</c:if>
+								</c:when>
+								<c:when test="${viewCheck eq 1}">
+									<c:if test="${check eq check3}">
+										<div class="box-comment" id="${CommentVO.idx}">
+											<!-- User image -->
 
-																<a class=d${CommentVO.idx} id="cdelete"
-																data-idx="${CommentVO.idx }">삭제</a> <span
-																style="margin-left: 10px"
-																class="text-muted pull-right post_date">${CommentVO.date}</span>
-															</span>
+											<div class="comment-text" id=d${CommentVO.idx}>
+												<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+													<a class=e${CommentVO.idx} id="cedit"
+													style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
 
-															<!-- /.username -->
-															<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
-														</div>
-														<!-- /.comment-text -->
-													</div>
-												</c:if>
-											</c:when>
-											<c:when test="${check eq check2}">
-												<c:if test="${check eq check3}">
-													<div class="box-comment" id="${CommentVO.idx}">
-														<!-- User image -->
+													<a class=d${CommentVO.idx} id="cdelete"
+													data-idx="${CommentVO.idx }">삭제</a> <span
+													style="margin-left: 10px"
+													class="text-muted pull-right post_date">${CommentVO.date}</span>
+												</span>
 
-														<div class="comment-text" id=d${CommentVO.idx}>
-															<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
-																<a class=e${CommentVO.idx} id="cedit"
-																style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
+												<!-- /.username -->
+												<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+											</div>
+											<!-- /.comment-text -->
+										</div>
+									</c:if>
+								</c:when>
+								<c:when test="${check eq check2}">
+									<c:if test="${check eq check3}">
+										<div class="box-comment" id="${CommentVO.idx}">
+											<!-- User image -->
 
-																<a class=d${CommentVO.idx} id="cdelete"
-																data-idx="${CommentVO.idx }">삭제</a> <span
-																style="margin-left: 10px"
-																class="text-muted pull-right post_date">${CommentVO.date}</span>
-															</span>
+											<div class="comment-text" id=d${CommentVO.idx}>
+												<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+													<a class=e${CommentVO.idx} id="cedit"
+													style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
 
-															<!-- /.username -->
-															<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
-														</div>
-														<!-- /.comment-text -->
-													</div>
-												</c:if>
-											</c:when>
-											<c:when test="${check eq check2}">
-												<div class="box-comment" id="${CommentVO.idx}">
-													<!-- User image -->
+													<a class=d${CommentVO.idx} id="cdelete"
+													data-idx="${CommentVO.idx }">삭제</a> <span
+													style="margin-left: 10px"
+													class="text-muted pull-right post_date">${CommentVO.date}</span>
+												</span>
 
-													<div class="comment-text" id=d${CommentVO.idx}>
-														<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
-															<a class=d${CommentVO.idx} id="cdelete"
-															data-idx="${CommentVO.idx }" style="margin-left: 850px">삭제</a>
-															<span style="margin-left: 10px"
-															class="text-muted pull-right post_date">${CommentVO.date}</span>
-														</span>
+												<!-- /.username -->
+												<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+											</div>
+											<!-- /.comment-text -->
+										</div>
+									</c:if>
+								</c:when>
+								<c:when test="${check eq check2}">
+									<div class="box-comment" id="${CommentVO.idx}">
+										<!-- User image -->
 
-														<!-- /.username -->
-														<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
-													</div>
-													<!-- /.comment-text -->
-												</div>
+										<div class="comment-text" id=d${CommentVO.idx}>
+											<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+												<a class=d${CommentVO.idx} id="cdelete"
+												data-idx="${CommentVO.idx }" style="margin-left: 850px">삭제</a>
+												<span style="margin-left: 10px"
+												class="text-muted pull-right post_date">${CommentVO.date}</span>
+											</span>
 
-											</c:when>
+											<!-- /.username -->
+											<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+										</div>
+										<!-- /.comment-text -->
+									</div>
 
-											<c:when test="${check eq check3}">
-												<div class="box-comment" id="${CommentVO.idx}">
-													<!-- User image -->
+								</c:when>
 
-													<div class="comment-text" id=d${CommentVO.idx}>
-														<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
-															<a class=e${CommentVO.idx} id="cedit"
-															style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
+								<c:when test="${check eq check3}">
+									<div class="box-comment" id="${CommentVO.idx}">
+										<!-- User image -->
 
-															<a class=d${CommentVO.idx} id="cdelete"
-															data-idx="${CommentVO.idx }">삭제</a> <span
-															style="margin-left: 10px"
-															class="text-muted pull-right post_date">${CommentVO.date}</span>
-														</span>
+										<div class="comment-text" id=d${CommentVO.idx}>
+											<span class="username" id=n${CommentVO.idx}>${CommentVO.name }
+												<a class=e${CommentVO.idx} id="cedit"
+												style="margin-left: 790px" data-idx="${CommentVO.idx }">수정</a>
 
-														<!-- /.username -->
-														<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
-													</div>
-													<!-- /.comment-text -->
-												</div>
-											</c:when>
-										</c:choose>
+												<a class=d${CommentVO.idx} id="cdelete"
+												data-idx="${CommentVO.idx }">삭제</a> <span
+												style="margin-left: 10px"
+												class="text-muted pull-right post_date">${CommentVO.date}</span>
+											</span>
+
+											<!-- /.username -->
+											<span id=c${CommentVO.idx}>${CommentVO.contents}</span>
+										</div>
+										<!-- /.comment-text -->
+									</div>
+								</c:when>
+							</c:choose>
 						</c:forEach>
 
 					</div>
@@ -393,26 +404,25 @@
 <!-- 지도 모달창 -->
 <div id="popup"
 	style="position: absolute; visibility: hidden; height: 535px; background-color: white; background-color: #f1f6f7; text-align: right">
-	<span style="margin-right: 400px">버킷리스트 
-</span>
+	<span style="margin-right: 400px">버킷리스트 </span>
 	<button onclick="popupOpen()">닫기</button>
 	<div id="staticMap" style="width: 1000px; height: 500px;"></div>
 </div>
 <!-- 지도 모달창 종료 -->
 
 <!-- 검색 모달 창 시작 -->
-<div class="modal fade" id="layerpop" >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <!-- header -->
-      <div class="modal-header">
-        <!-- 닫기(x) 버튼 -->
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <!-- header title -->
-        <h4 class="modal-title">버킷 친구 추천</h4>
-      </div>
-      <!-- body -->
-      <div class="modal-body">
+<div class="modal fade" id="layerpop">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- header -->
+			<div class="modal-header">
+				<!-- 닫기(x) 버튼 -->
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<!-- header title -->
+				<h4 class="modal-title">버킷 친구 추천</h4>
+			</div>
+			<!-- body -->
+			<div class="modal-body">
 				<div class="input-group-btn search-panel">
 					<button type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown">
@@ -436,28 +446,28 @@
 						<li><a onclick="onclickName()">이름</a></li>
 						<li><a onclick="onclickEmail()">이메일</a></li>
 					</ul>
-				<input type="hidden" name="srchType" value="${srch.getSrchType()}"
-					id="search_param"> <input type="text" class="form-control"
-					name="srchText" value="${srch.getSrchText()}" id="search_text"
-					style="display:inline; width:430px; vertical-align:middle">
-				<span class="input-group-btn" style="display:inline">
-					<button class="btn btn-default" id="sub">
-						<span class="glyphicon glyphicon-search" onclick="return false"></span>
-					</button>
-				</span>
+					<input type="hidden" name="srchType" value="${srch.getSrchType()}"
+						id="search_param"> <input type="text" class="form-control"
+						name="srchText" value="${srch.getSrchText()}" id="search_text"
+						style="display: inline; width: 430px; vertical-align: middle">
+					<span class="input-group-btn" style="display: inline">
+						<button class="btn btn-default" id="sub">
+							<span class="glyphicon glyphicon-search" onclick="return false"></span>
+						</button>
+					</span>
 				</div>
-				<table class="table" style="margin-top:30px">
-				
+				<table class="table" style="margin-top: 30px">
+
 				</table>
-			
-      </div>
-      <!-- Footer -->
-      <div class="modal-footer">
-      	<span style="margin-right:330px">추천할 친구를 선택해주세요</span>
-        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-      </div>
-    </div>
-    </div>
+
+			</div>
+			<!-- Footer -->
+			<div class="modal-footer">
+				<span style="margin-right: 330px">추천할 친구를 선택해주세요</span>
+				<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -629,7 +639,7 @@ $(document).on('click', '#addComment', function(){
 	$(function() {
 		var modify_modal = $('#journal_modify_modal');
 		// 수정 버튼 누르면 저장된 일지 내용 가져옴
-		$(".timeline-footer>button").click(function() {
+		$(".timeline-footer>.f_right>button").click(function() {
 			var idx = $(this).attr("data-idx");
 			$.ajax({
 				url : "/BucketTree/bucketList/journal/modifyAjax?idx=" + idx,
@@ -672,7 +682,7 @@ $(document).on('click', '#addComment', function(){
 		});
 
 		/*-- 일지 삭제 --*/
-		$(".timeline-footer>a").click(function() {
+		$(".timeline-footer>.f_right>a").click(function() {
 			var idx = $(this).attr("data-idx");
 			$.ajax({
 				url : "/BucketTree/bucketList/journal/deleteAjax?idx=" + idx,

@@ -1,6 +1,9 @@
 package kr.ac.BucketTree.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,6 +14,7 @@ import kr.ac.BucketTree.dao.BucketJournalDAO;
 import kr.ac.BucketTree.dao.Journal_ImageDAO;
 import kr.ac.BucketTree.service.BucketJournalService;
 import kr.ac.BucketTree.vo.BucketJournalVO;
+import kr.ac.BucketTree.vo.BucketTree_Message;
 import kr.ac.BucketTree.vo.Journal_ImageVO;
 
 @Service
@@ -72,6 +76,25 @@ public class BucketJournalServiceimpl implements BucketJournalService {
 			jivo.setImage_idx(image_idx);
 			jidao.insertJournal_Image(jivo);
 		}
+	}
+
+	@Override
+	public BucketJournalVO createJournal(BucketTree_Message bm, int idx) {
+		// TODO Auto-generated method stub
+
+		BucketJournalVO bjv = new BucketJournalVO();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
+		Date currentTime = new Date();
+		String date = formatter.format(currentTime);
+
+		String title = "버킷트리에서 작성된 타임라인입니다.";
+
+		bjv.setBucket_idx(idx);
+		bjv.setContents(bm.getContents());
+		bjv.setDate(date);
+		bjv.setTitle(title);
+
+		return bjv;
 	}
 
 }

@@ -145,7 +145,6 @@
 	width: calc(100% + 30px);
 }
 
-ct
 
 .bs-calltoaction>.row>[class^="col-"], .bs-calltoaction>.row>[class*=" col-"]
 	{
@@ -388,10 +387,6 @@ ct
 	filter: alpha(opacity = 0); /* IE 8 */
 }
 
-#category {
-	margin-left: 10px;
-	height: 40px;
-}
 
 #form_search button, #form_search a {
 	height: 40px;
@@ -457,4 +452,18 @@ table.jambo_table tbody tr.selected td {
 	padding: 0 20px 0 18px;
 	margin-top: 2px;
 	text-align: center;
+}
+
+#srch_type {
+	position: relative;
+	height: 33px;
+	background:#48cfc8;
+	border: 1.5px solid #48cfc8;
+	padding: 0 20px 0 15px;
+	margin-top: 2px;
+	margin-left:1px;
+	text-align: center;
+	color:#fff;
+	border-radius: 4px;
+	font-weight:100;
 }

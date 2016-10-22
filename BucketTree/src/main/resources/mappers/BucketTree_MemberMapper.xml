@@ -4,15 +4,80 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ac.BucketTree.BucketTree_MemberMapper">
 
-   <insert id="apply" >
-   
-   Insert into BucketTree_Member (bucketTree_idx,user_idx,state)
-   values(#{bucketTree_idx} ,#{user_idx},#{state})
-   </insert>
-   
-   <delete id="cancel">
-   Delete from  BucketTree_Member where bucketTree_idx=#{bucketTree_idx} and user_idx =#{user_idx}
-   </delete>
+	<insert id="apply">
 
+		Insert into BucketTree_Member
+		(bucketTree_idx,user_idx,state)
+		values(#{bucketTree_idx}
+		,#{user_idx},#{state})
+	</insert>
+
+	<delete id="cancel">
+		Delete from BucketTree_Member where
+		bucketTree_idx=#{bucketTree_idx} and
+		user_idx =#{user_idx}
+	</delete>
+
+	<!-- 전체 회원 목록 보기 -->
+	<select id="memberList" resultType="kr.ac.BucketTree.vo.UserVO">
+		
+	SELECT* 
+	FROM(
+	SELECT *, ROW_NUMBER() OVER(ORDER BY name) as 행번호
+	FROM [User]
+	WHERE idx IN (SELECT user_idx FROM [BucketTree_Member] WHERE bucketTree_idx = #{idx} AND STATE = 0)
+	)subquery
+	<![CDATA[
+	WHERE 행번호 > (#{p.currentPage} - 1) * #{p.pageSize} AND 행번호 <= #{p.currentPage} * #{p.pageSize} 
+	]]>
+	ORDER BY 행번호
+	
+	</select>
+	
+	<!-- 트리 가입 신청한 회원 목록 보기 -->
+	<select id="applyList" resultType="kr.ac.BucketTree.vo.UserVO">
+		
+	SELECT* 
+	FROM(
+	SELECT *, ROW_NUMBER() OVER(ORDER BY name) as 행번호
+	FROM [User]
+	WHERE idx IN (SELECT user_idx FROM [BucketTree_Member] WHERE bucketTree_idx = #{idx} AND STATE = 1)
+	)subquery
+	<![CDATA[
+	WHERE 행번호 > (#{p.currentPage} - 1) * #{p.pageSize} AND 행번호 <= #{p.currentPage} * #{p.pageSize} 
+	]]>
+	ORDER BY 행번호
+	
+	</select>
+	
+	<!-- 트리 가입 수락하기 -->
+	<update id="addMember">
+	
+	UPDATE [BucketTree_Member] SET STATE = 0
+	WHERE bucketTree_idx = #{bucketTree_idx} and user_idx = #{user_idx}
+	
+	</update>
+	
+	<!-- 트리 가입 거절하기 -->
+	<delete id="denyJoin">
+	DELETE FROM BucketTree_Member WHERE bucketTree_idx = #{bucketTree_idx} AND user_idx = #{user_idx}
+	</delete>
+	
+	<!-- 트리 가입 위임하기 -->
+	<update id="mandate">
+	
+	UPDATE [BucketTree_Member] SET STATE = 2
+	WHERE bucketTree_idx = #{bucketTree_idx} and user_idx = #{user_idx}
+	
+	</update>
+
+	<!-- 트리장인지 확인하기 -->
+	<select id="checkAdmin" resultType="int">
+	
+	SELECT STATE
+	FROM BucketTree_Member
+	WHERE bucketTree_idx = #{bucketTree_idx} AND user_idx = #{user_idx}
+	
+	</select>
 
 </mapper>

@@ -7,11 +7,23 @@ import kr.ac.BucketTree.vo.BucketTree_Message;
 
 public interface BucketTree_MessageService {
 	public void insert(BucketTree_Message bucketTree_Message);
+
 	public void updateBucketTreeImage(BucketTree_Message bucketTree_Message);
-	public List<BucketTree_Message> list(int idx,Pagination pagination);
+
+	public List<BucketTree_Message> list(int idx, Pagination pagination);
+
 	public int listCount(int idx);
+
 	public List<BucketTree_Message> noticeList(int idx);
+
 	public BucketTree_Message selectByidx(int idx);
-	public void update(BucketTree_Message bucketTree_MessageVO );
+
+	public void update(BucketTree_Message bucketTree_MessageVO);
+	
+	public void updateType(BucketTree_Message bucketTree_MessageVO);
+
 	public void delete(int idx);
+
+	public int missionCount(int idx);
+	
 }

@@ -14,18 +14,21 @@ import kr.ac.BucketTree.service.Question_ImageService;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketShareVO;
 import kr.ac.BucketTree.vo.BucketTree_Message;
+
 @Service
 public class BucketTree_MessageServiceimpl implements BucketTree_MessageService {
 	@Autowired
 	Message_ImageService image;
 	@Autowired
 	BucketTree_MessageDAO dao;
+
 	@Override
 	public void insert(BucketTree_Message bucketTree_Message) {
-		
+
 		dao.insert(bucketTree_Message);
-		
+
 	}
+
 	@Override
 	public void updateBucketTreeImage(BucketTree_Message bucketTree_Message) {
 		image.deleteByMessageIdx(bucketTree_Message.getIdx());
@@ -36,37 +39,54 @@ public class BucketTree_MessageServiceimpl implements BucketTree_MessageService 
 			int imageId = Integer.parseInt(m.group(1));
 			image.insert(bucketTree_Message.getIdx(), imageId);
 		}
+	}
 
-	}
 	@Override
-	public List<BucketTree_Message> list(int idx,Pagination pagination){
+	public List<BucketTree_Message> list(int idx, Pagination pagination) {
 		// TODO Auto-generated method stub
-		return dao.list(idx,pagination);
+		return dao.list(idx, pagination);
 	}
+
 	@Override
 	public int listCount(int idx) {
 		// TODO Auto-generated method stub
 		return dao.listCount(idx);
 	}
+
 	@Override
 	public List<BucketTree_Message> noticeList(int idx) {
 		// TODO Auto-generated method stub
 		return dao.noticeList(idx);
 	}
+
 	@Override
 	public BucketTree_Message selectByidx(int idx) {
 		// TODO Auto-generated method stub
 		return dao.selectByidx(idx);
 	}
+
 	@Override
 	public void update(BucketTree_Message bucketTree_MessageVO) {
 		// TODO Auto-generated method stub
 		dao.update(bucketTree_MessageVO);
 	}
+
 	@Override
 	public void delete(int idx) {
 		// TODO Auto-generated method stub
 		dao.delete(idx);
+	}
+
+	@Override
+	public int missionCount(int idx) {
+		// TODO Auto-generated method stub
+		return dao.missionCount(idx);
+	}
+
+	@Override
+	public void updateType(BucketTree_Message bucketTree_MessageVO) {
+		// TODO Auto-generated method stub
+		dao.updateType(bucketTree_MessageVO);
 	}
 
 }

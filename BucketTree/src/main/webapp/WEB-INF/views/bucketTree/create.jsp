@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script src="/BucketTree/se2/js/HuskyEZCreator.js" type="text/javascript"></script>
 <!--  BucketShare -->
 <link href="/BucketTree/css/bucketShare.css" rel="stylesheet"
 	type="text/css" />
 
-<!-- 사이드 바 메뉴 -->
+<!-- 트리 생성하는 뷰(스마트 에디터 사용) -->
 <div class="container" style="padding-top: 110px; padding-bottom: 85px">
 
 	<div class="box-group">
@@ -45,11 +46,12 @@
 						<input type="text" class="form-control" name="treeName"
 							placeholder="BucketTreeName">
 					</div>
-					<!--버킷리스트 지정-->
+					
 					<div class="form-group">
-						<textarea id="body" name="contents"
-							style="width: 100%; height: 450px" placeholder="버킷트리를 소개해주세요"></textarea>
+						<textarea id="body" name="contents" class="smarteditor2"
+							style="width: 100%; height: 500px" placeholder="버킷트리를 소개해주세요"></textarea>
 					</div>
+					
 				</div>
 			</form>
 		</div>
@@ -64,7 +66,7 @@
 	</div>
 </div>
 
-<!-- 수정하는  modal -->
+<!-- 버킷리스트 지정하는  modal -->
 <div class="modal fade" id="searchBucketList" role="dialog">
 	<div class="modal-dialog modal-lg">
 		<!-- Modal content-->

@@ -6,7 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="idx">
 
-		INSERT INTO BucketTree_Message(BucketTree_idx,contents,user_idx,type,date)
+		INSERT
+		INTO BucketTree_Message(BucketTree_idx,contents,user_idx,type,date)
 		VALUES (#{bucketTree_idx},#{contents},#{user_idx},#{type},GETDATE())
 	</insert>
 	<select id="list" resultType="kr.ac.BucketTree.vo.BucketTree_Message"
@@ -74,9 +75,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update [BucketTree_Message] set contents =#{contents}
 		where idx=#{idx}
 	</update>
+
+	<update id="updateType">
+		update [BucketTree_Message] set type =#{type}
+		where
+		idx=#{idx}
+	</update>
 	<delete id="delete">
 		Delete from [BucketTree_Message] where idx=#{idx}
 	</delete>
+
+	<select id="missionCount" resultType="int">
+	
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM [BucketTree_Message]
+		WHERE BucketTree_idx=#{idx} and type=1
+	]]>
+
+	</select>
 
 
 </mapper>
