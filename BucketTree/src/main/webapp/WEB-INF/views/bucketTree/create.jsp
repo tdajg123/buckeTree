@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script src="/BucketTree/se2/js/HuskyEZCreator.js" type="text/javascript"></script>
+<script src="/BucketTree/se2/js/HuskyEZCreator.js"
+	type="text/javascript"></script>
 <!--  BucketShare -->
 <link href="/BucketTree/css/bucketShare.css" rel="stylesheet"
 	type="text/css" />
@@ -11,9 +12,11 @@
 <div class="container" style="padding-top: 110px; padding-bottom: 85px">
 
 	<div class="box-group">
-		<h3>
-			<i class="fa fa-chevron-right"></i> 버킷트리 만들기
-		</h3>
+		<div class="modal-header" style="padding: 15px 50px;">
+			<h4>
+				<span class="fa fa-pencil"></span> 버킷트리 만들기
+			</h4>
+		</div>
 		<hr>
 		<div class="x_panel">
 			<form id="bucketTree_Create" method="post">
@@ -23,13 +26,14 @@
 						<a id="searchBucketList_button" class="btn btn-success">나의
 							버킷리스트 지정</a>
 						<div id=share_BucketList style="display: inline-block;"></div>
-						
+
 						<div class="form-inline f_right">
-							<input style="width:30px" type="radio" class="form-control"  value="1" name="author">전체공개
-							<input style="width:30px" type="radio" class="form-control"  value="0" name="author">회원공개
+							<input style="width: 30px" type="radio" class="form-control"
+								value="1" name="author">전체공개 
+								<input style="width: 30px"
+								type="radio" class="form-control" value="0" name="author">회원공개
 						</div>
-						
-						
+
 						<div class="form-inline f_right">
 							<p class="btn btn-success">포인트</p>
 							<a class="btn btn-success">100포인트소모</a>
@@ -46,12 +50,12 @@
 						<input type="text" class="form-control" name="treeName"
 							placeholder="BucketTreeName">
 					</div>
-					
+
 					<div class="form-group">
 						<textarea id="body" name="contents" class="smarteditor2"
 							style="width: 100%; height: 500px" placeholder="버킷트리를 소개해주세요"></textarea>
 					</div>
-					
+
 				</div>
 			</form>
 		</div>
@@ -59,8 +63,8 @@
 			<button type="submit" class="btn btn-success">
 				<span class="fa fa-check"></span> 작성하기
 			</button>
-			<a href="/BucketTree/bucketTree/myList" class="btn btn-default"> <span
-				class="fa fa-remove"></span> 취소하기
+			<a href="/BucketTree/bucketTree/myList" class="btn btn-default">
+				<span class="fa fa-remove"></span> 취소하기
 			</a>
 		</div>
 	</div>
@@ -132,17 +136,19 @@
 
 <script>
 	$(function() {
-		
-		var user_point=${user.idx};
-		
+
+		var user_point = $
+		{
+			user.idx
+		}
+		;
+
 		$("input:radio[name='author']:radio[value='1']").attr('checked', true); // 원하는 값(Y)을 체크
 
-		
-		
 		$("button[type=submit]").click(function() {
 			$('#bucketTree_Create').submit();
 		});
-		
+
 		$("#searchBucketList_button").click(function() {
 
 			$('#searchBucketList').modal();
@@ -203,7 +209,7 @@
 								alert('버킷리스트를 지정하세요');
 								return false;
 							}
-							
+
 							var value = $('textarea[name=contents]').val();
 
 							if (value == ""
@@ -215,7 +221,7 @@
 								alert('소개글을 입력하세요');
 								return false;
 							}
-							
+
 							$.ajax({
 								url : "/BucketTree/bucketShare/userPoint",
 								type : "GET",
