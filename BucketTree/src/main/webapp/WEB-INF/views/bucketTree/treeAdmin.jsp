@@ -80,11 +80,7 @@
 		$('#treeAdmin_Modify').submit(
 				function() {
 					var point = 0;
-					var user_point = $
-					{
-						user.idx
-					}
-					;
+					var user_point = ${user.idx};
 					var value = $('textarea[name=contents]').val();
 					if (parseInt(point) < parseInt(value)) {
 						alert('포인트가 부족합니다');

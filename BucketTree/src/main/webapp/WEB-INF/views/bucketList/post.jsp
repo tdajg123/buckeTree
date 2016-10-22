@@ -32,6 +32,10 @@
 							</button>
 							<button class="btn btn-default" data-target="#layerpop"
 								data-toggle="modal" style="width: 60px; height: 30px">추천</button>
+								<button class="btn btn-default" title="PDF"
+                        onclick="location.href='/BucketTree/bucketList/${bucket.idx}/pdfdown.do'">
+                        <i class="fa fa-book"></i>
+                     </button>
 							<br />
 						</div>
 					</c:if>

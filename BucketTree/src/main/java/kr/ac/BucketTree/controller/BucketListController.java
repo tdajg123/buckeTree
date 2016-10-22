@@ -393,25 +393,25 @@ public class BucketListController {
 	
 
 	@RequestMapping("/bucketList/{idx}/pdfdown.do")
-	public String pdfDownload(Model model, @PathVariable("idx") int idx, HttpServletResponse response)
-			throws Exception {
-		System.out.println("----- FileDownloadController.pdfDownload() -----");
+	   public String pdfDownload(Model model, @PathVariable("idx") int idx, HttpServletResponse response)
+	         throws Exception {
+	      System.out.println("----- FileDownloadController.pdfDownload() -----");
 
-		BucketListVO bc = bls.bucket(idx);
-		List<BucketJournalVO> bjl = bjs.bucketJournalList(idx);
-		List<Journal_ImageVO> jil = jis.selectByBucket_idx(idx);
-		int b_image = bls.selectByImageIdx(idx);
+	      BucketListVO bc = bls.bucket(idx);
+	      List<BucketJournalVO> bjl = bjs.bucketJournalList(idx);
+	      List<Journal_ImageVO> jil = jis.selectByBucket_idx(idx);
+	      int b_image = bls.selectByImageIdx(idx);
 
-		Journal_ImageVO ji = jil.get(0);
-		int ji_1 = ji.getImage_idx();
-		System.out.println(ji_1);
+	      Journal_ImageVO ji = jil.get(0);
+	      int ji_1 = ji.getImage_idx();
+	      System.out.println(ji_1);
 
-		model.addAttribute("bucket", bc);
-		model.addAttribute("journals", bjl);
-		model.addAttribute("j_images", jil);
-		model.addAttribute("b_image", b_image);
+	      model.addAttribute("bucket", bc);
+	      model.addAttribute("journals", bjl);
+	      model.addAttribute("j_images", jil);
+	      model.addAttribute("b_image", b_image);
 
-		return "pdfDownload";
-	}
+	      return "pdfDownload";
+	   }
 
 }

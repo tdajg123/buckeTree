@@ -33,6 +33,13 @@
 								<input style="width: 30px"
 								type="radio" class="form-control" value="0" name="author">회원공개
 						</div>
+						
+						<!-- <div class="checks etrans">
+                        <input type="checkbox" class="form-control" value="1" name="author"><label
+                           for="id">전체공개</label>
+                           <input type="checkbox" class="form-control" value="0" name="author"><label
+                           for="id">회원공개</label>
+                     </div> -->
 
 						<div class="form-inline f_right">
 							<p class="btn btn-success">포인트</p>
@@ -137,11 +144,7 @@
 <script>
 	$(function() {
 
-		var user_point = $
-		{
-			user.idx
-		}
-		;
+		var user_point = ${user.idx};
 
 		$("input:radio[name='author']:radio[value='1']").attr('checked', true); // 원하는 값(Y)을 체크
 
