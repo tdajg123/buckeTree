@@ -37,8 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertUser">
-	INSERT INTO [USER](email,password,name,birth,type,point) 
-	values(#{email},#{password},#{name},#{birth},'일반',0) 
+	INSERT INTO [USER](email,password,name,birth,type) 
+	values(#{email},#{password},#{name},#{birth},'일반') 
 	</insert>
 	
 	
@@ -133,9 +133,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				END 행번호
 	FROM [USER] u
 	WHERE
-	     (#{srchType}= 0) OR  /*검색조건이 없을때 */
-		 (#{srchType}= 1 AND CHARINDEX(#{srchText},u.name)>=1) OR /*공지 제목*/
-		 (#{srchType}= 2 AND CHARINDEX(#{srchText},u.email)>=1) /*공지 제목이나 내용 */
+	     (#{srchType}= 0 AND u.type='일반') OR  /*검색조건이 없을때 */
+		 (#{srchType}= 1 AND (CHARINDEX(#{srchText},u.name)>=1 AND u.type='일반')) OR /*이름*/
+		 (#{srchType}= 2 AND (CHARINDEX(#{srchText},u.email)>=1 AND u.type='일반')) /*이메일*/
+		   
 
 	) subquery
 	WHERE 행번호>(#{currentPage}-1) * #{pageSize} And
