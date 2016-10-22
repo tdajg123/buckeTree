@@ -73,16 +73,16 @@
 
 				<ul class="nav navbar-left">
 
-					<c:if test="${userVO.getImage() != null }">
+					<c:if test="${user.getImage() != null }">
 
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
-								src="/BucketTree/menubar/${userVO.getIdx()}/profile"
+								src="/BucketTree/menubar/${user.getIdx()}/profile"
 								class="user-image" alt="User Image"> <sec:authentication
 									property="user.name" /> <b class="caret"></b></a>
 					</c:if>
 
-					<c:if test="${userVO.getImage() == null }">
+					<c:if test="${user.getImage() == null }">
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
 								src="/BucketTree/images/PROFILE_image.png" class="user-image"
@@ -113,7 +113,7 @@
 					</ul>
 				</ul>
 				<ul class="nav navbar-left">
-					<li><a href="/BucketTree/point"> 1500 <i
+					<li><a href="/BucketTree/point"> ${user.getPoint()} <i
 							class="fa fa-tree"></i></a></li>
 
 

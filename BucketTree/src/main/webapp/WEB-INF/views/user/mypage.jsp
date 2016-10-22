@@ -15,16 +15,29 @@
 	margin-bottom: 20px;
 	overflow: hidden;
 }
+.button_circle {
+	background-color: #fff;
+	border: none;
+	width: 200px;
+	height: 200px;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	margin-left: 840px;
+	overflow: hidden;
+	cursor: pointer;
+}
 </style>
 
 <!-- Form Module-->
 <div class="all">
 	<form action="profile">
-		<div class="circle2">
-			<button type="submit">
+			<button type="submit" class="button_circle">
 
 				<c:if test="${userVO.getImage() != null }">
-					<div class="myprofile">
+					<div class="circle2">
 						<img src="/BucketTree/mypage/${userVO.getIdx()}/profile"
 							style="width: 200px; height: 200px;">
 					</div>
@@ -37,7 +50,6 @@
 					</div>
 				</c:if>
 			</button>
-		</div>
 	</form>
 
 	<div class="module form-module">
