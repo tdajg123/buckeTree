@@ -92,7 +92,7 @@ a {
 .btn-line {
 	background: #fff;
 	border: 1px solid #48cfc8;
-	width:100px;
+	width: 100px;
 }
 
 /*btn-success*/
@@ -236,7 +236,7 @@ a {
 	position: relative;
 }
 
-.checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
+.checks input[type="checkbox"] { /* �떎�젣 泥댄겕諛뺤뒪�뒗 �솕硫댁뿉�꽌 �닲源� */
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -250,21 +250,21 @@ a {
 .checks input[type="checkbox"]+label {
 	display: inline-block;
 	position: relative;
-	padding-left: 30px; /* 글자와 체크박스 사이의 간격을 변경 */
+	padding-left: 30px; /* 湲��옄�� 泥댄겕諛뺤뒪 �궗�씠�쓽 媛꾧꺽�쓣 蹂�寃� */
 	cursor: pointer;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
 
-.checks input[type="checkbox"]+label:before { /* 가짜 체크박스 */
+.checks input[type="checkbox"]+label:before { /* 媛�吏� 泥댄겕諛뺤뒪 */
 	content: '';
 	position: absolute;
 	left: 0;
-	top: -4px; /* 이 값을 변경해서 글자와의 정렬 */
-	width: 21px; /* 체크박스의 너비를 지정 */
-	height: 21px; /* 체크박스의 높이를 지정 */
-	line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
+	top: -4px; /* �씠 媛믪쓣 蹂�寃쏀빐�꽌 湲��옄���쓽 �젙�젹 */
+	width: 21px; /* 泥댄겕諛뺤뒪�쓽 �꼫鍮꾨�� 吏��젙 */
+	height: 21px; /* 泥댄겕諛뺤뒪�쓽 �넂�씠瑜� 吏��젙 */
+	line-height: 21px; /* �꽭濡쒖젙�젹�쓣 �쐞�빐 �넂�씠媛믨낵 �씪移� */
 	text-align: center;
 	background: #fafafa;
 	border: 1px solid #cacece;
@@ -279,8 +279,9 @@ a {
 		rgba(0, 0, 0, 0.1);
 }
 
-.checks input[type="checkbox"]:checked+label:before { /* 체크박스를 체크했을때 */
-	content: '\2714'; /* 체크표시 유니코드 사용 */
+.checks input[type="checkbox"]:checked+label:before {
+	/* 泥댄겕諛뺤뒪瑜� 泥댄겕�뻽�쓣�븣 */
+	content: '\2714'; /* 泥댄겕�몴�떆 �쑀�땲肄붾뱶 �궗�슜 */
 	color: #99a1a7;
 	text-shadow: 1px 1px #fff;
 	background: #e9ecee;
@@ -320,6 +321,86 @@ a {
 	-ms-transform: rotate(45deg);
 	-webkit-transform: rotate(45deg);
 	transform: rotate(45deg);
+}
+/* 라디오버튼 */
+.checks {
+	position: relative;
+}
+
+.checks input[type="radio"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.checks input[type="radio"]+label {
+	display: inline-block;
+	position: relative;
+	padding-left: 30px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.checks input[type="radio"]+label:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: -4px;
+	width: 21px;
+	height: 21px;
+	text-align: center;
+	background: #fafafa;
+	border: 1px solid #cacece;
+	border-radius: 100%;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px
+		rgba(0, 0, 0, 0.05);
+}
+
+.checks input[type="radio"]+label:active:before, .checks input[type="radio"]:checked+label:active:before
+	{
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px
+		rgba(0, 0, 0, 0.1);
+}
+
+.checks input[type="radio"]:checked+label:before {
+	background: #E9ECEE;
+	border-color: #adb8c0;
+}
+
+.checks input[type="radio"]:checked+label:after {
+	content: '';
+	position: absolute;
+	top: 1px;
+	left: 5px;
+	width: 13px;
+	height: 13px;
+	background: #99a1a7;
+	border-radius: 100%;
+	box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.checks.small input[type="radio"]+label {
+	font-size: 12px;
+	padding-left: 25px;
+}
+
+.checks.small input[type="radio"]+label:before {
+	top: -2px;
+	width: 17px;
+	height: 17px;
+}
+
+.checks.small input[type="radio"]:checked+label:after {
+	top: 3px;
+	width: 9px;
+	height: 9px;
 }
 
 .no-csstransforms .checks.etrans input[type="checkbox"]:checked+label:before
