@@ -3,6 +3,7 @@ package kr.ac.BucketTree.dao;
 import java.util.List;
 
 import kr.ac.BucketTree.util.Pagination;
+import kr.ac.BucketTree.vo.BucketTreeVO;
 import kr.ac.BucketTree.vo.BucketTree_MemberVO;
 import kr.ac.BucketTree.vo.UserVO;
 
@@ -20,7 +21,7 @@ public interface BucketTree_MemberDAO {
 	/*트리 회원관리 - 가입 요청 거절*/
 	public int denyJoin(BucketTree_MemberVO deny);
 	/*트리 회원관리 - 트리장 위임*/
-	public int mandate(BucketTree_MemberVO mandate);
+	public int mandate(BucketTreeVO mandate);
 	/*트리 회원관리 - 트리장인지 확인*/
 	public int checkAdmin(BucketTree_MemberVO check);
 }

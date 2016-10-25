@@ -24,8 +24,7 @@ input[type=checkbox]:checked {
 		<div class="side-menu-container">
 
 			<!-- 트리장만 해당 메뉴가 보임 -->
-			<c:set var="admin" value="${admin}" />
-			<c:if test="${admin eq 2}">
+			<c:if test="${vo.user_idx eq user.idx}">
 				<ul class="nav navbar-nav">
 						<li>
 							<a onclick="location.href='/BucketTree/bucketTree/treeAdmin/${tree.idx}/modify.do'">트리관리

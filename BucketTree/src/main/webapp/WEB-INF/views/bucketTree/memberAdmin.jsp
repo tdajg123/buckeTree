@@ -103,15 +103,14 @@
 						</c:if>
 						<h4>${UserVO.name}</h4>
 						<p>${UserVO.email}</p>
-						
-						<button type="button" class="btn btn-default"
+						<button type="button" class="btn btn-default f_right" style="margin-right: 10px"
 								aria-label="right Align" id="mandate"
 								data-idx="${UserVO.getIdx()}"
 								data-name="${UserVO.getName()}"
 								data-tree="${treeidx}">위임</button>
 					</div>
-
 				</c:forEach>
+				
 			</div>
 		</div>
 	</div>
@@ -171,7 +170,7 @@ $(document).on('click', '#deny', function() {
 
 $(document).on('click', '#mandate', function() {
 	var eventTarget = this;
-	var userIdx = $(this).attr('data-idx');
+	var newIdx = $(this).attr('data-idx');
 	var treeIdx = $(this).attr('data-tree');
 	var userName = $(this).attr('data-name');
 	
@@ -182,7 +181,7 @@ $(document).on('click', '#mandate', function() {
 		dataType : "json",
 		type : "POST",
 		data : {
-			user_idx : userIdx,
+			new_idx : newIdx,
 			tree_idx : treeIdx
 		},
 		success : function(data) {

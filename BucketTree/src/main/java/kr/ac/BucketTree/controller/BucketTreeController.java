@@ -215,12 +215,12 @@ public class BucketTreeController {
 		model.addAttribute("tree", bt);
 		
 		/* 트리장만 관리 메뉴를 들어갈 수 있음 */
-		BucketTree_MemberVO check = new BucketTree_MemberVO();
+		/*BucketTree_MemberVO check = new BucketTree_MemberVO();
 		check.setBucketTree_idx(idx);
 		check.setUser_idx(user.getIdx());
 		int admin = btms.checkAdmin(check);
 
-		model.addAttribute("admin", admin);
+		model.addAttribute("admin", admin);*/
 
 		return "bucketTree/detail";
 	}
@@ -408,15 +408,14 @@ public class BucketTreeController {
 	@RequestMapping("treeMember/{idx}/profileImage")
 	public void treeMemberProfile(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
 
-		UserVO image = us.getCurrentUser();
-
-		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
-
-		response.setContentType(image.getMimeType()); /* 확장자 명 */
-		response.setHeader("Content-Disposition", "filename=" + fileName + ";");
-		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-			output.write(us.getCurrentUser().getImage()); /* 이미지 출력 */
-		}
+		UserVO image = us.selectByIdx(idx);
+		
+		String fileName = URLEncoder.encode(image.getFileName(),"UTF-8");
+        response.setContentType(image.getMimeType());
+        response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+            output.write(us.selectByIdx(idx).getImage());
+        }
 	}
 
 	/* 트리 가입 요청 수락 */
@@ -431,9 +430,8 @@ public class BucketTreeController {
 
 		btms.addMember(member);
 
-		/*버킷리스트에 추가-수정필요*/
-//		BucketListVO vo = new BucketListVO();
-//		bls.addBucket(vo);
+		/*BucketListVO vo = new BucketListVO();
+		bls.addBucket(vo);*/
 
 		return true;
 
@@ -459,20 +457,20 @@ public class BucketTreeController {
 	/* 트리장 위임 */
 	@ResponseBody
 	@RequestMapping(value = "bucketTree/treeAdmin/mandate", method = RequestMethod.POST)
-	public String mandateMember(@RequestParam("user_idx") String user_idx, @RequestParam("tree_idx") String tree_idx,
+	public String mandateMember(@RequestParam("new_idx") String new_idx, @RequestParam("tree_idx") String tree_idx,
 			HttpServletResponse response, Model model) throws Exception {
 
-		BucketTree_MemberVO mandate = new BucketTree_MemberVO();
-		mandate.setUser_idx(Integer.parseInt(user_idx));
-		mandate.setBucketTree_idx(Integer.parseInt(tree_idx));
+		BucketTreeVO mandate = new BucketTreeVO();
+		mandate.setUser_idx(Integer.parseInt(new_idx));
+		mandate.setIdx(Integer.parseInt(tree_idx));
 
-		BucketTree_MemberVO member = new BucketTree_MemberVO();
+		/*BucketTree_MemberVO member = new BucketTree_MemberVO();
 		UserVO user = us.getCurrentUser();
 		member.setUser_idx(user.getIdx());
-		member.setBucketTree_idx(Integer.parseInt(tree_idx));
+		member.setBucketTree_idx(Integer.parseInt(tree_idx));*/
 
 		btms.mandate(mandate);
-		btms.addMember(member);
+//		btms.addMember(member);
 
 		return "bucketTree/myList";
 

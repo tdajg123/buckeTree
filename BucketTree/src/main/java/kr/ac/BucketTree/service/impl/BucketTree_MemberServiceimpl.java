@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kr.ac.BucketTree.dao.BucketTree_MemberDAO;
 import kr.ac.BucketTree.service.BucketTree_MemberService;
 import kr.ac.BucketTree.util.Pagination;
+import kr.ac.BucketTree.vo.BucketTreeVO;
 import kr.ac.BucketTree.vo.BucketTree_MemberVO;
 import kr.ac.BucketTree.vo.UserVO;
 
@@ -57,7 +58,7 @@ public class BucketTree_MemberServiceimpl implements BucketTree_MemberService{
 
 	/*트리 회원관리 - 트리장 위임*/
 	@Override
-	public int mandate(BucketTree_MemberVO mandate) {
+	public int mandate(BucketTreeVO mandate) {
 		// TODO Auto-generated method stub
 		return dao.mandate(mandate);
 	}
