@@ -4,6 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+.profileImage {
+	background-color: #fff;
+	border: 3px #48cfc8 solid;
+	width: 70px;
+	height: 70px;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	margin-right: 10px;
+	overflow: hidden;
+}
+</style>
 <script>
 		
 	
@@ -108,8 +123,8 @@
 																function() {
 																	if(this.image==null){
 																	str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
-																			+ "<div class='square pull-left'>"
-																			+ "<span class='glyphicon glyphicon-info-sign glyphicon-lg'></span>"
+																			+ "<div class='profileImage pull-left'>"
+																			+ "<img src='/BucketTree/images/PROFILE_image.png' style='width: 70px; height: 70px'>"
 																			+ "</div>"
 																			+ "<h4>"
 																			+ this.name
@@ -126,8 +141,8 @@
 																	}else{
 													
 																		str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
-																		+ "<div class='square pull-left' style='padding:0px'>"
-																		+ "<img src='/BucketTree/Friend/"+this.idx+"/profile' style='height:95px'>"
+																		+ "<div class='profileImage pull-left' style='padding:0px'>"
+																		+ "<img src='/BucketTree/Friend/"+this.idx+"/profile' style='width: 70px; height: 70px'>"
 																		+ "</div>"
 																		+ "<h4>"
 																		+ this.name
@@ -236,8 +251,8 @@
 				<div class="blockquote-box blockquote-info clearfix"
 					data-row="${UserVO.getRow()}" data-idx="${UserVO.getIdx()}" id=e${UserVO.getIdx()}>
 					<c:if test = "${UserVO.getImage() != null }">
-						<div class="square pull-left" style="padding:0px">
-							<img src="/BucketTree/Friend/${UserVO.getIdx()}/profile" style="height:95px">
+						<div class="profileImage pull-left" style="padding:0px">
+							<img src="/BucketTree/Friend/${UserVO.getIdx()}/profile" style="width: 70px; height: 70px">
 						</div>
 					</c:if>
 					<c:if test = "${UserVO.getImage() == null }">
@@ -248,14 +263,6 @@
 					<h4>${UserVO.name}</h4>
 					<p>${UserVO.email }</p>
 					<p id="mbp">
-						<!-- 버킷 추천기능은 버킷리스트 상세보기에 구현하였습니다 
-						<button type="button" class="btn btn-default"
-							aria-label="right Align" id="recommend"
-							data-idx="${UserVO.getIdx()}" data-target="#layerpop" data-toggle="modal">
-							<span class="glyphicon glyphicon-send" aria-hidden="true"
-								title="버킷추천"></span>
-						</button>
-						 -->				
 						<button type="button" class="btn btn-default"
 							aria-label="right Align" id="lunge"
 							data-idx="${UserVO.getIdx()}">

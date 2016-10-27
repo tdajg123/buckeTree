@@ -53,8 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 트리 가입 수락하기 -->
 	<update id="addMember">
 	
-	UPDATE [BucketTree_Member] SET STATE = 0
-	WHERE bucketTree_idx = #{bucketTree_idx} and user_idx = #{user_idx}
+	UPDATE [BucketTree_Member] SET STATE=2
+	WHERE bucketTree_idx=#{bucketTree_idx} AND user_idx=#{user_idx}
 	
 	</update>
 	
@@ -66,8 +66,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 트리 가입 위임하기 -->
 	<update id="mandate">
 	
-	UPDATE [BucketTree_Member] SET STATE = 2
-	WHERE bucketTree_idx = #{bucketTree_idx} and user_idx = #{user_idx}
+	UPDATE [BucketTree] SET user_idx=#{user_idx}
+	WHERE idx = #{idx}
 	
 	</update>
 

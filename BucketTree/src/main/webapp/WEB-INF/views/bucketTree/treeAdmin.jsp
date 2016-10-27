@@ -22,11 +22,14 @@
 					</div>
 
 					<!-- 트리 - 전체공개 / 회원공개 -->
-					<div class="form-inline f_right">
-						<input style="width: 30px" type="radio" class="form-control"
-							value="1" name="author">전체공개 <input style="width: 30px"
-							type="radio" class="form-control" value="0" name="author">회원공개
-					</div>
+					<div class="radiobutton f_right">
+		                <div class="checks small">
+		                    <input type="radio" id="all" name="author" value="1"> 
+		                    <label for="all">전체공개</label> 
+		                    <input type="radio" id="member" name="author" value="0"> 
+		                    <label for="member">회원공개</label> 
+		                </div>
+	                </div>
 
 					<div class="form-inline f_right" id="select">
 						<p type="button" class="btn btn-success">증가할 인원</p>
@@ -80,11 +83,7 @@
 		$('#treeAdmin_Modify').submit(
 				function() {
 					var point = 0;
-					var user_point = $
-					{
-						user.idx
-					}
-					;
+					var user_point = ${user.idx};
 					var value = $('textarea[name=contents]').val();
 					if (parseInt(point) < parseInt(value)) {
 						alert('포인트가 부족합니다');

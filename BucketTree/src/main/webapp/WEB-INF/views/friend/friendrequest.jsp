@@ -6,6 +6,21 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
+<style>
+.profileImage {
+	background-color: #fff;
+	border: 3px #48cfc8 solid;
+	width: 70px;
+	height: 70px;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	margin-right: 10px;
+	overflow: hidden;
+}
+</style>
 <script>
 	function onclickName() {
 		$('#search_param').val(1);
@@ -90,8 +105,8 @@
 
 																function() {
 																	str += "<div class='blockquote-box blockquote-info clearfix' data-row='"+this.row+"'data-idx='"+this.idx+"'>"
-																			+ "<div class='square pull-left'>"
-																			+ "<span class='glyphicon glyphicon-info-sign glyphicon-lg'></span>"
+																			+ "<div class='profileImage pull-left'>"
+																			+ "<img src='/BucketTree/images/PROFILE_image.png' style='width: 70px; height: 70px'>"
 																			+ "</div>"
 																			+ "<h4>"
 																			+ this.name
@@ -160,8 +175,9 @@
 					<c:forEach items="${rlist}" var="UserVO">
 						<div class="blockquote-box blockquote-info clearfix"
 							data-num="${UserVO.getRow()}" id="${UserVO.getIdx()}" style="width:100%">
-							<div class="square pull-left">
-								<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
+							<div class="profileImage pull-left">
+								<img src="/BucketTree/images/PROFILE_image.png"
+									style="width: 70px; height: 70px">
 							</div>
 							<h4>${UserVO.name}</h4>
 							<p>${UserVO.email }</p>
@@ -195,13 +211,14 @@
 						<div class="blockquote-box blockquote-info clearfix"
 							data-num="${UserVO.getRow()}" id="${UserVO.getIdx()}" style="width:100%">
 							<c:if test = "${UserVO.getImage() != null }">
-						<div class="square pull-left" style="padding:0px">
+						<div class="profileImage pull-left" style="padding:0px">
 							<img src="/BucketTree/Friend/${UserVO.getIdx()}/profile" style="height:95px"> 
 						</div>
 					</c:if>
 					<c:if test = "${UserVO.getImage() == null }">
-						<div class="square pull-left">
-							<span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
+						<div class="profileImage pull-left">
+							<img src="/BucketTree/images/PROFILE_image.png"
+									style="width: 70px; height: 70px">
 						</div>
 					</c:if>
 							<h4>${UserVO.name}</h4>

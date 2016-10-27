@@ -22,10 +22,13 @@ public class BucketTreeCommon {
 	@Autowired
 	NoticeService ns;
 	//어느 페이지에서나 메신저를 쓰기위해 모델에 추가
-	public Model commonMessenger(Model model)
+	public Model commonMessenger(Model model) throws Exception
 	{	
 		//유저 정보가져오기
-		UserVO user =us.getCurrentUser();		
+
+		UserVO user =us.getCurrentUser();
+		int point = us.sumPoint(user.getIdx());
+		user.setPoint(point);
 		//<!--메세지=>새로운 메세지를 보낸 친구목록 -->
 
 		List<FriendVO> flist1=fs.FriendByNewMessagener(user.getIdx());

@@ -59,7 +59,7 @@ public class FriendController {
 	}
 	//검색된 친구 목록 POST 검색 결과 페이지
 		@RequestMapping(value = "/Friend/searchFriendListPost", method = RequestMethod.POST)
-		public String friendSearchPost(Model model,HttpServletRequest request) {
+		public String friendSearchPost(Model model,HttpServletRequest request) throws Exception {
 			model = bucketTreeCommon.commonMessenger(model);
 			UserVO user =us.getCurrentUser();
 			System.out.println("포스트 친구검색 도착");
@@ -79,7 +79,7 @@ public class FriendController {
 		}
 		//검색된 친구 목록 GET 방식 초기페이지
 		@RequestMapping(value = "/Friend/searchFriendList", method = RequestMethod.GET)
-		public String friendSearchGet(Model model,HttpServletRequest request) {
+		public String friendSearchGet(Model model,HttpServletRequest request) throws Exception {
 			model=bucketTreeCommon.commonMessenger(model);
 			UserVO user = us.getCurrentUser();
 			List<UserVO> list = new ArrayList();
@@ -160,7 +160,7 @@ public class FriendController {
 		}
 		//친구 목록
 		@RequestMapping(value = "/Friend/FriendList", method = RequestMethod.GET)
-		public String friendListGet(Model model,HttpServletRequest request) {
+		public String friendListGet(Model model,HttpServletRequest request) throws Exception {
 			model=bucketTreeCommon.commonMessenger(model);
 			UserVO user =us.getCurrentUser();
 			Pagination page = new Pagination();
@@ -173,7 +173,7 @@ public class FriendController {
 		}
 		//친구 목록 내 검색   
 		@RequestMapping(value = "/Friend/FriendListSearch", method = RequestMethod.POST)
-		public String SearchFriendList(Model model,HttpServletRequest request) {
+		public String SearchFriendList(Model model,HttpServletRequest request) throws Exception {
 			model = bucketTreeCommon.commonMessenger(model);
 			UserVO user =us.getCurrentUser();
 			int srchType = Integer.parseInt(request.getParameter("srchType"));

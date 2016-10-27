@@ -65,7 +65,7 @@ public class NoticeController {
 	
 	//공지사항 리스트
 	@RequestMapping(value="/notice/list")
-	public String selectNotice(Model model,Pagination pagination){
+	public String selectNotice(Model model,Pagination pagination) throws Exception{
 		UserVO user = us.getCurrentUser();
 		model = bucketTreeCommon.commonMessenger(model);
 		pagination.setRecordCount(ns.selectCount(pagination));

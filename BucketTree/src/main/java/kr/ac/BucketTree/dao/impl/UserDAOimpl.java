@@ -159,6 +159,10 @@ public class UserDAOimpl implements UserDAO {
 	@Override
 	public int sumPoint(int user_idx) throws Exception {
 		// TODO Auto-generated method stub
+		if(sqlSession.selectOne(namespace + ".sumPoint", user_idx)==null)
+		{
+			return 0;
+		}
 		return sqlSession.selectOne(namespace + ".sumPoint", user_idx);
 	}
 	

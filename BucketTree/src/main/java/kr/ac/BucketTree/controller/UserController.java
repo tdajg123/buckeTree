@@ -325,7 +325,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/userlist")
-	public String userlist(Model model , Pagination pagination){
+	public String userlist(Model model , Pagination pagination) throws Exception{
 		UserVO user = us.getCurrentUser();
 		model = bucketTreeCommon.commonMessenger(model);
 		pagination.setRecordCount(us.selectCount(pagination));
