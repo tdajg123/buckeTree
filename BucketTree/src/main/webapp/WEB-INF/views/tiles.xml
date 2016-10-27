@@ -7,15 +7,7 @@
 	<definition name="login" template="/WEB-INF/views/home/login.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/include/header.jsp" />
 	</definition>
-
-	<definition name="friendsearch" extends="commonLayout">
-		<put-attribute name="content" value="/WEB-INF/views/friend/friendsearch.jsp" />
-	</definition>
-
-	<definition name="friendlist" extends="commonLayout">
-		<put-attribute name="content" value="/WEB-INF/views/friend/friendlist.jsp" />
-	</definition>
-
+	
 	<!-- 공통 UI -->
 	<definition name="commonLayout" template="/WEB-INF/views/template/template.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/include/header.jsp" />
@@ -24,7 +16,7 @@
 		<put-attribute name="content" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/include/footer.jsp" />
 	</definition>
-	
+
 	<!-- 공통 UI 상속-->
 	<definition name="*/*" extends="commonLayout">
 		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />

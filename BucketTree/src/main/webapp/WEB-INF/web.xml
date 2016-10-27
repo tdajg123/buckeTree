@@ -37,6 +37,17 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	 	
+ 	<error-page>
+	<error-code>404</error-code>
+		<location>/WEB-INF/views/error/404.jsp</location>
+	</error-page>
+	
+	<error-page>
+	<error-code>500</error-code>
+		<location>/WEB-INF/views/error/500.jsp</location>
+	</error-page>
 
 	<!--인코딩 UTF-8로 설정 -->
 	<filter>
@@ -68,7 +79,7 @@
       org.springframework.security.web.session.HttpSessionEventPublisher
     </listener-class>
  	</listener>
- 	
+
  	
 
 </web-app>

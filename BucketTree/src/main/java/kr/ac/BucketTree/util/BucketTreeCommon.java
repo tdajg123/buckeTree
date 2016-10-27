@@ -25,8 +25,9 @@ public class BucketTreeCommon {
 	public Model commonMessenger(Model model)
 	{	
 		//유저 정보가져오기
-		UserVO user =us.getCurrentUser();
+		UserVO user =us.getCurrentUser();		
 		//<!--메세지=>새로운 메세지를 보낸 친구목록 -->
+
 		List<FriendVO> flist1=fs.FriendByNewMessagener(user.getIdx());
 		//메세지=>새로운 메세지를 보낸 친구목록 객체에 담기
 		model.addAttribute("flist1", flist1);
@@ -41,6 +42,8 @@ public class BucketTreeCommon {
 		model.addAttribute("notice", nv);
 		
 		return model;
+		
+		
 	}
 
 }
