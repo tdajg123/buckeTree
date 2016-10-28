@@ -231,6 +231,12 @@ public class BucketListDAOimpl implements BucketListDAO {
 		
 		return session.selectOne(namespace + ".mylistCount", input);
 	}
+	
+	@Override
+	public int mylistCount_Complete(int user_idx) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".mylistCount_complete",user_idx);
+	}
 	@Override
 	public void completeBucket(int idx) {
 		session.update(namespace + ".completeBucket",idx);
@@ -258,4 +264,6 @@ public class BucketListDAOimpl implements BucketListDAO {
 		
 		return count>0;
 	}
+	
 }
+

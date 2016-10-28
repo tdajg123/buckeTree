@@ -147,6 +147,12 @@ public class UserServiceimpl implements UserService {
 		dao.profileUpdate(user);
 	}
 
+	@Override
+	public List<PointVO> readPointList(int user_idx) {
+		// TODO Auto-generated method stub
+		return dao.readPointList(user_idx);
+	}
+
 	//적립된 포인트 내역 조회
 	@Override
 	public List<PointVO> readPlusPoint(int user_idx) {

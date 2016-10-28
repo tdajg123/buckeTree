@@ -24,6 +24,10 @@ a {
 	text-decoration: none;
 }
 
+h4>a {
+	color: #2aa09a;
+}
+
 #logo {
 	width: 100%;
 }
@@ -93,6 +97,17 @@ a {
 	background: #fff;
 	border: 1px solid #48cfc8;
 	width: 100px;
+	color: #48cfc8;
+}
+
+.btn-line-s {
+	background: #fff;
+	border: 1px solid #48cfc8;
+	color: #48cfc8;
+}
+
+.btn.btn-line-s:hover {
+	color: #2aa09a;
 }
 
 /*btn-success*/
@@ -113,6 +128,11 @@ a {
 	background-color: #FF80AB;
 	border: 1px solid #f8f8f8;
 	color: #fff;
+}
+
+.btn-mission-s {
+	border: 1px solid #FF80AB;
+	color: #FF80AB;
 }
 
 .btn.btn-mission:hover, .btn.btn-mission:focus, .btn.btn-mission:active,
@@ -387,7 +407,7 @@ a {
 }
 
 .checks.small input[type="radio"]+label {
-	font-size: 12px;
+	font-size: 14px;
 	padding-left: 25px;
 }
 

@@ -7,70 +7,41 @@
 	type="text/css" />
 
 <!-- 사이드 바 메뉴 -->
-<div class="container" style="padding-top: 110px; padding-bottom: 85px">
-	<!-- Menu -->
-	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
+<div class="container" style="padding-top: 50px; padding-bottom: 85px">
 
-		<nav class="navbar navbar-default" role="navigation"
-			style="width: 200px">
-
-			<!-- Main Menu -->
-			<div class="side-menu-container">
-				<ul class="nav navbar-nav">
-
-					<li><a href="/BucketTree/bucketShare/list"><span
-							class="glyphicon glyphicon-user"></span> 전체질문</a></li>
-					<li><a href="/BucketTree/bucketShare/mylist"><span
-							class="glyphicon glyphicon-user"></span> 내가 쓴 질문</a></li>
-					<li><a href="/BucketTree/bucketShare/myAnswerlist"><span
-							class="glyphicon glyphicon-user"></span> 내가 쓴 답변</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
-							질문하기</a></li>
-
-				</ul>
-			</div>
-
-		</nav>
-
-	</div>
-
-
-
-	<div class="box-group" id="accordion"
-		style="height: 900px; width: 1200px; padding-top: 100px;">
-		<div class="panel box box-primary">
-			<form:form method="post" modelAttribute="question" id="question_Edit">
-				<div class="modal-header" style="padding: 15px 50px;">
-
-					<!-- 제목 -->
-					<h4>
-						<span class="fa fa-pencil"></span> 버킷쉐어
-					</h4>
-				</div>
-				<div class="modal-body" style="height: 700px; padding: 40px 50px;">
-					<!-- 제목 -->
-					<div class="form-group">
-						<h1>${question.title}</h1>
-					</div>
+	<div class="box-group">
+		<h3>
+			<i class="fa fa-chevron-right"></i> 버킷쉐어 질문 수정하기
+		</h3>
+		<hr>
+		<form:form method="post" modelAttribute="question" id="question_Edit">
+			<div class="x_panel">
+				<div class="x_title">
 					<!--버킷리스트 지정-->
 					<div class="form-group">
 						<form:input path="bucketList_idx" type="hidden" />
 						<a id="searchBucketList_button" class="btn btn-success">나의
 							버킷리스트 지정</a>
 						<div id=share_BucketList style="display: inline-block;">
-							<button type='button' class='btn btn-success'>${question.bucketListName}
+							<button type='button' class='btn btn-line-s'>${question.bucketListName}
 							</button>
-							<button type='button' class='btn btn-success'>${question.when}
+							<button type='button' class='btn btn-line-s'>${question.when}
 							</button>
-							<button type='button' class='btn btn-success'>${question.who}
+							<button type='button' class='btn btn-line-s'>${question.who}
 							</button>
-							<button type='button' class='btn btn-success'>${question.what}
+							<button type='button' class='btn btn-line-s'>${question.what}
 							</button>
 						</div>
-						<div style="display: inline-block; margin-left: 300px">
+						<div class="f_right">
 							<button type="button" class="btn btn-success">포인트</button>
-							<span>${question.point}</span>
+							<span class="btn btn-line-s">${question.point}</span>
 						</div>
+					</div>
+				</div>
+				<div class="x_contents">
+					<!-- 제목 -->
+					<div class="form-group">
+						<h1>${question.title}</h1>
 					</div>
 
 
@@ -79,19 +50,21 @@
 							style="width: 100%; height: 450px" />
 
 					</div>
+				</div>
+			</div>
 
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">
-						<span class="fa fa-check"></span> 작성하기
-					</button>
-					<a href="/BucketTree/bucketShare/list" class="btn btn-default">
-						<span class="fa fa-remove"></span> 취소하기
-					</a>
-				</div>
-			</form:form>
-		</div>
+			<div class="f_right" style="margin-bottom: 10px;">
+				<button type="submit" class="btn btn-success">
+					<span class="fa fa-check"></span> 수정하기
+				</button>
+				<a href="/BucketTree/bucketShare/list" class="btn btn-default">
+					<span class="fa fa-remove"></span> 취소하기
+				</a>
+			</div>
+
+		</form:form>
 	</div>
+</div>
 
 
 
@@ -194,7 +167,6 @@
 									+ "</button>")
 
 				});
-		
 
 	});
 </script>

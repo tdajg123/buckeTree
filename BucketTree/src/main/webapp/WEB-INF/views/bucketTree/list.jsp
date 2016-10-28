@@ -16,7 +16,7 @@
 		<!-- 검색 부분 시작 -->
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
 			action="/BucketTree/bucketTree/list">
-			<div class="col-md-11 col-md-offset-1">
+			<div class="col-md-10 col-md-offset-2">
 				<div class="form-inline">
 
 					<!-- 카테고리 선택 버튼 -->
@@ -72,13 +72,13 @@
 			<c:forEach items="${list}" var="BucketTreeVO">
 				<article data-id="${BucketTreeVO.idx}" class="white-panel"
 					style="width: 260px">
-					
-					<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do">
-						<c:if test="${BucketTreeVO.imageIdx != 0 }">
+
+					<a href="/BucketTree/bucketTree/detail?idx=${BucketTreeVO.idx}"> <c:if
+							test="${BucketTreeVO.imageIdx != 0 }">
 							<img src="/BucketTree/tree/${BucketTreeVO.imageIdx}/image">
 						</c:if>
 					</a>
-					
+
 					<h4>
 						<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
 					</h4>
@@ -87,16 +87,21 @@
 						<c:if test="${BucketTreeVO.regist==1}">
 							<a
 								href="/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1"
-								class="btn btn-success">취소</a>
+								class="btn btn-mission-s">신청취소</a>
 						</c:if>
 						<c:if
 							test="${BucketTreeVO.regist==0 && BucketTreeVO.current<=BucketTreeVO.member_num}">
 							<a
 								href="/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1"
-								type="button" class="btn btn-success">신청</a>
+								type="button" class="btn btn-mission">신청</a>
 						</c:if>
-						<c:if test="${BucketTreeVO.regist==2}">
+						<c:if
+							test="${BucketTreeVO.regist==2&&BucketTreeVO.user_idx!=user.idx}">
 							<button type="button" class="btn btn-success">회원</button>
+						</c:if>
+						<c:if
+							test="${BucketTreeVO.regist==2&&BucketTreeVO.user_idx==user.idx}">
+							<button type="button" class="btn btn-line-s">개설</button>
 						</c:if>
 					</div>
 					<p style="width: 250px">인원 :
@@ -272,11 +277,11 @@ $(function() {
 										
 											 if(this.regist==1)
                                  				{
-                                 					str+="<a href='/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1' class='btn btn-success'>취소</a>";
+                                 					str+="<a href='/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1' class='btn btn-mission-s'>신청취소</a>";
                                  				}
                                  			 if(this.regist==0 && this.current<=this.member_num)
                                  				 {
-                                 				   str+= "<a href='/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1 type='button' class='btn btn-success'>신청</a>";
+                                 				   str+= "<a href='/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=1 type='button' class='btn btn-mission'>신청</a>";
                                  				 }
                                  			 if(this.regist==2)
                             				    {

@@ -47,6 +47,8 @@
 <link href="/BucketTree/css/bucketShare.css" rel="stylesheet" type="text/css" />
 <!--  BucketTree -->
 <link href="/BucketTree/css/bucketTree.css" rel="stylesheet" type="text/css" />
+<!--  Point -->
+<link href="/BucketTree/css/point.css" rel="stylesheet" type="text/css" />
 
 <!-- MENU JS-->
 <script type="text/javascript"	src="/BucketTree/js/menu/modernizr.custom.js"></script>

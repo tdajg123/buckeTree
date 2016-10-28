@@ -4,45 +4,48 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="/BucketTree/se2/js/HuskyEZCreator.js"
 	type="text/javascript"></script>
-<!--  BucketShare -->
-<link href="/BucketTree/css/bucketShare.css" rel="stylesheet"
-	type="text/css" />
 
 <!-- 트리 생성하는 뷰(스마트 에디터 사용) -->
-<div class="container" style="padding-top: 110px; padding-bottom: 85px">
+<div class="container" style="padding-top: 50px; padding-bottom: 85px">
 
 	<div class="box-group">
-		<div class="modal-header" style="padding: 15px 50px;">
-			<h4>
-				<span class="fa fa-pencil"></span> 버킷트리 만들기
-			</h4>
-		</div>
+		<h3>
+			<i class="fa fa-chevron-right"></i> 버킷리스트 작성하기
+		</h3>
 		<hr>
 		<div class="x_panel">
 			<form id="bucketTree_Create" method="post">
 				<div class="x_title">
-					<div class="form-group">
+					<div class="row" style="margin-left: 2px; margin-bottom: 2px;">
 						<input type="hidden" class="form-control" name="bucketList_idx">
 						<a id="searchBucketList_button" class="btn btn-success">나의
 							버킷리스트 지정</a>
 						<div id=share_BucketList style="display: inline-block;"></div>
 
-	                    <div class="radiobutton f_right">
-		                    <div class="checks small">
-		                      <input type="radio" id="all" name="author" value="1"> 
-		                      <label for="all">전체공개</label> 
-		                      <input type="radio" id="member" name="author" value="0"> 
-		                      <label for="member">회원공개</label> 
-		                    </div>
-	                   	</div>
-
-						<div class="form-inline f_right">
-							<p class="btn btn-success">포인트</p>
-							<a class="btn btn-success">100포인트소모</a>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-inline">
+								<p class="btn btn-success">포인트</p>
+								<a class="btn btn-line-s">- 100</a>
+							</div>
 						</div>
-						<div class="form-inline f_right">
-							<p class="btn btn-success">기본인원</p>
-							<a class="btn btn-success">5명</a>
+						<div class="col-md-4">
+							<div class="form-inline">
+								<p class="btn btn-success">기본인원</p>
+								<a class="btn btn-line-s">5명</a>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="radiobutton">
+								<div class="checks small">
+									<p class="btn btn-success">공개범위</p>
+									<input type="radio" id="all" name="author" value="1"> <label
+										for="all">전체공개</label> <input type="radio" id="member"
+										name="author" value="0"> <label for="member">회원공개</label>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -165,18 +168,18 @@
 					$('input[name=bucketList_idx]').val(idx);
 					var bucketName = selectedTr.find("td:nth-child(1)").text();
 					$('#share_BucketList').append(
-							"<button type='button' class='btn btn-default'>"
+							"<button type='button' class='btn btn-line-s'>"
 									+ bucketName + "</button>");
 					$('#share_BucketList').append(
-							"<button type='button' class='btn btn-default'>"
+							"<button type='button' class='btn btn-line-s'>"
 									+ selectedTr.find("td:nth-child(4)").text()
 									+ "</button>");
 					$('#share_BucketList').append(
-							"<button type='button' class='btn btn-default'>"
+							"<button type='button' class='btn btn-line-s'>"
 									+ selectedTr.find("td:nth-child(5)").text()
 									+ "</button>")
 					$('#share_BucketList').append(
-							"<button type='button' class='btn btn-default'>"
+							"<button type='button' class='btn btn-line-s'>"
 									+ selectedTr.find("td:nth-child(6)").text()
 									+ "</button>")
 

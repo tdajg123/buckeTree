@@ -45,6 +45,7 @@
 		</div>
 		<div id="navbar" class="collapse navbar-collapse"
 			style="z-index: 999999">
+
 			<ul class="nav navbar-nav">
 				<li id="dl-menu-1" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷리스트</a>
@@ -61,12 +62,14 @@
 				<li id="dl-menu-3" class="dl-menuwrapper"><a href="#"
 					class="dl-trigger">버킷쉐어</a>
 					<ul class="dl-menu">
-						<li><a href="/BucketTree/bucketShare/mylist">나의버킷쉐어</a></li>
+						<li><a href="/BucketTree/bucketShare/mylist">나의버킷쉐어</a>
+							<ul class="dl-submenu">
+								<li><a href="/BucketTree/bucketShare/mylist">내가쓴질문</a></li>
+								<li><a href="/BucketTree/bucketShare/myAnswerlist">내가쓴답변</a></li>
+							</ul></li>
 						<li><a href="/BucketTree/bucketShare/list">전체버킷쉐어</a></li>
-
 					</ul></li>
 			</ul>
-
 
 			<div class="navbar-custom-menu">
 				<!-- NAVBAR 오른쪽  -->

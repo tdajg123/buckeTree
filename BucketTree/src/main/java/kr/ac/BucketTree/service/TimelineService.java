@@ -5,6 +5,7 @@ import java.util.List;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketJournalVO;
 import kr.ac.BucketTree.vo.BucketListVO;
+import kr.ac.BucketTree.vo.BucketTree_MemberVO;
 import kr.ac.BucketTree.vo.FriendVO;
 import kr.ac.BucketTree.vo.TimelineVO;
 import kr.ac.BucketTree.vo.UserVO;
@@ -33,13 +34,13 @@ public interface TimelineService {
 	public void FriendPointing_Timeline(UserVO fv, UserVO uv);
 
 	// 7. 버킷트리에 가입했을 시
-	public void TreeJoin_Timeline(UserVO uv);
+	public void TreeJoin_Timeline(BucketTree_MemberVO btm);
 
 	// 8. 버킷트리에서 탈퇴했을 시
-	public void TreeLeave_Timeline(UserVO uv);
+	public void TreeLeave_Timeline(BucketTree_MemberVO btm);
 
 	// 9. 버킷트리 미션이 올라왔을 시
-	public void TreeMission_Timeline(UserVO uv);
+	public void TreeMission_Timeline(int tree_idx);
 
 	// 10. 버킷트리에서 추방당했을 시
 	public void TreeOut_Timeline(UserVO uv);

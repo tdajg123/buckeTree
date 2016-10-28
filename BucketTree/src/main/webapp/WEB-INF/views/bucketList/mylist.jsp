@@ -53,7 +53,7 @@
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
 			action="/BucketTree/bucketList/mylist">
 
-			<div class="col-md-11 col-md-offset-1">
+			<div class="col-md-10 col-md-offset-2">
 				<div class="form-inline">
 					<!-- Search Form __ Start -->
 
@@ -132,13 +132,13 @@
 						<c:if test="${BucketListVO.user_idx !=user.idx}">
 							<div class="f_right" id="select" data-id="${BucketListVO.idx}"
 								style="background: transparent; border: none; display: inline-block">
-								<div class="btn btn-success">여행담기 ${BucketListVO.count}</div>
+								<div class="btn btn-success">${BucketListVO.count}</div>
 							</div>
 						</c:if>
 						<c:if test="${BucketListVO.user_idx ==user.idx}">
 							<div class="f_right"
 								style="background: transparent; border: none; display: inline-block">
-								<div class="btn btn-success">${BucketListVO.count}</div>
+								<div class="btn btn-line-s">${BucketListVO.count}</div>
 							</div>
 						</c:if>
 					</article>
@@ -181,13 +181,13 @@
 						<c:if test="${BucketListVO.user_idx !=user.idx}">
 							<div class="f_right" id="select" data-id="${BucketListVO.idx}"
 								style="background: transparent; border: none; display: inline-block">
-								<div class="btn btn-success">여행담기 ${BucketListVO.count}</div>
+								<div class="btn btn-success">${BucketListVO.count}</div>
 							</div>
 						</c:if>
 						<c:if test="${BucketListVO.user_idx ==user.idx}">
 							<div class="f_right"
 								style="background: transparent; border: none; display: inline-block">
-								<div class="btn btn-success">${BucketListVO.count}</div>
+								<div class="btn btn-line-s">${BucketListVO.count}</div>
 							</div>
 						</c:if>
 					</article>
@@ -200,6 +200,14 @@
 
 	<!-- bucketList-Category & Type & Search __ End -->
 	<div class="pinboot">
+		<div class="progress-group">
+			<span class="progress-text">달성률 <b>${percent}</b>%</span> <span
+				class="progress-number">버킷리스트 총  ${count}개 중 ${complete}개 완료</span>
+
+			<div class="progress sm">
+				<div class="progress-bar progress-bar-pink" style="width:${percent}%"></div>
+			</div>
+		</div>
 		<hr>
 
 		<section id="pinBoot"
@@ -230,7 +238,7 @@
 					</c:if>
 						<c:if test="${BucketListVO.state == 1}">
 					<div class="f_right">
-						<a href="/BucketTree/bucketList/ingBucket?${pagination.queryString}&idx=${BucketListVO.idx}" class="btn btn-success" type="submit">완료</a>
+						<a href="/BucketTree/bucketList/ingBucket?${pagination.queryString}&idx=${BucketListVO.idx}" class="btn btn-line-s" type="submit">완료</a>
 					</div>
 					</c:if>
 				</article>
@@ -371,7 +379,7 @@ $(function() {
      							if(this.state ==1)
      								{
      								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
-     								 str+="<a href='/BucketTree/bucketList/ingBucket?${pagination.queryString}"+"&idx="+this.idx+"' class='btn btn-success' type='submit'>완료</a>";
+     								 str+="<a href='/BucketTree/bucketList/ingBucket?${pagination.queryString}"+"&idx="+this.idx+"' class='btn btn-line-s' type='submit'>완료</a>";
    								      str+="</div>";
      								}
      							 

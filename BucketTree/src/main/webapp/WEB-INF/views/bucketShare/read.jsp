@@ -7,29 +7,7 @@
 	type="text/css" />
 
 <!-- 사이드 바 메뉴 -->
-<div class="container" style="padding-top: 110px; padding-bottom: 85px">
-	<!-- Menu -->
-	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
-		<nav class="navbar navbar-default" role="navigation"
-			style="width: 200px">
-
-			<!-- Main Menu -->
-			<div class="side-menu-container">
-				<ul class="nav navbar-nav">
-
-					<li><a href="/BucketTree/bucketShare/list"> 전체질문 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-					<li><a href="/BucketTree/bucketShare/mylist">내가 쓴 질문 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-					<li><a href="/BucketTree/bucketShare/myAnswerlist"> 내가 쓴
-							답변 <span class="fa fa-angle-right f_right"></span>
-					</a></li>
-					<li><a href="/BucketTree/bucketShare/create"> 질문하기 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
+<div class="container" style="padding-top: 50px; padding-bottom: 85px">
 
 	<div class="f_right" style="margin: 10px;">
 		<c:if test="${ question.state == 0 && question.user_idx==user.idx }">

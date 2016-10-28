@@ -126,6 +126,16 @@ public class BucketListController {
 		model.addAttribute("who", cs.whoList());
 		model.addAttribute("when", cs.whenList());
 		model = bucketTreeCommon.commonMessenger(model);
+		
+		UserVO user = us.getCurrentUser();
+		int count = bls.mylistCount(pagination, user.getIdx());
+		int complete_count=bls.mylistCount_Complete(user.getIdx());
+		int percent=(int)(((double)complete_count/(double)count)*100);
+			
+		model.addAttribute("count",count);
+		model.addAttribute("complete",complete_count);
+		model.addAttribute("percent",percent);
+		
 
 		// 친구가 추천해준거
 
@@ -191,6 +201,9 @@ public class BucketListController {
 		bls.insertBucketList(vo);
 		bls.updateBucketImage(vo);
 		is.deleteOrphan();
+
+		ts.BucketInsert_Timeline(us.getCurrentUser().getIdx(), vo.getTitle(),
+				"BucketTree/bucketList/" + vo.getIdx() + "/bucket.do");
 
 		return "forward:/bucketList/list";
 	}

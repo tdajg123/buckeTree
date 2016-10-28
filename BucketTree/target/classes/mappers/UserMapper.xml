@@ -10,14 +10,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectByEmail" resultType="kr.ac.BucketTree.vo.UserVO">
 		SELECT *
 		FROM [USER]
-		WHERE EMAIL =#{email}
+		WHERE
+		EMAIL =#{email}
 	</select>
 
 	<!-- idx로 유저찾기 -->
 	<select id="selectByIdx" resultType="kr.ac.BucketTree.vo.UserVO">
 		SELECT *
 		FROM [USER]
-		WHERE idx =#{idx}
+		WHERE idx
+		=#{idx}
 	</select>
 
 	<!-- 비밀번호 변경 -->
@@ -27,101 +29,122 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		PASSWORD=#{password}
 		WHERE EMAIL = #{email}
 	</update>
-	
-		<!-- 이메일 중복 체크 -->
+
+	<!-- 이메일 중복 체크 -->
 	<select id="checkEmail" resultType="int" parameterType="string">
-		SELECT COUNT(1)
+		SELECT
+		COUNT(1)
 		FROM [USER]
 		WHERE EMAIL =#{create_email}
-	
+
 	</select>
-	
+
 	<insert id="insertUser">
-	INSERT INTO [USER](email,password,name,birth,type) 
-	values(#{email},#{password},#{name},#{birth},'일반') 
+		INSERT INTO [USER](email,password,name,birth,type)
+		values(#{email},#{password},#{name},#{birth},'일반')
 	</insert>
-	
-	
-	
+
+
+
 	<!-- 회원 정보 보기 -->
 	<select id="read" resultType="kr.ac.BucketTree.vo.UserVO">
-		SELECT * 
-		FROM [USER] 
-		WHERE idx = #{idx}
+		SELECT *
+		FROM [USER]
+		WHERE idx =
+		#{idx}
 	</select>
-	
+
 	<!-- 회원 정보 수정 전 비밀 번호 확인 -->
 	<select id="checkPassword" resultType="int" parameterType="java.util.HashMap">
-		SELECT COUNT(1) 
-		FROM [USER] 
-		WHERE idx = #{idx} AND password = #{password}
+		SELECT COUNT(1)
+		FROM [USER]
+		WHERE idx = #{idx} AND password =
+		#{password}
 	</select>
-	
+
 	<!-- 회원 정보 수정 (비밀번호, 생년월일) -->
 	<update id="update">
 		UPDATE [USER] SET PASSWORD = #{password}
-		WHERE IDX = #{idx}
+		WHERE IDX =
+		#{idx}
 	</update>
-	
+
 	<!-- 회원 탈퇴 -->
 	<delete id="delete">
 		DELETE FROM [USER] WHERE IDX = #{idx}
 	</delete>
-	
+
 	<!-- 프로필 기본 -->
 	<update id="profileImage">
-		UPDATE [USER] SET IMAGE = #{image}, fileName = #{fileName}
+		UPDATE [USER] SET IMAGE = #{image}, fileName =
+		#{fileName}
 		WHERE IDX = #{idx}
 	</update>
-	
+
 	<!-- 프로필 업데이트 -->
 	<update id="profileUpdate">
-		UPDATE [USER] SET IMAGE = #{image}, fileName = #{fileName}
+		UPDATE [USER] SET IMAGE = #{image}, fileName =
+		#{fileName}
 		WHERE IDX = #{idx}
 	</update>
-	
+
 	<!-- 메뉴바에서 포인트 조회 -->
 	<select id="point" resultType="kr.ac.BucketTree.vo.UserVO">
 		SELECT POINT
-		FROM [USER] 
-		WHERE IDX = #{idx}
+		FROM [USER]
+		WHERE IDX =
+		#{idx}
 	</select>
-	
+
 	<!-- 적립된 포인트 내역 조회 -->
 	<select id="plusPoint" resultType="kr.ac.BucketTree.vo.PointVO">
 		SELECT *
-		FROM [POINT] 
-		WHERE USER_IDX = #{user_idx} AND STATE = 1
+		FROM [POINT]
+		WHERE
+		USER_IDX = #{user_idx} AND STATE = 1
 		ORDER BY DATE ASC
 	</select>
-	
+
+	<!-- 포인트 리스트 -->
+	<select id="pointList" resultType="kr.ac.BucketTree.vo.PointVO">
+		SELECT * , ROW_NUMBER() OVER(ORDER BY DATE ASC) AS ROW
+		FROM [POINT]
+		WHERE
+		USER_IDX = #{user_idx}
+		ORDER BY DATE ASC
+
+	</select>
+
 	<!-- 사용한 포인트 내역 조회 -->
 	<select id="minusPoint" resultType="kr.ac.BucketTree.vo.PointVO">
 		SELECT *
-		FROM [POINT] 
-		WHERE USER_IDX = #{user_idx} AND STATE = 0
+		FROM [POINT]
+		WHERE
+		USER_IDX = #{user_idx} AND STATE = 0
 		ORDER BY DATE ASC
 	</select>
-	
+
 	<!-- 포인트 적립 내역 업데이트 -->
 	<insert id="updatePlusPoint">
-		INSERT INTO [POINT] (USER_IDX, STATE, POINT, DATE, CONTENTS) 
-		values(#{user_idx}, 1, #{point}, GETDATE(), #{contents}) 
+		INSERT INTO [POINT] (USER_IDX, STATE, POINT, DATE,
+		CONTENTS)
+		values(#{user_idx}, 1, #{point}, GETDATE(), #{contents})
 	</insert>
-	
+
 	<!-- 포인트 사용 내역 업데이트 -->
 	<insert id="updateMinusPoint">
-		INSERT INTO [POINT] (USER_IDX, STATE, POINT, DATE, CONTENTS) 
-		values(#{user_idx}, 0, #{point}, GETDATE(), #{contents}) 
+		INSERT INTO [POINT] (USER_IDX, STATE, POINT, DATE,
+		CONTENTS)
+		values(#{user_idx}, 0, #{point}, GETDATE(), #{contents})
 	</insert>
-	
-	<!--최종 포인트 계산   -->
+
+	<!--최종 포인트 계산 -->
 	<select id="sumPoint" resultType="int">
-		SELECT sum(point) 
+		SELECT sum(point)
 		FROM POINT
 		WHERE user_idx=#{user_idx}
 	</select>
-	
+
 	<!-- 유저 목록 전체출력 -->
 	<select id="userSelectAll" resultType="kr.ac.BucketTree.vo.UserVO">
 	<![CDATA[
@@ -144,16 +167,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	ORDER BY 행번호 
 	
 	]]>
-	
+
 	</select>
-	
-		<select id="selectCount" resultType="int">
+
+	<select id="selectCount" resultType="int">
 		SELECT COUNT(*)
 		FROM [USER] u
 		WHERE
-		 (#{srchType}= 0) OR  /*검색조건이 없을때 */
-		 (#{srchType}= 1 AND CHARINDEX(#{srchText},u.name)>=1) OR /*공지 제목*/
-		 (#{srchType}= 2 AND CHARINDEX(#{srchText},u.email)>=1) /*공지 제목이나 내용 */
-		
+		(#{srchType}= 0) OR /*검색조건이 없을때 */
+		(#{srchType}= 1 AND
+		CHARINDEX(#{srchText},u.name)>=1) OR /*공지 제목*/
+		(#{srchType}= 2 AND
+		CHARINDEX(#{srchText},u.email)>=1) /*공지 제목이나 내용 */
+
 	</select>
 </mapper>

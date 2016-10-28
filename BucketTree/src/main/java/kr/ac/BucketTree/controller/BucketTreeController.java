@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -226,18 +228,28 @@ public class BucketTreeController {
 	}
 
 	@RequestMapping(value = "/bucketTree/write", method = RequestMethod.POST)
-	public String write(Model model, BucketTree_Message bucketTree_Message, @RequestParam("together") int check,@RequestParam("list_idx") int list_idx)
-			throws Exception {
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public String write(Model model, BucketTree_Message bucketTree_Message, @RequestParam("together") int check,
+			@RequestParam("list_idx") int list_idx) throws Exception {
+		
+		BucketTree_MemberVO member = new BucketTree_MemberVO();
+		member.setUser_idx(bucketTree_Message.getUser_idx());
+		member.setBucketTree_idx(bucketTree_Message.getBucketTree_idx());
+		
 		model = bucketTreeCommon.commonMessenger(model);
 		bucketTree_Message.setUser_idx(us.getCurrentUser().getIdx());
 
 		bms.insert(bucketTree_Message);
 		bms.updateBucketTreeImage(bucketTree_Message);
 		is.deleteOrphan();
+		
+		if(bucketTree_Message.getType()==1){
+			ts.TreeMission_Timeline(bucketTree_Message.getBucketTree_idx());
+		}
+		
+		if (check == 1) {
+			BucketJournalVO bjv = bjs.createJournal(bucketTree_Message, list_idx);
 
-		if(check==1){
-			BucketJournalVO bjv=bjs.createJournal(bucketTree_Message, list_idx);
-			
 			bjs.insertJournal(bjv);
 			bjs.updateJournalImage(bjv);
 			is.deleteOrphan();
@@ -248,7 +260,6 @@ public class BucketTreeController {
 
 		return "redirect:/bucketTree/detail?idx=" + bucketTree_Message.getBucketTree_idx();
 	}
-
 	@ResponseBody
 	@RequestMapping(value = "/bucketTree/modify", method = RequestMethod.GET)
 	public BucketTree_Message modify(Model model, @RequestParam("idx") int idx) throws Exception {
@@ -418,9 +429,11 @@ public class BucketTreeController {
         }
 	}
 
+
 	/* 트리 가입 요청 수락 */
 	@ResponseBody
 	@RequestMapping(value = "bucketTree/treeAdmin/addMember", method = RequestMethod.POST)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean addMember(@RequestParam("user_idx") String user_idx, @RequestParam("tree_idx") String tree_idx,
 			HttpServletResponse response, Model model) throws Exception {
 
@@ -429,9 +442,11 @@ public class BucketTreeController {
 		member.setBucketTree_idx(Integer.parseInt(tree_idx));
 
 		btms.addMember(member);
+		ts.TreeJoin_Timeline(member);
 
-		/*BucketListVO vo = new BucketListVO();
-		bls.addBucket(vo);*/
+		/*
+		 * BucketListVO vo = new BucketListVO(); bls.addBucket(vo);
+		 */
 
 		return true;
 
@@ -522,5 +537,20 @@ public class BucketTreeController {
 		bs.deleteTreeByAdmin(idx);
 
 		return "bucketTree/myList";
+	}
+	
+	/* 트리- 탈퇴 */
+	@RequestMapping("/bucketTree/leaveTree")
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	
+	public void leaveTree(@RequestParam("user_idx") String user_idx, @RequestParam("tree_idx") String tree_idx,
+			HttpServletResponse response, Model model) throws Exception {
+		
+		BucketTree_MemberVO deny = new BucketTree_MemberVO();
+		deny.setUser_idx(Integer.parseInt(user_idx));
+		deny.setBucketTree_idx(Integer.parseInt(tree_idx));
+		btms.denyJoin(deny);
+		ts.TreeLeave_Timeline(deny);
+		
 	}
 }

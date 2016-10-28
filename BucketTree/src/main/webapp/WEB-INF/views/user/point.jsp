@@ -1,92 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<style>
+a {
+	color: #2aa09a;
+}
+</style>
 
 <div class="container">
-	<div class="login-signup">
-		<!-- 포인트 적립 & 사용 탭 -->
-		<div class="row">
-			<div class="col-sm-6 nav-tab-holder" style= "margin-left :270px; margin-bottom :40px; margin-top: 50px">
-				<ul class="nav nav-tabs row" role="tablist">
-					<li role="presentation" class="active col-sm-6"><a
-						href="#home" aria-controls="home" role="tab" data-toggle="tab">PLUS</a></li>
-					<li role="presentation" class="col-sm-6"><a href="#profile"
-						aria-controls="profile" role="tab" data-toggle="tab">MINUS</a></li>
+	<div class="col-md-6 col-md-offset-3" style="margin-top: 70px;">
+		<!-- Widget: user widget style 1 -->
+		<div class="box box-widget widget-point">
+			<!-- Add the bg color to the header using any of the bg-* classes -->
+			<div class="widget-header">
+				<h5 class="widget-desc">BUCKET POINT</h5>
+				<h1 class="widget-point-info">${user.getPoint()}P</h1>
+			</div>
+			<div class="box-footer no-padding">
+				<ul class="nav nav-stacked">
+					<c:forEach items="${pointList}" var="PointVO">
+						<li><input type="hidden" value="${PointVO.state}" id="state">
+							<a class="f_left pointDate"><fmt:formatDate
+									value="${PointVO.date}" type="DATE" pattern="yyyy.MM.dd" /> </a><a>${PointVO.contents}
+								<span class="pull-right badge" id="point">${PointVO.point}</span>
+						</a></li>
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
-		<!-- 포인트 적립 내역 시작 -->
-		<div class="tab-content" >
-			<div role="tabpanel" class="tab-pane active" id="home">
-				<div class="row">
-					<article role="login">
-						<h2 class="text-center" >
-							<i class="fa fa-plus-circle"></i>   포인트 적립
-						</h2>
-
-						<div class="container">
-							<div class="row col-md-6 col-md-offset-2 custyle">
-
-								<table class="table table-striped custab" style= "margin-top: 50px">
-									<thead>
-										<tr>
-											<th>적립 일자</th>
-											<th>적립 내역</th>
-											<th>적립된 포인트</th>
-										</tr>
-									</thead>
-									<c:forEach items="${plusPoint}" var="PointVO">
-										<tr>
-											<td>${PointVO.date}</td>
-											<td>${PointVO.contents}</td>
-											<td>${PointVO.point}</td>
-										</tr>
-									</c:forEach>
-								</table>
-							</div>
-						</div>
-
-					</article>
-				</div>
-				<!-- end of row -->
-			</div>
-			<!-- end of home -->
-			<!-- 포인트 사용 내역 시작 -->
-			<div role="tabpanel" class="tab-pane" id="profile">
-				<div class="row">
-					<article role="login">
-						<h2 class="text-center" >
-							<i class="fa fa-minus-circle"></i>   포인트 사용
-						</h2>
-
-						<div class="container">
-							<div class="row col-md-6 col-md-offset-2 custyle">
-
-								<table class="table table-striped custab" style= "margin-top: 50px">
-									<thead>
-										<tr>
-											<th>사용 일자</th>
-											<th>사용 내역</th>
-											<th>사용한 포인트</th>
-										</tr>
-									</thead>
-									<c:forEach items="${minusPoint}" var="PointVO">
-										<tr>
-											<td>${PointVO.date}</td>
-											<td>${PointVO.contents}</td>
-											<td>${PointVO.point}</td>
-										</tr>
-									</c:forEach>
-								</table>
-							</div>
-						</div>
-
-					</article>
-				</div>
-			</div>
-		</div>
+		<!-- /.widget-user -->
 	</div>
 </div>
+<script type="text/javascript">
+	$(function() {
+		$('ul.nav.nav-stacked>li').each(function(index) {
+			if ($(this).children('input[id=state]').val() == 1) {
+				$(this).children().children('span#point').addClass('bg-green');
+			}
+		})
+	})
+</script>
+

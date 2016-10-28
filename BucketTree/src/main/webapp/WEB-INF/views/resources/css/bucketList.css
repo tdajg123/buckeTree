@@ -347,3 +347,27 @@ img {
 .pinboot {
 	margin: 50px 0;
 }
+
+.progress-group .progress-text {
+  font-weight: 600;
+}
+.progress-group .progress-number {
+  float: right;
+}
+.progress-text>b{
+	font-weight:bold;
+	color:#ff80ab;
+	font-size:13pt;
+}
+.progress.sm, .progress-sm, .progress.sm .progress-bar, .progress-sm .progress-bar {
+    border-radius: 1px;
+}
+.progress-bar {
+    background-image: -webkit-linear-gradient(top,#FF80AB 0,#ff679a 100%);
+    background-image: -o-linear-gradient(top,#FF80AB 0,#ff679a 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#FF80AB),to(#ff679a));
+    background-image: linear-gradient(to bottom,#FF80AB 0,#ff679a 0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF80AB', endColorstr='#ff679a', GradientType=0);
+    background-repeat: repeat-x;
+}
+

@@ -103,6 +103,11 @@ public class UserDAOimpl implements UserDAO {
 		sqlSession.update(namespace + ".profileUpdate", user);
 	}
 
+	@Override
+	public List<PointVO> readPointList(int user_idx) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + ".pointList", user_idx);
+	}
 	/*적립된 포인트 내역 조회*/
 	@Override
 	public List<PointVO> readPlusPoint(int user_idx) {
@@ -175,4 +180,6 @@ public class UserDAOimpl implements UserDAO {
 	public int selectCount(Pagination pagination){
 		return sqlSession.selectOne(namespace+".selectCount", pagination);
 	}
+
+	
 }

@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
 input[type=checkbox]:checked {
@@ -22,29 +24,37 @@ input[type=checkbox]:checked {
 
 		<!-- Main Menu -->
 		<div class="side-menu-container">
-
 			<!-- 트리장만 해당 메뉴가 보임 -->
 			<c:if test="${vo.user_idx eq user.idx}">
 				<ul class="nav navbar-nav">
-						<li>
-							<a onclick="location.href='/BucketTree/bucketTree/treeAdmin/${tree.idx}/modify.do'">트리관리
-							<span class="fa fa-angle-right f_right"></span></a>
-						</li>
-						<li>
-							<a onclick="location.href='/BucketTree/bucketTree/memberAdmin/${tree.idx}/member.do'">회원관리
-							<span class="fa fa-angle-right f_right"></span></a>
-						</li>
+					<li><a
+						onclick="location.href='/BucketTree/bucketTree/treeAdmin/${tree.idx}/modify.do'">트리관리
+							<span class="fa fa-angle-right f_right"></span>
+					</a></li>
+					<li><a
+						onclick="location.href='/BucketTree/bucketTree/memberAdmin/${tree.idx}/member.do'">회원관리
+							<span class="fa fa-angle-right f_right"></span>
+					</a></li>
 				</ul>
 			</c:if>
+
 		</div>
 	</nav>
+
 </div>
 
 <div class="container">
 
 	<div class="page-header">
+		<div class="f_right">
+			<c:if test="${vo.user_idx != user.idx}">
+				<button type="button" class="btn btn-block btn-line-s"
+					id="leaveTree">탈퇴하기</button>
+			</c:if>
+		</div>
 		<h1 id="timeline" data-idx="${vo.bucketList_idx}"
 			data-name="${vo.treeName}">${vo.treeName}</h1>
+
 	</div>
 	<ul class="timeline">
 		<li class="timeline-add">
@@ -60,7 +70,7 @@ input[type=checkbox]:checked {
 
 		<!-- 미션 -->
 		<c:forEach var="no" items="${no}">
-			<li class="timeline-inverted">
+			<li>
 				<div class="timeline-badge timeline-mission"></div>
 				<div class="timeline-panel timeline-mission">
 					<div class="timeline-heading">
@@ -168,7 +178,7 @@ input[type=checkbox]:checked {
 					<div class="timeline-heading">
 						<p class="f_right">
 							<small class="text-muted"><i
-								class="glyphicon glyphicon-time"></i> ${vo.date} </small>
+								class="glyphicon glyphicon-time"></i> ${vo.date} ​</small>
 						</p>
 					</div>
 					<div class="timeline-body">
@@ -354,14 +364,14 @@ input[type=checkbox]:checked {
 </div>
 
 <script type="text/javascript">
-$(document).on('click', '#treeIdx', function(){ 
-	var idx = $(this).attr("data-idx");
-	$.ajax({
-		url : "/BucketTree/bucketTree/treeAdmin?idx=" + idx,
-		dataType : "json",
-		type : "GET"
+	$(document).on('click', '#treeIdx', function() {
+		var idx = $(this).attr("data-idx");
+		$.ajax({
+			url : "/BucketTree/bucketTree/treeAdmin?idx=" + idx,
+			dataType : "json",
+			type : "GET"
+		});
 	});
-});
 
 	$(function() {
 
@@ -531,5 +541,31 @@ $(document).on('click', '#treeIdx', function(){
 				}
 			}
 		})
+
+		$('#leaveTree').click(function() {
+
+			var l = confirm('트리를 탈퇴하시겠습니까?');
+			var tree=${tree.idx};
+			var user=${user.idx};
+
+			if (l) {
+				
+				alert('탈퇴가 완료되었습니다.');
+				
+				$.ajax({
+					url : "/BucketTree/bucketTree/leaveTree",
+					data : {
+						user_idx : user,
+						tree_idx : tree
+					},
+					success : function(data) {
+					
+						self.location="/BucketTree/bucketTree/myList";
+						
+					}
+				});
+			}
+		})
+
 	})
 </script>

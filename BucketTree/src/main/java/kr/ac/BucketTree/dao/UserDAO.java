@@ -40,6 +40,7 @@ public interface UserDAO {
 	public void profileUpdate(UserVO user) throws Exception;
 		
 	//포인트 내역 조회
+	public List<PointVO> readPointList(int user_idx);
 	public List<PointVO> readPlusPoint(int user_idx);
 	public List<PointVO> readMinusPoint(int user_idx);
 	

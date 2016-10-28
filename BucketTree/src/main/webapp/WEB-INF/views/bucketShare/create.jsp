@@ -6,38 +6,17 @@
 <link href="/BucketTree/css/bucketShare.css" rel="stylesheet"
 	type="text/css" />
 
-<!-- 사이드 바 메뉴 -->
+
 <div class="container" style="padding-top: 50px; padding-bottom: 85px">
-	<!-- Menu -->
-	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
 
-		<nav class="navbar navbar-default" role="navigation"
-			style="width: 200px">
-
-			<!-- Main Menu -->
-			<div class="side-menu-container">
-				<ul class="nav navbar-nav">
-
-					<li><a href="/BucketTree/bucketShare/list"> 전체질문 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-					<li><a href="/BucketTree/bucketShare/mylist">내가 쓴 질문 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-					<li><a href="/BucketTree/bucketShare/myAnswerlist"> 내가 쓴
-							답변 <span class="fa fa-angle-right f_right"></span>
-					</a></li>
-					<li><a href="/BucketTree/bucketShare/create"> 질문하기 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
 	<div class="box-group">
 		<h3>
 			<i class="fa fa-chevron-right"></i> 버킷쉐어 질문하기
 		</h3>
 		<hr>
-		<div class="x_panel">
-			<form id="question_Create" method="post">
+		<form id="question_Create" method="post">
+			<div class="x_panel">
+
 				<div class="x_title">
 					<div class="form-group">
 						<input type="hidden" class="form-control" name="bucketList_idx">
@@ -68,16 +47,17 @@
 							style="width: 100%; height: 450px"></textarea>
 					</div>
 				</div>
-			</form>
-		</div>
-		<div class="f_right" style="margin-bottom: 10px;">
-			<button type="submit" class="btn btn-success">
-				<span class="fa fa-check"></span> 작성하기
-			</button>
-			<a href="/BucketTree/bucketShare/list" class="btn btn-default"> <span
-				class="fa fa-remove"></span> 취소하기
-			</a>
-		</div>
+
+			</div>
+			<div class="f_right" style="margin-bottom: 10px;">
+				<button type="submit" class="btn btn-success">
+					<span class="fa fa-check"></span> 작성하기
+				</button>
+				<a href="/BucketTree/bucketShare/list" class="btn btn-default">
+					<span class="fa fa-remove"></span> 취소하기
+				</a>
+			</div>
+		</form>
 	</div>
 </div>
 
@@ -147,7 +127,11 @@
 
 <script>
 	$(function() {
-		var user_point=${user.idx};
+		var user_point = $
+		{
+			user.idx
+		}
+		;
 		$("button[type=submit]").click(function() {
 			$('#question_Create').submit();
 		});

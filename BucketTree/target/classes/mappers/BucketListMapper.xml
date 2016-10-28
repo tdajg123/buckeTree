@@ -181,6 +181,16 @@ ORDER BY 행번호
 	   
 	]]>
 	</select>
+	
+	<!-- 내버킷리스트 카운트 -->
+	<select id="mylistCount_complete" resultType="int" parameterType="hashmap"> 
+
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM [BucketList]
+		WHERE USER_IDX =#{USER_IDX} AND STATE=1
+	]]>
+	</select>
 
 
 	<!-- 버킷리스트 친구 추천 목록 -->

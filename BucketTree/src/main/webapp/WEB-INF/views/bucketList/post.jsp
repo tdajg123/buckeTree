@@ -12,7 +12,7 @@
 		$("ul.timeline>li:nth-child(even)").addClass('timeline-inverted');
 	});
 </script>
-<div class="container">
+<div class="container" style="margin-top:50px;">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="x_panel">

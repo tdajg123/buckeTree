@@ -53,7 +53,7 @@
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
 			action="/BucketTree/bucketList/list">
 
-			<div class="col-md-11 col-md-offset-1">
+			<div class="col-md-10 col-md-offset-2">
 				<div class="form-inline">
 					<!-- Search Form __ Start -->
 
@@ -124,13 +124,13 @@
 					<c:if test="${BucketListVO.user_idx !=user.idx}">
 						<div class="f_right" id="select" data-id="${BucketListVO.idx}"
 							style="background: transparent; border: none; display: inline-block">
-							<div class="btn btn-success">여행담기 ${BucketListVO.count}</div>
+							<div class="btn btn-success">${BucketListVO.count}</div>
 						</div>
 					</c:if>
 					<c:if test="${BucketListVO.user_idx ==user.idx}">
 						<div class="f_right"
 							style="background: transparent; border: none; display: inline-block">
-							<div class="btn btn-success">${BucketListVO.count}</div>
+							<div class="btn btn-line-s">${BucketListVO.count}</div>
 						</div>
 					</c:if>
 				</article>
@@ -271,13 +271,13 @@ $(function() {
                 							if(this.user_idx != ${user.idx})
                 								{
                 								   str+="<div class='f_right' id='select' data-id='" +this.idx+"' style='background: transparent; border: none; display: inline-block'>";
-                								   str+="<div class='btn btn-success'>여행담기"+ this.count + "</div>";
+                								   str+="<div class='btn btn-success'>"+ this.count + "</div>";
                 								   str+="</div>";
                 								}
                 							if(this.user_idx == ${user.idx})
                 								{
                 								  str+="<div class='f_right'  style='background: transparent; border: none; display: inline-block'>";
-              								      str+="<div class='btn btn-success'>"+ this.count + "</div>";
+              								      str+="<div class='btn btn-line-s'>"+ this.count + "</div>";
               								      str+="</div>";
                 								}
                 							 

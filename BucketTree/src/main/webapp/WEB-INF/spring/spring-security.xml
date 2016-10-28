@@ -16,8 +16,7 @@
 	</context:component-scan>
 
 	<!--MyAuthenticationProvider -->
-	<beans:bean id="MyAuthenticationProvider"
-		class="kr.ac.BucketTree.util.MyAuthenticationProvider" />
+	<beans:bean id="MyAuthenticationProvider" class="kr.ac.BucketTree.util.MyAuthenticationProvider" />
 
 	<http auto-config="true">
 		<!--로그인 -->

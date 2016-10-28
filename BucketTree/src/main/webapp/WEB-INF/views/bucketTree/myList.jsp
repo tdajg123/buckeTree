@@ -14,7 +14,7 @@
 		</div>
 		<form:form id="form_search" method="POST" modelAttribute="pagination"
 			action="/BucketTree/bucketTree/myList">
-			<div class="col-md-11 col-md-offset-1">
+			<div class="col-md-10 col-md-offset-2">
 				<div class="form-inline">
 					<!-- 카테고리 선택 버튼 -->
 					<button id="category" class="btn btn-success">카테고리</button>
@@ -69,7 +69,7 @@
 					<i class="fa fa-plus"></i>
 				</button>
 			</div>
-			<h3 class="box_title">가입신청 BucketTree</h3>
+			<h3 class="box_title">가입 신청 BucketTree</h3>
 			<!-- /.box-tools -->
 		</div>
 		<!-- /.box-header -->
@@ -79,7 +79,7 @@
 					<article data-id="${BucketTreeVO.idx}"
 						style="width: 260px; margin: 0 5px; display: inline-Block">
 
-						<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do">
+						<a href="/BucketTree/bucketTree/detail?idx=${BucketTreeVO.idx}">
 							<c:if test="${BucketTreeVO.imageIdx != 0 }">
 								<img src="/BucketTree/tree/${BucketTreeVO.imageIdx}/image">
 							</c:if>
@@ -91,7 +91,7 @@
 						<div class="f_right">
 							<a
 								href="/BucketTree/bucketTree/cancel?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=2"
-								class="btn btn-success">취소</a>
+								class="btn btn-mission-s">신청취소</a>
 						</div>
 
 						<p style="width: 250px">인원 :
@@ -122,7 +122,7 @@
 					<article data-id="${BucketTreeVO.idx}"
 						style="width: 260px; display: inline-Block">
 
-						<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do">
+						<a href="/BucketTree/bucketTree/detail?idx=${BucketTreeVO.idx}">
 							<c:if test="${BucketTreeVO.imageIdx != 0 }">
 								<img src="/BucketTree/tree/${BucketTreeVO.imageIdx}/image">
 							</c:if>
@@ -134,7 +134,7 @@
 						<div class="f_right">
 							<a
 								href="/BucketTree/bucketTree/apply?${pagination.queryString}&bucketTree_idx=${BucketTreeVO.idx}&i=2"
-								type="button" class="btn btn-success">신청</a>
+								type="button" class="btn btn-mission">신청</a>
 						</div>
 						<p style="width: 250px">인원 :
 							${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>
@@ -152,7 +152,7 @@
 			<article class="white-panel-add">
 				<h4>
 					<a href="/BucketTree/bucketTree/create" class="fa fa-plus"
-						style="color: #fff; margin-left: 30px">버킷 트리 만들기</a>
+						style="color: #fff; margin-left: 30px"> 버킷 트리 만들기</a>
 				</h4>
 			</article>
 
@@ -160,7 +160,7 @@
 				<article data-id="${BucketTreeVO.idx}" class="white-panel "
 					style="width: 260px">
 
-					<a href="/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do"> <c:if
+					<a href="/BucketTree/bucketTree/detail?idx=${BucketTreeVO.idx}"> <c:if
 							test="${BucketTreeVO.imageIdx != 0 }">
 							<img src="/BucketTree/tree/${BucketTreeVO.imageIdx}/image">
 						</c:if>
@@ -170,8 +170,15 @@
 						<a href="#">${BucketTreeVO.treeName}</a> - <a href="#">${BucketTreeVO.title}</a>
 					</h4>
 					<div class="f_right">
-						<button type="button" class="btn btn-success">회원</button>
+						<c:if test="${BucketTreeVO.regist==2&&BucketTreeVO.user_idx!=user.idx}">
+							<button type="button" class="btn btn-success">회원</button>
+						</c:if>
+						<c:if
+							test="${BucketTreeVO.regist==2&&BucketTreeVO.user_idx==user.idx}">
+							<button type="button" class="btn btn-line-s">개설</button>
+						</c:if>
 					</div>
+
 
 					<p style="width: 250px">인원 :
 						${BucketTreeVO.current}/${BucketTreeVO.member_num}</p>

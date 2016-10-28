@@ -44,33 +44,7 @@
 	</div>
 </div>
 
-<!-- 사이드 바 메뉴 -->
 <div class="container" style="padding-top: 50px; padding-bottom: 85px">
-	<!-- Menu -->
-	<div class="side-menu" style="left: 100px; width: 200px; height: 200px">
-
-		<nav class="navbar navbar-default" role="navigation"
-			style="width: 200px">
-
-			<!-- Main Menu -->
-			<div class="side-menu-container">
-				<ul class="nav navbar-nav">
-
-					<li><a href="/BucketTree/bucketShare/list"> 전체질문 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-					<li><a href="/BucketTree/bucketShare/mylist">내가 쓴 질문 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-					<li><a href="/BucketTree/bucketShare/myAnswerlist"> 내가 쓴
-							답변 <span class="fa fa-angle-right f_right"></span>
-					</a></li>
-					<li><a href="/BucketTree/bucketShare/create"> 질문하기 <span
-							class="fa fa-angle-right f_right"></span></a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
-
-
 	<div class="row">
 		<div class="col-md-4 col-md-offset-5" style="margin-bottom: 3px;">
 			<button id="view_when" type="button" class="btn btn-success">없음</button>
@@ -79,7 +53,7 @@
 		</div>
 		<form:form id="form_search" method="POST" modelAttribute="pagination">
 
-			<div class="col-md-12">
+				<div class="col-md-11 col-md-offset-1">
 
 				<div class="form-inline">
 					<!-- Search Form __ Start -->
@@ -107,7 +81,7 @@
 						style="width: 400px; display: inline-block">
 
 						<form:input path="srchText" type="text" class="form-control"
-							placeholder="Search..." style="height: 40px" />
+							 style="height: 40px" />
 					</div>
 					<button type="submit" class="btn btn-success">검색</button>
 
@@ -126,6 +100,7 @@
 				</div>
 			</div>
 
+
 			<div class="f_right">
 				<!-- 정렬 셀렉트 박스 -->
 				<form:select path="orderType">
@@ -134,10 +109,13 @@
 				</form:select>
 			</div>
 		</form:form>
+
 		<br />
 
-
-		<div class="col-sm-12" style="margin-top: 20px;">
+		<div class="col-sm-12">
+			<div style="margin-top: 20px; margin-left:55px;">
+				<a class="btn btn-mission-s" href="/BucketTree/bucketShare/create">질문하기</a>
+			</div>
 			<c:forEach var="question" items="${ list }">
 				<div class="bs-calltoaction bs-calltoaction-default"
 					data-url="/BucketTree/bucketShare/read?idx=${question.idx}"
@@ -172,7 +150,6 @@
 		$(".bs-calltoaction").click(function() {
 			location.href = $(this).attr("data-url");
 		});
-
 
 		//카테고리 옵션으로 값뿌려주기
 		<c:forEach items="${what}" var="what">

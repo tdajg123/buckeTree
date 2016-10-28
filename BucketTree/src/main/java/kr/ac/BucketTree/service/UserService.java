@@ -52,6 +52,8 @@ public interface UserService {
 	// 프로필 업데이트
 	public void profileUpdate(UserVO user) throws Exception;
 	
+	public List<PointVO> readPointList(int user_idx);
+	
 	//적립된 포인트 내역 조회
 	public List<PointVO> readPlusPoint(int user_idx);
 	

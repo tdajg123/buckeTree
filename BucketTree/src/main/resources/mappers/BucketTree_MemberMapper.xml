@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM(
 	SELECT *, ROW_NUMBER() OVER(ORDER BY name) as 행번호
 	FROM [User]
-	WHERE idx IN (SELECT user_idx FROM [BucketTree_Member] WHERE bucketTree_idx = #{idx} AND STATE = 0)
+	WHERE idx IN (SELECT user_idx FROM [BucketTree_Member] WHERE bucketTree_idx = #{idx} AND STATE = 2)
 	)subquery
 	<![CDATA[
 	WHERE 행번호 > (#{p.currentPage} - 1) * #{p.pageSize} AND 행번호 <= #{p.currentPage} * #{p.pageSize} 

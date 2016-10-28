@@ -301,26 +301,19 @@ public class UserController {
 		
 		return "user/mypage";
 	}
-
+	
 	/* 포인트 내역 보여주기 */
 	@RequestMapping(value = "/point", method = RequestMethod.GET)
 	public String plusPointGET(Model model) throws Exception {
 
 		model = bucketTreeCommon.commonMessenger(model);
 
-		System.out.println("<<<<<포인트-GET>>>>>");
-
 		UserVO user = us.getCurrentUser();
 		int user_idx = user.getIdx();
 
-		List<PointVO> plusPoint = us.readPlusPoint(user_idx);
-		List<PointVO> minusPoint = us.readMinusPoint(user_idx);
-		
-		System.out.println("plusPoint : " + plusPoint + "minusPoint : " + minusPoint);
-		
-		model.addAttribute("plusPoint", plusPoint);
-		model.addAttribute("minusPoint", minusPoint);
-		
+		List<PointVO> pl = us.readPointList(user_idx);
+		model.addAttribute("pointList", pl);
+
 		return "user/point";
 	}
 	
