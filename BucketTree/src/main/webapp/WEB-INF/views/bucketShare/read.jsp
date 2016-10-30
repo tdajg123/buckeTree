@@ -5,7 +5,21 @@
 <!--  BucketShare -->
 <link href="/BucketTree/css/bucketShare.css" rel="stylesheet"
 	type="text/css" />
+<style>
+.profile {
+	background-color: #fff;
+	border: 3px #48cfc8 solid;
+	width: 50px;
+	height: 50px;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
 
+</style>
 <!-- 사이드 바 메뉴 -->
 <div class="container" style="padding-top: 50px; padding-bottom: 85px">
 
@@ -70,9 +84,21 @@
 							<!-- 답글 쓴 사람 이미지와 이름 -->
 							<div class="col-xs-2 col-md-1"
 								style="padding-top: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px">
-								<img src="/BucketTree/images/user1-128x128.jpg"
-									class="img-circle img-responsive" alt=""
-									style="padding-top: 6px" />
+								
+								<c:if test="${userVO.getImage() != null}">
+									<div class="profile pull-left">
+										<img
+											src="/BucketTree/bucketShare/${answer.user_idx}/profileImage"
+											style="width: 50px; height: 50px;">
+									</div>
+								</c:if>
+								<c:if test = "${UserVO.getImage() == null }">
+									<div class="profile pull-left">
+										<img src="/BucketTree/images/PROFILE_image.png"
+											style="width: 50px; height: 50px">
+									</div>
+								</c:if>
+								
 								<div style="padding-top: 5px">${ answer.user_Name }</div>
 
 							</div>

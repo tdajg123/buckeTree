@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import kr.ac.BucketTree.dao.UserDAO;
 import kr.ac.BucketTree.util.Pagination;
+import kr.ac.BucketTree.vo.ImageVO;
 import kr.ac.BucketTree.vo.PointVO;
 import kr.ac.BucketTree.vo.UserVO;
+
 @Repository
 public class UserDAOimpl implements UserDAO {
 
@@ -89,7 +91,14 @@ public class UserDAOimpl implements UserDAO {
 		sqlSession.delete(namespace + ".delete", idx);
 	}
 
-	//프로필 기본
+	// 기본이미지
+	@Override
+	public ImageVO basicImage() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace + ".basicProfile");
+	}
+
+	// 프로필 기본
 	@Override
 	public void profileImage(UserVO user) throws Exception {
 		// TODO Auto-generated method stub
@@ -108,21 +117,22 @@ public class UserDAOimpl implements UserDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(namespace + ".pointList", user_idx);
 	}
-	/*적립된 포인트 내역 조회*/
+
+	/* 적립된 포인트 내역 조회 */
 	@Override
 	public List<PointVO> readPlusPoint(int user_idx) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(namespace + ".plusPoint", user_idx);
 	}
 
-	/*소모된 포인트 내역 조회*/
+	/* 소모된 포인트 내역 조회 */
 	@Override
 	public List<PointVO> readMinusPoint(int user_idx) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(namespace + ".minusPoint", user_idx);
 	}
 
-	//포인트 적립 업데이트
+	// 포인트 적립 업데이트
 	@Override
 	public UserVO upPoint(int idx, int point) throws Exception {
 		// TODO Auto-generated method stub
@@ -130,11 +140,11 @@ public class UserDAOimpl implements UserDAO {
 
 		update.put("idx", idx);
 		update.put("point", point);
-		
+
 		return sqlSession.selectOne(namespace + ".upPoint", update);
 	}
-	
-	//포인트 사용 업데이트
+
+	// 포인트 사용 업데이트
 	@Override
 	public UserVO downPoint(int idx, int point) throws Exception {
 		// TODO Auto-generated method stub
@@ -142,19 +152,18 @@ public class UserDAOimpl implements UserDAO {
 
 		update.put("idx", idx);
 		update.put("point", point);
-		
+
 		return sqlSession.selectOne(namespace + ".downPoint", update);
 	}
 
-	//포인트 적립 내역 업데이트
+	// 포인트 적립 내역 업데이트
 	@Override
 	public PointVO updatePlusPoint(PointVO plus) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(namespace + ".updatePlusPoint", plus);
 	}
 
-	
-	//포인트 사용 내역 업데이트
+	// 포인트 사용 내역 업데이트
 	@Override
 	public PointVO updateMinusPoint(PointVO minus) throws Exception {
 		// TODO Auto-generated method stub
@@ -164,22 +173,20 @@ public class UserDAOimpl implements UserDAO {
 	@Override
 	public int sumPoint(int user_idx) throws Exception {
 		// TODO Auto-generated method stub
-		if(sqlSession.selectOne(namespace + ".sumPoint", user_idx)==null)
-		{
+		if (sqlSession.selectOne(namespace + ".sumPoint", user_idx) == null) {
 			return 0;
 		}
 		return sqlSession.selectOne(namespace + ".sumPoint", user_idx);
 	}
-	
+
 	@Override
-	public List<UserVO> userSelectAll(Pagination pagination){
-		return sqlSession.selectList(namespace+".userSelectAll",pagination);
-	}
-	
-	@Override
-	public int selectCount(Pagination pagination){
-		return sqlSession.selectOne(namespace+".selectCount", pagination);
+	public List<UserVO> userSelectAll(Pagination pagination) {
+		return sqlSession.selectList(namespace + ".userSelectAll", pagination);
 	}
 
-	
+	@Override
+	public int selectCount(Pagination pagination) {
+		return sqlSession.selectOne(namespace + ".selectCount", pagination);
+	}
+
 }

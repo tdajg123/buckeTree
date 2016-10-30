@@ -270,7 +270,9 @@ $(function() {
                                   success : function(data) {
                 					$(data).each(function() {
                                		var str ="<article class='white-panel' style='width: 260px'> "
-                                       		+ "<img src='/BucketTree/images/image7.jpg' alt='' style='width: 260px'>"
+                               			+ "<a href='/BucketTree/bucketTree/${BucketTreeVO.idx}/tree.do'>"
+        								+ "<c:if test='${BucketTreeVO.imageIdx != 0}'>"
+        								+ "<img src='/BucketTree/tree/${BucketTreeVO.imageIdx}/image'></c:if></a>"
 											+ "<h4> <a href='#'>"+this.treeName+"</a> - <a href='#''>"+this.title+"</a> </h4>";
                                  			str+="<div class='f_right'>";
 											

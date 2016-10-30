@@ -1,8 +1,15 @@
 package kr.ac.BucketTree.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +27,7 @@ import kr.ac.BucketTree.util.BucketTreeCommon;
 import kr.ac.BucketTree.util.Pagination;
 import kr.ac.BucketTree.vo.BucketShareAnswerVO;
 import kr.ac.BucketTree.vo.BucketShareVO;
+import kr.ac.BucketTree.vo.UserVO;
 
 @Controller
 public class BucketShareController {
@@ -37,7 +45,7 @@ public class BucketShareController {
 	TimelineService ts;
 	@Autowired
 	BucketListService bs;
-	@Autowired 
+	@Autowired
 	ImageService is;
 	@Autowired
 	Question_ImageService qis;
@@ -59,7 +67,6 @@ public class BucketShareController {
 	@RequestMapping(value = "/bucketShare/mylist")
 	public String mylist(Model model, Pagination pagination) throws Exception {
 
-		
 		model = bucketTreeCommon.commonMessenger(model);
 		model.addAttribute("what", cs.whatList());
 		model.addAttribute("who", cs.whoList());
@@ -94,62 +101,76 @@ public class BucketShareController {
 		return "bucketShare/read";
 	}
 
+	/* 댓글에서 이미지 보여주기 */
+	@RequestMapping("bucketShare/{idx}/profileImage")
+	public void treeMemberProfile(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
+
+		UserVO image = us.selectByIdx(idx);
+
+		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
+		response.setContentType(image.getMimeType());
+		response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+			output.write(us.selectByIdx(idx).getImage());
+		}
+	}
+
 	// 질문작성
-	@RequestMapping(value = "/bucketShare/create",method = RequestMethod.GET)
+	@RequestMapping(value = "/bucketShare/create", method = RequestMethod.GET)
 	public String create(Model model) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 		model.addAttribute("list", bs.bucketShare_MyBucketList(us.getCurrentUser().getIdx()));
-		
+
 		return "bucketShare/create";
 	}
 
 	// 질문작성 포스트
-	@RequestMapping(value = "/bucketShare/create" , method = RequestMethod.POST)
-	public String create(Model model ,BucketShareVO bucketShareVO) throws Exception {
+	@RequestMapping(value = "/bucketShare/create", method = RequestMethod.POST)
+	public String create(Model model, BucketShareVO bucketShareVO) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 		bucketShareVO.setState(0);
 		bucketShareVO.setUser_idx(us.getCurrentUser().getIdx());
 		us.updateMinusPoint(us.getCurrentUser().getIdx(), 3, -bucketShareVO.getPoint());
-		ts.ShareQuestion_Timeline(us.getCurrentUser().getIdx(),bucketShareVO.getTitle() , "/BucketTree/bucketShare/read?idx=" +bucketShareVO.getIdx());
+		ts.ShareQuestion_Timeline(us.getCurrentUser().getIdx(), bucketShareVO.getTitle(),
+				"/BucketTree/bucketShare/read?idx=" + bucketShareVO.getIdx());
 		bss.insert(bucketShareVO);
 		bss.updateBucketShareImage(bucketShareVO);
 		is.deleteOrphan();
-		return "redirect:/bucketShare/read?idx="+bucketShareVO.getIdx();
+		return "redirect:/bucketShare/read?idx=" + bucketShareVO.getIdx();
 	}
-	
-	//삭제
-	@RequestMapping(value = "/bucketShare/delete" , method = RequestMethod.GET)
-	public String create(Model model ,@RequestParam("idx") int idx) throws Exception {
+
+	// 삭제
+	@RequestMapping(value = "/bucketShare/delete", method = RequestMethod.GET)
+	public String create(Model model, @RequestParam("idx") int idx) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
-		
+
 		bas.deleteByQuestionIdx(idx);
 		qis.deleteByQuestionIdx(idx);
 		bss.delete(idx);
 		is.deleteOrphan();
-		
-		
+
 		return "redirect:/bucketShare/list";
 	}
-	
-	//수정
-	@RequestMapping(value = "/bucketShare/edit" , method = RequestMethod.GET)
-	public String edit(Model model ,@RequestParam("idx") int idx) throws Exception {
+
+	// 수정
+	@RequestMapping(value = "/bucketShare/edit", method = RequestMethod.GET)
+	public String edit(Model model, @RequestParam("idx") int idx) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 		model.addAttribute("list", bs.bucketShare_MyBucketList(us.getCurrentUser().getIdx()));
 		model.addAttribute("question", bss.selectByIdx(idx));
-		
+
 		return "bucketShare/edit";
 	}
-	
-	@RequestMapping(value = "/bucketShare/edit" , method = RequestMethod.POST)
-	public String edit(Model model ,BucketShareVO bucketShareVO) throws Exception {
+
+	@RequestMapping(value = "/bucketShare/edit", method = RequestMethod.POST)
+	public String edit(Model model, BucketShareVO bucketShareVO) throws Exception {
 		model = bucketTreeCommon.commonMessenger(model);
 		bss.update(bucketShareVO);
 		bss.updateBucketShareImage(bucketShareVO);
 		is.deleteOrphan();
-		return "redirect:/bucketShare/read?idx=" +bucketShareVO.getIdx();
+		return "redirect:/bucketShare/read?idx=" + bucketShareVO.getIdx();
 	}
-	
+
 	// 댓글쓰기
 	@RequestMapping(value = "/bucketShare/answerInsert")
 	public String answerCreate(Model model, @RequestParam("idx") int idx, BucketShareAnswerVO answer) throws Exception {
@@ -214,14 +235,12 @@ public class BucketShareController {
 		return "redirect:/bucketShare/read?idx=" + answer.getBucketShare_Question_idx();
 
 	}
-	
-	//포인트 계산
+
+	// 포인트 계산
 	@ResponseBody
 	@RequestMapping(value = "/bucketShare/userPoint")
 	public int userPoint(Model model, @RequestParam("idx") int idx) throws Exception {
 		return us.sumPoint(idx);
 	}
-
-
 
 }

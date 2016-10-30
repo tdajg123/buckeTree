@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import kr.ac.BucketTree.util.Pagination;
+import kr.ac.BucketTree.vo.ImageVO;
 import kr.ac.BucketTree.vo.PointVO;
 import kr.ac.BucketTree.vo.UserVO;
 
@@ -46,9 +47,10 @@ public interface UserService {
 	// 회원 탈퇴
 	public void delete(int idx) throws Exception;
 
+	//기본이미지
+	public ImageVO basicImage();
 	//프로필 기본
 	public void profileImage(UserVO user) throws Exception;
-	
 	// 프로필 업데이트
 	public void profileUpdate(UserVO user) throws Exception;
 	

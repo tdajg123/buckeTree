@@ -292,9 +292,6 @@ $(function() {
     });
                 
 	
-	
-
-	
 	$(document).on("click","#select",function(){
 				
 		    //같은 이름의 타이틀이 존재하는지 검사
@@ -324,10 +321,7 @@ $(function() {
                                                sync :false,
                                                data :{idx: title_idx},
                                                success : function(data) {
-                             				
              										
-                                            	
-                                            	
                                                  }
                                     			});
                                  	       alert('담기에 성공하였습니다');
@@ -339,11 +333,6 @@ $(function() {
                                 }
                        });
 		       
-		       
-		
-		    
-			
-			
 			
 			//있으면 있다고 알려줌
 			
@@ -354,7 +343,4 @@ $(function() {
 	
 });
 
-   
-
-  
 </script>

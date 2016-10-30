@@ -74,6 +74,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM [USER] WHERE IDX = #{idx}
 	</delete>
 
+	<!-- 기본이미지 -->
+	<select id="basicProfile" resultType="kr.ac.BucketTree.vo.ImageVO">
+		SELECT data
+		FROM
+		defaultImage
+		WHERE idx = 1
+	</select>
+	
 	<!-- 프로필 기본 -->
 	<update id="profileImage">
 		UPDATE [USER] SET IMAGE = #{image}, fileName =
@@ -107,7 +115,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 포인트 리스트 -->
 	<select id="pointList" resultType="kr.ac.BucketTree.vo.PointVO">
-		SELECT * , ROW_NUMBER() OVER(ORDER BY DATE ASC) AS ROW
+		SELECT * , ROW_NUMBER()
+		OVER(ORDER BY DATE ASC) AS ROW
 		FROM [POINT]
 		WHERE
 		USER_IDX = #{user_idx}

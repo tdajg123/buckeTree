@@ -29,6 +29,7 @@ import kr.ac.BucketTree.util.BucketTreeCommon;
 import kr.ac.BucketTree.util.Email;
 import kr.ac.BucketTree.util.EmailSender;
 import kr.ac.BucketTree.util.Pagination;
+import kr.ac.BucketTree.vo.ImageVO;
 import kr.ac.BucketTree.vo.PointVO;
 import kr.ac.BucketTree.vo.UserVO;
 
@@ -102,7 +103,7 @@ public class UserController {
 		Date to = transFormat.parse(date);
 		user.setBirth(to);
 
-		//us.updatePoint(user.getIdx(), 1);
+		// us.updatePoint(user.getIdx(), 1);
 		us.insertUser(user);
 		return "login";
 	}
@@ -124,59 +125,49 @@ public class UserController {
 
 		model = bucketTreeCommon.commonMessenger(model);
 
-		System.out.println("<<<<<MYPAGE-READ>>>>>");
 		UserVO user = us.getCurrentUser();
 		int idx = user.getIdx();
 
 		model.addAttribute(us.read(idx));
-		
-		/*##point-test##*/
-		/*us.upPoint(idx, 1);
-		us.updatePlusPoint(idx, 1);
-		us.downPoint(idx, 1);
-		us.updateMinusPoint(idx, 1);*/
-		
+
 		return "user/mypage";
 	}
-	
-	
-	/*마이페이지에서 프로필 이미지 보여주기*/
+
+	/* 마이페이지에서 프로필 이미지 보여주기 */
 	@RequestMapping("mypage/{idx}/profile")
-    public void mypageImage(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
-		
+	public void mypageImage(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
+
 		UserVO image = us.getCurrentUser();
-		
-		String fileName = URLEncoder.encode(image.getFileName(),"UTF-8");
-		
-        response.setContentType(image.getMimeType());									/*확장자 명*/
-        response.setHeader("Content-Disposition", "filename=" + fileName + ";");
-        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-            output.write(us.getCurrentUser().getImage());								/*이미지 출력*/
-        }
-    }
-	
-	/*메뉴바에서 프로필 보여주기*/
+
+		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
+
+		response.setContentType(image.getMimeType()); /* 확장자 명 */
+		response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+			output.write(us.getCurrentUser().getImage()); /* 이미지 출력 */
+		}
+	}
+
+	/* 메뉴바에서 프로필 보여주기 */
 	@RequestMapping("menubar/{idx}/profile")
-    public void menubarImage(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
-		
+	public void menubarImage(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
+
 		UserVO image = us.getCurrentUser();
-		
-		String fileName = URLEncoder.encode(image.getFileName(),"UTF-8");
-		
-        response.setContentType(image.getMimeType());									/*확장자 명*/
-        response.setHeader("Content-Disposition", "filename=" + fileName + ";");
-        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-            output.write(us.getCurrentUser().getImage());								/*이미지 출력*/
-        }
-    }
-	
+
+		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
+
+		response.setContentType(image.getMimeType()); /* 확장자 명 */
+		response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+			output.write(us.getCurrentUser().getImage()); /* 이미지 출력 */
+		}
+	}
+
 	/* 마이페이지-회원 정보 보기 GET */
 	@RequestMapping(value = "/mypage", method = RequestMethod.POST)
 	public String updateGET(Model model, HttpServletRequest request) throws Exception {
 
 		model = bucketTreeCommon.commonMessenger(model);
-
-		System.out.println("<<<<<마이페이지 눌렀을 때 넘어온 회원 정보 보기 페이지>>>>>");
 
 		UserVO user = us.getCurrentUser();
 		int idx = user.getIdx();
@@ -185,7 +176,6 @@ public class UserController {
 		model.addAttribute(us.read(idx));
 
 		boolean check = this.us.checkPassword(password, idx);
-		System.out.println("입력한 현재 password와 로그인 된 유저 idx : " + check);
 
 		if (check == true) {
 			return "user/update";
@@ -203,12 +193,11 @@ public class UserController {
 
 		model = bucketTreeCommon.commonMessenger(model);
 
-		System.out.println("<<<<<회원 정보 수정 페이지-확인 버튼을 누르면 수정이 완료됨>>>>>");
-
 		/* 현재 로그인한 유저의 idx 가져옴 */
 		UserVO user = us.getCurrentUser();
 		int idx = user.getIdx();
-		user.setPassword(request.getParameter("newPassword")); /* 새로 받은 비밀번호 값 설정 */
+		user.setPassword(
+				request.getParameter("newPassword")); /* 새로 받은 비밀번호 값 설정 */
 
 		model.addAttribute(us.read(idx)); /* 기본 정보 보여줌 */
 
@@ -217,7 +206,6 @@ public class UserController {
 		HashMap<String, Object> update = new HashMap<String, Object>();
 		update.put("password", password);
 		update.put("idx", idx);
-		System.out.println("넘어온 password 값과 유저 idx : " + update);
 
 		if (password == "") {
 			System.out.println("변경할 비밀번호를 입력해 주세요.");
@@ -245,22 +233,21 @@ public class UserController {
 
 		return "login";
 	}
-	
 
-	/*프로필 수정 페이지에서 이미지 보여주기*/
+	/* 프로필 수정 페이지에서 이미지 보여주기 */
 	@RequestMapping("profile/{idx}/profile")
-    public void profileImage(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
-		
+	public void profileImage(@PathVariable("idx") int idx, HttpServletResponse response) throws IOException {
+
 		UserVO image = us.getCurrentUser();
-		
-		String fileName = URLEncoder.encode(image.getFileName(),"UTF-8");
-        response.setContentType(image.getMimeType());
-        response.setHeader("Content-Disposition", "filename=" + fileName + ";");
-        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-            output.write(us.getCurrentUser().getImage());
-        }
-    }
-	
+
+		String fileName = URLEncoder.encode(image.getFileName(), "UTF-8");
+		response.setContentType(image.getMimeType());
+		response.setHeader("Content-Disposition", "filename=" + fileName + ";");
+		try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+			output.write(us.getCurrentUser().getImage());
+		}
+	}
+
 	/* 프로필 변경 페이지 (기본 이미지 / 변경할 이미지 선택) */
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String profileTestGET(Model model) throws Exception {
@@ -271,8 +258,6 @@ public class UserController {
 		int idx = user.getIdx();
 
 		model.addAttribute(us.read(idx));
-		
-		System.out.println("<<<<<마이 페이지에서 프로필 수정 페이지로 넘어옴-profile-GET>>>>>");
 
 		return "user/profile";
 	}
@@ -282,26 +267,37 @@ public class UserController {
 	public String create(Model model, UserVO user, @RequestParam("file") MultipartFile uploadedFile) throws Exception {
 
 		model = bucketTreeCommon.commonMessenger(model);
-		
+
 		user = us.getCurrentUser();
 		int idx = user.getIdx();
 
-        String fileName = Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString();		/*업로드 된 파일의 이름 가져오기*/
-        System.out.println("fileName : " + fileName);
-	    
-        System.out.println("<<<<<프로필 업로드>>>>>");
-		user.setFileName(fileName);						/*파일 이름 넣기*/
-		user.setImage(uploadedFile.getBytes());	
-		
-		
-		model.addAttribute(us.read(idx));
+		String fileName = Paths.get(uploadedFile.getOriginalFilename()).getFileName()
+				.toString(); /* 업로드 된 파일의 이름 가져오기 */
+		System.out.println("fileName : " + fileName);
 
-		us.profileUpdate(user);								/*프로필 업데이트*/
-		System.out.println("<<<<<프로필 업로드 완료>>>>>");
-		
+		if (uploadedFile.isEmpty()) {
+			ImageVO basic = us.basicImage();
+
+			user.setFileName("기본 이미지");
+			user.setImage(basic.getData());
+
+			model.addAttribute(us.read(idx));
+
+			us.profileUpdate(user);
+			us.setCurrentUser(user);
+		}else{
+			user.setFileName(fileName);
+    		user.setImage(uploadedFile.getBytes());	
+    		
+    		model.addAttribute(us.read(idx));
+
+    		us.profileUpdate(user);
+    		us.setCurrentUser(user);
+		}
+
 		return "user/mypage";
 	}
-	
+
 	/* 포인트 내역 보여주기 */
 	@RequestMapping(value = "/point", method = RequestMethod.GET)
 	public String plusPointGET(Model model) throws Exception {
@@ -316,26 +312,23 @@ public class UserController {
 
 		return "user/point";
 	}
-	
-	@RequestMapping(value="/userlist")
-	public String userlist(Model model , Pagination pagination) throws Exception{
+
+	@RequestMapping(value = "/userlist")
+	public String userlist(Model model, Pagination pagination) throws Exception {
 		UserVO user = us.getCurrentUser();
 		model = bucketTreeCommon.commonMessenger(model);
 		pagination.setRecordCount(us.selectCount(pagination));
 		model.addAttribute("ulist", us.userSelectAll(pagination));
 		model.addAttribute("pagination", pagination);
-		model.addAttribute("user",user );
+		model.addAttribute("user", user);
 		return "manager/userlist";
 	}
-	
-	@RequestMapping(value="/deleteUser")
-	public String deleteUser(Model model,@RequestParam("idx") int idx) throws Exception{
-		
+
+	@RequestMapping(value = "/deleteUser")
+	public String deleteUser(Model model, @RequestParam("idx") int idx) throws Exception {
 
 		us.delete(idx);
 		return "forward:/userlist";
 	}
-	
 
 }
-	
