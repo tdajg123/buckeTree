@@ -284,6 +284,7 @@ public class BucketListController {
 		vo.setWhat(Integer.parseInt(request.getParameter("what")));
 		vo.setWhen(Integer.parseInt(request.getParameter("when")));
 		vo.setWho(Integer.parseInt(request.getParameter("who")));
+		
 		bls.editBucket(vo);
 		bls.updateBucketImage(vo);
 		is.deleteOrphan();
